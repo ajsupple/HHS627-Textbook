@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 1 HHS Statistical Thinking – HHS627 Textbook2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Chapter 2 Matching Research Designs to Analyses.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.hhs627-banner {
+  position: fixed;
+  top: 0;
+  right: 1rem;
+  z-index: 9999;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+</style>
+</head><body class="nav-sidebar floating quarto-light"><div class="hhs627-banner">HHS627</div>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter 1 HHS Statistical Thinking.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 1 HHS Statistical Thinking</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">HHS627 Textbook2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">HHS 627 Textbook</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 1 HHS Statistical Thinking.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 1 HHS Statistical Thinking</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 2 Matching Research Designs to Analyses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 2 Matching Research Designs to Analyses</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#statistical-thinking-and-quantitative-analysis" id="toc-statistical-thinking-and-quantitative-analysis" class="nav-link active" data-scroll-target="#statistical-thinking-and-quantitative-analysis">Statistical Thinking and Quantitative Analysis</a>
+  <ul class="collapse">
+  <li><a href="#goals-of-quantitative-hhs-research" id="toc-goals-of-quantitative-hhs-research" class="nav-link" data-scroll-target="#goals-of-quantitative-hhs-research">Goals of Quantitative HHS Research</a></li>
+  <li><a href="#what-is-statistical-significance" id="toc-what-is-statistical-significance" class="nav-link" data-scroll-target="#what-is-statistical-significance">What Is Statistical Significance?</a></li>
+  <li><a href="#null-hypothesis-testing" id="toc-null-hypothesis-testing" class="nav-link" data-scroll-target="#null-hypothesis-testing">Null Hypothesis Testing</a></li>
+  <li><a href="#type-i-error" id="toc-type-i-error" class="nav-link" data-scroll-target="#type-i-error">Type I Error</a></li>
+  <li><a href="#type-ii-error" id="toc-type-ii-error" class="nav-link" data-scroll-target="#type-ii-error">Type II Error</a></li>
+  <li><a href="#problems-with-nhst" id="toc-problems-with-nhst" class="nav-link" data-scroll-target="#problems-with-nhst">Problems with NHST</a></li>
+  <li><a href="#statistical-versus-practical-significance" id="toc-statistical-versus-practical-significance" class="nav-link" data-scroll-target="#statistical-versus-practical-significance">Statistical versus Practical Significance</a></li>
+  </ul></li>
+  <li><a href="#quick-review-of-some-other-termsideasstats" id="toc-quick-review-of-some-other-termsideasstats" class="nav-link" data-scroll-target="#quick-review-of-some-other-termsideasstats">Quick Review of some other terms/ideas/stats</a>
+  <ul class="collapse">
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">Confidence Intervals</a>
+  <ul class="collapse">
+  <li><a href="#visualizing-confidence-intervals" id="toc-visualizing-confidence-intervals" class="nav-link" data-scroll-target="#visualizing-confidence-intervals">Visualizing Confidence Intervals</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#standardized-z-scores" id="toc-standardized-z-scores" class="nav-link" data-scroll-target="#standardized-z-scores">Standardized (Z) Scores</a>
+  <ul class="collapse">
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Chapter 1 HHS Statistical Thinking</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="statistical-thinking-and-quantitative-analysis" class="level1">
+<h1>Statistical Thinking and Quantitative Analysis</h1>
+<section id="goals-of-quantitative-hhs-research" class="level2">
+<h2 class="anchored" data-anchor-id="goals-of-quantitative-hhs-research">Goals of Quantitative HHS Research</h2>
+<p>Most quantitative HHS research seeks to:</p>
+<ul>
+<li>Describe populations and samples - descriptive purpose</li>
+<li>Compare groups - understand differences, evaluate programs/interventions</li>
+<li>Examine relationships among variables - how variables associate</li>
+<li>Evaluate models with multiple predictors - what factors are most important in predicting outcomes</li>
+</ul>
+<p>Researchers typically draw conclusions using statistical tests that assess:</p>
+<ul>
+<li>Group differences</li>
+<li>Correlations</li>
+<li>Statistical significance</li>
+</ul>
+</section>
+<section id="what-is-statistical-significance" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-statistical-significance">What Is Statistical Significance?</h2>
+<p>Statistical significance addresses a simple question:</p>
+<blockquote class="blockquote">
+<p>Is the observed effect large enough that it is unlikely to be zero in the population?</p>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li>Are males and females different in IQ?</li>
+<li>Is father involvement related to girls’ self-esteem?</li>
+<li>Is the observed correlation different from zero? Is the difference so big, it is unlikely to be zero</li>
+</ul>
+</section>
+<section id="null-hypothesis-testing" class="level2">
+<h2 class="anchored" data-anchor-id="null-hypothesis-testing">Null Hypothesis Testing</h2>
+<p>The null hypothesis states that no effect exists</p>
+<p>Examples:</p>
+<ul>
+<li>No difference between groups</li>
+<li>Correlation equals zero</li>
+<li>Treatment effect equals zero</li>
+</ul>
+<p>Statistical testing attempts to determine whether there is sufficient evidence to reject the null hypothesis. So in your thesis/dissertation, you are <em>hoping</em> for <strong>p</strong> &lt;.05 so you can “reject the null”</p>
+</section>
+<section id="type-i-error" class="level2">
+<h2 class="anchored" data-anchor-id="type-i-error">Type I Error</h2>
+<p>A Type I error occurs when:</p>
+<ul>
+<li>We reject the null hypothesis when null hypothesis is actually true</li>
+</ul>
+<p>This is a false positive. We claim based on the data we collected from a sample, that an effect exists</p>
+<ul>
+<li><p>High intensity interval training improves cardiovascular performance better than…</p></li>
+<li><p>Spanking/physical punishment is associated with increased aggressive behaviors in children…</p></li>
+<li><p>Smoking is related to stress…</p></li>
+<li><p><strong><em>But in the population those effects/differences don’t exist/aren’t true</em></strong></p></li>
+</ul>
+<p>The probability of committing a Type I error is determined by α (alpha), typically:</p>
+<ul>
+<li>.05</li>
+<li>.01</li>
+<li>.001</li>
+</ul>
+</section>
+<section id="type-ii-error" class="level2">
+<h2 class="anchored" data-anchor-id="type-ii-error">Type II Error</h2>
+<p>A Type II error occurs when:</p>
+<ul>
+<li>We fail to reject the null hypothesis when a real effect actually exists
+<ul>
+<li>Researcher concludes that UNCG women soccer players not more likely to experience ACL tears compared to male soccer players but in reality that is true in the population…</li>
+<li>Children in classrooms with smaller teacher-to-student ratio do not have higher reading scores…</li>
+<li>Frequency of smoking is not associated with lung cancer…</li>
+</ul></li>
+</ul>
+<p>Common causes include:</p>
+<ul>
+<li>Small sample sizes</li>
+<li><strong>Low statistical power</strong></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Type Errors.png" class="img-fluid figure-img" alt="A Dr. Pointing to a man's stomach and saying &quot;you are pregnant&quot; representing TYPE I error, a female Dr. pointing to an obviously pregnant woman's belly and saying &quot;you are not pregnant&quot; to represent TYPE II error"></p>
+<figcaption>Type I Type II Errors</figcaption>
+</figure>
+</div>
+</section>
+<section id="problems-with-nhst" class="level2">
+<h2 class="anchored" data-anchor-id="problems-with-nhst">Problems with NHST</h2>
+<p>Critics argue that:</p>
+<ul>
+<li>Virtually all null hypotheses are false and <strong>illogical anyway</strong></li>
+<li>p-values are often misinterpreted; not <strong>95 chance the hypothesis is true</strong></li>
+<li>Statistical significance says little about <em>practical importance</em></li>
+<li>Lower p-values do not imply stronger effects</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Ban on p-values?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Statistical associations offer <strong>severe critiques</strong></li>
+<li>Some journals attempted to ban p-values!</li>
+<li><a href="https://www.amstat.org/asa/files/pdfs/P-ValueStatement.pdf">ASA Statement on p-values</a></li>
+<li><a href="http://www.stat.yale.edu/~jtc5/238/readings/Psychology-journal-bans-P-values_Nature.pdf">Psych journal bans p-values (Nature, optional reading)</a></li>
+</ul>
+</div>
+</div>
+<p>Researchers increasingly advocate reporting:</p>
+<ul>
+<li>Effect sizes</li>
+<li>Confidence intervals</li>
+<li>Bayesian analyses - what is this?</li>
+</ul>
+</section>
+<section id="statistical-versus-practical-significance" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-versus-practical-significance">Statistical versus Practical Significance</h2>
+<p>A statistically significant effect may be trivial in practice</p>
+<p>Large samples can make tiny effects statistically significant</p>
+<ul>
+<li>Do I want to encourage schools to target suicide prevention to Southeast Asian students based on 8.5% self-reported suicidal thoughts among that group compared to 8.9% in other ethnic groups?</li>
+</ul>
+<p>Therefore researchers should report:</p>
+<ul>
+<li>Effect sizes - how big is the difference or association in <strong>standardized units</strong></li>
+<li>Confidence intervals - how precise or broad is the difference or association (does it come close to zero)</li>
+<li>Practical implications - What would happen <strong>realistically</strong> if we advised policy decisions based on your results?</li>
+</ul>
+</section>
+</section>
+<section id="quick-review-of-some-other-termsideasstats" class="level1">
+<h1>Quick Review of some other terms/ideas/stats</h1>
+<section id="confidence-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-intervals">Confidence Intervals</h2>
+<ul>
+<li>Confidence intervals estimate a plausible range of values for a population parameter</li>
+<li>A <strong>parameter</strong> is a population value; a <strong>statistic</strong> is what we calculate from a sample to estimate that parameter, a better term is <strong>parameter estimate…</strong> The value we come up with that we think exists in some population</li>
+<li>Typically we estimate something like a regression coefficient and want to assess whether that coefficient differs from zero</li>
+<li>If we put a confidence interval around that coefficient and the interval does <strong>not</strong> include zero, that indicates statistical significance (using a <em>p</em> &lt; .05 threshold)</li>
+<li>If the interval <strong>does</strong> include zero, we cannot rule out that the true population value is zero — not statistically significant</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Rule of Thumb
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A 95% confidence interval that excludes zero typically indicates statistical significance at the <em>p</em> &lt; .05 level.</p>
+<p>What a 95% CI actually means if that we somehow could do the same process of sampling participants MANY MANY times and computed a CI each time, 95% of those intervals would include the “True Population Value”</p>
+<p>So the CI gives us a plausible range of values and tells us about the precision of our estimate as well</p>
+</div>
+</div>
+<section id="visualizing-confidence-intervals" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-confidence-intervals">Visualizing Confidence Intervals</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Chapter-1-HHS-Statistical-Thinking_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Example confidence intervals: one significant regression coefficient (CI excludes zero), one nonsignificant regresson coefficient (CI includes zero)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="standardized-z-scores" class="level1">
+<h1>Standardized (Z) Scores</h1>
+<p>Z scores place observations on a common scale</p>
+<p>Formula:</p>
+<p><span class="math display">\[z=\frac{X-\bar X}{SD}\]</span></p>
+<p>Interpretation:</p>
+<ul>
+<li>Positive z = above the mean</li>
+<li>Negative z = below the mean</li>
+</ul>
+<p>Example:</p>
+<p>A score of 78 may be above average in one class but below average in another</p>
+<p>Z scores place both scores in context</p>
+<p>We generally aren’t going to care about standardized scores like this. But what this point conveys is that a standardized score is a score that is relative to standard deviation.</p>
+<p>So later when we say things like: <em>A one unit increase in years in the foster care system is associated with a 2.5 points increase in attachment insecurity and one unit increase in number of therapy sessions completed is associated with a .75 points decrease in attachment insecurity</em> and we want to draw a conclusion about which effect is <em>stronger,</em> we can rely on <strong>standardized</strong> coefficients.</p>
+<p>Just like we want to understand how a 78 point test score assesses performance in Class A versus a 78 in Class B (if the class averaged and standard deviations are different) - here we might want to understand if years in foster care or number of therapy sessions has a stronger “effect” on attachment.</p>
+<p>The raw or unstandardized coefficients can’t tell us that because years in foster care might have a mean of 2 with a SD of .8 and number of therapy sessions might have a mean of 45 with a SD of 20.</p>
+<p>So a “one unit increase” in each of these is a bigger increase in one versus the other.</p>
+<p>If we converted these regression coefficients to <strong>standardized coefficients</strong> we might see that the “effect” of years in foster care is .25 and for number of therapy sessions is -.40 meaning therapy has a “stronger” effect.</p>
+<p>Note that (see box below) that converting an unstandardized coefficient to standardized just involves multiplying the <strong>unstandardized</strong> coefficient by that X or IVs standard deviation over the Y or outcome variable standard deviation. So in our example, we would take the coefficient linking foster care years 2.5 and multiply by .8/1.2 - assuming that 1.2 is the SD for attachment insecurity.</p>
+<p><strong><em>NOTE THAT THIS</em></strong> is only a conceptual point! You never have to actually compute these, programs do it for you…</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Converting multiple regression coefficients to standardized form
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For predictor <span class="math inline">\(X_j\)</span> in a multiple regression model,</p>
+<p><span class="math display">\[Y = b_0 + b_1X_1 + b_2X_2 + \cdots + b_pX_p + \varepsilon\]</span></p>
+<p>the standardized coefficient is:</p>
+<p><span class="math display">\[\beta_j = b_j\left(\frac{s_{X_j}}{s_Y}\right)\]</span></p>
+<p><strong>Where:</strong></p>
+<ul>
+<li><span class="math inline">\(b_j\)</span>: unstandardized slope for predictor <span class="math inline">\(X_j\)</span></li>
+<li><span class="math inline">\(\beta_j\)</span>: standardized slope (beta weight) for predictor <span class="math inline">\(X_j\)</span></li>
+<li><span class="math inline">\(s_{X_j}\)</span>: sample standard deviation of predictor <span class="math inline">\(X_j\)</span></li>
+<li><span class="math inline">\(s_Y\)</span>: sample standard deviation of outcome <span class="math inline">\(Y\)</span></li>
+<li><span class="math inline">\(j = 1,\dots,p\)</span>: index of predictors in the model</li>
+</ul>
+<p>An equivalent vector form is:</p>
+<p><span class="math display">\[\boldsymbol{\beta} = \frac{1}{s_Y}\mathbf{D}_X\mathbf{b}\]</span></p>
+<p>where <span class="math inline">\(\mathbf{D}_X = \mathrm{diag}(s_{X_1},\dots,s_{X_p})\)</span>, <span class="math inline">\(\mathbf{b}=[b_1,\dots,b_p]^\top\)</span>, and <span class="math inline">\(\boldsymbol{\beta}=[\beta_1,\dots,\beta_p]^\top\)</span>.</p>
+<section id="apa-notation" class="level2">
+<h2 class="anchored" data-anchor-id="apa-notation">APA notation</h2>
+<ul>
+<li>Use <span class="math inline">\(b\)</span> for <strong>unstandardized</strong> sample regression coefficients.</li>
+<li>Use <span class="math inline">\(\beta\)</span> (Greek beta) for <strong>standardized</strong> sample regression coefficients.</li>
+<li>Intercept is typically written as <span class="math inline">\(b_0\)</span>.</li>
+</ul>
+<p>So in APA-style reporting, the visual distinction is:</p>
+<ul>
+<li>Roman <span class="math inline">\(b\)</span> = unstandardized coefficient</li>
+<li>Greek <span class="math inline">\(\beta\)</span> = standardized coefficient</li>
+</ul>
+</section>
+</div>
+</div>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="HHS 627 Textbook">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">HHS 627 Textbook</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Chapter 2 Matching Research Designs to Analyses.html" class="pagination-link" aria-label="Chapter 2 Matching Research Designs to Analyses">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 2 Matching Research Designs to Analyses</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
