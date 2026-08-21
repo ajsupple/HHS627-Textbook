@@ -1,0 +1,17 @@
+## Table of Contents 
+
+Chapter 1:  Intro to the Course
+Chapter 2:  Data in HHS Research, Cleaning, Prep, Management
+Chapter 3: 	Linking Research Designs to Analyses, Intro to the GLM
+Chapter 4:	Hypothesis Testing, Effect Sizes
+Chapter 5:	ANOVAs and Between-Group Designs
+Chapter 6:  ANOVAs and Within Person and Mixed Designs
+Chapter 7:  Correlation, Regression, and Associational Designs
+Chapter 8:  Multiple Regression
+Chapter 9:	Mediation Analyses
+Chapter 10: Moderation Analyses
+Chapter 11: Practical issues: Missing Data, Power, and Recodes
+Chapter 12: Data visualizations, using R to create tables
+
+
+

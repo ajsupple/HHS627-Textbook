@@ -1,0 +1,442 @@
+---
+title: "Chapter 1: Data Foundations for HHS Research"
+author: "Dr. Andy Supple"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    theme: cosmo
+editor: source
+execute:
+  eval: false
+  warning: false
+  message: false
+---
+
+
+
+------------------------------------------------------------------------
+
+# Data Structures: Wide vs. Long
+
+**Wide format** — one row per subject, repeated measures spread across columns:
+
+| id  | score_t1 | score_t2 | score_t3 |
+|-----|----------|----------|----------|
+| 1   | 12       | 15       | 18       |
+| 2   | 9        | 11       | 10       |
+
+**Long format** — one row per subject-time observation:
+
+| id  | time | score |
+|-----|------|-------|
+| 1   | t1   | 12    |
+| 1   | t2   | 15    |
+| 1   | t3   | 18    |
+| 2   | t1   | 9     |
+| 2   | t2   | 11    |
+| 2   | t3   | 10    |
+
+::: callout-note
+`ggplot2`, mixed-effects models (`lme4`), and growth curve models expect long format. Wide format is often how data arrive from REDCap/Qualtrics exports, so reshaping is a routine first step, not an edge case.
+:::
+
+## R Code: Reshaping Data
+
+```{r}
+#| label: setup
+#| eval: false
+
+library(tidyverse)
+library(here)
+library(haven)
+library(naniar)
+library(janitor)
+```
+
+```{r}
+#| label: wide-long-example
+
+library(tidyr)
+library(dplyr)
+
+# Example wide data
+df_wide <- tibble(
+  id = 1:2,
+  score_t1 = c(12, 9),
+  score_t2 = c(15, 11),
+  score_t3 = c(18, 10)
+)
+
+# Wide -> Long
+df_long <- df_wide %>%
+  pivot_longer(
+    cols = starts_with("score_t"),
+    names_to = "time",
+    names_prefix = "score_t",
+    values_to = "score"
+  )
+
+df_long
+
+# Long -> Wide (reverse, e.g., for a codebook table)
+df_wide2 <- df_long %>%
+  pivot_wider(
+    names_from = time,
+    names_prefix = "score_t",
+    values_from = score
+  )
+
+df_wide2
+```
+
+
+------------------------------------------------------------------------
+
+# Coding Categorical Variables
+
+- **Nominal**: no inherent order (e.g., race/ethnicity, program site, referral source).
+- **Ordered categorical**: ordered categories without equal spacing assumed (e.g., Likert items, severity stages: mild/moderate/severe).
+- **Dummy coding**: reference group = 0, comparison groups = 1; coefficients interpreted relative to the reference.
+- **Effect coding**: groups coded -1/1; coefficients interpreted relative to the grand mean.
+-  Note that we will get into coding specifics in R when we run analyses...
+
+::: callout-warning
+## Common Pitfall
+
+Numeric-looking codes (`1 = Male, 2 = Female`) get accidentally treated as continuous in R if not explicitly converted to a factor — this silently corrupts downstream models.
+:::
+
+## R Code: Factors and Recoding
+
+```{r}
+#| label: categorical-coding
+
+df <- tibble(
+  client_id = 1:6,
+  sex = c(1, 2, 2, 1, 1, 2),
+  severity = c("mild", "severe", "moderate", "mild", "severe", "moderate")
+)
+
+# Convert to factor with meaningful labels
+df <- df %>%
+  mutate(
+    sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female")),
+    severity = factor(severity,
+                       levels = c("mild", "moderate", "severe"),
+                       ordered = TRUE)
+  )
+
+# Set/change the reference level for regression
+df$sex <- relevel(df$sex, ref = "Male")
+
+# Quick check
+levels(df$sex)
+table(df$sex, useNA = "always")
+str(df)
+```
+
+::: callout-important
+## Discussion Questions
+
+We need to be really careful with nominal IVs. Say for example I want to see if there is greater participation in blood pressure screening at Urban Health Clinics, Rural Clinics, or via TeleHealth visits (using home BP monitor)
+
+I would most likely have a variable titled "Clinic Type" that has values of 1, 2, and 3 that represent Urban, Rural, and Telehealth, respectively
+
+In an ANOVA, that isn't much of a problem because the RQ is: Are there differences in participation across three clinics? In Multiple regression, however, we are asking: Is a one level *increase* in clinic type (meaningless) associated with greater BP screening participation
+
+In a case like this we need to ***dummy code*** site type. Will come back to this later...
+
+
+:::
+
+------------------------------------------------------------------------
+
+# Cleaning, Screening, and Dealing with Missing Data
+
+Typically we organize and store data in some sort of spreadsheet. SPSS uses for example might read in data from an excel spreadshoot or manually type in data. 
+
+Data in this instance refers to numeric values that represent things like participants:
+-Age, gender, race-ethnicity
+-Levels of things like stress, depression, motivation to excercise
+-ID number identifiers for participants, families, schools, couples, neighborhoods
+
+Regardless, data is often entered into a spreadsheet that really could use any software.
+
+R will read in most any spreadsheet formats
+
+For new data, a wise initial step before getting into more sophisticated anlayses is to use some basic descriptive statistics to screen one's data
+
+## Initial Screening Checklist
+
+-Use software to run some basic descriptive statistics
+-My preferred workflow is to open data in R, then load the *psych* package to run descriptives. That produces a comprehensive set of results that start assisting
+
+-One should check the range of values for each variable to see if any out of range values (age = 222) appear
+-Any illogical inconsistences, duplicate records, or outliers
+
+
+Range checks (e.g., age = 150, negative service counts)
+- Impossible/logical inconsistencies (e.g., discharge date before admission date)
+- Duplicate records (same client ID appearing twice)
+- Outlier flags (visual and/or IQR-based)
+
+::: callout-warning
+
+### What Are Outliers?
+
+An **outlier** is an observation that is unusually distant from the bulk of the data — either extremely high, extremely low, or both (in multivariate settings). Outliers may reflect:
+
+- **Data entry errors** (e.g., age coded as 999)
+- **Measurement error** (e.g., equipment malfunction)
+- **True but rare observations** (e.g., a legitimately high income in a low-income sample)
+- **Violations of study protocol** (e.g., participant who didn't follow instructions)
+
+### How to Detect Outliers
+
+**Univariate (single variable):**
+- **Visual:** Boxplot, histogram, scatterplot — look for points far from the main cluster
+- **IQR method:** Mark as outlier if value < Q1 − 1.5×IQR or > Q3 + 1.5×IQR
+- **Z-score method:** Mark as outlier if |z| > 3 (more conservative: |z| > 2.5)
+- **Range checks:** Compare to known valid ranges (e.g., age should be 0–120)
+
+**Multivariate (multiple variables):**
+- **Mahalanobis distance:** Measures how far a case is from the centroid of all variables combined
+- **Cook's distance:** Identifies cases with high influence on regression coefficients
+- **Leverage + residuals:** Cases with high leverage and large residuals are flagged
+
+**R Code Example:**
+
+```{r}
+#| label: outlier-detection
+
+library(dplyr)
+
+# IQR method
+df <- tibble(age = c(25, 30, 28, 32, 999, 27, 29))  # 999 is an outlier
+
+Q1 <- quantile(df$age, 0.25)
+Q3 <- quantile(df$age, 0.75)
+IQR <- Q3 - Q1
+lower_bound <- Q1 - 1.5 * IQR
+upper_bound <- Q3 + 1.5 * IQR
+
+outliers <- df %>%
+  filter(age < lower_bound | age > upper_bound)
+
+# Z-score method
+df <- df %>%
+  mutate(
+    z_age = scale(age)[, 1],
+    is_outlier = abs(z_age) > 3
+  )
+
+# Mahalanobis distance (multivariate)
+library(robust)
+mahal <- mahalanobis(df[, c("age", "income")], 
+                      center = colMeans(df[, c("age", "income")]),
+                      cov = cov(df[, c("age", "income")]))
+outlier_cases <- which(mahal > qchisq(0.99, df = 2))  # 99th percentile threshold
+
+## Missing Data Mechanisms (Conceptual)
+
+- **MCAR** (Missing Completely at Random) — missingness unrelated to any variable
+- **MAR** (Missing at Random) — missingness related to observed variables
+- **MNAR** (Missing Not at Random) — missingness related to the unobserved value itself
+
+::: callout-note
+**Decide your missing-data policy before analysis**, and document it — don't let listwise deletion happen silently by default.
+:::
+
+## R Code: Screening for Data Quality Issues
+
+```{r}
+#| label: missingness-screening
+
+library(naniar)
+library(janitor)
+
+# Example dataset with issues
+df_raw <- tibble(
+  client_id = c(1, 2, 2, 3, 4, 5),
+  age = c(34, 150, 150, -2, 45, NA),
+  program_site = c("Urban", "Rural", "Rural", "Urban", NA, "Telehealth")
+)
+
+# Visualize missingness
+vis_miss(df_raw)
+
+# Missingness summary by variable
+miss_var_summary(df_raw)
+
+# Quick categorical screening
+tabyl(df_raw, program_site)
+
+# Duplicate check
+df_raw %>% get_dupes(client_id)
+
+# Range check example
+df_raw %>% filter(age < 0 | age > 110)
+```
+
+::: callout-important
+## Discussion Questions
+
+10. Describe a plausible MAR (Missing at Random) scenario in an HHS client survey. How would you distinguish it from MNAR?
+11. Run `vis_miss()` on a provided dataset. Write two sentences summarizing the missingness pattern you observe.
+:::
+
+------------------------------------------------------------------------
+
+# Creating an Analysis-Ready Dataset
+
+- **Analytic sample ≠ raw dataset.** Define inclusion/exclusion criteria explicitly in code (e.g., "exclude records missing baseline score," "restrict to clients enrolled ≥ 30 days").
+- **Codebook as a deliverable**: variable name, label, type, valid values, missing codes — maintained alongside the dataset, not reconstructed from memory later.
+- **Merging/joining** multiple sources: identify join keys, decide one-to-one vs. one-to-many, and check row counts before/after joins to catch duplication errors.
+- **File pipeline discipline**: `raw/` → `cleaned/` → `analytic/` — never overwrite the raw file.
+
+## R Code: Building the Analytic Sample
+
+```{r}
+#| label: analytic-sample
+
+# Example: cleaned dataset already exists as df_cleaned
+df_cleaned <- tibble(
+  client_id = 1:6,
+  baseline_score = c(10, NA, 8, 12, 9, 11),
+  enrollment_days = c(45, 20, 60, 15, 90, 30)
+)
+
+# Define analytic sample transparently
+df_analytic <- df_cleaned %>%
+  filter(!is.na(baseline_score), enrollment_days >= 30)
+
+df_analytic
+
+# Join example with row-count sanity check
+df_survey <- tibble(client_id = 1:5, satisfaction = c(4,5,3,4,5))
+df_admin  <- tibble(client_id = 1:5, cost = c(100,200,150,120,300))
+
+nrow(df_survey)
+df_merged <- df_survey %>%
+  left_join(df_admin, by = "client_id")
+nrow(df_merged)  # should match df_survey unless intentional fan-out
+
+# Save each stage distinctly (paths illustrative)
+# saveRDS(df_cleaned, here("data", "cleaned", "clean_v1.rds"))
+# saveRDS(df_analytic, here("data", "analytic", "analytic_v1.rds"))
+```
+
+::: callout-important
+## Discussion Questions
+
+12. Write, in plain language, the inclusion/exclusion criteria you would use to define an analytic sample for a study of first-year program dropout. Then translate that into a `dplyr::filter()` statement.
+13. Why is it risky to overwrite a raw data file with cleaned data, even if you're confident in your cleaning code?
+:::
+
+------------------------------------------------------------------------
+
+# R Workflows: Import, Clean, Label, Recode (Worked Example)
+
+```{r}
+#| label: full-workflow-example
+#| eval: false
+
+library(readr)
+library(haven)
+library(dplyr)
+library(forcats)
+
+# 1. IMPORT
+raw <- read_csv("data/raw/survey_extract.csv")
+# or, for SPSS/Stata files common in HHS agency data:
+# raw <- haven::read_sav("data/raw/agency_data.sav")
+
+# 2. INITIAL SCREEN
+glimpse(raw)
+summary(raw)
+
+# 3. CLEAN
+clean <- raw %>%
+  distinct(client_id, .keep_all = TRUE) %>%          # remove duplicates
+  filter(age >= 0, age <= 110) %>%                    # range check
+  mutate(across(where(is.character), str_trim))       # trim whitespace
+
+# 4. RECODE & LABEL
+clean <- clean %>%
+  mutate(
+    sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female")),
+    race_eth = fct_recode(race_eth,
+      "White" = "1", "Black/African American" = "2",
+      "Hispanic/Latino" = "3", "Other" = "4"
+    ),
+    severity = case_when(
+      phq9_total <= 4  ~ "Minimal",
+      phq9_total <= 9  ~ "Mild",
+      phq9_total <= 14 ~ "Moderate",
+      phq9_total <= 19 ~ "Moderately Severe",
+      phq9_total >= 20 ~ "Severe",
+      TRUE ~ NA_character_
+    ),
+    severity = factor(severity, levels = c("Minimal","Mild","Moderate",
+                                            "Moderately Severe","Severe"),
+                       ordered = TRUE)
+  )
+
+# 5. EXPORT ANALYSIS-READY FILE
+write_csv(clean, "data/analytic/phq9_analytic.csv")
+saveRDS(clean, "data/analytic/phq9_analytic.rds")
+```
+
+::: callout-important
+## Exercise
+
+14. Using the worked example script as a template, import a small provided dataset and produce a labeled, recoded analytic file. Submit both the script and the output codebook.
+:::
+
+------------------------------------------------------------------------
+
+# Why Reproducibility Matters
+
+- Reproducibility underpins **credibility** in HHS policy research — results that inform funding or program decisions must be independently verifiable.
+- Practical habits: version control (Git basics), self-documenting scripts (comments explaining *why*, not just *what*), relative file paths (`here::here()`), recording `sessionInfo()` for package versions.
+- Every cleaning decision (exclusions, recodes, missing-data handling) should live in a script — never in manual spreadsheet edits.
+- **Bridge to later chapters**: the analytic dataset built here becomes the shared foundation for all subsequent hypothesis-testing chapters. If this foundation is undocumented or irreproducible, every downstream p-value is suspect.
+
+## R Code: Reproducibility Habits
+
+```{r}
+#| label: reproducibility
+#| eval: false
+
+# Document environment for reproducibility
+sessionInfo()
+
+# Use project-relative paths
+library(here)
+df <- read_csv(here("data", "raw", "survey_extract.csv"))
+```
+
+::: callout-important
+## Discussion Question
+
+15. Reflect: has a research finding you've encountered (in class, in practice, or in the news) been difficult to trust because the underlying data process wasn't transparent? What would reproducibility have changed?
+:::
+
+------------------------------------------------------------------------
+
+# Chapter Assessment
+
+::: callout-tip
+## Applied Assignment
+
+Provide students a messy raw CSV (duplicates, out-of-range values, unlabeled categorical codes, some missingness) and require them to submit:
+
+1.  A cleaning script
+2.  A codebook
+3.  A brief write-up justifying their inclusion criteria and missing-data decisions
+
+This establishes the habits this chapter is built to instill before any hypothesis testing begins.
+:::

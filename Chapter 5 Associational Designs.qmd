@@ -1,0 +1,333 @@
+---
+title: "Multiple Regression"
+---
+
+## Multiple Regression
+
+Note that sometimes there is "regression" or bivariate regression which is not really different from a correlation, so unlikely you will ever run one of those
+
+It is a helpful starting point to understand a basic formula and a scatterplot for how the regression line is estimated
+
+### Modeling Relationships Between Variables
+
+Goals are to link variables together: Correlations, regression, multiple regression In most of these we are discussing continous variables - particulaly for the outcomes -We will discuss **logistic** regression later which models binary outcomes with extensions to **multinomial** logistic regression for nominal outcomes
+
+> **Understand • Model • Predict**
+
+::: {.callout-note title="What Is It?" icon="false"}
+Regression Analysis is a statistical technique used to model and analyze the relationship between a **dependent variable (Y)** and one or more **independent variables (X)**.
+
+**Goal:** Predict or explain the value of Y based on the value(s) of X.
+:::
+
+Sometimes the goal *could* be to identify variance explained (R^2^), but for most HHS-type research purposes we are interested in questions like:
+
+- What factors predict increased depressive symptoms?
+
+- How does amount of exercise during a particular week predict positive mood **controlling for** life stressors, social support, and sleep?
+
+- Do neighborhood effects influence health intentions above and beyond **social determinants** and demographic characterists (e.g., age, race-ethnicity, gender, socioeconomic status)\>
+
+So our goals often might have to do with:
+
+1.  Which is the most important predictor among many
+2.  Increasing internal validity to rule out spurious effects
+    1.  i.e, if we argue that case for causality/internal validity is improved if we establish
+        1.  Association between X and Y
+        2.  Temporal precedence where X preceds Y in time
+        3.  Nonspurious associations - ruling out other possible causes
+3.  Do social factors predict above and beyond background characteristics?
+4.  More complicated questions related to mediation and moderation
+
+------------------------------------------------------------------------
+
+### How It Works
+
+:::::: {layout-ncol="3"}
+::: {.callout-tip title="Input"}
+Independent Variable(s)
+
+$$X_1, X_2, \dots, X_p$$
+:::
+
+::: {.callout-tip title="Regression Model"}
+Estimates the relationship between the X(s) and Y
+:::
+
+::: {.callout-tip title="Output"}
+Dependent Variable (Y)
+
+Predicted $\hat{Y}$
+:::
+::::::
+
+::: {.callout-important title="Key Idea" icon="false"}
+Regression finds the **best-fitting line (or surface)** that minimizes the difference between observed values and predicted values.
+:::
+
+------------------------------------------------------------------------
+
+### When to Use?
+
+- When you want to predict a **continuous outcome**
+- When examining the **relationship between variables**
+- When **forecasting or trend analysis** is required
+- When studying the **impact of one or more factors** on an outcome
+- **Examples:** Sales forecasting, price prediction, exam score prediction, demand analysis, growth modeling
+
+------------------------------------------------------------------------
+
+### Types of Regression
+
+| \# | Type | Description | Model |
+|-----------------|-----------------|-----------------------|-----------------|
+| 1 | **Simple Linear Regression** | One independent variable | $Y = \beta_0 + \beta_1 X + \varepsilon$ |
+| 2 | **Multiple Linear Regression** | Two or more independent variables | $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p + \varepsilon$ |
+| 3 | **Polynomial Regression** | Relationship modeled as an nth-degree polynomial | $Y = \beta_0 + \beta_1 X + \beta_2 X^2 + \dots + \beta_n X^n + \varepsilon$ |
+| 4 | **Logistic Regression** | Used when the dependent variable is categorical (0 or 1) | $\log\left(\dfrac{p}{1-p}\right) = \beta_0 + \beta_1 X + \dots + \beta_p X_p$ |
+
+------------------------------------------------------------------------
+## Worked Examples: Simple Linear Regression 
+
+For a visual, let's run two bivariate (simple linear) regressions using simulated data on womens' self-reported relationship experiences and life satisfaction.
+
+- **Example 1:** Marital satisfaction → Life satisfaction (expected **positive** association)
+- **Example 2:** Partner conflict → Life satisfaction (expected **negative** association)
+
+
+
+```{r setup, include=FALSE}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, fig.align = "center")
+library(tidyverse)
+library(broom)
+set.seed(147)
+```
+
+### Simulating the Data
+
+```{r simulate-data}
+n <- 200
+
+# Example 1: Marital satisfaction (X) -> Life satisfaction (Y), positive relationship
+marital_satisfaction <- rnorm(n, mean = 5, sd = 1.2)
+life_satisfaction_1  <- 2 + 0.65 * marital_satisfaction + rnorm(n, mean = 0, sd = 1)
+
+# Example 2: Partner conflict (X) -> Life satisfaction (Y), negative relationship
+partner_conflict     <- rnorm(n, mean = 4, sd = 1.5)
+life_satisfaction_2  <- 8 - 0.55 * partner_conflict + rnorm(n, mean = 0, sd = 1)
+
+df <- tibble(
+  id                    = 1:n,
+  marital_satisfaction  = marital_satisfaction,
+  life_satisfaction_1   = life_satisfaction_1,
+  partner_conflict      = partner_conflict,
+  life_satisfaction_2   = life_satisfaction_2
+)
+
+head(df)
+```
+
+---
+
+### Example 1: Marital Satisfaction Predicting Life Satisfaction
+
+#### The Model
+
+Following the general simple linear regression form from @sec-regression-overview:
+
+$$
+Y = \beta_0 + \beta_1 X + \varepsilon
+$$
+
+Mapped onto this example:
+
+$$
+\text{Life Satisfaction} = \beta_0 + \beta_1(\text{Marital Satisfaction}) + \varepsilon
+$$
+
+#### Running the Regression
+
+```{r model-1}
+model_1 <- lm(life_satisfaction_1 ~ marital_satisfaction, data = df)
+summary(model_1)
+```
+
+```{r model-1-tidy}
+tidy(model_1)
+glance(model_1) |> select(r.squared, adj.r.squared, sigma)
+```
+
+#### Plotting the Regression Line
+
+```{r plot-1, fig.cap="Marital satisfaction predicting life satisfaction (positive association)"}
+ggplot(df, aes(x = marital_satisfaction, y = life_satisfaction_1)) +
+  geom_point(color = "#2c3e91", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "#c0392b", linewidth = 1) +
+  labs(
+    title = "Marital Satisfaction and Life Satisfaction",
+    subtitle = expression(paste("Model: ", Y == beta[0] + beta[1] * X + epsilon)),
+    x = "Marital Satisfaction (X)",
+    y = "Life Satisfaction (Y)"
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+#### Mapping to the Infographic Figure
+
+| Infographic Element | This Example |
+|---|---|
+| **Input** ($X_1, X_2, \dots, X_p$) | Marital satisfaction scores |
+| **Regression Model** (estimates relationship) | `lm(life_satisfaction_1 ~ marital_satisfaction)` |
+| **Output** (Predicted $\hat{Y}$) | Predicted life satisfaction values (the red fitted line) |
+| **Best-fitting line** | `geom_smooth(method = "lm")` — minimizes squared residuals |
+| **$\beta_1$ (slope)** | `r round(coef(model_1)[2], 2)` — for each 1-unit increase in marital satisfaction, life satisfaction increases by this amount |
+| **$\beta_0$ (intercept)** | `r round(coef(model_1)[1], 2)` — predicted life satisfaction when marital satisfaction = 0 |
+| **R²** | `r round(summary(model_1)$r.squared, 3)` — proportion of variance in life satisfaction explained by marital satisfaction |
+
+---
+
+### Example 2: Partner Conflict Predicting Life Satisfaction
+
+#### The Model
+
+$$
+\text{Life Satisfaction} = \beta_0 + \beta_1(\text{Partner Conflict}) + \varepsilon
+$$
+
+Here we expect $\beta_1 < 0$ — a **negative** association.
+
+#### Running the Regression
+
+```{r model-2}
+model_2 <- lm(life_satisfaction_2 ~ partner_conflict, data = df)
+summary(model_2)
+```
+
+```{r model-2-tidy}
+tidy(model_2)
+glance(model_2) |> select(r.squared, adj.r.squared, sigma)
+```
+
+#### Plotting the Regression Line
+
+```{r plot-2, fig.cap="Partner conflict predicting life satisfaction (negative association)"}
+ggplot(df, aes(x = partner_conflict, y = life_satisfaction_2)) +
+  geom_point(color = "#8e44ad", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "#c0392b", linewidth = 1) +
+  labs(
+    title = "Partner Conflict and Life Satisfaction",
+    subtitle = expression(paste("Model: ", Y == beta[0] + beta[1] * X + epsilon)),
+    x = "Partner Conflict (X)",
+    y = "Life Satisfaction (Y)"
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+#### Mapping to the Infographic Figure
+
+| Infographic Element | This Example |
+|---|---|
+| **Input** ($X_1, X_2, \dots, X_p$) | Partner conflict scores |
+| **Regression Model** | `lm(life_satisfaction_2 ~ partner_conflict)` |
+| **Output** (Predicted $\hat{Y}$) | Predicted life satisfaction values (downward-sloping red line) |
+| **$\beta_1$ (slope)** | `r round(coef(model_2)[2], 2)` — **negative** slope: each 1-unit increase in conflict is associated with a *decrease* in life satisfaction |
+| **$\beta_0$ (intercept)** | `r round(coef(model_2)[1], 2)` |
+| **R²** | `r round(summary(model_2)$r.squared, 3)` |
+
+---
+
+### Side-by-Side Comparison
+
+```{r combined-plot, fig.cap="Comparing positive vs. negative bivariate associations with life satisfaction", fig.width=10, fig.height=5}
+p1 <- ggplot(df, aes(x = marital_satisfaction, y = life_satisfaction_1)) +
+  geom_point(color = "#2c3e91", alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE, color = "#c0392b") +
+  labs(title = "Marital Satisfaction (+)", x = "Marital Satisfaction", y = "Life Satisfaction") +
+  theme_minimal(base_size = 12)
+
+p2 <- ggplot(df, aes(x = partner_conflict, y = life_satisfaction_2)) +
+  geom_point(color = "#8e44ad", alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE, color = "#c0392b") +
+  labs(title = "Partner Conflict (\u2212)", x = "Partner Conflict", y = "Life Satisfaction") +
+  theme_minimal(base_size = 12)
+
+library(patchwork)
+p1 + p2
+```
+
+::: {.callout-note title="Interpretation Summary" icon="false"}
+- **Marital satisfaction** shows a **positive** slope ($\beta_1 = `r round(coef(model_1)[2], 2)`$): higher relationship satisfaction is associated with higher life satisfaction.
+- **Partner conflict** shows a **negative** slope ($\beta_1 = `r round(coef(model_2)[2], 2)`$): higher conflict is associated with lower life satisfaction.
+- Both models follow the same underlying simple linear regression structure from @sec-regression-overview — only the **sign and magnitude of $\beta_1$** differ, illustrating how the same modeling framework captures relationships in opposite directions.
+:::
+
+::: {.callout-important title="Looking Ahead: Moderation" collapse="true"}
+These two bivariate relationships set up a natural extension: what if the strength of the marital-satisfaction → life-satisfaction relationship (or the conflict → life-satisfaction relationship) depends on a third variable — say, years married, or social support? That question requires adding an interaction term, covered in @sec-moderator-effects.
+:::
+
+### The Regression Model
+
+General form of multiple linear regression:
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p + \varepsilon$$
+
+Where:
+
+- $Y$ = Dependent variable
+- $X_1, X_2, \dots, X_p$ = Independent variables
+- $\beta_0$ = Intercept (constant)
+- $\beta_1, \beta_2, \dots, \beta_p$ = Regression coefficients
+- $\varepsilon$ = Error term (random error)
+
+::: {.callout-note title="Interpreting Coefficients" icon="false"}
+Coefficients ($\beta$) show the expected change in $Y$ for a one-unit change in $X$, **holding other variables constant**.
+:::
+
+------------------------------------------------------------------------
+
+### Goodness of Fit
+
+::::::: {layout-ncol="2"}
+::: {.callout-tip title="R² — Coefficient of Determination"}
+Proportion of variance in Y explained by the model.
+:::
+
+::: {.callout-tip title="Adjusted R²"}
+Adjusted for the number of predictors in the model.
+:::
+
+::: {.callout-tip title="RMSE — Root Mean Square Error"}
+Measures the average prediction error.
+:::
+
+::: {.callout-tip title="SEE — Standard Error of Estimate"}
+Indicates the typical distance between observed and predicted values.
+:::
+:::::::
+
+------------------------------------------------------------------------
+
+### Assumptions (Linear Regression)
+
+- **Linearity:** The relationship between X and Y is linear.
+- **Independence:** Observations are independent.
+- **Homoscedasticity:** Constant variance of errors.
+- **Normality:** Errors are normally distributed.
+- **No Multicollinearity:** Predictors are not highly correlated with each other.
+
+------------------------------------------------------------------------
+
+
+
+### Limitations
+
+::: {.callout-warning title="Use With Caution" icon="false"}
+- Sensitive to **outliers**
+- Does **not imply causation**
+- Model may perform poorly if **assumptions are violated**
+- **Overfitting** reduces predictive ability
+- **Extrapolation** beyond the data range can be risky
+:::
+
+------------------------------------------------------------------------

@@ -1,0 +1,836 @@
+# From t-Tests to ANOVA
+
+# From t-Tests to ANOVA
+
+## Learning Objectives
+
+By the end of this unit, students should be able to:
+
+- Explain why ANOVA was developed.
+- Distinguish among different ANOVA models.
+- Understand the logic of the F-test.
+- Determine when to use:
+  - One-Way ANOVA
+  - Factorial ANOVA
+  - Repeated Measures ANOVA
+  - Mixed ANOVA
+  - ANCOVA
+  - MANOVA
+- Understand how ANOVA connects to regression and mixed models.
+
+------------------------------------------------------------------------
+
+# Where We Have Been
+
+Thus far we have compared means using t-tests.
+
+Independent Samples t-Test:
+
+- Two independent groups
+- One continuous outcome
+
+Examples:
+
+- Male vs Female
+- Treatment vs Control
+
+Paired Samples t-Test:
+
+- Same participants measured twice
+- One continuous outcome
+
+Examples:
+
+- Pretest vs Posttest
+- Before treatment vs After treatment
+
+------------------------------------------------------------------------
+
+# The Limitation of t-Tests
+
+Suppose we want to compare:
+
+- Freshmen
+- Sophomores
+- Juniors
+- Seniors
+
+Can we use a t-test?
+
+No.
+
+A t-test only compares:
+
+$$2 \text{ groups}$$
+
+Conducting multiple t-tests creates a problem:
+
+> Type I error inflation
+
+The probability of making a false positive conclusion increases with each additional test.
+
+------------------------------------------------------------------------
+
+# Enter ANOVA
+
+ANOVA stands for:
+
+**Analysis of Variance**
+
+Developed by:
+
+**Sir Ronald Fisher**
+
+Core question:
+
+> Are the observed group differences larger than would be expected due to random variation?
+
+Instead of comparing two means directly, ANOVA compares:
+
+- Between-group variability
+
+to
+
+- Within-group variability
+
+------------------------------------------------------------------------
+
+# The Logic of ANOVA
+
+If groups truly differ:
+
+- Group means should be far apart
+
+and
+
+- Individuals within groups should be relatively similar
+
+ANOVA evaluates:
+
+$$F =
+\frac{
+\text{Between-Group Variance}
+}{
+\text{Within-Group Variance}
+}$$
+
+------------------------------------------------------------------------
+
+# Understanding the F Ratio
+
+Small F:
+
+$$\text{Between} \approx \text{Within}$$
+
+Little evidence of group differences.
+
+Large F:
+
+$$\text{Between} > \text{Within}$$
+
+Evidence that group means differ.
+
+Think of:
+
+$$F =
+\frac{\text{Signal}}{\text{Noise}}$$
+
+just as
+
+$$t =
+\frac{\text{Signal}}{\text{Noise}}$$
+
+for a t-test.
+
+------------------------------------------------------------------------
+
+# ANOVA Family Roadmap
+
+We will study:
+
+1.  One-Way ANOVA
+2.  Factorial ANOVA
+3.  Repeated Measures ANOVA
+4.  Mixed ANOVA
+5.  ANCOVA
+6.  MANOVA
+7.  Linear Mixed Models
+
+Each model extends the previous one.
+
+------------------------------------------------------------------------
+
+# One-Way ANOVA
+
+## Research Question
+
+Does exercise motivation differ across:
+
+- Freshmen
+- Sophomores
+- Juniors
+- Seniors
+
+Independent Variable:
+
+- Class standing
+
+Dependent Variable:
+
+- Exercise motivation
+
+One categorical predictor
+
+One continuous outcome
+
+------------------------------------------------------------------------
+
+# One-Way ANOVA Structure
+
+$$Y = \mu + Group + Error$$
+
+Where:
+
+- Y = outcome
+- μ = grand mean
+- Group = treatment effect
+- Error = residual variation
+
+Question:
+
+> Are some group means different?
+
+------------------------------------------------------------------------
+
+# After One-Way ANOVA
+
+A significant F-test tells us:
+
+> At least one group differs.
+
+It does NOT tell us:
+
+> Which groups differ.
+
+Follow-up analyses include:
+
+- Tukey HSD
+- Bonferroni tests
+- Planned contrasts
+
+------------------------------------------------------------------------
+
+# Factorial ANOVA
+
+Now suppose we have:
+
+- Gender
+- Class Standing
+
+and want to predict:
+
+- Exercise Motivation
+
+We now have two independent variables.
+
+------------------------------------------------------------------------
+
+# Factorial ANOVA Questions
+
+Main Effect of Gender:
+
+> Do males and females differ?
+
+Main Effect of Class Standing:
+
+> Does motivation differ across class levels?
+
+Interaction:
+
+> Does the effect of gender depend on class standing?
+
+------------------------------------------------------------------------
+
+# Interaction Effects
+
+Main effects are often not the most interesting finding.
+
+Interactions answer:
+
+> Does the impact of one variable change across levels of another variable?
+
+Examples:
+
+- Treatment effectiveness differs by gender
+- Intervention effects differ by age
+- Program effects differ by ethnicity
+
+Interactions are foundational for modern statistical modeling.
+
+------------------------------------------------------------------------
+
+# Repeated Measures ANOVA
+
+Now suppose participants are measured:
+
+- Beginning of semester
+- Midterm
+- End of semester
+
+Same participants repeatedly measured.
+
+Question:
+
+> Does the outcome change across time?
+
+------------------------------------------------------------------------
+
+# Connection to Paired t-Tests
+
+Paired t-Test:
+
+$$2$$
+
+time points
+
+Repeated Measures ANOVA:
+
+$$3+$$
+
+time points
+
+A paired t-test is simply a special case of repeated measures ANOVA.
+
+------------------------------------------------------------------------
+
+# Mixed ANOVA
+
+Suppose we have:
+
+Groups:
+
+- Treatment
+- Control
+
+Measured at:
+
+- Pretest
+- Posttest
+- Follow-up
+
+Now we have:
+
+Between-Subjects Factor:
+
+- Group
+
+Within-Subjects Factor:
+
+- Time
+
+------------------------------------------------------------------------
+
+# Mixed ANOVA Questions
+
+Main Effect of Time:
+
+> Do scores change over time?
+
+Main Effect of Group:
+
+> Do groups differ overall?
+
+Interaction:
+
+> Do groups change differently over time?
+
+The interaction is usually the primary research question.
+
+------------------------------------------------------------------------
+
+# ANCOVA
+
+Analysis of Covariance
+
+Research Question:
+
+> Do interventions differ after controlling for baseline differences?
+
+Example:
+
+Outcome:
+
+- Posttest depression
+
+Group:
+
+- Treatment vs Control
+
+Covariate:
+
+- Baseline depression
+
+------------------------------------------------------------------------
+
+# ANCOVA Model
+
+ANCOVA combines:
+
+ANOVA +
+
+Regression
+
+Conceptually:
+
+$$Outcome =
+Group + Covariate + Error$$
+
+ANCOVA adjusts group means for preexisting differences.
+
+------------------------------------------------------------------------
+
+# MANOVA
+
+MANOVA stands for:
+
+**Multivariate Analysis of Variance**
+
+ANOVA:
+
+- One outcome
+
+MANOVA:
+
+- Multiple outcomes
+
+------------------------------------------------------------------------
+
+# Example MANOVA
+
+Independent Variable:
+
+- Treatment Group
+
+Dependent Variables:
+
+- Depression
+- Anxiety
+- Stress
+- Self-Esteem
+
+Question:
+
+> Do groups differ on the overall profile of outcomes?
+
+------------------------------------------------------------------------
+
+# Why Use MANOVA?
+
+Instead of conducting:
+
+- ANOVA for Depression
+- ANOVA for Anxiety
+- ANOVA for Stress
+- ANOVA for Self-Esteem
+
+MANOVA evaluates them simultaneously.
+
+Advantages:
+
+- Controls Type I error
+- Examines combined outcome patterns
+
+------------------------------------------------------------------------
+
+# Linear Mixed Models
+
+Repeated-measures ANOVA has limitations:
+
+- Missing data
+- Unequal measurement occasions
+- Unequal spacing of observations
+- Nested data structures
+
+Mixed models address these issues.
+
+------------------------------------------------------------------------
+
+# Examples of Mixed Models
+
+Students nested within classrooms
+
+Repeated assessments nested within individuals
+
+Patients nested within clinics
+
+Family members nested within families
+
+Longitudinal developmental studies
+
+------------------------------------------------------------------------
+
+# Mixed Model Example
+
+$$Y_{ij}
+=
+\beta_0
++
+\beta_1(Time)
++
+u_i
++
+e_{ij}$$
+
+Where:
+
+- Fixed effects describe average change
+- Random effects describe individual differences
+
+------------------------------------------------------------------------
+
+# Big Picture
+
+t-Test
+
+↓
+
+One-Way ANOVA
+
+↓
+
+Factorial ANOVA
+
+↓
+
+Repeated Measures ANOVA
+
+↓
+
+Mixed ANOVA
+
+↓
+
+ANCOVA
+
+↓
+
+MANOVA
+
+↓
+
+Linear Mixed Models
+
+------------------------------------------------------------------------
+
+# Key Takeaways
+
+- ANOVA extends the logic of the t-test.
+- One-Way ANOVA compares more than two groups.
+- Factorial ANOVA introduces multiple predictors and interactions.
+- Repeated Measures ANOVA analyzes change over time.
+- Mixed ANOVA combines groups and time.
+- ANCOVA adjusts for covariates.
+- MANOVA analyzes multiple outcomes simultaneously.
+- Mixed models provide a flexible framework for complex longitudinal and nested data.
+
+# Example 4: One-Way ANOVA
+
+## Research Question
+
+Researchers were interested in whether ethnic-racial identity (ERI) exploration differed across stages of high school.
+
+Specifically, they compared:
+
+- 9th Grade Students
+- 10th Grade Students
+- 11th Grade Students
+- 12th Grade Students
+
+Outcome:
+
+- ERI Exploration Score
+
+Research Question:
+
+> Does ethnic-racial identity exploration differ across grade levels?
+
+------------------------------------------------------------------------
+
+# Why Not Use Multiple t-Tests?
+
+Suppose we compared:
+
+- 9th vs 10th
+- 9th vs 11th
+- 9th vs 12th
+- 10th vs 11th
+- 10th vs 12th
+- 11th vs 12th
+
+That would require six separate t-tests.
+
+Problems:
+
+- Increased Type I Error
+- More complicated interpretation
+
+Instead, we use a single One-Way ANOVA.
+
+------------------------------------------------------------------------
+
+# Independent Variable
+
+## Grade Level
+
+| Group |
+|-------|
+| 9th   |
+| 10th  |
+| 11th  |
+| 12th  |
+
+This variable is categorical.
+
+------------------------------------------------------------------------
+
+# Dependent Variable
+
+## ERI Exploration
+
+Example items:
+
+- I have spent time trying to learn more about my ethnic group.
+- I have participated in activities that help me understand my ethnic background.
+- I think a lot about what my ethnicity means to me.
+
+Higher scores indicate greater exploration.
+
+------------------------------------------------------------------------
+
+# Hypotheses
+
+Null Hypothesis:
+
+$$H_0:
+\mu_{9th}
+=
+\mu_{10th}
+=
+\mu_{11th}
+=
+\mu_{12th}$$
+
+All population means are equal.
+
+Alternative Hypothesis:
+
+$$H_A:
+\text{At least one population mean differs}$$
+
+Notice that ANOVA does not specify which group differs.
+
+------------------------------------------------------------------------
+
+# Sample Data
+
+Suppose the study produced the following sample means.
+
+| Grade |   N | Mean |
+|-------|----:|-----:|
+| 9th   |  50 | 2.90 |
+| 10th  |  50 | 3.12 |
+| 11th  |  50 | 3.47 |
+| 12th  |  50 | 3.61 |
+
+Visual inspection suggests exploration may increase across grade levels.
+
+The question is:
+
+> Are these differences larger than we would expect from sampling error alone?
+
+------------------------------------------------------------------------
+
+# Logic of ANOVA
+
+ANOVA compares:
+
+## Between-Group Variation
+
+Differences among group means
+
+versus
+
+## Within-Group Variation
+
+Differences among individuals inside each group
+
+The test statistic is
+
+$$F=
+\frac{
+MS_{Between}
+}{
+MS_{Within}
+}$$
+
+------------------------------------------------------------------------
+
+# Understanding the F Ratio
+
+If group means are very similar:
+
+$$F \approx 1$$
+
+Little evidence of group differences.
+
+If group means differ substantially:
+
+$$F > 1$$
+
+Evidence of group differences.
+
+Larger F values provide stronger evidence against the null hypothesis.
+
+------------------------------------------------------------------------
+
+# Simulating Data
+
+```{r}
+set.seed(123)
+
+n <- 50
+
+dat <- data.frame(
+  grade = factor(rep(
+    c("9th","10th","11th","12th"),
+    each = n
+  )),
+  exploration = c(
+    rnorm(n, 2.90, .50),
+    rnorm(n, 3.12, .50),
+    rnorm(n, 3.47, .50),
+    rnorm(n, 3.61, .50)
+  )
+)
+
+head(dat)
+```
+
+------------------------------------------------------------------------
+
+# Descriptive Statistics
+
+```{r}
+library(dplyr)
+
+dat %>%
+  group_by(grade) %>%
+  summarise(
+    N = n(),
+    Mean = mean(exploration),
+    SD = sd(exploration)
+  )
+```
+
+------------------------------------------------------------------------
+
+# Conducting the One-Way ANOVA
+
+```{r}
+fit <- aov(
+  exploration ~ grade,
+  data = dat
+)
+
+summary(fit)
+```
+
+------------------------------------------------------------------------
+
+# Example Output
+
+``` text
+             Df Sum Sq Mean Sq F value Pr(>F)
+grade         3  18.72   6.24   21.84 <.001
+Residuals   196  56.02   0.29
+```
+
+Interpretation:
+
+$$F(3,196)=21.84,\quad p<.001$$
+
+The omnibus test indicates significant differences among grade levels.
+
+------------------------------------------------------------------------
+
+# What Does the Omnibus Test Tell Us?
+
+The ANOVA tells us:
+
+✅ Some mean differs
+
+The ANOVA does NOT tell us:
+
+❌ Which means differ
+
+To answer that question we conduct post hoc comparisons.
+
+------------------------------------------------------------------------
+
+# Tukey Post Hoc Tests
+
+```{r}
+TukeyHSD(fit)
+```
+
+------------------------------------------------------------------------
+
+# Example Interpretation
+
+Suppose the results indicate:
+
+- 11th \> 9th
+- 12th \> 9th
+- 12th \> 10th
+
+Interpretation:
+
+Students in the upper grades reported significantly greater ethnic-racial identity exploration than students in the lower grades.
+
+------------------------------------------------------------------------
+
+# Effect Size
+
+One common effect size is Eta-Squared:
+
+$$\eta^2
+=
+\frac{
+SS_{Between}
+}{
+SS_{Total}
+}$$
+
+In R:
+
+```{r}
+library(effectsize)
+
+eta_squared(fit)
+```
+
+------------------------------------------------------------------------
+
+# APA Style Write-Up
+
+A one-way analysis of variance examined differences in ethnic-racial identity exploration across grade levels. Results indicated a significant effect of grade level on exploration, F(3, 196) = 21.84, p \< .001. Follow-up Tukey comparisons suggested that students in the upper grades reported greater levels of ethnic-racial identity exploration than students in the lower grades.
+
+------------------------------------------------------------------------
+
+# Key Takeaways
+
+- One-Way ANOVA compares three or more means.
+- The F-test compares between-group variability to within-group variability.
+- A significant omnibus test indicates that at least one mean differs.
+- Post hoc tests identify where differences occur.
+- Effect sizes quantify the magnitude of group differences.

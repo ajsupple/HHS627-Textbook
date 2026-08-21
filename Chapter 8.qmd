@@ -1,0 +1,172 @@
+---
+title: "Chapter 7 Mediation"
+format: html
+editor: visual
+---
+
+## What is mediation?
+
+Mediation is a relatively advanced quantitative analysis that endeavors to address questions related to *mechanisms* or *proximal processes* that help determing the "how or why?" some *distal* or background factor predicts or influences some outcome. Note that this description implied a very simple mediation model that would look like this:
+
+```{dot}
+digraph Mediation {
+  graph [layout=neato, overlap=false, splines=true, bgcolor="transparent"]
+  node  [shape=box, style="rounded,filled", fillcolor="#e8f0ff", color="#4a4a4a",
+         fontname="Helvetica", fontsize=14, width=1.7, height=0.7]
+  edge  [color="#4a4a4a", penwidth=1.4, fontname="Helvetica", fontsize=13]
+
+  IV [label="IV",       pos="0,0!",   pin=true]
+  M  [label="Mediator", pos="2.2,0.9!", pin=true]   // offset upward
+  O  [label="Outcome",  pos="4.8,0!", pin=true]     // swung right
+
+  IV -> M [label="a"]
+  M  -> O [label="b"]
+  IV -> O [label="c'", constraint=false]
+}
+```
+
+Figure 1: Simple mediation
+
+Note that this figure is a *conceptual model* that proposes a couple of things. But first, let's use an actual HHS-related example to think this through. Let's way that individuals with higher motivation to excercise have greater VO~2~Max values. That would imply that motivation to exercise –\> VO~2~Max the **IV/DV relationship**. We might also suggest that the *mechanism* is that motivation to exercise –\> increases the amount of time exercising which –\> VO~2~Max
+
+{dot} digraph Mediation { graph \[layout=neato, overlap=false, splines=true, bgcolor="transparent"\] node \[shape=box, style="rounded,filled", fillcolor="#e8f0ff", color="#4a4a4a", fontname="Helvetica", fontsize=14, width=1.7, height=0.7\] edge \[color="#4a4a4a", penwidth=1.4, fontname="Helvetica", fontsize=13\]
+
+IV \[label="Motivation to Exercise", pos="0,0!", pin=true\] M \[label="Minutes/week exercised", pos="2.2,0.9!", pin=true\] // offset upward O \[label="VO2Max", pos="4.8,0!", pin=true\] // swung right
+
+IV -\> M \[label="a"\] M -\> O \[label="b"\] IV -\> O \[label="c'", constraint=false\] }
+
+This suggests the following:
+
+1.  Motivation to exercise has two influences on VO~2~Max
+    - A direct effect
+
+    - An indirect effect
+2.  Indirect effects imply mediation... That is, the notion that a background factor or variable influences an outcome via a third variable - in simple mediation
+
+## Quantiative Approaches to Mediation
+
+### Baron & Kenny, 1989
+
+Baron & Kenny proposed a series of steps (aka, the causal mediation steps) to examine mediation. Note these are dates and not recommended, you may see or hear about these and even (*gasp*) have someone suggest doing these...
+
+## Step 1: Establish that the IV (X) predicts/influences the DV (Y)
+
+Regress the outcome on the predictor:
+
+$$Y = b_0 + cX + e$$
+
+**Requirement:** The predictor (**X**) significantly predicts the outcome (**Y**). This establishes that there is a relationship to be explained. -Often referred to a C' -Note this is ***no longer considered appropriate*** because there can still be indirect effects if this first step doesn't hold ------------------------------------------------------------------------
+
+## Step 2: Show that X Predicts M
+
+Regress the mediator on the predictor:
+
+$$M = b_0 + aX + e$$
+
+**Requirement:** The predictor (**X**) significantly predicts the mediator (**M**). If X does not predict M, then M cannot mediate the relationship. -Typically referred to as 'a' path
+
+------------------------------------------------------------------------
+
+## Step 3: Show that M Predicts Y
+
+Regress the outcome on the mediator:
+
+$$Y = b_0 + bM + e$$
+
+**Requirement:** The mediator (**M**) significantly predicts the outcome (**Y**). This demonstrates an association between the mediator and the outcome.
+
+------------------------------------------------------------------------
+
+## Step 4: Regress Y on Both X and M
+
+Regress the outcome on both the predictor and mediator simultaneously:
+
+$$Y = b_0 + c'X + bM + e$$
+
+**Requirements:**
+
+- The mediator (**M**) remains a significant predictor of **Y**.Boo
+- The effect of **X** on **Y** is reduced compared to Step 1.
+- The key question here is: Is the X on Y effect "reduced"
+
+### Interpretation
+
+-In the "olden days" *full* mediation meant that C' was n.s. - Put another way, the IV is unrelated to the DV when controlling for M - The logic was that the association is only indirect
+
+-Problems with that logic -What to do when C' and a\*b (the indirect effect) are **both** statistically significant? -Partial mediation? But does how much matter? -Led to computation of a*b and then computing complex standard error -Logic was: If there is a statistically significant indirect effect, then mediaiton is present. Became known as the* **Sobel Test**\*
+
+## Inconsistent mediation
+
+There are scenarios in which C - the total effect linking X and Y is close to zero. That is, a researcher would conclude that there is no IV/DV relationship, so no possibility for mediation (per Baron & Kenny, 1989)
+
+This can occur, however, when C' - the direct effect - and the aXb indirect effect are in opposite directions. This acts like a *suppersor* effect (i.e., there is no association between X and Y *until* controlling for M ) 
+
+So with inconcistent mediation, if we followed Baron & Kenny, we would miss the indirect effect. In the end, those should be hypothesized and tested, even outside of an X-->Y association.
+
+
+, for example, negative, and the a*b coefficient is positive (they are opposite in sign)
+-Creates *inconsistent mediation* which is a scenario similar to a suppression effect
+  -a suppresor effect occurs when an X --> Y association is n.s. **until** on controls for a third variable
+  -in the case of inconsistent mediation, there is an indirect effect that is statistically significant, even in the presence of no direct 
+  
+#### Example:
+
+Stress --> coping --> Positive Affect/Mood 
+-The direct effect is likely negative (Greater stress lower positive affect)
+-The indirect effect is likely positive since 'a' would be positive, and 'b' would be positive, thus a*b would be positive
+-The total effect would be C = C'+a*b and thus C would be close to zero, which is step 1 in Baron & Kenny
+
+## Modern Approaches to Mediation
+
+Best approach is Structural Equation Modeling (SEM) - why?
+
+1.  Automatically produces a\*b, p values, and - even better - ***bootstrapped*** confidence intervals
+    - a\*b is a product, tends to have a nonnormal distribution
+
+    - Computation of typical standard errors or confidence intervals likely increases risk of Type II error
+
+    - Bootstrapping is a *resampling* technique that creates a new distribution of a\*b parameters
+
+      - That basically means we run thousands of a*b's across different samples using our own data. those a*bs are parameters (statistical estimates) that are then are treated as a distribution that will be normal, then the 95% CI is created around that distribution with the original a\*b in the middle
+
+      - That is a better test of statistical significance
+2.  SEM programs have built in routines to make this easier
+    - OLS-based packages also exist
+
+      - Process macro in SPSS, SAS, R
+
+      - Numerous R packages can take regression-based outputs and do mediation effects testing
+3.  Students are encouraged to take a course in SEM, other advantages
+    - Model fit statistics, model comparison (get into end of the semester)
+
+    - Can have multiple mediators, multiple outcomes (OLS regression can only do this step-wise)
+
+    - Can do multigroup analyses for moderated mediation or conditional process models
+
+    - Can include measurement models/latent variables
+
+## Time order "causal" models and mediation
+
+Note that mediational models are "causal" models, at least theoretically
+They lay out an ordering of effects
+-This may not be defensible with cross-sectional data
+-Many fields, academic experts insiste on longitudinal data (leads to some weird questions)
+-Ideal design would be 
+  -Intervention with RA
+  -Control for baseline on outcome (increases power)
+  -Mediator occurs (more honestly is 'assessed') after randomization
+  -Outcome differences occur temporally after the intervention (easy) after changes in the mediator (tricky)
+  
+  Think about this: Do children who experience parental divorce have higher anxiety than children whose parents do not divorce?
+  -Research would suggest, yes
+  -Is that mediated by process factors that follow a divorce
+    -increased conflict
+    -unsupportive co-parenting
+    -financial strain
+  -Would make sense, then, that there is a **theoretical** temporal precedence...but is it there really?
+  - Can test alternative models (SEM)
+
+## Regression based approaches to mediation
+
+
+

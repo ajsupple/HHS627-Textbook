@@ -1,0 +1,613 @@
+---
+title: "Chapter 2 Matching Research Designs to Analyses"
+format:
+  html:
+    toc: true
+    number-sections: true
+    include-in-header:
+      text: |
+        <style>
+        .hhs627-banner {
+          position: fixed;
+          top: 0;
+          right: 1rem;
+          z-index: 9999;
+          font-size: 0.85rem;
+          font-weight: 600;
+          opacity: 0.8;
+        }
+        </style>
+        <div class="hhs627-banner">HHS627</div>
+---
+
+## Matching Research Designs to Analyses
+
+Questions to consider:
+
+1.  What is the research question?
+2.  What is the hypothesis?
+3.  What is the research design?
+4.  How many variables are involved?
+5.  What levels of measurement are present?
+
+## What is the Research Question and Hypotheses
+
+The Research Question and Hypotheses make a statement about how we see some human phenomenon.
+
+- RQ: Are there gender differences in suicidal thoughts?
+
+  - HYP: Girls are more likely than boys to have suicidal thoughts
+
+This hypothesis also implies a research design as this would be a comparative study with no random assignments
+
+## What is the Research Design?
+
+Is my study an experiment? A quasi-experiment? Comparing groups?
+
+- Those types of research designs tend to imply that there is a factor or categorical Independent Variable (IV) across which I expect to find a difference across groups of people
+
+Am I considering associational or correlational relationships? Am I expecting that participants who score higher on one variable also tend to score higher on a second variable?
+
+- Are college students who report higher experiences with discrimination from peers more likely to report feelings of anxiety?
+- Is greater intention to exercise associated with greater numbers of steps?
+
+This would imply an associational design with no factor/categorical variables, attribute variables (something participants "bring" with them into the study, unlike an "active" IV)
+
+## How many variables are involved?
+
+- This is where analyses go from **basic** (Gliner et al) to **complex** designs
+
+- A simple comparison = a t-test
+
+- A simple association = a correlation
+
+  - Those are bivariate associations
+
+- When we get more complex we will have multiple outcomes, i.e., *multivariate* or multiple predictors, i.e., *multivariable*
+
+# Group Comparison Tests
+
+Any group comparison test typically follows an hypothesis that proposes that one group of people (that we might think of as a sub population of people - or units, whatever we are studying) scores higher on some outcome compared to another group of people.
+
+Sometimes the groups under consideration can really be from one population, but some experimental manipulation is imposed on one group and that same manipulation is withheld from the other group.
+
+The **classic experimental design** with *random assignment* would create differences among theoretically equivalent groups and has strong *internal validity* because any differences in groups later on (after some intervention or manipulation)
+
+- That is a group comparison!
+
+::: callout-note
+Internal validity is the extent to which researchers can be confident that the putative cause of an outcome is the actual cause of the outcome.
+
+High internal validity studies have groups that are equivalent except for some factor that the researcher controls (e.g., in experiments)
+
+Low internal validity studies have very little "control" and may compare nonequivalent groups that are nonequivalent for reasons other than the main IV
+
+These are often terms "selection effects"
+
+Researchers used to argue that children who experienced parental divorce had higher anxiety.... But are children who experience parental divorce and children who do not experience parental divorce **equivalent groups** in all factors except the divorce? If not, there is low internal validity
+:::
+
+Do college students who visit their respective Student Recreation Centers at least once per week report greater connection to their campus compared to students who do not regularly visit their SRC?
+
+- If we could assess some scores with an average score on "campus connection"
+
+- Then we would be interested to see if those scores were different, and if so, by a big enough amount to claim those differences as meaningfully important
+
+- We use the term *statistically significant* to indicate that is the case, but will see later that an effect size is also important to report out and consider
+
+## **Independent Samples t Test**
+
+- Used to compare means (so continuous variables) across two groups
+
+Examples:
+
+- Men versus women: Do women report greater parental anxiety than men?
+- Treatment versus control: Do participants in a smoking cessation program report less craving?
+
+## **ANOVA**
+
+- Used to compare means across three or more groups
+
+  - Are there differences in ethnic racial identity in college students across UNCG (a MSI), NC A&T (an HBCU), and High Point University (a PWI) ?
+
+  - Is motivation to exercise higher among UNCG students who played team sports in high school compared to students who played no sports or individual sports?
+
+## **ANCOVA**
+
+- ANOVA including covariates, or control variables
+
+  - Are mean differences in depression across groups mitigated or reduced after controlling for some other factor?
+
+  - In a study comparing BDNF levels in women who were clinically depressed to women who weren't, researchers ran an ANCOVA to control for age. Results suggested lower BDNF in depressed women compared to "healthy" controls - \*\* the key findings \*\* - were statistically significant even after controlling for age. That is, the BDNF difference wasn't due to age instead of depressed status.
+
+  - In sum, ANCOVA is for situations where researchers want to draw conclusions regarding mean differences across groups while ruling out extraneous factor
+
+::: callout-note
+ANCOVA is analogous to a multiple regression when the latter has a binary predictor and additional covariates/control variables included in the model
+
+Andy worked on a multi-site project one time where the analyst at the other site ran *ANCOVAS* while Andy ran multiple regressions with the intervention as the main IV and controlling for baseline. The two of us ran the same exact syntax in R...
+:::
+
+## **MANOVA**
+
+Multiple dependent variables, so a **multivariate** version of an ANOVA
+
+- Often employed when there are multiple outcomes of interest to compare across groups he teaching version
+- Example:
+  - Are depressive symptoms, anxiety symptoms, and reports of stress higher among sexual minority youth when compared to heterosexual youth?
+  - Rather than running multiple t-tests or three ANOVAs, can run one analysis
+  - MANOVA accounts for the correlation among outcomes and can identify a "profile" of sorts where higher scores across groups on all outcomes are more obvious than would have been observed with multiple ANOVAs
+
+# Tests of Association
+
+Typically researchers associate the next set of statistical analyses with hypotheses that propose associations among continuous predictors and continuous outcomes. Alternatively, in the case of a covariance/correlation there could be no "causal" type association specified - that is, there is just an association that is either positive or negative.
+
+## **Correlations**
+
+- **Pearson**: continuous × continuous; measures linear relationships.
+
+- **Spearman's rho**: ordinal/ranked variables; nonparametric measure based on ranks.
+
+- **Kendall's Tau (τ)**: ordinal × ordinal; rank-based association, often preferred with small samples or many ties.
+
+- **Polychoric**: ordinal × ordinal; estimates the correlation between underlying continuous latent variables.
+
+- **Polyserial**: continuous × ordinal; estimates the correlation between a continuous variable and an underlying latent continuous variable measured ordinally.
+
+- **Point-biserial**: continuous × dichotomous; special case of Pearson correlation.
+
+- **Phi (φ)**: dichotomous × dichotomous; correlation between two binary variables.
+
+## Multiple Regression
+
+General model:
+
+$$Y = a + b_1X_1 + b_2X_2 + e$$
+
+Where:
+
+- **(Y)** = the outcome (dependent variable) being predicted
+- **(a)** = the intercept; the predicted value of (Y) when all (X) ***variables equal 0***
+- **(b)** = regression coefficient (slope); the expected change in (Y) for a one-unit change in (X), holding other predictors constant
+- **(X)** = predictor (independent) variable
+- **(e)** = residual (error); the difference between the observed and predicted value of (Y)
+
+Researchers use regression to:
+
+- Predict outcomes.
+- Control for confounding variables.
+- Estimate unique predictor effects.
+- Test hypotheses and theoretical models.
+- Explain variation in an outcome ((R\^2)).
+- Examine mediation and moderation.
+
+## Logistic Regression
+
+Used when the outcome variable is **dichotomous (binary)**.
+
+Examples:
+
+- Pregnant / Not Pregnant
+- Used Drugs / Did Not Use Drugs
+- Died / Survived
+- Passed Exam / Failed Exam
+
+Results typically include:
+
+- Regression coefficients ((b))
+- Odds ratios (OR)
+- Confidence intervals
+- Predicted probabilities
+
+Simple model:
+
+$\log\!\left(\dfrac{p}{1-p}\right)=a+bX$
+
+Where:
+
+- `log(p/(1-p))`: the log-odds of the outcome occurring
+- `p`: probability of the outcome occurring
+- `a`: intercept
+- `b`: regression coefficient
+- `X`: predictor variable
+
+Interpretation:
+
+- Positive coefficients increase the odds of the outcome.
+- Negative coefficients decrease the odds of the outcome.
+- Odds ratio = `exp(b)`.
+- If `exp(b) > 1`, odds increase; if `exp(b) < 1`, odds decrease.
+
+::: callout-tip
+## Correlation versus Regression
+
+Key difference is that multiple regression allows for:
+
+- Multiple predictors
+- Statistical control
+- Prediction
+
+So that movement towards greater **internal validity** is achieved. Does exposure to environmental toxins increase blood pressure? Does that effect remain after controlling for SES, gender, age, exercise, marital status.
+
+Another example:
+
+Divorce may predict adolescent depression, but that relation may weaken after controlling for inter-parental conflict
+:::
+
+## Are ANOVAs and Regressions Really Different?
+
+- Many statisticians would describe ANOVA as a "special case" of Regression
+
+  - That means regression is generally more flexible -
+
+- There were historical reasons why ANOVA came to be associated with experimental and agricultural research
+
+- Researchers used to think that if one was doing experiments, the appropriate analysis should be ANOVA, if doing observational/correlational research, should use regressions
+
+- I was taught that in grad school at first, then in class taught that these were all just part of the **general linear model**
+
+### The General Linear Model
+
+This applies to any analysis that has a continuous (interval or ratio) or "quantitative" outcome
+
+- T-tests and ANOVAs are just a "special" case - that is, they are regressions with a categorical predictor or IV or X
+- If you run a t-test comparing self-esteem across boys/girls and then run a regression where you regress self-esteem on gender (dummy coded) you will get the same result!
+
+| Research question type | *t* / ANOVA-based approach (categorical predictor focus) | Correlation / Regression-based approach (continuous predictor focus) |
+|------------------------|------------------------|------------------------|
+| Mean differences in depression by gender | **Independent-samples *t* test** (if 2 gender groups) | **Linear regression with dummy-coded gender** (same test as *t* in GLM form) |
+| Mean differences in depression by gender, adjusting for body image | **ANCOVA**: DV = depression; factor = gender; covariate = body image | **Multiple linear regression**: depression \~ gender + body image |
+| Mean differences in depression by gender while testing whether body image effect differs by gender | **Factorial ANCOVA with interaction**: gender × body image | **Moderation regression**: depression \~ gender + body image + gender×body image |
+| Mean depression differences across 3+ groups (e.g., gender identity categories) | **One-way ANOVA** (or Welch ANOVA) | **Regression with (k-1) dummy variables** for group |
+| Mean depression differences across 3+ groups, adjusting for body image | **ANCOVA (multi-group)** | **Multiple regression** with dummy-coded group + body image |
+| Association between body image and depression | (Not an ANOVA question) | **Pearson correlation** (or Spearman if needed) |
+| Predicting depression from several continuous variables (e.g., body image, stress, sleep) | (Not an ANOVA question) | **Multiple linear regression** |
+| Testing combined effects of categorical and continuous predictors on depression | **General linear model / AN(C)OVA framework** | **Multiple regression (GLM-equivalent parameterization)** |
+
+# Data types in HHS Research
+
+*Question for the class:* **What are the data sources you use in your field/lab?**
+
+In this class we will largely focus on *quantitative* data -
+
+- Numeric data where we often assign a numeric value to represent scores for research participantsE
+
+- Examples:
+
+  - Number of cigarettes smoked per week (0 to 400);
+
+  - Ever smoked YES(1), NO(0)
+
+  - Annual income
+
+  - Self-esteem?
+
+  - Motivation to excercise?
+
+We assign numeric values for those as well!
+
+Quantitative data can come from many sources and typically includes
+
+- Participant provided data (self-reports, self-assessment, interview responses)
+
+- Researcher observed data (physical measurements, observationally coded data)
+
+  - Observations of infant/parent interactions, marital discussions, teachers in classrooms
+
+  - Physiological measurements like EEG, cortisol, BDNF
+
+- Other reporter (teacher, parent, spouse, case worker, research confederate)
+
+- Administrative data (electronic health records, CPS data, health claims, county marital or birth records)
+
+- Publicly available data (Census data, Add Health, NHANES)
+
+- Geographical data (Census again, geocoding)
+
+- Wearable devices (accelerometers, smart watches) for EMA/ESM studies
+
+## Data types, research designs, and statistics
+
+There can be disciplinary differences in the types of data researchers used, those often map onto research design, and then those often dictate (or schould) the appropriate statistical tests that are used
+
+## Data Across Academic Disciplines
+
+Different subfields have **tendencies** to use particular data types. Those types vary with respect to
+
+- Sampling strategies (representative probability sampling)
+
+- Data collection strategies
+
+- Research designs
+
+  - These "dictate" in a sense what analysis is appropriate
+
+  - There are *norms* within fields, labs, etc. We will discuss how some of these are artificial in nature...
+
+### Demography
+
+Uses large-scale, often government-collected records: Census data, vital statistics (birth/death records), and county- or state-level aggregates.
+
+- Data are typically **totally numeric** and **secondary** (collected for administrative purposes, not by the researcher).
+- Unit of analysis is often aggregate (county, state, tract) rather than the individual.
+- Designs are almost always **descriptive** or **comparative** — rarely **experimental**, since you cannot randomly assign counties or populations to conditions.
+
+### Human Development (Infant & Child Studies)
+
+Because infants and young children cannot self-report, this field relies heavily on:
+
+- **Observational data** (you can't ask babies questions!)
+- **Physical/physiological measures** (EEG, vagal tone, cortisol)
+- **Informant reports** (caregiver or teacher ratings) for things like behavioral ratings, social interactions
+
+Samples are often small and frequently rely on **available/convenience sampling** rather than random/probability sampling. **Experimental** and **quasi-experimental** designs are possible (e.g., habituation paradigms), but much of the field is **associational/correlational**.
+
+::: callout-note
+## Example Research Question
+
+What factors increase the likelihood of a child having high peer sociality in first grade?
+:::
+
+### Family Studies
+
+Data often come from observations of **relational units** rather than individuals alone — couples, parent-child dyads, sibling dyads, or whole-family triads.
+
+- Studies are often inherently **dyadic or triadic** in structure, requiring designs that account for non-independence between family members - will get into later
+- May incorporate **genetic data** (e.g., twin/adoption designs), **self-reports** from multiple family members, and behavioral coding of interactions
+- **Experimental** designs are possible but rare; most work is **associational** or **comparative**
+
+::: callout-note
+## Example Research Questions
+
+- Are Chinese-American parents more **authoritarian** compared to European-American parents? *(comparative)*
+- Is marital conflict related to marital satisfaction, and does that association differ for husbands versus wives? *(associational, with a potential moderator)*
+:::
+
+### Public Health Studies
+
+Draws on a wide mix of data types spanning individual and population levels:
+
+- Surveillance data (e.g., disease case reports, immunization rates)
+- Large cross-sectional/longitudinal surveys (e.g., BRFSS, NHANES)
+- Administrative/claims data
+- Program evaluation data from public health interventions
+
+Data are frequently **secondary** and analyzed at **multiple levels simultaneously** (individual, neighborhood, county, state), often requiring multilevel/hierarchical models. Designs range from **descriptive epidemiology**, to **quasi-experimental** policy evaluations, to true **experiments** (randomized community trials) — though the latter are resource-intensive and less common.
+
+::: callout-note
+## Example Research Question
+
+Did county-level implementation of a smoke-free workplace policy reduce hospital admissions for acute myocardial infarction relative to counties without the policy?
+:::
+
+### Kinesiology Studies
+
+- Can span neuromechanics, excercise physiology, sports/exercise psychology, etc
+
+Centers on data from physical performance and physiological measurement:
+
+- Motion capture, force plates
+- Heart rate / VO2 max
+- Muscle activation (EMG)
+- Wearable accelerometer data
+- Injury/performance records
+
+Because many outcomes are physical and objectively measurable (not self-reported), this field is well-suited to **true experimental designs** (e.g., randomly assigning participants to a training protocol and measuring pre/post change) — more so than most other HHS subfields. Kinesiology also uses **observational/correlational** designs (e.g., comparing injury rates across sports) and **quasi-experimental** designs when random assignment isn't feasible (e.g., comparing existing athletes vs. non-athletes)
+
+- Many current UNCG studies use cognitive assessment (Stroop tests), self-reports (athletic identity, exercise motivation), and can consider comparing things like self-reported versus device-informed movement/exercise
+
+::: callout-note
+## Example Research Questions
+
+Does a 12-week resistance training protocol improve gait speed in older adults more than a walking-only intervention?
+
+Do former collegiate athletes with high athletic identity have higher levels of depression post-career?
+:::
+
+::: callout-important
+## Discussion Questions
+
+1.  For each subfield above, identify one strength and one limitation of its typical data collection approach.
+2.  Why might demography rarely use experimental designs, while kinesiology more often can?
+3.  In the family studies example about marital conflict and satisfaction, why does asking "does this differ for husbands vs. wives?" turn an associational question into a moderation question?
+4.  Pick a subfield above and design a one-sentence research question that would require **secondary data**, and another that would require the researcher to **collect primary data**.
+:::
+
+## Levels of Measurement
+
+The level of measurement describes how a variable is measured and determines which statistical procedures are appropriate.
+
+As you move from nominal to ratio, each level contains all of the properties of the previous level while adding additional information.
+
+```{mermaid}
+flowchart LR
+
+A[Nominal<br/>Categories] --> B[Ordinal<br/>Ordered Categories]
+B --> C[Interval<br/>Equal Intervals]
+C --> D[Ratio<br/>Equal Intervals<br/>True Zero]
+```
+
+::: callout-note
+## Remember
+
+Each higher level includes all of the properties of the previous level.
+
+- Ratio variables are also interval.
+- Interval variables are also ordinal.
+- Ordinal variables are also nominal.
+:::
+
+### Nominal
+
+Nominal variables place observations into categories.
+
+**Characteristics:**
+
+- Categories are different from one another
+- There is no meaningful order
+- Numbers (if used) are simply labels for use in our quantitative analysis
+
+**Health & Social Science Examples**
+
+- Blood type (A, B, AB, O)
+- College major
+- Therapy approach received
+- Marital status
+- Race-ethnicity
+- Athletic team
+- Gender
+
+**Appropriate Statistics**
+
+- Frequencies
+- Percentages
+- Mode
+- Chi-square tests
+- If these are outcomes, nominal logistic regression (later)
+
+### Ordinal
+
+Ordinal variables have categories that can be ranked or have some ordering to them.
+
+**Characteristics:**
+
+- Categories have a meaningful order.
+- The distance between categories is not necessarily equal.
+
+::: callout-tip
+Andy likes the term **ordered-categorical** so use this from here on out...
+:::
+
+**Health & Social Science Examples**
+
+- Pain rating:
+  - None
+  - Mild
+  - Moderate
+  - Severe
+- Agreement scale:
+  - Strongly Disagree
+  - Disagree
+  - Neutral
+  - Agree
+  - Strongly Agree
+- Disease severity:
+  - Mild
+  - Moderate
+  - Severe
+
+**Appropriate Statistics**
+
+- Median
+- Percentiles
+- Spearman correlation — using rank orders
+- Mann-Whitney U — non-parametric t-test, comparison of ranks across groups
+- Kruskal-Wallis — like ANOVA, comparison of ranks across groups
+- There are ways to examine these in regressions as well — but rare
+
+::: callout-note
+Typically in the case of Likert scale items we sum these together to create a continuous variable that is more interval (next level).
+:::
+
+### Interval
+
+Interval variables have equal distances between values.
+
+**Characteristics:**
+
+- Ordered
+- Equal spacing
+- No true zero
+
+Because zero is arbitrary, ratios are not meaningful. For example, a depression score of 40 is not twice as depressed as a score of 20.
+
+**Health & Social Science Examples**
+
+- IQ score
+- Standardized anxiety score
+- Standardized depression score
+- T-score from a psychological assessment
+
+**Appropriate Statistics**
+
+- Mean
+- Standard deviation
+- Pearson correlation
+- t-tests
+- ANOVA
+- Regression
+
+### Ratio
+
+Ratio variables contain all the properties of interval variables plus a true zero, indicating the complete absence of the quantity being measured.
+
+**Characteristics:**
+
+- Ordered
+- Equal spacing
+- True zero
+- Ratios are meaningful
+
+For example, someone who sleeps 8 hours slept twice as long as someone who slept 4 hours.
+
+**Health & Social Science Examples**
+
+- Hours of sleep
+- Number of doctor visits
+- Reaction time
+- Walking speed
+- Body weight
+- Daily step count
+
+**Appropriate Statistics**
+
+Nearly all common parametric analyses:
+
+- Mean
+- Standard deviation
+- Correlation
+- Regression
+- ANOVA
+- Factor analysis
+- Structural equation modeling
+
+::: callout-important
+## Discussion Questions
+
+When does an *ordered-categorical* variable "become" continuous? That might be a weird question, but think about it...
+
+Think about the *Rosenberg Self-Esteem Scale* that is commonly used to study self-esteem.
+
+Is it a **continuous** measure? If you use the scoring technique that most researchers do, then the answer is yes, because the summary score is **interval** level. Each of the particular items, however, are *ordered-categorical*
+
+**Instructions:** Below is a list of statements dealing with your general feelings about yourself. Please indicate how much you agree or disagree with each statement using the following response options.
+
+| Item | Statement | Strongly Agree | Agree | Disagree | Strongly Disagree |
+|-----------|-------------------|-----------|-----------|-----------|-----------|
+| 1 | I feel that I'm a person of worth, at least on an equal plane with others. | ☐ | ☐ | ☐ | ☐ |
+| 2 | I feel that I have a number of good qualities. | ☐ | ☐ | ☐ | ☐ |
+| 3 | All in all, I am inclined to feel that I am a failure.\* | ☐ | ☐ | ☐ | ☐ |
+| 4 | I am able to do things as well as most other people. | ☐ | ☐ | ☐ | ☐ |
+| 5 | I feel I do not have much to be proud of.\* | ☐ | ☐ | ☐ | ☐ |
+| 6 | I take a positive attitude toward myself. | ☐ | ☐ | ☐ | ☐ |
+| 7 | On the whole, I am satisfied with myself. | ☐ | ☐ | ☐ | ☐ |
+| 8 | I wish I could have more respect for myself.\* | ☐ | ☐ | ☐ | ☐ |
+| 9 | I certainly feel useless at times.\* | ☐ | ☐ | ☐ | ☐ |
+| 10 | At times I think I am no good at all.\* | ☐ | ☐ | ☐ | ☐ |
+
+**Scoring Note:** Items marked with an asterisk (\*) are reverse-coded. Responses are typically scored on a 4-point scale (Strongly Agree = 4, Agree = 3, Disagree = 2, Strongly Disagree = 1 for positively worded items; reversed for negatively worded items). Total scores range from 10–40, with higher scores indicating greater self-esteem.
+
+So note that "On the Whole I am satisifed with myself" if ordered-categorical
+
+The ***sum*** of all of these items is interval and then treated as continuous...
+
+What if I use one item then? Or if I use techniques like Confirmatory Factor Analysis that examines individual items as outcomes? In that case, the typical analyses are incorrect... but can I never use a single item?
+
+Often the argument is that 4 or fewer response categories implies ordered-categorical, 5 is a minimum to consider a variable continous, but 7 or more is probably better. Note that this logic has mostly been applied in the context of CFA and SEM. ***Also*** the variable should be normally distributed to be considered "continuous"
+
+- **Single Likert items (1–4 categories):** Treat as ordinal. Use non-parametric tests.
+- **Single Likert items (5+ categories):** Borderline; check normality assumption.
+- **Summed/composite Likert scales** (e.g., Rosenberg Self-Esteem: 10 items summed, range 10–40): Widely accepted as interval-like due to increased categories and central limit theorem approximating normality.
+
+**Practical guidance:** If your data are approximately normally distributed and you have 5+ categories per item or a summed scale, parametric tests (t-test, ANOVA, Pearson r, regression) are generally robust. When in doubt, report both parametric and non-parametric results.
+:::

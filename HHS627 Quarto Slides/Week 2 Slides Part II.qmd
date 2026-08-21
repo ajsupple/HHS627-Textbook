@@ -1,0 +1,646 @@
+---
+title: "Data Screening, Coding, and Management"
+format: revealjs
+---
+
+```{=html}
+<style>
+.reveal{font-size:28px}
+</style>
+```
+
+## Data Screening, Coding, and Management
+
+Most statistical analyses fail because of problems with the data, not problems with the statistics.
+
+Before conducting analyses, researchers should:
+
+- Understand the dataset
+- Check for missing data
+- Identify coding errors
+- Identify outliers
+- Create meaningful variables
+- Evaluate scale reliability
+- Save a clean dataset
+
+------------------------------------------------------------------------
+
+## Data Screening
+
+Data screening involves evaluating the quality of the data before analysis.
+
+Typical screening tasks include:
+
+- Examining variable properties
+- Checking missing data
+- Verifying response ranges
+- Identifying impossible values
+- Finding duplicate cases
+- Detecting outliers
+
+Goal:
+
+Transform raw data into analysis-ready data.
+
+------------------------------------------------------------------------
+
+## Coding
+
+Coding refers to assigning numerical values to responses.
+
+Examples:
+
+| Response | Code |
+|----------|------|
+| Male     | 1    |
+| Female   | 2    |
+
+Examples of coding tasks:
+
+- Creating binary variables
+- Reverse coding items
+- Creating categorical variables
+- Converting variables to factors
+
+------------------------------------------------------------------------
+
+## Data Management
+
+Data management refers to organizing and maintaining datasets.
+
+Examples:
+
+- Creating composite scores
+- Merging datasets
+- Renaming variables
+- Selecting variables
+- Saving clean files
+- Documenting decisions
+
+------------------------------------------------------------------------
+
+## Steps in data cleaning and management
+
+1.  Import data - whether you collect and enter or import from SPSS/etc
+2.  Inspect structure
+3.  Screen for problems
+4.  Recode variables as necessary
+5.  Create scale scores if that is relevant
+6.  Evaluate reliability - a good step after creating composites
+7.  Produce descriptive statistics - make sure things look correct
+8.  Save clean dataset - sometimes a separate dataset for analysis
+
+------------------------------------------------------------------------
+
+## Base R Commands
+
+For data cleaning, inspecting, etc. there are various options when using R
+
+The most typical are going to be
+
+1.  Base R
+2. dplyr
+3. I also recommend the psych package - it was built with many of our tasks in mind
+
+------------------------------------------------------------------------
+
+# Base R: Inspect Data
+
+``` r
+str(data)
+
+head(data)
+
+names(data)
+
+dim(data)
+
+summary(data)
+```
+
+Purpose:
+
+- View variables
+- View observations
+- Understand structure
+
+------------------------------------------------------------------------
+
+# Base R: Frequency Tables
+
+``` r
+table(data$gender)
+
+table(
+  data$gender,
+  useNA = "always"
+)
+```
+
+Purpose:
+
+- Check categorical variables
+- Detect miscoded values
+- Examine missing data
+
+------------------------------------------------------------------------
+
+# Base R: Missing Data
+
+``` r
+sum(is.na(data))
+
+colSums(is.na(data))
+```
+
+Purpose:
+
+- Count total missing values
+- Identify variables with missingness
+
+------------------------------------------------------------------------
+
+# Base R: Range Checks
+
+``` r
+summary(data$age)
+
+range(
+  data$age,
+  na.rm = TRUE
+)
+```
+
+Purpose:
+
+- Detect impossible values
+- Verify coding
+
+------------------------------------------------------------------------
+
+# Base R: Factors
+
+``` r
+data$gender <- factor(
+  data$gender,
+  levels = c(1, 2),
+  labels = c(
+    "Male",
+    "Female"
+  )
+)
+```
+
+Purpose:
+
+- Attach meaningful category labels
+
+------------------------------------------------------------------------
+
+# Base R: Recoding
+
+``` r
+data$employed <- ifelse(
+  data$hours_worked > 0,
+  1,
+  0
+)
+```
+
+Purpose:
+
+- Create new variables
+
+------------------------------------------------------------------------
+
+# Base R: Reverse Coding
+
+For a 1-5 scale:
+
+``` r
+data$item3R <- 6 - data$item3
+```
+
+For a 1-7 scale:
+
+``` r
+data$item7R <- 8 - data$item7
+```
+
+------------------------------------------------------------------------
+
+# Base R: Composite Scores
+
+``` r
+data$depression <- rowMeans(
+  data[, c(
+    "dep1",
+    "dep2",
+    "dep3",
+    "dep4",
+    "dep5"
+  )],
+  na.rm = TRUE
+)
+```
+
+Purpose:
+
+- Create scale scores
+
+------------------------------------------------------------------------
+
+# Base R: Save Data
+
+``` r
+write.csv(
+  data,
+  "clean_data.csv",
+  row.names = FALSE
+)
+```
+
+Purpose:
+
+- Save cleaned dataset
+
+------------------------------------------------------------------------
+
+# The Minimum psych Commands
+
+The psych package is one of the most useful tools for data screening.
+
+``` r
+library(psych)
+```
+
+------------------------------------------------------------------------
+
+# psych: Descriptive Statistics
+
+``` r
+describe(data)
+```
+
+Provides:
+
+- N
+- Missing values
+- Mean
+- SD
+- Minimum
+- Maximum
+- Skewness
+- Kurtosis
+
+------------------------------------------------------------------------
+
+# psych: Group Descriptives
+
+``` r
+describeBy(
+  data$depression,
+  group = data$gender
+)
+```
+
+Purpose:
+
+- Compare descriptive statistics by group
+
+------------------------------------------------------------------------
+
+# psych: Reliability Analysis
+
+``` r
+alpha(
+  data[, c(
+    "dep1",
+    "dep2",
+    "dep3",
+    "dep4",
+    "dep5"
+  )]
+)
+```
+
+Purpose:
+
+- Evaluate internal consistency
+
+------------------------------------------------------------------------
+
+# psych: Correlations
+
+``` r
+corr.test(
+  data[, c(
+    "depression",
+    "stress",
+    "anxiety"
+  )]
+)
+```
+
+Purpose:
+
+- Correlation matrix
+- Significance tests
+
+------------------------------------------------------------------------
+
+# psych: Scatterplot Matrix
+
+``` r
+pairs.panels(
+  data[, c(
+    "depression",
+    "stress",
+    "anxiety"
+  )]
+)
+```
+
+Provides:
+
+- Histograms
+- Scatterplots
+- Correlations
+- Distributions
+
+------------------------------------------------------------------------
+
+# The Minimum dplyr Commands
+
+dplyr makes data management easier.
+
+``` r
+library(dplyr)
+```
+
+------------------------------------------------------------------------
+
+# dplyr: Select Variables
+
+``` r
+data %>%
+  select(
+    age,
+    gender,
+    stress
+  )
+```
+
+Purpose:
+
+- Keep specific variables
+
+------------------------------------------------------------------------
+
+# dplyr: Filter Cases
+
+``` r
+data %>%
+  filter(age >= 18)
+```
+
+Purpose:
+
+- Keep specific observations
+
+------------------------------------------------------------------------
+
+# dplyr: Create Variables
+
+``` r
+data %>%
+  mutate(
+    bmi = weight/(height^2)
+  )
+```
+
+Purpose:
+
+- Create new variables
+
+------------------------------------------------------------------------
+
+# dplyr: Recode Variables
+
+``` r
+data %>%
+  mutate(
+    gender = recode(
+      gender,
+      "1" = "Male",
+      "2" = "Female"
+    )
+  )
+```
+
+Purpose:
+
+- Recode categories
+
+------------------------------------------------------------------------
+
+# dplyr: Create Categories
+
+``` r
+data %>%
+  mutate(
+    age_group = case_when(
+      age < 25 ~ "Young Adult",
+      age < 40 ~ "Adult",
+      TRUE ~ "Older Adult"
+    )
+  )
+```
+
+Purpose:
+
+- Categorize continuous variables
+
+------------------------------------------------------------------------
+
+# dplyr: Sort Cases
+
+``` r
+data %>%
+  arrange(age)
+
+data %>%
+  arrange(desc(age))
+```
+
+Purpose:
+
+- Sort observations
+
+------------------------------------------------------------------------
+
+# dplyr: Frequency Counts
+
+``` r
+data %>%
+  count(gender)
+```
+
+Purpose:
+
+- Produce frequency tables
+
+------------------------------------------------------------------------
+
+# dplyr: Summary Statistics
+
+``` r
+data %>%
+  summarise(
+    mean_age =
+      mean(age,
+           na.rm = TRUE),
+    sd_age =
+      sd(age,
+         na.rm = TRUE)
+  )
+```
+
+Purpose:
+
+- Compute descriptive statistics
+
+------------------------------------------------------------------------
+
+# dplyr: Group Summaries
+
+``` r
+data %>%
+  group_by(gender) %>%
+  summarise(
+    mean_age =
+      mean(age,
+           na.rm = TRUE)
+  )
+```
+
+Purpose:
+
+- Compare groups
+
+------------------------------------------------------------------------
+
+# The Essential Toolkit
+
+## Base R
+
+``` r
+str()
+summary()
+table()
+factor()
+ifelse()
+rowMeans()
+write.csv()
+```
+
+## psych
+
+``` r
+describe()
+describeBy()
+alpha()
+corr.test()
+pairs.panels()
+```
+
+## dplyr
+
+``` r
+select()
+filter()
+mutate()
+recode()
+case_when()
+count()
+group_by()
+summarise()
+```
+
+------------------------------------------------------------------------
+
+# Practical HHS 627 Workflow
+
+``` r
+library(psych)
+library(dplyr)
+
+str(data)
+
+describe(data)
+
+table(data$gender)
+
+data$item3R <- 6 - data$item3
+
+data$depression <- rowMeans(
+  data[, c(
+    "dep1",
+    "dep2",
+    "dep3",
+    "dep4",
+    "dep5"
+  )],
+  na.rm = TRUE
+)
+
+alpha(
+  data[, c(
+    "dep1",
+    "dep2",
+    "dep3",
+    "dep4",
+    "dep5"
+  )]
+)
+
+data %>%
+  group_by(gender) %>%
+  summarise(
+    mean_dep =
+      mean(
+        depression,
+        na.rm = TRUE
+      )
+  )
+
+write.csv(
+  data,
+  "clean_data.csv",
+  row.names = FALSE
+)
+```
+
+------------------------------------------------------------------------
+
+# Key Message
+
+Most data-management tasks can be completed using:
+
+### Base R
+
+- Inspect
+- Recode
+- Create scales
+- Save data
+
+### psych
+
+- Screen data
+- Evaluate scales
+
+### dplyr
+
+- Manage and transform data
+
+Master these commands and you can prepare most datasets for statistical analysis.

@@ -1,0 +1,14 @@
+.reveal { font-size: 28px; }
+
+/* Slide titles created with # Heading */
+.reveal .slides section > h1 {
+  font-size: 1.1em !important;
+}
+
+/* If you use ## or ### inside slides */
+.reveal .slides section h2 {
+  font-size: 0.95em !important;
+}
+.reveal .slides section h3 {
+  font-size: 0.85em !important;
+}

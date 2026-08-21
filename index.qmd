@@ -1,0 +1,21 @@
+---
+title: "HHS 627 Textbook"
+---
+
+# Welcome
+
+This book provides core concepts and applied examples for **HHS 627**.
+
+## How to use this book
+
+- Use the left navigation to move across chapters.
+- Key definitions and reminders appear in callout boxes.
+- Formulas are shown in plain notation and interpretation-focused language.
+
+## Chapters
+
+- [Chapter 1: Statistical Thinking and Quantitative Analysis](Chapter%201%20HHS%20Statistical%20Thinking.qmd)
+
+## Suggested citation
+
+Supple, A. (2026). *HHS 627 Textbook*.

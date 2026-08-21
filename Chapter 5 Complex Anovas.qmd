@@ -1,0 +1,114 @@
+---
+title: "More Complex Anovas"
+format: html
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## More Complex Anovas
+
+Remember: The One Way Anova just assesses:
+
+- mean differences across three or more groups
+
+- gives a global F, needs follow up posthoc tests for group-by-group
+  comparisons
+
+- main X or IV is a *factor* variable, typically nominal in nature
+
+## ANOVAs with multiple factors
+
+Now there are multiple X variables. Often the goal is to assess for an
+interaction effect
+
+Take for example:
+
+- Researchers want to examine an outdoor ropes course for adults who
+  were victims of abuse as children
+
+- 40 adults (20 male, 20 female) complete an outdoor ropes course and
+  are given a pre-test and post-test score on self-efficacy
+
+- 40 adults (20 male, 20 female) who were not part of the program, but
+  also victims of abuse as children were assessed pre/post using the
+  same measure
+
+In a typical ANOVA/t-test, might ask:
+
+- Do those who completed the course have higher self-efficacy compared
+  to those who didn't?
+
+- is there a mean difference?
+
+Might also ask, do men have higher self-efficacy than women?
+
+- These would be **main effects** of course completion and gender
+
+Could also ask:
+
+- Was the effect of increased self-efficacy resulting from completing
+  the ropes course greater for women compared to men?
+
+- That is an interaction
+
+  - two variables interacting means that the effect of one on an outcome
+    varies as funciton of the other variable
+
+  - i.e., a moderator effect
+
+### Example: 2 × 2 Factorial ANOVA
+
+**IV 1:** Completed Ropes Course (Yes vs. No)\
+**IV 2:** Gender (Male vs. Female)\
+**DV:** Self-Efficacy
+
+|                     | Male   | Female |
+|---------------------|--------|--------|
+| **Ropes Course**    | Cell A | Cell B |
+| **No Ropes Course** | Cell C | Cell D |
+
+------------------------------------------------------------------------
+
+### Possible Comparisons
+
+| Comparison | Question Being Asked | Effect |
+|----|----|----|
+| A vs C | Do males who complete the ropes course differ from males who do not? | Simple Effect |
+| B vs D | Do females who complete the ropes course differ from females who do not? | Simple Effect |
+| A vs B | Within the ropes-course group, do males and females differ? | Simple Effect |
+| C vs D | Within the no-ropes group, do males and females differ? | Simple Effect |
+| (A + B)/2 vs (C + D)/2 | Overall, does completing the ropes course increase self-efficacy? | Main Effect of Ropes Course |
+| (A + C)/2 vs (B + D)/2 | Overall, do males and females differ in self-efficacy? | Main Effect of Gender |
+| (A - C) vs (B - D) | Is the ropes-course effect different for males and females? | Interaction |
+
+------------------------------------------------------------------------
+
+### Interaction Interpretation
+
+No Interaction:
+
+``` text
+           Male   Female
+Ropes       80      70
+No Ropes    70      60
+```
+
+The ropes course increases self-efficacy by 10 points for both genders.
+
+Interaction:
+
+``` text
+           Male   Female
+Ropes       85      65
+No Ropes    70      60
+```
+
+The ropes course increases self-efficacy by 15 points for males but only
+5 points for females.
+
+In a factorial ANOVA, the interaction is often the most interesting
+effect because it asks:
+
+> Does the effect of one independent variable depend on the level of
+> another independent variable?

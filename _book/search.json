@@ -1,0 +1,62 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "HHS627 Textbook_Release",
+    "section": "",
+    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "Chapter 1 HHS Statistical Thinking.html",
+    "href": "Chapter 1 HHS Statistical Thinking.html",
+    "title": "1  Chapter 1 HHS Statistical Thinking",
+    "section": "",
+    "text": "2 Statistical Thinking and Quantitative Analysis",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
+    ]
+  },
+  {
+    "objectID": "Chapter 1 HHS Statistical Thinking.html#confidence-intervals-1",
+    "href": "Chapter 1 HHS Statistical Thinking.html#confidence-intervals-1",
+    "title": "1  Chapter 1 HHS Statistical Thinking",
+    "section": "11.1 Confidence Intervals",
+    "text": "11.1 Confidence Intervals\n\nConfidence intervals estimate a plausible range of values for a population parameter\nA parameter is a population value; a statistic is what we calculate from a sample to estimate that parameter\nTypically we estimate something like a regression coefficient and want to assess whether that coefficient differs from zero\nIf we put a confidence interval around that coefficient and the interval does not include zero, that indicates statistical significance (using a p &lt; .05 threshold)\nIf the interval does include zero, we cannot rule out that the true population value is zero — not statistically significant\n\n\n\n\n\n\n\nTipRule of Thumb\n\n\n\nA 95% confidence interval that excludes zero typically indicates statistical significance at the p &lt; .05 level.\n\n\n\n11.1.1 Visualizing Confidence Intervals\n\n\n\n\n\nExample confidence intervals: one significant (excludes zero), one not significant (includes zero)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
+    ]
+  },
+  {
+    "objectID": "Chapter 1 HHS Statistical Thinking.html#what-is-the-research-question-and-hypotheses",
+    "href": "Chapter 1 HHS Statistical Thinking.html#what-is-the-research-question-and-hypotheses",
+    "title": "1  Chapter 1 HHS Statistical Thinking",
+    "section": "13.1 What is the Research Question and Hypotheses",
+    "text": "13.1 What is the Research Question and Hypotheses\nThe Research Question and Hypotheses make a statement about how we see some human phenomenon.\n\nRQ: Are there gender differences in suicidal thoughts?\n\nHYP: Girls are more likely than boys to have suicidal thoughts\n\n\nThis hypothesis also implies a research design as this would be a comparative study with no random assignments",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
+    ]
+  },
+  {
+    "objectID": "Chapter 1 HHS Statistical Thinking.html#what-is-the-research-design",
+    "href": "Chapter 1 HHS Statistical Thinking.html#what-is-the-research-design",
+    "title": "1  Chapter 1 HHS Statistical Thinking",
+    "section": "13.2 What is the Research Design?",
+    "text": "13.2 What is the Research Design?\nIs my study an experiment? A quasi-experiment? Comparing groups?\n\nThose types of research designs tend to imply that there is a factor or categorical Independent Variable (IV) across which I expect to find a difference across groups of people\n\nAm I considering associational or correlational relationships? Am I expecting that participants who score higher on one variable also tend to score higher on a second variable?\n\nAre college students who report higher experiences with discrimination from peers more likely to report feelings of anxiety?\n\nThis would imply an associational design with no factor/categorical variables, attribute variables (something participants “bring” with them into the study, unlike an “active” IV)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
+    ]
+  },
+  {
+    "objectID": "Chapter 1 HHS Statistical Thinking.html#how-many-variables-are-involved",
+    "href": "Chapter 1 HHS Statistical Thinking.html#how-many-variables-are-involved",
+    "title": "1  Chapter 1 HHS Statistical Thinking",
+    "section": "13.3 How many variables are involved?",
+    "text": "13.3 How many variables are involved?",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
+    ]
+  }
+]

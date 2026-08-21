@@ -1,0 +1,787 @@
+---
+title: "Chapter 3"
+author: "Andy Supple"
+format: html
+editor: source
+---
+
+## Between groups designs and questions:
+
+Typically focused on a comparison - often with a binary/categorical or nominal IV/predictor and continuous (interval/ratio) DVs/outcomes
+
+- Can be a RCT or true random experimental design
+
+-Participants sampled, then randomly assigned to one of two or more conditions
+
+-Can a simple t-test suffice (assuming two groups)
+
+-Example: Strong Minds Intervention
+
+  -Community health workers in Boston and NC
+
+  -Recruited samples of Latino, African American, White, Asian American adults
+
+  -Screened for moderate mental health symptoms
+
+  -Randomly assigned to one of two conditions
+
+  -3, 6, 9, 12 month outcomes to compare reduction in symptoms across the conditions
+
+- A quasi-experimental design
+
+  - Pre-existing groups sampled, then randomly assigned to one of two or more conditions
+
+    - Classrooms/school, sports teams, neighborhoods
+
+    - BARN study - University of Wisconsin
+
+    - Schools approached and enrolled in study to evaluate drug-use intervention in schools
+
+    - After identifying schools, used middle-school health classes to deliver intervention
+
+        -Classrooms assigned to intervention or control group, not students
+
+        -In some cases had to rely on teacher agreement, so "self-assigned"
+
+        -Now I'm more concerned about a simple t-test... why?
+
+    - Pre-existing groups with no researcher control over who is assigned to conditions
+
+      -Classrooms, sports teams, neighborhoods with no random assignment (RA)
+
+      -12 NCAA Women's soccer teams adopted a training regimen that involved heavy weight training... researchers compared to a "control" group of 12 teams that didn't adopt the same regimen
+
+      -Still could be a t-test, what are our concerns?
+
+-A comparative design where groups are just compared on some outcome
+
+  -Rates of asthma across two neighborhoods (t-test) or four (ANOVA)
+
+  -Average GPA across sports teams (ANOVA)
+
+  -Mean differences in self-esteem across the US, China, and Mexico (ANOVA)
+  
+## Types of t-tests 
+-Basic t-test
+  -is a sample mean different from some value (possibly zero)
+-Independent samples t-test 
+  -comparing different groups, mutually exlusive, all between-person differences
+-Paired samples t-test
+  -comparing related scores, often within same person on repeated measures
+  
+## Independent Samples t-test
+
+The independent samples *t*-test evaluates whether two independent groups differ on the mean of a continuous outcome.
+
+Examples:
+
+- Do men and women differ in depression scores?
+- Do treatment and control groups differ in anxiety levels?
+- Do athletes and non-athletes differ in stress?
+
+General question:
+
+> Are the population means of two independent groups equal?
+
+- Another way to think about this: Are these two groups from the *same* population?
+  - or are their differences extreme enough that them being from the same population is highly unlikely
+
+---
+# Quick Review from last time using a t-test
+-Null and Alternative Hypotheses
+
+Null hypothesis:
+
+$$
+H_0:\mu_{Male}=\mu_{Female}
+$$
+
+Alternative hypothesis:
+
+$$
+H_A:\mu_{Male}\ne\mu_{Female}
+$$
+
+The independent samples *t*-test evaluates whether the observed difference between the sample means is large enough that we can conclude a difference exists in the population.
+
+---
+
+# Sample Statistics
+
+The study reported:
+
+| Group | n | Mean | SD |
+|---------|---------:|---------:|---------:|
+| Male | 47 | 3.30 | 0.354 |
+| Female | 43 | 3.10 | 0.521 |
+
+Observed mean difference:
+
+$$
+3.30 - 3.10 = 0.20
+$$
+
+On average, male students reported exercise motivation scores that were 0.20 points higher than female students.
+
+---
+
+# Visualizing the Difference
+
+Male Mean:
+
+$$
+\bar{X}_{Male}=3.30
+$$
+
+Female Mean:
+
+$$
+\bar{X}_{Female}=3.10
+$$
+
+Difference:
+
+$$
+\bar{X}_{Male}-\bar{X}_{Female}=0.20
+$$
+
+Question:
+
+> Is a difference of 0.20 points large relative to the variability in motivation scores?
+
+The *t*-test answers this question.
+
+---
+
+# Applying the t-Test Formula
+
+Recall:
+
+$$
+t=
+\frac{\bar X_1-\bar X_2}
+{
+SE(\bar X_1-\bar X_2)
+}
+$$
+
+For this study:
+
+Numerator:
+
+$$
+3.30 - 3.10 = 0.20
+$$
+
+Denominator:
+
+The standard error represents the amount of difference we would expect simply because of sampling variability.
+
+Thus, the t statistic asks:
+
+> How many standard errors apart are the male and female means?
+
+---
+
+# Results
+
+The analysis produced:
+
+$$
+t(78.49)=-2.09,\quad p=.040
+$$
+
+Interpretation:
+
+> Male students reported significantly higher exercise motivation scores than female students.
+
+Because
+
+$$
+p=.040 < .05
+$$
+
+we reject the null hypothesis and conclude that exercise motivation differed by gender in the population.
+
+---
+
+# Confidence Interval
+
+The 95% confidence interval for the mean difference was:
+
+$$
+[-0.337,\,-0.008]
+$$
+
+Notice:
+
+- The interval does not include 0.
+- Therefore the result is statistically significant.
+
+Interpretation:
+
+> We are 95% confident that the population difference lies somewhere between approximately 0.01 and 0.34 motivation units.
+
+---
+
+# Statistical Significance Depends on Sample Size
+
+Suppose we increase the sample sizes:
+
+| Group | Original n | New n |
+|---------|---------:|---------:|
+| Male | 47 | 90 |
+| Female | 43 | 90 |
+
+The group means remain nearly identical.
+
+Results:
+
+$$
+t=-2.95
+$$
+
+$$
+p=.0036
+$$
+
+The effect became more statistically significant even though the mean difference changed very little.
+
+Key lesson:
+
+> Larger samples reduce standard errors and increase statistical power.
+
+---
+
+# Statistical Significance Depends on Variability
+
+Now return to the original sample sizes:
+
+- Male: n = 47
+- Female: n = 43
+
+But reduce the standard deviations:
+
+Male:
+
+$$
+SD=.15
+$$
+
+Female:
+
+$$
+SD=.17
+$$
+
+The means remain the same:
+
+$$
+3.30 \text{ versus } 3.10
+$$
+
+Because variability is smaller, the standard error becomes smaller and the *t* value becomes larger.
+
+Key lesson:
+
+> Less variability makes it easier to detect group differences.
+
+---
+
+# Unequal Variances
+
+Suppose:
+
+| Group | SD |
+|---------|---------:|
+| Male | .15 |
+| Female | .75 |
+
+Now variance differs substantially across groups.
+
+In this situation the equal-variance assumption is questionable.
+
+Recommended approach:
+
+```r
+t.test(score ~ gender,
+       data = motivation_data,
+       var.equal = FALSE)
+```
+
+This is Welch's *t*-test.
+
+Advantages:
+
+- Robust to unequal variances.
+- Robust to unequal sample sizes.
+- Recommended by most statisticians as the default independent samples *t*-test.
+
+---
+
+
+# Breaking down the formula: The Test Statistic
+
+The independent samples *t*-test compares:
+
+1. The observed difference between group means
+
+relative to
+
+2. The amount of variability expected by chance
+
+Formula:
+
+$$
+t = \frac{\bar X_1-\bar X_2}
+{\sqrt{
+s_p^2
+\left(
+\frac{1}{n_1}+\frac{1}{n_2}
+\right)
+}}
+$$
+
+where
+
+- $\bar X_1$ = mean of Group 1
+- $\bar X_2$ = mean of Group 2
+- $n_1, n_2$ = sample sizes
+- $s_p^2$ = pooled variance estimate
+
+---
+
+# Understanding the Formula
+
+The numerator:
+
+$$
+\bar X_1-\bar X_2
+$$
+
+represents the observed difference between groups.
+
+The denominator:
+
+$$
+SE(\bar X_1-\bar X_2)
+$$
+
+represents the expected sampling variability.
+
+Interpretation:
+
+- Large mean difference + small variability → large *t*
+- Small mean difference + large variability → small *t*
+
+---
+
+# Pooled Variance
+
+When equal variances are assumed:
+
+$$
+s_p^2=
+\frac{
+(n_1-1)s_1^2+
+(n_2-1)s_2^2
+}
+{n_1+n_2-2}
+$$
+
+where
+
+- $s_1^2$ = variance in Group 1
+- $s_2^2$ = variance in Group 2
+
+This combines information from both groups.
+
+---
+
+# Assumptions
+
+## 1. Independence
+
+Observations are independent.
+
+Examples that violate independence:
+
+- Repeated measures
+- Dyadic data
+- Clustered observations
+
+## 2. Continuous Outcome
+
+Dependent variable is approximately continuous.
+
+## 3. Approximate Normality
+
+Scores are reasonably normal within groups.
+
+## 4. Homogeneity of Variance
+
+Population variances are equal.
+
+---
+
+# Welch's t-Test
+
+In practice, Welch's *t*-test is preferred.
+
+Advantages:
+
+- Does not require equal variances.
+- More robust.
+- Default recommendation in modern statistics.
+
+In R:
+
+```r
+t.test(score ~ group)
+```
+
+
+# What Is a Paired Samples t-Test?
+
+The paired samples t-test evaluates whether the mean difference between two measurements equals zero.
+
+Rather than comparing two independent groups, the same participant contributes two observations.
+
+Common examples:
+
+- Pretest vs. posttest
+- Before treatment vs. after treatment
+- Beginning of semester vs. end of semester
+- Parent report vs. child report
+- Two conditions measured on the same person
+
+---
+
+# Key Idea
+
+For an independent samples t-test:
+
+$$
+\text{Person A is unrelated to Person B}
+$$
+
+For a paired samples t-test:
+
+$$
+\text{Observation 1 and Observation 2 belong to the same person}
+$$
+
+The observations are linked (paired).
+
+Ignoring the pairing throws away information and generally reduces statistical power.
+
+
+---
+
+# Difference Scores
+
+The paired samples t-test focuses on:
+
+$$
+D = X_1 - X_2
+$$
+
+where:
+
+- $X_1$ = first measurement
+- $X_2$ = second measurement
+- $D$ = difference score
+
+
+---
+
+# Null and Alternative Hypotheses
+
+Null hypothesis:
+
+$$
+H_0:\mu_D = 0
+$$
+
+Alternative hypothesis:
+
+$$
+H_A:\mu_D \neq 0
+$$
+
+where:
+
+$$
+\mu_D
+$$
+
+is the population mean difference.
+
+---
+
+# The Test Statistic
+
+The paired samples t statistic is:
+
+$$
+t=
+\frac{\bar D}
+{s_D/\sqrt{n}}
+$$
+
+where
+
+- $\bar D$ = mean difference score
+- $s_D$ = standard deviation of difference scores
+- $n$ = number of pairs
+
+---
+
+# Understanding the Formula
+
+$$
+t=
+\frac{\bar D}
+{s_D/\sqrt{n}}
+$$
+
+Numerator:
+
+$$
+\bar D
+$$
+
+Average amount of change.
+
+Denominator:
+
+$$
+s_D/\sqrt{n}
+$$
+
+Expected sampling variability in the mean difference.
+
+Interpretation:
+
+> How large is the observed average change relative to the amount of change we would expect due to random sampling error?
+
+---
+
+# Annotated Formula
+
+$$
+t=
+\frac{
+\underbrace{\bar D}_{\text{Average change}}
+}
+{
+\underbrace{
+s_D/\sqrt{n}
+}_{\text{Standard error of the change}}
+}
+$$
+
+A useful way to think about the formula:
+
+$$
+t=
+\frac{\text{Signal}}
+{\text{Noise}}
+$$
+
+Signal = average change
+
+Noise = uncertainty in that change
+
+---
+
+# Degrees of Freedom
+
+For a paired samples t-test:
+
+$$
+df = n - 1
+$$
+
+Example:
+
+If there are 30 participants:
+
+$$
+df = 29
+$$
+
+Notice that degrees of freedom depend on the number of pairs, not the number of observations.
+
+---
+
+# Assumptions
+
+## 1. Paired Observations
+
+Scores must be meaningfully linked.
+
+Examples:
+
+- Same person measured twice
+- Married couples
+- Parent-child dyads
+
+## 2. Independence Between Pairs
+
+One participant's scores should not influence another participant's scores.
+
+## 3. Approximate Normality of Difference Scores
+
+The assumption applies to:
+
+$$
+D = X_1 - X_2
+$$
+
+not necessarily to the original variables.
+
+---
+
+# Why Is Pairing Helpful?
+
+Suppose people differ greatly in baseline characteristics.
+
+Comparing participants to themselves removes much of this person-to-person variability.
+
+As a result:
+
+- Standard errors decrease
+- Statistical power increases
+- Smaller effects become easier to detect
+
+This is one reason repeated-measures designs are often efficient.
+
+---
+
+# Confidence Interval
+
+The paired samples t-test produces a confidence interval for:
+
+$$
+\mu_D
+$$
+
+Interpretation:
+
+A 95% confidence interval gives a range of plausible values for the population mean change.
+
+If the interval contains 0:
+
+- Not statistically significant
+
+If the interval excludes 0:
+
+- Statistically significant
+
+---
+
+# Effect Size
+
+Cohen's d for paired data is:
+
+$$
+d=
+\frac{\bar D}{s_D}
+$$
+
+General guidelines:
+
+| d | Interpretation |
+|---|---|
+| .20 | Small |
+| .50 | Medium |
+| .80 | Large |
+
+Always interpret effect size separately from statistical significance.
+
+---
+
+# APA Style Example
+
+A paired samples t-test indicated that statistics anxiety was significantly lower at the end of the semester than at the beginning of the semester, t(29) = 3.12, p = .004, d = 0.57.
+
+---
+
+# R Code
+
+```r
+t.test(
+  data$posttest,
+  data$pretest,
+  paired = TRUE
+)
+```
+
+or
+
+```r
+t.test(
+  posttest,
+  pretest,
+  paired = TRUE
+)
+```
+
+The critical argument is:
+
+```r
+paired = TRUE
+```
+
+which tells R that the observations are linked.
+
+---
+
+# Independent vs. Paired t-Tests
+
+| Question | Test |
+|-----------|-----------|
+| Two separate groups? | Independent samples t-test |
+| Same participants measured twice? | Paired samples t-test |
+| Matched or linked observations? | Paired samples t-test |
+| Treatment vs control groups? | Independent samples t-test |
+| Pretest-posttest design? | Paired samples t-test |
+
+---
+
+# Key Takeaways
+
+- The paired samples t-test evaluates whether the mean change differs from zero.
+- The analysis is conducted on difference scores.
+- The key parameter is:
+
+$$
+\mu_D
+$$
+
+- Pairing typically reduces error variance and increases power.
+- The normality assumption applies to the difference scores.
+- The test is commonly used for pretest-posttest and repeated-measures designs.
+  
+  # Research Question
+
+Researchers examined whether a six-week psychological skills training and mindfulness intervention reduced stress among NCAA Division I baseball players.
+
+Participants:
+
+- 25 collegiate baseball players
+
+Outcome:
+
+- Perceived Stress Scale (PSS)
+
+Measurements:
+
+- Pre-intervention stress
+- Post-intervention stress
+
+Research question:
+
+> Did athletes report lower stress following the intervention?
+

@@ -1,0 +1,9 @@
+# Introduction
+
+Welcome to HHS 627.
+
+This is an online textbook for HHS 627 by Andy Supple.
+
+## Learning Objectives
+
+This chapter orients students to the materials presented in lieu of traditional PowerPoint slides.
