@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "HHS627 Textbook_Release",
+    "title": "HHS627 Textbook2",
     "section": "",
-    "text": "1 Welcome\nThis book provides core concepts and applied examples for HHS 627.",
+    "text": "Welcome\nThis book provides core concepts and applied examples for HHS 627.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>HHS 627 Textbook</span>"
     ]
@@ -12,9 +12,9 @@
   {
     "objectID": "index.html#how-to-use-this-book",
     "href": "index.html#how-to-use-this-book",
-    "title": "HHS627 Textbook_Release",
-    "section": "1.1 How to use this book",
-    "text": "1.1 How to use this book\n\nUse the left navigation to move across chapters.\nKey definitions and reminders appear in callout boxes.\nFormulas are shown in plain notation and interpretation-focused language.",
+    "title": "HHS627 Textbook2",
+    "section": "How to use this book",
+    "text": "How to use this book\n\nUse the left navigation to move across chapters.\nKey definitions and reminders appear in callout boxes.\nFormulas are shown in plain notation and interpretation-focused language.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>HHS 627 Textbook</span>"
     ]
@@ -22,9 +22,9 @@
   {
     "objectID": "index.html#chapters",
     "href": "index.html#chapters",
-    "title": "HHS627 Textbook_Release",
-    "section": "1.2 Chapters",
-    "text": "1.2 Chapters\n\nChapter 1: Statistical Thinking and Quantitative Analysis",
+    "title": "HHS627 Textbook2",
+    "section": "Chapters",
+    "text": "Chapters\n\nChapter 1: Statistical Thinking and Quantitative Analysis",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>HHS 627 Textbook</span>"
     ]
@@ -32,9 +32,9 @@
   {
     "objectID": "index.html#suggested-citation",
     "href": "index.html#suggested-citation",
-    "title": "HHS627 Textbook_Release",
-    "section": "1.3 Suggested citation",
-    "text": "1.3 Suggested citation\nSupple, A. (2026). HHS 627 Textbook.",
+    "title": "HHS627 Textbook2",
+    "section": "Suggested citation",
+    "text": "Suggested citation\nSupple, A. (2026). HHS 627 Textbook.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>HHS 627 Textbook</span>"
     ]
@@ -42,9 +42,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html",
     "href": "Chapter 1 HHS Statistical Thinking.html",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
+    "title": "Chapter 1 HHS Statistical Thinking",
     "section": "",
-    "text": "3 Statistical Thinking and Quantitative Analysis",
+    "text": "Statistical Thinking and Quantitative Analysis",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -52,9 +52,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html#goals-of-quantitative-hhs-research",
     "href": "Chapter 1 HHS Statistical Thinking.html#goals-of-quantitative-hhs-research",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "3.1 Goals of Quantitative HHS Research",
-    "text": "3.1 Goals of Quantitative HHS Research\nMost quantitative HHS research seeks to:\n\nDescribe populations and samples - descriptive purpose\nCompare groups - understand differences, evaluate programs/interventions\nExamine relationships among variables - how variables associate\nEvaluate models with multiple predictors - what factors are most important in predicting outcomes\n\nResearchers typically draw conclusions using statistical tests that assess:\n\nGroup differences\nCorrelations\nStatistical significance",
+    "title": "Chapter 1 HHS Statistical Thinking",
+    "section": "Goals of Quantitative HHS Research",
+    "text": "Goals of Quantitative HHS Research\nMost quantitative HHS research seeks to:\n\nDescribe populations and samples - descriptive purpose\nCompare groups - understand differences, evaluate programs/interventions\nExamine relationships among variables - how variables associate\nEvaluate models with multiple predictors - what factors are most important in predicting outcomes\n\nResearchers typically draw conclusions using statistical tests that assess:\n\nGroup differences\nCorrelations\nStatistical significance",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -62,9 +62,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html#what-is-statistical-significance",
     "href": "Chapter 1 HHS Statistical Thinking.html#what-is-statistical-significance",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "3.2 What Is Statistical Significance?",
-    "text": "3.2 What Is Statistical Significance?\nStatistical significance addresses a simple question:\n\nIs the observed effect large enough that it is unlikely to be zero in the population?\n\nExamples:\n\nAre males and females different in IQ?\nIs father involvement related to girls’ self-esteem?\nIs the observed correlation different from zero? Is the difference so big, it is unlikely to be zero",
+    "title": "Chapter 1 HHS Statistical Thinking",
+    "section": "What Is Statistical Significance?",
+    "text": "What Is Statistical Significance?\nStatistical significance addresses a simple question:\n\nIs the observed effect large enough that it is unlikely to be zero in the population?\n\nExamples:\n\nAre males and females different in IQ?\nIs father involvement related to girls’ self-esteem?\nIs the observed correlation different from zero? Is the difference so big, it is unlikely to be zero",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -72,9 +72,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html#null-hypothesis-testing",
     "href": "Chapter 1 HHS Statistical Thinking.html#null-hypothesis-testing",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "3.3 Null Hypothesis Testing",
-    "text": "3.3 Null Hypothesis Testing\nThe null hypothesis states that no effect exists\nExamples:\n\nNo difference between groups\nCorrelation equals zero\nTreatment effect equals zero\n\nStatistical testing attempts to determine whether there is sufficient evidence to reject the null hypothesis. So in your thesis/dissertation, you are hoping for p &lt;.05 so you can “reject the null”",
+    "title": "Chapter 1 HHS Statistical Thinking",
+    "section": "Null Hypothesis Testing",
+    "text": "Null Hypothesis Testing\nThe null hypothesis states that no effect exists\nExamples:\n\nNo difference between groups\nCorrelation equals zero\nTreatment effect equals zero\n\nStatistical testing attempts to determine whether there is sufficient evidence to reject the null hypothesis. So in your thesis/dissertation, you are hoping for p &lt;.05 so you can “reject the null”",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -82,9 +82,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html#type-i-error",
     "href": "Chapter 1 HHS Statistical Thinking.html#type-i-error",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "3.4 Type I Error",
-    "text": "3.4 Type I Error\nA Type I error occurs when:\n\nWe reject the null hypothesis when null hypothesis is actually true\n\nThis is a false positive. We claim based on the data we collected from a sample, that an effect exists\n\nHigh intensity interval training improves cardiovascular performance better than…\nSpanking/physical punishment is associated with increased aggressive behaviors in children…\nSmoking is related to stress…\nBut in the population those effects/differences don’t exist/aren’t true\n\nThe probability of committing a Type I error is determined by α (alpha), typically:\n\n.05\n.01\n.001",
+    "title": "Chapter 1 HHS Statistical Thinking",
+    "section": "Type I Error",
+    "text": "Type I Error\nA Type I error occurs when:\n\nWe reject the null hypothesis when null hypothesis is actually true\n\nThis is a false positive. We claim based on the data we collected from a sample, that an effect exists\n\nHigh intensity interval training improves cardiovascular performance better than…\nSpanking/physical punishment is associated with increased aggressive behaviors in children…\nSmoking is related to stress…\nBut in the population those effects/differences don’t exist/aren’t true\n\nThe probability of committing a Type I error is determined by α (alpha), typically:\n\n.05\n.01\n.001",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -92,9 +92,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html#type-ii-error",
     "href": "Chapter 1 HHS Statistical Thinking.html#type-ii-error",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "3.5 Type II Error",
-    "text": "3.5 Type II Error\nA Type II error occurs when:\n\nWe fail to reject the null hypothesis when a real effect actually exists\n\nResearcher concludes that UNCG women soccer players not more likely to experience ACL tears compared to male soccer players but in reality that is true in the population…\nChildren in classrooms with smaller teacher-to-student ratio do not have higher reading scores…\nFrequency of smoking is not associated with lung cancer…\n\n\nCommon causes include:\n\nSmall sample sizes\nLow statistical power\n\n\n\n\nType I Type II Errors",
+    "title": "Chapter 1 HHS Statistical Thinking",
+    "section": "Type II Error",
+    "text": "Type II Error\nA Type II error occurs when:\n\nWe fail to reject the null hypothesis when a real effect actually exists\n\nResearcher concludes that UNCG women soccer players not more likely to experience ACL tears compared to male soccer players but in reality that is true in the population…\nChildren in classrooms with smaller teacher-to-student ratio do not have higher reading scores…\nFrequency of smoking is not associated with lung cancer…\n\n\nCommon causes include:\n\nSmall sample sizes\nLow statistical power\n\n\n\n\nType I Type II Errors",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -102,9 +102,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html#problems-with-nhst",
     "href": "Chapter 1 HHS Statistical Thinking.html#problems-with-nhst",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "3.6 Problems with NHST",
-    "text": "3.6 Problems with NHST\nCritics argue that:\n\nVirtually all null hypotheses are false and illogical anyway\np-values are often misinterpreted; not 95 chance the hypothesis is true\nStatistical significance says little about practical importance\nLower p-values do not imply stronger effects\n\n\n\n\n\n\n\nNoteBan on p-values?\n\n\n\n\nStatistical associations offer severe critiques\nSome journals attempted to ban p-values!\nASA Statement on p-values\nPsych journal bans p-values (Nature, optional reading)\n\n\n\nResearchers increasingly advocate reporting:\n\nEffect sizes\nConfidence intervals\nBayesian analyses - what is this?",
+    "title": "Chapter 1 HHS Statistical Thinking",
+    "section": "Problems with NHST",
+    "text": "Problems with NHST\nCritics argue that:\n\nVirtually all null hypotheses are false and illogical anyway\np-values are often misinterpreted; not 95 chance the hypothesis is true\nStatistical significance says little about practical importance\nLower p-values do not imply stronger effects\n\n\n\n\n\n\n\nNoteBan on p-values?\n\n\n\n\nStatistical associations offer severe critiques\nSome journals attempted to ban p-values!\nASA Statement on p-values\nPsych journal bans p-values (Nature, optional reading)\n\n\n\nResearchers increasingly advocate reporting:\n\nEffect sizes\nConfidence intervals\nBayesian analyses - what is this?",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -112,9 +112,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html#statistical-versus-practical-significance",
     "href": "Chapter 1 HHS Statistical Thinking.html#statistical-versus-practical-significance",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "3.7 Statistical versus Practical Significance",
-    "text": "3.7 Statistical versus Practical Significance\nA statistically significant effect may be trivial in practice\nLarge samples can make tiny effects statistically significant\n\nDo I want to encourage schools to target suicide prevention to Southeast Asian students based on 8.5% self-reported suicidal thoughts among that group compared to 8.9% in other ethnic groups?\n\nTherefore researchers should report:\n\nEffect sizes - how big is the difference or association in standardized units\nConfidence intervals - how precise or broad is the difference or association (does it come close to zero)\nPractical implications - What would happen realistically if we advised policy decisions based on your results?",
+    "title": "Chapter 1 HHS Statistical Thinking",
+    "section": "Statistical versus Practical Significance",
+    "text": "Statistical versus Practical Significance\nA statistically significant effect may be trivial in practice\nLarge samples can make tiny effects statistically significant\n\nDo I want to encourage schools to target suicide prevention to Southeast Asian students based on 8.5% self-reported suicidal thoughts among that group compared to 8.9% in other ethnic groups?\n\nTherefore researchers should report:\n\nEffect sizes - how big is the difference or association in standardized units\nConfidence intervals - how precise or broad is the difference or association (does it come close to zero)\nPractical implications - What would happen realistically if we advised policy decisions based on your results?",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -122,9 +122,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html#confidence-intervals",
     "href": "Chapter 1 HHS Statistical Thinking.html#confidence-intervals",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "4.1 Confidence Intervals",
-    "text": "4.1 Confidence Intervals\n\nConfidence intervals estimate a plausible range of values for a population parameter\nA parameter is a population value; a statistic is what we calculate from a sample to estimate that parameter, a better term is parameter estimate… The value we come up with that we think exists in some population\nTypically we estimate something like a regression coefficient and want to assess whether that coefficient differs from zero\nIf we put a confidence interval around that coefficient and the interval does not include zero, that indicates statistical significance (using a p &lt; .05 threshold)\nIf the interval does include zero, we cannot rule out that the true population value is zero — not statistically significant\n\n\n\n\n\n\n\nTipRule of Thumb\n\n\n\nA 95% confidence interval that excludes zero typically indicates statistical significance at the p &lt; .05 level.\nWhat a 95% CI actually means if that we somehow could do the same process of sampling participants MANY MANY times and computed a CI each time, 95% of those intervals would include the “True Population Value”\nSo the CI gives us a plausible range of values and tells us about the precision of our estimate as well\n\n\n\n4.1.1 Visualizing Confidence Intervals\n\n\n\n\n\nExample confidence intervals: one significant regression coefficient (CI excludes zero), one nonsignificant regresson coefficient (CI includes zero)",
+    "title": "Chapter 1 HHS Statistical Thinking",
+    "section": "Confidence Intervals",
+    "text": "Confidence Intervals\n\nConfidence intervals estimate a plausible range of values for a population parameter\nA parameter is a population value; a statistic is what we calculate from a sample to estimate that parameter, a better term is parameter estimate… The value we come up with that we think exists in some population\nTypically we estimate something like a regression coefficient and want to assess whether that coefficient differs from zero\nIf we put a confidence interval around that coefficient and the interval does not include zero, that indicates statistical significance (using a p &lt; .05 threshold)\nIf the interval does include zero, we cannot rule out that the true population value is zero — not statistically significant\n\n\n\n\n\n\n\nTipRule of Thumb\n\n\n\nA 95% confidence interval that excludes zero typically indicates statistical significance at the p &lt; .05 level.\nWhat a 95% CI actually means if that we somehow could do the same process of sampling participants MANY MANY times and computed a CI each time, 95% of those intervals would include the “True Population Value”\nSo the CI gives us a plausible range of values and tells us about the precision of our estimate as well\n\n\n\nVisualizing Confidence Intervals\n\n\n\n\n\nExample confidence intervals: one significant regression coefficient (CI excludes zero), one nonsignificant regresson coefficient (CI includes zero)",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -132,19 +132,9 @@
   {
     "objectID": "Chapter 1 HHS Statistical Thinking.html#apa-notation",
     "href": "Chapter 1 HHS Statistical Thinking.html#apa-notation",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "5.1 APA notation",
-    "text": "5.1 APA notation\n\nUse \\(b\\) for unstandardized sample regression coefficients.\nUse \\(\\beta\\) (Greek beta) for standardized sample regression coefficients.\nIntercept is typically written as \\(b_0\\).\n\nSo in APA-style reporting, the visual distinction is:\n\nRoman \\(b\\) = unstandardized coefficient\nGreek \\(\\beta\\) = standardized coefficient",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
-    ]
-  },
-  {
-    "objectID": "Chapter 1 HHS Statistical Thinking.html#section",
-    "href": "Chapter 1 HHS Statistical Thinking.html#section",
-    "title": "2  Chapter 1 HHS Statistical Thinking",
-    "section": "5.2 ",
-    "text": "5.2",
+    "title": "Chapter 1 HHS Statistical Thinking",
+    "section": "APA notation",
+    "text": "APA notation\n\nUse \\(b\\) for unstandardized sample regression coefficients.\nUse \\(\\beta\\) (Greek beta) for standardized sample regression coefficients.\nIntercept is typically written as \\(b_0\\).\n\nSo in APA-style reporting, the visual distinction is:\n\nRoman \\(b\\) = unstandardized coefficient\nGreek \\(\\beta\\) = standardized coefficient",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 HHS Statistical Thinking</span>"
     ]
@@ -152,9 +142,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html",
     "href": "Chapter 2 Matching Research Designs to Analyses.html",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
     "section": "",
-    "text": "3.1 Matching Research Designs to Analyses\nQuestions to consider:",
+    "text": "Matching Research Designs to Analyses\nQuestions to consider:",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -162,7 +152,7 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#matching-research-designs-to-analyses",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#matching-research-designs-to-analyses",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
     "section": "",
     "text": "What is the research question?\nWhat is the hypothesis?\nWhat is the research design?\nHow many variables are involved?\nWhat levels of measurement are present?",
     "crumbs": [
@@ -172,9 +162,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#what-is-the-research-question-and-hypotheses",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#what-is-the-research-question-and-hypotheses",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "3.2 What is the Research Question and Hypotheses",
-    "text": "3.2 What is the Research Question and Hypotheses\nThe Research Question and Hypotheses make a statement about how we see some human phenomenon.\n\nRQ: Are there gender differences in suicidal thoughts?\n\nHYP: Girls are more likely than boys to have suicidal thoughts\n\n\nThis hypothesis also implies a research design as this would be a comparative study with no random assignments",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "What is the Research Question and Hypotheses",
+    "text": "What is the Research Question and Hypotheses\nThe Research Question and Hypotheses make a statement about how we see some human phenomenon.\n\nRQ: Are there gender differences in suicidal thoughts?\n\nHYP: Girls are more likely than boys to have suicidal thoughts\n\n\nThis hypothesis also implies a research design as this would be a comparative study with no random assignments",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -182,9 +172,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#what-is-the-research-design",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#what-is-the-research-design",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "3.3 What is the Research Design?",
-    "text": "3.3 What is the Research Design?\nIs my study an experiment? A quasi-experiment? Comparing groups?\n\nThose types of research designs tend to imply that there is a factor or categorical Independent Variable (IV) across which I expect to find a difference across groups of people\n\nAm I considering associational or correlational relationships? Am I expecting that participants who score higher on one variable also tend to score higher on a second variable?\n\nAre college students who report higher experiences with discrimination from peers more likely to report feelings of anxiety?\nIs greater intention to exercise associated with greater numbers of steps?\n\nThis would imply an associational design with no factor/categorical variables, attribute variables (something participants “bring” with them into the study, unlike an “active” IV)",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "What is the Research Design?",
+    "text": "What is the Research Design?\nIs my study an experiment? A quasi-experiment? Comparing groups?\n\nThose types of research designs tend to imply that there is a factor or categorical Independent Variable (IV) across which I expect to find a difference across groups of people\n\nAm I considering associational or correlational relationships? Am I expecting that participants who score higher on one variable also tend to score higher on a second variable?\n\nAre college students who report higher experiences with discrimination from peers more likely to report feelings of anxiety?\nIs greater intention to exercise associated with greater numbers of steps?\n\nThis would imply an associational design with no factor/categorical variables, attribute variables (something participants “bring” with them into the study, unlike an “active” IV)",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -192,9 +182,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#how-many-variables-are-involved",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#how-many-variables-are-involved",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "3.4 How many variables are involved?",
-    "text": "3.4 How many variables are involved?\n\nThis is where analyses go from basic (Gliner et al) to complex designs\nA simple comparison = a t-test\nA simple association = a correlation\n\nThose are bivariate associations\n\nWhen we get more complex we will have multiple outcomes, i.e., multivariate or multiple predictors, i.e., multivariable",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "How many variables are involved?",
+    "text": "How many variables are involved?\n\nThis is where analyses go from basic (Gliner et al) to complex designs\nA simple comparison = a t-test\nA simple association = a correlation\n\nThose are bivariate associations\n\nWhen we get more complex we will have multiple outcomes, i.e., multivariate or multiple predictors, i.e., multivariable",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -202,9 +192,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#independent-samples-t-test",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#independent-samples-t-test",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "4.1 Independent Samples t Test",
-    "text": "4.1 Independent Samples t Test\n\nUsed to compare means (so continuous variables) across two groups\n\nExamples:\n\nMen versus women: Do women report greater parental anxiety than men?\nTreatment versus control: Do participants in a smoking cessation program report less craving?",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "Independent Samples t Test",
+    "text": "Independent Samples t Test\n\nUsed to compare means (so continuous variables) across two groups\n\nExamples:\n\nMen versus women: Do women report greater parental anxiety than men?\nTreatment versus control: Do participants in a smoking cessation program report less craving?",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -212,9 +202,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#anova",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#anova",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "4.2 ANOVA",
-    "text": "4.2 ANOVA\n\nUsed to compare means across three or more groups\n\nAre there differences in ethnic racial identity in college students across UNCG (a MSI), NC A&T (an HBCU), and High Point University (a PWI) ?\nIs motivation to exercise higher among UNCG students who played team sports in high school compared to students who played no sports or individual sports?",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "ANOVA",
+    "text": "ANOVA\n\nUsed to compare means across three or more groups\n\nAre there differences in ethnic racial identity in college students across UNCG (a MSI), NC A&T (an HBCU), and High Point University (a PWI) ?\nIs motivation to exercise higher among UNCG students who played team sports in high school compared to students who played no sports or individual sports?",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -222,9 +212,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#ancova",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#ancova",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "4.3 ANCOVA",
-    "text": "4.3 ANCOVA\n\nANOVA including covariates, or control variables\n\nAre mean differences in depression across groups mitigated or reduced after controlling for some other factor?\nIn a study comparing BDNF levels in women who were clinically depressed to women who weren’t, researchers ran an ANCOVA to control for age. Results suggested lower BDNF in depressed women compared to “healthy” controls - ** the key findings ** - were statistically significant even after controlling for age. That is, the BDNF difference wasn’t due to age instead of depressed status.\nIn sum, ANCOVA is for situations where researchers want to draw conclusions regarding mean differences across groups while ruling out extraneous factor\n\n\n\n\n\n\n\n\nNote\n\n\n\nANCOVA is analogous to a multiple regression when the latter has a binary predictor and additional covariates/control variables included in the model\nAndy worked on a multi-site project one time where the analyst at the other site ran ANCOVAS while Andy ran multiple regressions with the intervention as the main IV and controlling for baseline. The two of us ran the same exact syntax in R…",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "ANCOVA",
+    "text": "ANCOVA\n\nANOVA including covariates, or control variables\n\nAre mean differences in depression across groups mitigated or reduced after controlling for some other factor?\nIn a study comparing BDNF levels in women who were clinically depressed to women who weren’t, researchers ran an ANCOVA to control for age. Results suggested lower BDNF in depressed women compared to “healthy” controls - ** the key findings ** - were statistically significant even after controlling for age. That is, the BDNF difference wasn’t due to age instead of depressed status.\nIn sum, ANCOVA is for situations where researchers want to draw conclusions regarding mean differences across groups while ruling out extraneous factor\n\n\n\n\n\n\n\n\nNote\n\n\n\nANCOVA is analogous to a multiple regression when the latter has a binary predictor and additional covariates/control variables included in the model\nAndy worked on a multi-site project one time where the analyst at the other site ran ANCOVAS while Andy ran multiple regressions with the intervention as the main IV and controlling for baseline. The two of us ran the same exact syntax in R…",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -232,9 +222,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#manova",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#manova",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "4.4 MANOVA",
-    "text": "4.4 MANOVA\nMultiple dependent variables, so a multivariate version of an ANOVA\n\nOften employed when there are multiple outcomes of interest to compare across groups he teaching version\nExample:\n\nAre depressive symptoms, anxiety symptoms, and reports of stress higher among sexual minority youth when compared to heterosexual youth?\nRather than running multiple t-tests or three ANOVAs, can run one analysis\nMANOVA accounts for the correlation among outcomes and can identify a “profile” of sorts where higher scores across groups on all outcomes are more obvious than would have been observed with multiple ANOVAs",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "MANOVA",
+    "text": "MANOVA\nMultiple dependent variables, so a multivariate version of an ANOVA\n\nOften employed when there are multiple outcomes of interest to compare across groups he teaching version\nExample:\n\nAre depressive symptoms, anxiety symptoms, and reports of stress higher among sexual minority youth when compared to heterosexual youth?\nRather than running multiple t-tests or three ANOVAs, can run one analysis\nMANOVA accounts for the correlation among outcomes and can identify a “profile” of sorts where higher scores across groups on all outcomes are more obvious than would have been observed with multiple ANOVAs",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -242,9 +232,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#correlations",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#correlations",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "5.1 Correlations",
-    "text": "5.1 Correlations\n\nPearson: continuous × continuous; measures linear relationships.\nSpearman’s rho: ordinal/ranked variables; nonparametric measure based on ranks.\nKendall’s Tau (τ): ordinal × ordinal; rank-based association, often preferred with small samples or many ties.\nPolychoric: ordinal × ordinal; estimates the correlation between underlying continuous latent variables.\nPolyserial: continuous × ordinal; estimates the correlation between a continuous variable and an underlying latent continuous variable measured ordinally.\nPoint-biserial: continuous × dichotomous; special case of Pearson correlation.\nPhi (φ): dichotomous × dichotomous; correlation between two binary variables.",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "Correlations",
+    "text": "Correlations\n\nPearson: continuous × continuous; measures linear relationships.\nSpearman’s rho: ordinal/ranked variables; nonparametric measure based on ranks.\nKendall’s Tau (τ): ordinal × ordinal; rank-based association, often preferred with small samples or many ties.\nPolychoric: ordinal × ordinal; estimates the correlation between underlying continuous latent variables.\nPolyserial: continuous × ordinal; estimates the correlation between a continuous variable and an underlying latent continuous variable measured ordinally.\nPoint-biserial: continuous × dichotomous; special case of Pearson correlation.\nPhi (φ): dichotomous × dichotomous; correlation between two binary variables.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -252,9 +242,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#multiple-regression",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#multiple-regression",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "5.2 Multiple Regression",
-    "text": "5.2 Multiple Regression\nGeneral model:\n\\[Y = a + b_1X_1 + b_2X_2 + e\\]\nWhere:\n\n(Y) = the outcome (dependent variable) being predicted\n(a) = the intercept; the predicted value of (Y) when all (X) variables equal 0\n(b) = regression coefficient (slope); the expected change in (Y) for a one-unit change in (X), holding other predictors constant\n(X) = predictor (independent) variable\n(e) = residual (error); the difference between the observed and predicted value of (Y)\n\nResearchers use regression to:\n\nPredict outcomes.\nControl for confounding variables.\nEstimate unique predictor effects.\nTest hypotheses and theoretical models.\nExplain variation in an outcome ((R^2)).\nExamine mediation and moderation.",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "Multiple Regression",
+    "text": "Multiple Regression\nGeneral model:\n\\[Y = a + b_1X_1 + b_2X_2 + e\\]\nWhere:\n\n(Y) = the outcome (dependent variable) being predicted\n(a) = the intercept; the predicted value of (Y) when all (X) variables equal 0\n(b) = regression coefficient (slope); the expected change in (Y) for a one-unit change in (X), holding other predictors constant\n(X) = predictor (independent) variable\n(e) = residual (error); the difference between the observed and predicted value of (Y)\n\nResearchers use regression to:\n\nPredict outcomes.\nControl for confounding variables.\nEstimate unique predictor effects.\nTest hypotheses and theoretical models.\nExplain variation in an outcome ((R^2)).\nExamine mediation and moderation.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -262,9 +252,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#logistic-regression",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#logistic-regression",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "5.3 Logistic Regression",
-    "text": "5.3 Logistic Regression\nUsed when the outcome variable is dichotomous (binary).\nExamples:\n\nPregnant / Not Pregnant\nUsed Drugs / Did Not Use Drugs\nDied / Survived\nPassed Exam / Failed Exam\n\nResults typically include:\n\nRegression coefficients ((b))\nOdds ratios (OR)\nConfidence intervals\nPredicted probabilities\n\nSimple model:\n\\(\\log\\!\\left(\\dfrac{p}{1-p}\\right)=a+bX\\)\nWhere:\n\nlog(p/(1-p)): the log-odds of the outcome occurring\np: probability of the outcome occurring\na: intercept\nb: regression coefficient\nX: predictor variable\n\nInterpretation:\n\nPositive coefficients increase the odds of the outcome.\nNegative coefficients decrease the odds of the outcome.\nOdds ratio = exp(b).\nIf exp(b) &gt; 1, odds increase; if exp(b) &lt; 1, odds decrease.\n\n\n\n\n\n\n\nTipCorrelation versus Regression\n\n\n\nKey difference is that multiple regression allows for:\n\nMultiple predictors\nStatistical control\nPrediction\n\nSo that movement towards greater internal validity is achieved. Does exposure to environmental toxins increase blood pressure? Does that effect remain after controlling for SES, gender, age, exercise, marital status.\nAnother example:\nDivorce may predict adolescent depression, but that relation may weaken after controlling for inter-parental conflict",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "Logistic Regression",
+    "text": "Logistic Regression\nUsed when the outcome variable is dichotomous (binary).\nExamples:\n\nPregnant / Not Pregnant\nUsed Drugs / Did Not Use Drugs\nDied / Survived\nPassed Exam / Failed Exam\n\nResults typically include:\n\nRegression coefficients ((b))\nOdds ratios (OR)\nConfidence intervals\nPredicted probabilities\n\nSimple model:\n\\(\\log\\!\\left(\\dfrac{p}{1-p}\\right)=a+bX\\)\nWhere:\n\nlog(p/(1-p)): the log-odds of the outcome occurring\np: probability of the outcome occurring\na: intercept\nb: regression coefficient\nX: predictor variable\n\nInterpretation:\n\nPositive coefficients increase the odds of the outcome.\nNegative coefficients decrease the odds of the outcome.\nOdds ratio = exp(b).\nIf exp(b) &gt; 1, odds increase; if exp(b) &lt; 1, odds decrease.\n\n\n\n\n\n\n\nTipCorrelation versus Regression\n\n\n\nKey difference is that multiple regression allows for:\n\nMultiple predictors\nStatistical control\nPrediction\n\nSo that movement towards greater internal validity is achieved. Does exposure to environmental toxins increase blood pressure? Does that effect remain after controlling for SES, gender, age, exercise, marital status.\nAnother example:\nDivorce may predict adolescent depression, but that relation may weaken after controlling for inter-parental conflict",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -272,9 +262,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#are-anovas-and-regressions-really-different",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#are-anovas-and-regressions-really-different",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "5.4 Are ANOVAs and Regressions Really Different?",
-    "text": "5.4 Are ANOVAs and Regressions Really Different?\n\nMany statisticians would describe ANOVA as a “special case” of Regression\n\nThat means regression is generally more flexible -\n\nThere were historical reasons why ANOVA came to be associated with experimental and agricultural research\nResearchers used to think that if one was doing experiments, the appropriate analysis should be ANOVA, if doing observational/correlational research, should use regressions\nI was taught that in grad school at first, then in class taught that these were all just part of the general linear model\n\n\n5.4.1 The General Linear Model\nThis applies to any analysis that has a continuous (interval or ratio) or “quantitative” outcome\n\nT-tests and ANOVAs are just a “special” case - that is, they are regressions with a categorical predictor or IV or X\nIf you run a t-test comparing self-esteem across boys/girls and then run a regression where you regress self-esteem on gender (dummy coded) you will get the same result!\n\n\n\n\n\n\n\n\n\nResearch question type\nt / ANOVA-based approach (categorical predictor focus)\nCorrelation / Regression-based approach (continuous predictor focus)\n\n\n\n\nMean differences in depression by gender\nIndependent-samples t test (if 2 gender groups)\nLinear regression with dummy-coded gender (same test as t in GLM form)\n\n\nMean differences in depression by gender, adjusting for body image\nANCOVA: DV = depression; factor = gender; covariate = body image\nMultiple linear regression: depression ~ gender + body image\n\n\nMean differences in depression by gender while testing whether body image effect differs by gender\nFactorial ANCOVA with interaction: gender × body image\nModeration regression: depression ~ gender + body image + gender×body image\n\n\nMean depression differences across 3+ groups (e.g., gender identity categories)\nOne-way ANOVA (or Welch ANOVA)\nRegression with (k-1) dummy variables for group\n\n\nMean depression differences across 3+ groups, adjusting for body image\nANCOVA (multi-group)\nMultiple regression with dummy-coded group + body image\n\n\nAssociation between body image and depression\n(Not an ANOVA question)\nPearson correlation (or Spearman if needed)\n\n\nPredicting depression from several continuous variables (e.g., body image, stress, sleep)\n(Not an ANOVA question)\nMultiple linear regression\n\n\nTesting combined effects of categorical and continuous predictors on depression\nGeneral linear model / AN(C)OVA framework\nMultiple regression (GLM-equivalent parameterization)",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "Are ANOVAs and Regressions Really Different?",
+    "text": "Are ANOVAs and Regressions Really Different?\n\nMany statisticians would describe ANOVA as a “special case” of Regression\n\nThat means regression is generally more flexible -\n\nThere were historical reasons why ANOVA came to be associated with experimental and agricultural research\nResearchers used to think that if one was doing experiments, the appropriate analysis should be ANOVA, if doing observational/correlational research, should use regressions\nI was taught that in grad school at first, then in class taught that these were all just part of the general linear model\n\n\nThe General Linear Model\nThis applies to any analysis that has a continuous (interval or ratio) or “quantitative” outcome\n\nT-tests and ANOVAs are just a “special” case - that is, they are regressions with a categorical predictor or IV or X\nIf you run a t-test comparing self-esteem across boys/girls and then run a regression where you regress self-esteem on gender (dummy coded) you will get the same result!\n\n\n\n\n\n\n\n\n\nResearch question type\nt / ANOVA-based approach (categorical predictor focus)\nCorrelation / Regression-based approach (continuous predictor focus)\n\n\n\n\nMean differences in depression by gender\nIndependent-samples t test (if 2 gender groups)\nLinear regression with dummy-coded gender (same test as t in GLM form)\n\n\nMean differences in depression by gender, adjusting for body image\nANCOVA: DV = depression; factor = gender; covariate = body image\nMultiple linear regression: depression ~ gender + body image\n\n\nMean differences in depression by gender while testing whether body image effect differs by gender\nFactorial ANCOVA with interaction: gender × body image\nModeration regression: depression ~ gender + body image + gender×body image\n\n\nMean depression differences across 3+ groups (e.g., gender identity categories)\nOne-way ANOVA (or Welch ANOVA)\nRegression with (k-1) dummy variables for group\n\n\nMean depression differences across 3+ groups, adjusting for body image\nANCOVA (multi-group)\nMultiple regression with dummy-coded group + body image\n\n\nAssociation between body image and depression\n(Not an ANOVA question)\nPearson correlation (or Spearman if needed)\n\n\nPredicting depression from several continuous variables (e.g., body image, stress, sleep)\n(Not an ANOVA question)\nMultiple linear regression\n\n\nTesting combined effects of categorical and continuous predictors on depression\nGeneral linear model / AN(C)OVA framework\nMultiple regression (GLM-equivalent parameterization)",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -282,9 +272,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#data-types-research-designs-and-statistics",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#data-types-research-designs-and-statistics",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "6.1 Data types, research designs, and statistics",
-    "text": "6.1 Data types, research designs, and statistics\nThere can be disciplinary differences in the types of data researchers used, those often map onto research design, and then those often dictate (or schould) the appropriate statistical tests that are used",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "Data types, research designs, and statistics",
+    "text": "Data types, research designs, and statistics\nThere can be disciplinary differences in the types of data researchers used, those often map onto research design, and then those often dictate (or schould) the appropriate statistical tests that are used",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -292,9 +282,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#data-across-academic-disciplines",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#data-across-academic-disciplines",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "6.2 Data Across Academic Disciplines",
-    "text": "6.2 Data Across Academic Disciplines\nDifferent subfields have tendencies to use particular data types. Those types vary with respect to\n\nSampling strategies (representative probability sampling)\nData collection strategies\nResearch designs\n\nThese “dictate” in a sense what analysis is appropriate\nThere are norms within fields, labs, etc. We will discuss how some of these are artificial in nature…\n\n\n\n6.2.1 Demography\nUses large-scale, often government-collected records: Census data, vital statistics (birth/death records), and county- or state-level aggregates.\n\nData are typically totally numeric and secondary (collected for administrative purposes, not by the researcher).\nUnit of analysis is often aggregate (county, state, tract) rather than the individual.\nDesigns are almost always descriptive or comparative — rarely experimental, since you cannot randomly assign counties or populations to conditions.\n\n\n\n6.2.2 Human Development (Infant & Child Studies)\nBecause infants and young children cannot self-report, this field relies heavily on:\n\nObservational data (you can’t ask babies questions!)\nPhysical/physiological measures (EEG, vagal tone, cortisol)\nInformant reports (caregiver or teacher ratings) for things like behavioral ratings, social interactions\n\nSamples are often small and frequently rely on available/convenience sampling rather than random/probability sampling. Experimental and quasi-experimental designs are possible (e.g., habituation paradigms), but much of the field is associational/correlational.\n\n\n\n\n\n\nNoteExample Research Question\n\n\n\nWhat factors increase the likelihood of a child having high peer sociality in first grade?\n\n\n\n\n6.2.3 Family Studies\nData often come from observations of relational units rather than individuals alone — couples, parent-child dyads, sibling dyads, or whole-family triads.\n\nStudies are often inherently dyadic or triadic in structure, requiring designs that account for non-independence between family members - will get into later\nMay incorporate genetic data (e.g., twin/adoption designs), self-reports from multiple family members, and behavioral coding of interactions\nExperimental designs are possible but rare; most work is associational or comparative\n\n\n\n\n\n\n\nNoteExample Research Questions\n\n\n\n\nAre Chinese-American parents more authoritarian compared to European-American parents? (comparative)\nIs marital conflict related to marital satisfaction, and does that association differ for husbands versus wives? (associational, with a potential moderator)\n\n\n\n\n\n6.2.4 Public Health Studies\nDraws on a wide mix of data types spanning individual and population levels:\n\nSurveillance data (e.g., disease case reports, immunization rates)\nLarge cross-sectional/longitudinal surveys (e.g., BRFSS, NHANES)\nAdministrative/claims data\nProgram evaluation data from public health interventions\n\nData are frequently secondary and analyzed at multiple levels simultaneously (individual, neighborhood, county, state), often requiring multilevel/hierarchical models. Designs range from descriptive epidemiology, to quasi-experimental policy evaluations, to true experiments (randomized community trials) — though the latter are resource-intensive and less common.\n\n\n\n\n\n\nNoteExample Research Question\n\n\n\nDid county-level implementation of a smoke-free workplace policy reduce hospital admissions for acute myocardial infarction relative to counties without the policy?\n\n\n\n\n6.2.5 Kinesiology Studies\n\nCan span neuromechanics, excercise physiology, sports/exercise psychology, etc\n\nCenters on data from physical performance and physiological measurement:\n\nMotion capture, force plates\nHeart rate / VO2 max\nMuscle activation (EMG)\nWearable accelerometer data\nInjury/performance records\n\nBecause many outcomes are physical and objectively measurable (not self-reported), this field is well-suited to true experimental designs (e.g., randomly assigning participants to a training protocol and measuring pre/post change) — more so than most other HHS subfields. Kinesiology also uses observational/correlational designs (e.g., comparing injury rates across sports) and quasi-experimental designs when random assignment isn’t feasible (e.g., comparing existing athletes vs. non-athletes)\n\nMany current UNCG studies use cognitive assessment (Stroop tests), self-reports (athletic identity, exercise motivation), and can consider comparing things like self-reported versus device-informed movement/exercise\n\n\n\n\n\n\n\nNoteExample Research Questions\n\n\n\nDoes a 12-week resistance training protocol improve gait speed in older adults more than a walking-only intervention?\nDo former collegiate athletes with high athletic identity have higher levels of depression post-career?\n\n\n\n\n\n\n\n\nImportantDiscussion Questions\n\n\n\n\nFor each subfield above, identify one strength and one limitation of its typical data collection approach.\nWhy might demography rarely use experimental designs, while kinesiology more often can?\nIn the family studies example about marital conflict and satisfaction, why does asking “does this differ for husbands vs. wives?” turn an associational question into a moderation question?\nPick a subfield above and design a one-sentence research question that would require secondary data, and another that would require the researcher to collect primary data.",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "Data Across Academic Disciplines",
+    "text": "Data Across Academic Disciplines\nDifferent subfields have tendencies to use particular data types. Those types vary with respect to\n\nSampling strategies (representative probability sampling)\nData collection strategies\nResearch designs\n\nThese “dictate” in a sense what analysis is appropriate\nThere are norms within fields, labs, etc. We will discuss how some of these are artificial in nature…\n\n\n\nDemography\nUses large-scale, often government-collected records: Census data, vital statistics (birth/death records), and county- or state-level aggregates.\n\nData are typically totally numeric and secondary (collected for administrative purposes, not by the researcher).\nUnit of analysis is often aggregate (county, state, tract) rather than the individual.\nDesigns are almost always descriptive or comparative — rarely experimental, since you cannot randomly assign counties or populations to conditions.\n\n\n\nHuman Development (Infant & Child Studies)\nBecause infants and young children cannot self-report, this field relies heavily on:\n\nObservational data (you can’t ask babies questions!)\nPhysical/physiological measures (EEG, vagal tone, cortisol)\nInformant reports (caregiver or teacher ratings) for things like behavioral ratings, social interactions\n\nSamples are often small and frequently rely on available/convenience sampling rather than random/probability sampling. Experimental and quasi-experimental designs are possible (e.g., habituation paradigms), but much of the field is associational/correlational.\n\n\n\n\n\n\nNoteExample Research Question\n\n\n\nWhat factors increase the likelihood of a child having high peer sociality in first grade?\n\n\n\n\nFamily Studies\nData often come from observations of relational units rather than individuals alone — couples, parent-child dyads, sibling dyads, or whole-family triads.\n\nStudies are often inherently dyadic or triadic in structure, requiring designs that account for non-independence between family members - will get into later\nMay incorporate genetic data (e.g., twin/adoption designs), self-reports from multiple family members, and behavioral coding of interactions\nExperimental designs are possible but rare; most work is associational or comparative\n\n\n\n\n\n\n\nNoteExample Research Questions\n\n\n\n\nAre Chinese-American parents more authoritarian compared to European-American parents? (comparative)\nIs marital conflict related to marital satisfaction, and does that association differ for husbands versus wives? (associational, with a potential moderator)\n\n\n\n\n\nPublic Health Studies\nDraws on a wide mix of data types spanning individual and population levels:\n\nSurveillance data (e.g., disease case reports, immunization rates)\nLarge cross-sectional/longitudinal surveys (e.g., BRFSS, NHANES)\nAdministrative/claims data\nProgram evaluation data from public health interventions\n\nData are frequently secondary and analyzed at multiple levels simultaneously (individual, neighborhood, county, state), often requiring multilevel/hierarchical models. Designs range from descriptive epidemiology, to quasi-experimental policy evaluations, to true experiments (randomized community trials) — though the latter are resource-intensive and less common.\n\n\n\n\n\n\nNoteExample Research Question\n\n\n\nDid county-level implementation of a smoke-free workplace policy reduce hospital admissions for acute myocardial infarction relative to counties without the policy?\n\n\n\n\nKinesiology Studies\n\nCan span neuromechanics, excercise physiology, sports/exercise psychology, etc\n\nCenters on data from physical performance and physiological measurement:\n\nMotion capture, force plates\nHeart rate / VO2 max\nMuscle activation (EMG)\nWearable accelerometer data\nInjury/performance records\n\nBecause many outcomes are physical and objectively measurable (not self-reported), this field is well-suited to true experimental designs (e.g., randomly assigning participants to a training protocol and measuring pre/post change) — more so than most other HHS subfields. Kinesiology also uses observational/correlational designs (e.g., comparing injury rates across sports) and quasi-experimental designs when random assignment isn’t feasible (e.g., comparing existing athletes vs. non-athletes)\n\nMany current UNCG studies use cognitive assessment (Stroop tests), self-reports (athletic identity, exercise motivation), and can consider comparing things like self-reported versus device-informed movement/exercise\n\n\n\n\n\n\n\nNoteExample Research Questions\n\n\n\nDoes a 12-week resistance training protocol improve gait speed in older adults more than a walking-only intervention?\nDo former collegiate athletes with high athletic identity have higher levels of depression post-career?\n\n\n\n\n\n\n\n\nImportantDiscussion Questions\n\n\n\n\nFor each subfield above, identify one strength and one limitation of its typical data collection approach.\nWhy might demography rarely use experimental designs, while kinesiology more often can?\nIn the family studies example about marital conflict and satisfaction, why does asking “does this differ for husbands vs. wives?” turn an associational question into a moderation question?\nPick a subfield above and design a one-sentence research question that would require secondary data, and another that would require the researcher to collect primary data.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
@@ -302,9 +292,9 @@
   {
     "objectID": "Chapter 2 Matching Research Designs to Analyses.html#levels-of-measurement",
     "href": "Chapter 2 Matching Research Designs to Analyses.html#levels-of-measurement",
-    "title": "3  Chapter 2 Matching Research Designs to Analyses",
-    "section": "6.3 Levels of Measurement",
-    "text": "6.3 Levels of Measurement\nThe level of measurement describes how a variable is measured and determines which statistical procedures are appropriate.\nAs you move from nominal to ratio, each level contains all of the properties of the previous level while adding additional information.\n\n\n\n\n\nflowchart LR\n\nA[Nominal&lt;br/&gt;Categories] --&gt; B[Ordinal&lt;br/&gt;Ordered Categories]\nB --&gt; C[Interval&lt;br/&gt;Equal Intervals]\nC --&gt; D[Ratio&lt;br/&gt;Equal Intervals&lt;br/&gt;True Zero]\n\n\n\n\n\n\n\n\n\n\n\n\nNoteRemember\n\n\n\nEach higher level includes all of the properties of the previous level.\n\nRatio variables are also interval.\nInterval variables are also ordinal.\nOrdinal variables are also nominal.\n\n\n\n\n6.3.1 Nominal\nNominal variables place observations into categories.\nCharacteristics:\n\nCategories are different from one another\nThere is no meaningful order\nNumbers (if used) are simply labels for use in our quantitative analysis\n\nHealth & Social Science Examples\n\nBlood type (A, B, AB, O)\nCollege major\nTherapy approach received\nMarital status\nRace-ethnicity\nAthletic team\nGender\n\nAppropriate Statistics\n\nFrequencies\nPercentages\nMode\nChi-square tests\nIf these are outcomes, nominal logistic regression (later)\n\n\n\n6.3.2 Ordinal\nOrdinal variables have categories that can be ranked or have some ordering to them.\nCharacteristics:\n\nCategories have a meaningful order.\nThe distance between categories is not necessarily equal.\n\n\n\n\n\n\n\nTip\n\n\n\nAndy likes the term ordered-categorical so use this from here on out…\n\n\nHealth & Social Science Examples\n\nPain rating:\n\nNone\nMild\nModerate\nSevere\n\nAgreement scale:\n\nStrongly Disagree\nDisagree\nNeutral\nAgree\nStrongly Agree\n\nDisease severity:\n\nMild\nModerate\nSevere\n\n\nAppropriate Statistics\n\nMedian\nPercentiles\nSpearman correlation — using rank orders\nMann-Whitney U — non-parametric t-test, comparison of ranks across groups\nKruskal-Wallis — like ANOVA, comparison of ranks across groups\nThere are ways to examine these in regressions as well — but rare\n\n\n\n\n\n\n\nNote\n\n\n\nTypically in the case of Likert scale items we sum these together to create a continuous variable that is more interval (next level).\n\n\n\n\n6.3.3 Interval\nInterval variables have equal distances between values.\nCharacteristics:\n\nOrdered\nEqual spacing\nNo true zero\n\nBecause zero is arbitrary, ratios are not meaningful. For example, a depression score of 40 is not twice as depressed as a score of 20.\nHealth & Social Science Examples\n\nIQ score\nStandardized anxiety score\nStandardized depression score\nT-score from a psychological assessment\n\nAppropriate Statistics\n\nMean\nStandard deviation\nPearson correlation\nt-tests\nANOVA\nRegression\n\n\n\n6.3.4 Ratio\nRatio variables contain all the properties of interval variables plus a true zero, indicating the complete absence of the quantity being measured.\nCharacteristics:\n\nOrdered\nEqual spacing\nTrue zero\nRatios are meaningful\n\nFor example, someone who sleeps 8 hours slept twice as long as someone who slept 4 hours.\nHealth & Social Science Examples\n\nHours of sleep\nNumber of doctor visits\nReaction time\nWalking speed\nBody weight\nDaily step count\n\nAppropriate Statistics\nNearly all common parametric analyses:\n\nMean\nStandard deviation\nCorrelation\nRegression\nANOVA\nFactor analysis\nStructural equation modeling\n\n\n\n\n\n\n\nImportantDiscussion Questions\n\n\n\nWhen does an ordered-categorical variable “become” continuous? That might be a weird question, but think about it…\nThink about the Rosenberg Self-Esteem Scale that is commonly used to study self-esteem.\nIs it a continuous measure? If you use the scoring technique that most researchers do, then the answer is yes, because the summary score is interval level. Each of the particular items, however, are ordered-categorical\nInstructions: Below is a list of statements dealing with your general feelings about yourself. Please indicate how much you agree or disagree with each statement using the following response options.\n\n\n\n\n\n\n\n\n\n\n\nItem\nStatement\nStrongly Agree\nAgree\nDisagree\nStrongly Disagree\n\n\n\n\n1\nI feel that I’m a person of worth, at least on an equal plane with others.\n☐\n☐\n☐\n☐\n\n\n2\nI feel that I have a number of good qualities.\n☐\n☐\n☐\n☐\n\n\n3\nAll in all, I am inclined to feel that I am a failure.*\n☐\n☐\n☐\n☐\n\n\n4\nI am able to do things as well as most other people.\n☐\n☐\n☐\n☐\n\n\n5\nI feel I do not have much to be proud of.*\n☐\n☐\n☐\n☐\n\n\n6\nI take a positive attitude toward myself.\n☐\n☐\n☐\n☐\n\n\n7\nOn the whole, I am satisfied with myself.\n☐\n☐\n☐\n☐\n\n\n8\nI wish I could have more respect for myself.*\n☐\n☐\n☐\n☐\n\n\n9\nI certainly feel useless at times.*\n☐\n☐\n☐\n☐\n\n\n10\nAt times I think I am no good at all.*\n☐\n☐\n☐\n☐\n\n\n\nScoring Note: Items marked with an asterisk (*) are reverse-coded. Responses are typically scored on a 4-point scale (Strongly Agree = 4, Agree = 3, Disagree = 2, Strongly Disagree = 1 for positively worded items; reversed for negatively worded items). Total scores range from 10–40, with higher scores indicating greater self-esteem.\nSo note that “On the Whole I am satisifed with myself” if ordered-categorical\nThe sum of all of these items is interval and then treated as continuous…\nWhat if I use one item then? Or if I use techniques like Confirmatory Factor Analysis that examines individual items as outcomes? In that case, the typical analyses are incorrect… but can I never use a single item?\nOften the argument is that 4 or fewer response categories implies ordered-categorical, 5 is a minimum to consider a variable continous, but 7 or more is probably better. Note that this logic has mostly been applied in the context of CFA and SEM. Also the variable should be normally distributed to be considered “continuous”\n\nSingle Likert items (1–4 categories): Treat as ordinal. Use non-parametric tests.\nSingle Likert items (5+ categories): Borderline; check normality assumption.\nSummed/composite Likert scales (e.g., Rosenberg Self-Esteem: 10 items summed, range 10–40): Widely accepted as interval-like due to increased categories and central limit theorem approximating normality.\n\nPractical guidance: If your data are approximately normally distributed and you have 5+ categories per item or a summed scale, parametric tests (t-test, ANOVA, Pearson r, regression) are generally robust. When in doubt, report both parametric and non-parametric results.",
+    "title": "Chapter 2 Matching Research Designs to Analyses",
+    "section": "Levels of Measurement",
+    "text": "Levels of Measurement\nThe level of measurement describes how a variable is measured and determines which statistical procedures are appropriate.\nAs you move from nominal to ratio, each level contains all of the properties of the previous level while adding additional information.\n\n\n\n\n\nflowchart LR\n\nA[Nominal&lt;br/&gt;Categories] --&gt; B[Ordinal&lt;br/&gt;Ordered Categories]\nB --&gt; C[Interval&lt;br/&gt;Equal Intervals]\nC --&gt; D[Ratio&lt;br/&gt;Equal Intervals&lt;br/&gt;True Zero]\n\n\n\n\n\n\n\n\n\n\n\n\nNoteRemember\n\n\n\nEach higher level includes all of the properties of the previous level.\n\nRatio variables are also interval.\nInterval variables are also ordinal.\nOrdinal variables are also nominal.\n\n\n\n\nNominal\nNominal variables place observations into categories.\nCharacteristics:\n\nCategories are different from one another\nThere is no meaningful order\nNumbers (if used) are simply labels for use in our quantitative analysis\n\nHealth & Social Science Examples\n\nBlood type (A, B, AB, O)\nCollege major\nTherapy approach received\nMarital status\nRace-ethnicity\nAthletic team\nGender\n\nAppropriate Statistics\n\nFrequencies\nPercentages\nMode\nChi-square tests\nIf these are outcomes, nominal logistic regression (later)\n\n\n\nOrdinal\nOrdinal variables have categories that can be ranked or have some ordering to them.\nCharacteristics:\n\nCategories have a meaningful order.\nThe distance between categories is not necessarily equal.\n\n\n\n\n\n\n\nTip\n\n\n\nAndy likes the term ordered-categorical so use this from here on out…\n\n\nHealth & Social Science Examples\n\nPain rating:\n\nNone\nMild\nModerate\nSevere\n\nAgreement scale:\n\nStrongly Disagree\nDisagree\nNeutral\nAgree\nStrongly Agree\n\nDisease severity:\n\nMild\nModerate\nSevere\n\n\nAppropriate Statistics\n\nMedian\nPercentiles\nSpearman correlation — using rank orders\nMann-Whitney U — non-parametric t-test, comparison of ranks across groups\nKruskal-Wallis — like ANOVA, comparison of ranks across groups\nThere are ways to examine these in regressions as well — but rare\n\n\n\n\n\n\n\nNote\n\n\n\nTypically in the case of Likert scale items we sum these together to create a continuous variable that is more interval (next level).\n\n\n\n\nInterval\nInterval variables have equal distances between values.\nCharacteristics:\n\nOrdered\nEqual spacing\nNo true zero\n\nBecause zero is arbitrary, ratios are not meaningful. For example, a depression score of 40 is not twice as depressed as a score of 20.\nHealth & Social Science Examples\n\nIQ score\nStandardized anxiety score\nStandardized depression score\nT-score from a psychological assessment\n\nAppropriate Statistics\n\nMean\nStandard deviation\nPearson correlation\nt-tests\nANOVA\nRegression\n\n\n\nRatio\nRatio variables contain all the properties of interval variables plus a true zero, indicating the complete absence of the quantity being measured.\nCharacteristics:\n\nOrdered\nEqual spacing\nTrue zero\nRatios are meaningful\n\nFor example, someone who sleeps 8 hours slept twice as long as someone who slept 4 hours.\nHealth & Social Science Examples\n\nHours of sleep\nNumber of doctor visits\nReaction time\nWalking speed\nBody weight\nDaily step count\n\nAppropriate Statistics\nNearly all common parametric analyses:\n\nMean\nStandard deviation\nCorrelation\nRegression\nANOVA\nFactor analysis\nStructural equation modeling\n\n\n\n\n\n\n\nImportantDiscussion Questions\n\n\n\nWhen does an ordered-categorical variable “become” continuous? That might be a weird question, but think about it…\nThink about the Rosenberg Self-Esteem Scale that is commonly used to study self-esteem.\nIs it a continuous measure? If you use the scoring technique that most researchers do, then the answer is yes, because the summary score is interval level. Each of the particular items, however, are ordered-categorical\nInstructions: Below is a list of statements dealing with your general feelings about yourself. Please indicate how much you agree or disagree with each statement using the following response options.\n\n\n\n\n\n\n\n\n\n\n\nItem\nStatement\nStrongly Agree\nAgree\nDisagree\nStrongly Disagree\n\n\n\n\n1\nI feel that I’m a person of worth, at least on an equal plane with others.\n☐\n☐\n☐\n☐\n\n\n2\nI feel that I have a number of good qualities.\n☐\n☐\n☐\n☐\n\n\n3\nAll in all, I am inclined to feel that I am a failure.*\n☐\n☐\n☐\n☐\n\n\n4\nI am able to do things as well as most other people.\n☐\n☐\n☐\n☐\n\n\n5\nI feel I do not have much to be proud of.*\n☐\n☐\n☐\n☐\n\n\n6\nI take a positive attitude toward myself.\n☐\n☐\n☐\n☐\n\n\n7\nOn the whole, I am satisfied with myself.\n☐\n☐\n☐\n☐\n\n\n8\nI wish I could have more respect for myself.*\n☐\n☐\n☐\n☐\n\n\n9\nI certainly feel useless at times.*\n☐\n☐\n☐\n☐\n\n\n10\nAt times I think I am no good at all.*\n☐\n☐\n☐\n☐\n\n\n\nScoring Note: Items marked with an asterisk (*) are reverse-coded. Responses are typically scored on a 4-point scale (Strongly Agree = 4, Agree = 3, Disagree = 2, Strongly Disagree = 1 for positively worded items; reversed for negatively worded items). Total scores range from 10–40, with higher scores indicating greater self-esteem.\nSo note that “On the Whole I am satisifed with myself” if ordered-categorical\nThe sum of all of these items is interval and then treated as continuous…\nWhat if I use one item then? Or if I use techniques like Confirmatory Factor Analysis that examines individual items as outcomes? In that case, the typical analyses are incorrect… but can I never use a single item?\nOften the argument is that 4 or fewer response categories implies ordered-categorical, 5 is a minimum to consider a variable continous, but 7 or more is probably better. Note that this logic has mostly been applied in the context of CFA and SEM. Also the variable should be normally distributed to be considered “continuous”\n\nSingle Likert items (1–4 categories): Treat as ordinal. Use non-parametric tests.\nSingle Likert items (5+ categories): Borderline; check normality assumption.\nSummed/composite Likert scales (e.g., Rosenberg Self-Esteem: 10 items summed, range 10–40): Widely accepted as interval-like due to increased categories and central limit theorem approximating normality.\n\nPractical guidance: If your data are approximately normally distributed and you have 5+ categories per item or a summed scale, parametric tests (t-test, ANOVA, Pearson r, regression) are generally robust. When in doubt, report both parametric and non-parametric results.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Chapter 2 Matching Research Designs to Analyses</span>"
     ]
