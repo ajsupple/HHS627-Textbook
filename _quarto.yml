@@ -5,21 +5,20 @@ project:
 book:
   title: "HHS627 Textbook2"
   author: "Dr. Andy Supple"
-  date: "8/4/2026"
+  date: "8/20/2026"
   chapters:
     - index.qmd
     - Chapter 1 HHS Statistical Thinking.qmd
     - Chapter 2 Matching Research Designs to Analyses.qmd
-    
+    - Chapter 3 Data Management and R.qmd
 
 bibliography: references.bib
 
 format:
   html:
+    number-sections: false
     theme:
       - cosmo
       - brand
- 
 
 editor: visual
-
