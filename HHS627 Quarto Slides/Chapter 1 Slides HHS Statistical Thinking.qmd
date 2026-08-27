@@ -1,0 +1,211 @@
+---
+title: "Chapter 1 Slides HHS Statistical Thinking"
+format:
+  revealjs:
+    theme: simple
+    css: styles.css
+    slide-number: true
+    footer: "HHS 627"
+---
+
+# Statistical Thinking and Quantitative Analysis
+
+What we will cover quickly today:
+
+- Goals of quantitative HHS Research
+- Example studies we have worked on, seen, thought about... where do these fit?
+- Review of statistical testing
+  - What is this nonsense we do and why?!?
+- Statistical Power
+- Then we will start talking about
+  - Internal validity questions
+  - Research design - what does that mean??
+  - Tying design to analyses
+
+# Goals of Quantitative HHS Research
+
+Most quantitative HHS research seeks to:
+
+- Describe populations and samples - descriptive purpose
+- Compare groups - understand differences, evaluate programs/interventions
+- Examine relationships among variables - how variables associate
+- Evaluate models with multiple predictors - what factors are most important in predicting outcomes
+
+Researchers typically draw conclusions using statistical tests that assess:
+
+- Group differences
+- Correlations
+- Statistical significance
+
+## What Is Statistical Significance?
+
+Statistical significance addresses a simple question:
+
+> Is the observed effect large enough that it is unlikely to be zero in the population?
+
+Examples:
+
+- Are males and females different in IQ?
+- Is father involvement related to girls' self-esteem?
+- Is the observed correlation different from zero? Is the difference so big, it is unlikely to be zero
+
+## Null Hypothesis Testing
+
+The null hypothesis states that no effect exists
+
+Examples:
+
+- No difference between groups
+- Correlation equals zero
+- Treatment effect equals zero
+
+Statistical testing attempts to determine whether there is sufficient evidence to reject the null hypothesis. So in your thesis/dissertation, you are *hoping* for **p** \<.05 so you can "reject the null"
+
+- Type I error: reject the null when it is true (think of examples)
+
+- Type II error: fail to reject the null when it is actually false (examples)
+
+- What is this **p\< 05** all about? Where did that come from?
+
+## Statisical power
+
+- What is it?
+
+- Can we explain a scenario where this comes up?
+
+- I, for example, never once thought about statistical power until workign with developmental psychologists
+
+  - Why do you think that is?
+  - Do some of you think about that, hear about it?
+
+- What are the main ways we can try to control or increase power?
+
+- Why is it that those work??
+
+  ```         
+        Test Statistic
+  =  Effect / Standard Error
+
+        b
+  ```
+
+  t = ---------------- SE(b)
+
+  ```         
+        s
+  ```
+
+  SE = -------------- √n
+
+As n ↑ → SE ↓ → t ↑ → Power ↑
+
+# Take a t-test for example:
+
+```         
+            M1 - M2
+```
+
+t = -------------------------------- √(s²1/n1 + s²2/n2)
+
+As n1 and n2 increase, the denominator shrinks, making t larger and significance more likely.
+
+Sample size also "helps twice" because while lower s.e. to increase t value
+
+- Also increases \# of degrees of freedom which lowers the "critical value" threshold that the test statistic has to pass
+
+<!-- -->
+
+- In "English"?
+  - Larger samples increase statistical power because they increase the likelihood of finding p \<.05
+  - Specifically, smaller standard errors which increases test statistics (i.e. b/se(b))
+  - And because at larger numbers of df, the critical value is smaller
+
+## Problems with NHST
+
+Critics argue that:
+
+- Virtually all null hypotheses are false and **illogical anyway**
+- p-values are often misinterpreted; not **95 chance the hypothesis is true**
+- Statistical significance says little about *practical importance*
+- Lower p-values do not imply stronger effects
+
+# Effect sizes instead
+
+Often researchers suggest reporting out effect size
+
+- I find these confusing when we get beyond the ones textbooks discuss...
+
+  - Some are easy, like Cohen's d or Hedges g
+
+  - Mean difference between two groups, divided by "pooled sd" or just SD
+
+  - *r* or a simple bivariate correlation
+
+  - Eta-squared or R squared - the amount of variance explained...
+
+  - Odds ratios! Love those...
+
+    - Then there are nice "rules" we can read about, apply and communicate...love that!
+
+- These are all attempts to **standardize** effects
+
+  - Cohen's d is a standardized mean difference...
+
+## What are standardized regression coefficients...
+
+For predictor $X_j$ in a multiple regression model,
+
+$$Y = b_0 + b_1X_1 + b_2X_2 + \cdots + b_pX_p + \varepsilon$$
+
+the standardized coefficient is:
+
+$$\beta_j = b_j\left(\frac{s_{X_j}}{s_Y}\right)$$
+
+**Where:**
+
+- $b_j$: unstandardized slope for predictor $X_j$
+- $\beta_j$: standardized slope (beta weight) for predictor $X_j$
+- $s_{X_j}$: sample standard deviation of predictor $X_j$
+- $s_Y$: sample standard deviation of outcome $Y$
+- $j = 1,\dots,p$: index of predictors in the model
+
+Why use these?
+Note that **standardized coefficients** are helpful to compare relative strength of associations
+in a multiple regression. I struggle to understand what would constitute "small", "medium", and "large" effects.
+- I think they are helpful as a relative comparison, maybe less so in terms of absolutes
+- Note that standardized coefficients ***should not be used*** in group comparisons
+  - That is, if I was interested in comparing the association between number of work hours and execise across me and women
+  - **unstandardized** coefficients would be better - because those are on the same scale
+    - Standardized wouldn't be if the SDs are different... Will come back to this later
+    
+# What is the research design, what is the case for internal validity
+
+Internal validity: Is the "cause" we suggest is the cause, really the cause or is it something else?
+
+*Not me Not Now* Teen Pregnancy Prevention Program; Monroe County NY
+
+- As part of a "comprehensive" teen pregnancy strategy, school, public health officials, placed anti-pregnancy advertisements on billboards around Rochester, NY and surrounding areas
+- Using data from the NYRBS - teen pregnancies fell after posting the billboards
+  - They worked! Or did they?
+  - What is the research design?
+  - What is the "analysis"
+  - what is the case for internal validity
+  - What are alternative explanations....
+  
+# The Barn Study
+
+Drug prevention programs intended for middle-school students to curb tabacco, alcohol, and marijuana use
+-Also technically focused on sexual behaviors, condom use
+-The logic model suggested that adolescents don't ask questions out of fear, so providing information would help
+-Could be via "kiosks" in schools, or a specialized, computer-based, self-guided curriculum in health education courses
+-RQ: Does BARN "work"
+  -What would "work" mean in this case?
+  -Steps
+    1.Recruit schools 
+    2.Randonly assign health classes in schools... no go
+    3.Rely on self-selected volunteer teachers to deliver curriculum
+    4.Many teachers did the entire program, some stopped early
+    5.Data collection in schools on computers - at the time state of the art
+
+-What is this design?
+-Case for interal validity?

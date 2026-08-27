@@ -1,6 +1,0 @@
-book:
-  title: "HHS627 Textbook_Release"
-  chapters:
-    - index.qmd
-    - Chapter 1 HHS Statistical Thinking.qmd
-    - Chapter 2 Matching Research Designs to Analyses.qmd

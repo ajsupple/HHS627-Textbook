@@ -3,7 +3,7 @@ title: "Chapter 1 HHS Statistical Thinking"
 format:
   html:
     toc: true
-    number-sections: true
+    number-sections: false
     include-in-header:
       text: |
         <style>

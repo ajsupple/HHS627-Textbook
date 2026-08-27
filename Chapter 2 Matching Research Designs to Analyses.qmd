@@ -3,7 +3,7 @@ title: "Chapter 2 Matching Research Designs to Analyses"
 format:
   html:
     toc: true
-    number-sections: true
+    number-sections: false
     include-in-header:
       text: |
         <style>
@@ -254,7 +254,7 @@ This applies to any analysis that has a continuous (interval or ratio) or "quant
 - If you run a t-test comparing self-esteem across boys/girls and then run a regression where you regress self-esteem on gender (dummy coded) you will get the same result!
 
 | Research question type | *t* / ANOVA-based approach (categorical predictor focus) | Correlation / Regression-based approach (continuous predictor focus) |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Mean differences in depression by gender | **Independent-samples *t* test** (if 2 gender groups) | **Linear regression with dummy-coded gender** (same test as *t* in GLM form) |
 | Mean differences in depression by gender, adjusting for body image | **ANCOVA**: DV = depression; factor = gender; covariate = body image | **Multiple linear regression**: depression \~ gender + body image |
 | Mean differences in depression by gender while testing whether body image effect differs by gender | **Factorial ANCOVA with interaction**: gender × body image | **Moderation regression**: depression \~ gender + body image + gender×body image |
@@ -583,7 +583,7 @@ Is it a **continuous** measure? If you use the scoring technique that most resea
 **Instructions:** Below is a list of statements dealing with your general feelings about yourself. Please indicate how much you agree or disagree with each statement using the following response options.
 
 | Item | Statement | Strongly Agree | Agree | Disagree | Strongly Disagree |
-|-----------|-------------------|-----------|-----------|-----------|-----------|
+|----|----|----|----|----|----|
 | 1 | I feel that I'm a person of worth, at least on an equal plane with others. | ☐ | ☐ | ☐ | ☐ |
 | 2 | I feel that I have a number of good qualities. | ☐ | ☐ | ☐ | ☐ |
 | 3 | All in all, I am inclined to feel that I am a failure.\* | ☐ | ☐ | ☐ | ☐ |
