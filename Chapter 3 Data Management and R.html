@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 3: Data Cleaning and Getting into R – HHS627 Textbook2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Chapter 2 Matching Research Designs to Analyses.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter 3 Data Management and R.html"><span class="chapter-title">Chapter 3: Data Cleaning and Getting into R</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">HHS627 Textbook2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HHS 627 Textbook</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 1 HHS Statistical Thinking.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1 HHS Statistical Thinking</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 2 Matching Research Designs to Analyses.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2 Matching Research Designs to Analyses</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 3 Data Management and R.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 3: Data Cleaning and Getting into R</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-outline" id="toc-chapter-outline" class="nav-link active" data-scroll-target="#chapter-outline">Chapter Outline</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-r" id="toc-introduction-to-r" class="nav-link" data-scroll-target="#introduction-to-r">Introduction to R</a>
+  <ul class="collapse">
+  <li><a href="#who-will-enjoy-r-the-most" id="toc-who-will-enjoy-r-the-most" class="nav-link" data-scroll-target="#who-will-enjoy-r-the-most">Who will enjoy R the most?</a></li>
+  </ul></li>
+  <li><a href="#what-steps-do-you-take-to-get-started" id="toc-what-steps-do-you-take-to-get-started" class="nav-link" data-scroll-target="#what-steps-do-you-take-to-get-started">What steps do you take to get started?</a>
+  <ul class="collapse">
+  <li><a href="#what-is-the-difference-between-r-and-rstudio" id="toc-what-is-the-difference-between-r-and-rstudio" class="nav-link" data-scroll-target="#what-is-the-difference-between-r-and-rstudio">What is the difference between R and RStudio?</a></li>
+  </ul></li>
+  <li><a href="#some-basic-r-terminology" id="toc-some-basic-r-terminology" class="nav-link" data-scroll-target="#some-basic-r-terminology">Some Basic R Terminology</a>
+  <ul class="collapse">
+  <li><a href="#objects" id="toc-objects" class="nav-link" data-scroll-target="#objects">Objects</a></li>
+  </ul></li>
+  <li><a href="#packages-and-functions" id="toc-packages-and-functions" class="nav-link" data-scroll-target="#packages-and-functions">Packages and Functions</a></li>
+  <li><a href="#reading-data-using-base-r" id="toc-reading-data-using-base-r" class="nav-link" data-scroll-target="#reading-data-using-base-r">Reading Data Using Base R</a>
+  <ul class="collapse">
+  <li><a href="#csv-files" id="toc-csv-files" class="nav-link" data-scroll-target="#csv-files">CSV Files</a></li>
+  <li><a href="#spss-files" id="toc-spss-files" class="nav-link" data-scroll-target="#spss-files">SPSS Files</a></li>
+  </ul></li>
+  <li><a href="#cleaning-screening-and-dealing-with-missing-data" id="toc-cleaning-screening-and-dealing-with-missing-data" class="nav-link" data-scroll-target="#cleaning-screening-and-dealing-with-missing-data">Cleaning, Screening, and Dealing with Missing Data</a></li>
+  <li><a href="#initial-screening-checklist" id="toc-initial-screening-checklist" class="nav-link" data-scroll-target="#initial-screening-checklist">Initial Screening Checklist</a></li>
+  <li><a href="#checking-the-results-for-data-problems" id="toc-checking-the-results-for-data-problems" class="nav-link" data-scroll-target="#checking-the-results-for-data-problems">Checking the results for data problems</a></li>
+  <li><a href="#making-changes-to-the-dataframe" id="toc-making-changes-to-the-dataframe" class="nav-link" data-scroll-target="#making-changes-to-the-dataframe">Making changes to the dataframe</a>
+  <ul class="collapse">
+  <li><a href="#other-tranformations" id="toc-other-tranformations" class="nav-link" data-scroll-target="#other-tranformations">Other Tranformations</a></li>
+  <li><a href="#how-to-detect-outliers" id="toc-how-to-detect-outliers" class="nav-link" data-scroll-target="#how-to-detect-outliers">How to Detect Outliers</a></li>
+  </ul></li>
+  <li><a href="#r-code-factors-and-recoding" id="toc-r-code-factors-and-recoding" class="nav-link" data-scroll-target="#r-code-factors-and-recoding">R Code: Factors and Recoding</a></li>
+  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing Data</a>
+  <ul class="collapse">
+  <li><a href="#will-review-later-but-quickly" id="toc-will-review-later-but-quickly" class="nav-link" data-scroll-target="#will-review-later-but-quickly">Will review later but quickly…</a></li>
+  </ul></li>
+  <li><a href="#r-code-screening-for-data-quality-issues" id="toc-r-code-screening-for-data-quality-issues" class="nav-link" data-scroll-target="#r-code-screening-for-data-quality-issues">R Code: Screening for Data Quality Issues</a></li>
+  <li><a href="#data-structures-wide-vs.-long" id="toc-data-structures-wide-vs.-long" class="nav-link" data-scroll-target="#data-structures-wide-vs.-long">Data Structures: Wide vs.&nbsp;Long</a></li>
+  <li><a href="#r-code-reshaping-data" id="toc-r-code-reshaping-data" class="nav-link" data-scroll-target="#r-code-reshaping-data">R Code: Reshaping Data</a></li>
+  <li><a href="#more-on-getting-data-into-r" id="toc-more-on-getting-data-into-r" class="nav-link" data-scroll-target="#more-on-getting-data-into-r">More on Getting Data into R</a></li>
+  </ul></li>
+  <li><a href="#packages-with-functions-to-read-in-data-often-from-specific-software" id="toc-packages-with-functions-to-read-in-data-often-from-specific-software" class="nav-link" data-scroll-target="#packages-with-functions-to-read-in-data-often-from-specific-software">Packages with functions to read in data, often from specific software</a>
+  <ul class="collapse">
+  <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames">Data Frames</a></li>
+  <li><a href="#saving-out-dataframes-for-later-use-in-r" id="toc-saving-out-dataframes-for-later-use-in-r" class="nav-link" data-scroll-target="#saving-out-dataframes-for-later-use-in-r">Saving out dataframes for later use in R</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Chapter 3: Data Cleaning and Getting into R</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="chapter-outline" class="level1">
+<h1>Chapter Outline</h1>
+<ol type="1">
+<li>Intro to R</li>
+<li>Reading data into R</li>
+<li>Cleaning and checking data with respect to
+<ol type="1">
+<li>Outliers</li>
+<li>Missing data</li>
+<li>Any miscoded or illogical scores/entries</li>
+</ol></li>
+<li>Recoding variables
+<ol type="1">
+<li>Dummy coding nominal predictor variables</li>
+<li>Reverse scoring any negative worded items</li>
+<li>Transforming any variables that may have skew</li>
+<li>Creating summary scores</li>
+<li>Creating standardized variables</li>
+</ol></li>
+<li>Ensuring missing data flags are correct</li>
+</ol>
+<section id="introduction-to-r" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-r">Introduction to R</h2>
+<p>R is a programming environment in which researchers can do a variety of different things. Most typically we will use R to:</p>
+<p>1.Manage data sets 2.Clean, code data, create summary scores 3.Do statistical analyses like t-tests, regression, multilevel modeling, SEM 4.Create graphs, tables, and figures</p>
+<p>But R can do a number of other tasks for us like reading OSF pages, scraping internet sties, renaming files, and converting files to PDFs.</p>
+<p>Why R?</p>
+<ul>
+<li>It is Free!</li>
+<li>It is open-source which means that anyone can access, add to R and its numerous packages</li>
+<li>It uses a simple programming language developed by experts, you can see all source code (unlike some proprietary stats packages)</li>
+<li>This all means that there are new additions to R all the time to keep up with state-of-the-art changes in statistics</li>
+</ul>
+<section id="who-will-enjoy-r-the-most" class="level3">
+<h3 class="anchored" data-anchor-id="who-will-enjoy-r-the-most">Who will enjoy R the most?</h3>
+<ul>
+<li>People who like programming!</li>
+<li>People who enjoy learning new code, exploring what R can do</li>
+<li>Those looking to streamline work time by using convenience features related to creating tables in APA style</li>
+</ul>
+<p>Benefits of learning all that R can do for academic researchers</p>
+<ul>
+<li>Saves time and energy when creating reports</li>
+<li>Fewer mistakes transcribing output to tables and figures</li>
+<li>Can access anywhere (unlike networked software)
+<ul>
+<li>Makes it faster to analyze data</li>
+<li>All analyses we want to do are possible with R</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="what-steps-do-you-take-to-get-started" class="level2">
+<h2 class="anchored" data-anchor-id="what-steps-do-you-take-to-get-started">What steps do you take to get started?</h2>
+<p>Download R from https://cran.r-project.org/</p>
+<p>Download RStudio from https://posit.co/downloads</p>
+<p>Find videos, tutorials, free books on GitHub, AIs are pretty good with R code</p>
+<section id="what-is-the-difference-between-r-and-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-the-difference-between-r-and-rstudio">What is the difference between R and RStudio?</h3>
+<p>R is the programming language in which we write code and execute commands. RStudio is a GUI (graphical user interface) that simplifies many of the basic tasks (e.g, reading in an SPSS file, installing packages, viewing plots) that we typically want to accomplish with R.</p>
+<p>RStudio is what we will predominantly use in class and there are four sub-windows in R Studio:</p>
+<ul>
+<li><strong>Console</strong> for running code immediately</li>
+<li><strong>Script editor</strong> for saving code or running chunks of code</li>
+<li><strong>Environment pane</strong> showing objects you’ve created</li>
+<li><strong>Files/Plots/Help</strong> pane for outputs and documentation</li>
+</ul>
+<p>Beyond the advantage of being able to more easily do basic tasks than with R, RStudio also has syntax highlighting, code suggestion/completion, spellcheck, and some smart coding routines</p>
+</section>
+</section>
+<section id="some-basic-r-terminology" class="level2">
+<h2 class="anchored" data-anchor-id="some-basic-r-terminology">Some Basic R Terminology</h2>
+<section id="objects" class="level3">
+<h3 class="anchored" data-anchor-id="objects">Objects</h3>
+<p><strong><em>Objects</em></strong> store some kind of information, and have a name. These can be data sets, output files, or just simple numerical results.</p>
+<ul>
+<li>Frequently objects are created via the &lt;- or “assign” command, but can also use “=”</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mean_y <span class="ot">&lt;-</span> (<span class="dv">9</span><span class="sc">+</span><span class="dv">8</span><span class="sc">+</span><span class="dv">4</span>)<span class="sc">/</span><span class="dv">3</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This "assigns" the mean of three numbers to "mean_y"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># If I 'print' the object, I get 7 or the mean of the numbers</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>mean_y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usually would use a function, however</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's pretend I have a *vector* of numbers</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">4</span>) <span class="co"># create object 'y' as a vector of three numbers</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y) <span class="co"># A built in function that just computes the mean of the y vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Obviously also gives 7</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The point here is just creating objects and using functions</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Often we are going to use pre-built functions, sometimes from baseR</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Often from packages</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="packages-and-functions" class="level2">
+<h2 class="anchored" data-anchor-id="packages-and-functions">Packages and Functions</h2>
+<p>There is Base R which has a number of <strong>functions</strong></p>
+<ul>
+<li>Functions are like commands that have built in coded instructions to complete a task</li>
+<li>Some are pretty simple:
+<ul>
+<li>mean(var1) just computes the mean of var1</li>
+</ul></li>
+<li>Others are more complicated
+<ul>
+<li>lm for example lm(y ~ x1 +x2, data=newdata)
+<ul>
+<li>Is a mutiple regression “function” with many built in commands and routines</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><strong>Packages</strong> are developed and distributed by programmers</p>
+<ul>
+<li>Often researchers who write functions (routines) to do some statistical analysis</li>
+<li>Or others: Creating PDFs, creating APA style tables, extracting results</li>
+</ul>
+<p>Once you install a package using install.packages(), you then “load” the package using library()</p>
+<ul>
+<li>Note that while you only have to install packages once (unless you change computers), you have to load packages every time you restart R</li>
+<li>Also note that you can skip the ‘install.packages()’ command in RStudio (See above)</li>
+<li>As you will see – in the scripts that I write – I usually have load(haven) at the top along with other packages, that way when I open and run the scripts, that step happens first - If you try to use commands from a package that isn’t loaded, you will get an error</li>
+</ul>
+</section>
+<section id="reading-data-using-base-r" class="level2">
+<h2 class="anchored" data-anchor-id="reading-data-using-base-r">Reading Data Using Base R</h2>
+<p>Base R includes several functions for loading common file types.</p>
+<p>Here we will read in a simple .csv file called “cleaning” which I just named because we’re going to use it to demo how to check and clean some data. The data set is made up and just has Gender (coded Male or Female), four items assessing anxiety symptoms (anx1-anx4) and self-reported income in 1000s of dollar/year.</p>
+<section id="csv-files" class="level3">
+<h3 class="anchored" data-anchor-id="csv-files">CSV Files</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df_csv <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"cleaning.csv"</span>) <span class="co"># Reads in the data file</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df_csv                             <span class="co"># Print out the object, which is the dataframe</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  gender anx1 anx2 anx3 anx4 income
+1   male    2    3    2    2     66
+2   male    3    3    3    4     55
+3   male    2    1   NA    1    525
+4   male    2    3    1    2     47
+5   male    2   NA    4    5     34
+6 female    3    2   33    3     65
+7 female    4    4    2    3     27
+8 female    3    5    3    3     33
+9 female    2    1    2    2     77</code></pre>
+</div>
+</div>
+</section>
+<section id="spss-files" class="level3">
+<h3 class="anchored" data-anchor-id="spss-files">SPSS Files</h3>
+<p>I often find that I am reading in .sav or SPSS files. In that case I use the haven package</p>
+<p>Note two things here:</p>
+<ol type="1">
+<li>If you don’t have haven installed, need to do that (that is a “one time” thing),</li>
+<li>During each new R session, need to load the packages you plan to use.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("haven")   # Installs haven</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)                <span class="co"># Loads haven</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>new_df <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"cleaning.sav"</span>)   <span class="co"># read_sav is the key haven command</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># "Cleaning.sav is the data set</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>new_df                               <span class="co"># Prints out the dataset</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 6
+  gender  anx1  anx2  anx3  anx4 income
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1 male       2     3     2     2     80
+2 male       3     3     3     4     55
+3 male       2     1     2    11    230
+4 male       2     3     1     2     47
+5 male       2     4     4     5     45
+6 female     3     2    33     3     65
+7 female     4     4     2     3     77
+8 female     3     5     3     3     65
+9 female     2     1     2     2     77</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># Usually I would use View for larger files</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong><em>NOTE</em></strong> that in the above ‘tibble’ there is additional information, for example the data type that was created. Gender is chr or character, while the other variables are dbl or double-numeric (having decimal points). May also see ‘int’ for integers</p>
+</section>
+</section>
+<section id="cleaning-screening-and-dealing-with-missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="cleaning-screening-and-dealing-with-missing-data">Cleaning, Screening, and Dealing with Missing Data</h2>
+<p>Typically we organize and store data in some sort of spreadsheet. SPSS users for example might read in data from an excel spreadsheet or manually type in data.</p>
+<p>Data in this instance refers to numeric values that represent things like participants:</p>
+<ul>
+<li>Age, gender, race-ethnicity</li>
+<li>Levels of stress, depression, motivation to exercise</li>
+<li>ID number identifiers for participants, families, schools, couples, neighborhoods</li>
+</ul>
+<p>Regardless, data is often entered into a spreadsheet that really could use any software. Excel, notepad, SPSS, for example, and R can read in most any spreadsheet formats.</p>
+<p>For new data, a wise initial step before getting into more sophisticated analyses is to use some basic descriptive statistics to screen one’s data</p>
+</section>
+<section id="initial-screening-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="initial-screening-checklist">Initial Screening Checklist</h2>
+<p>The steps I often take when working with data for the first time:</p>
+<ol type="1">
+<li>Read data in using base R or haven</li>
+<li>Use View(data) command to just look at the data like a spreadsheet a. Here I am looking to see that column names look correct, that values seem reasonable, just a quick peek</li>
+<li>Load the <em>psych</em> package and run describe(data) to get a comprehensive set of results that starts assisting with the identification of any data problems a. By looking a minimums and maximums, range, means</li>
+<li>Also can check for duplicate records</li>
+<li>Also check for outliers (see below)</li>
+<li>How much missing data are there, how will I avoid listwise deleting?</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(df_csv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 10%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">vars</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">trimmed</th>
+<th style="text-align: right;">mad</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">range</th>
+<th style="text-align: right;">skew</th>
+<th style="text-align: right;">kurtosis</th>
+<th style="text-align: right;">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">gender*</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">-2.17</td>
+<td style="text-align: right;">0.18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anx1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.70</td>
+<td style="text-align: right;">-1.03</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">anx2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2.75</td>
+<td style="text-align: right;">1.39</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">2.75</td>
+<td style="text-align: right;">1.48</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">-1.42</td>
+<td style="text-align: right;">0.49</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anx3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">6.25</td>
+<td style="text-align: right;">10.85</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">6.25</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">1.83</td>
+<td style="text-align: right;">1.64</td>
+<td style="text-align: right;">3.83</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">anx4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2.78</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">2.78</td>
+<td style="text-align: right;">1.48</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">-0.99</td>
+<td style="text-align: right;">0.40</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">income</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">103.22</td>
+<td style="text-align: right;">159.08</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">103.22</td>
+<td style="text-align: right;">31.13</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">525</td>
+<td style="text-align: right;">498</td>
+<td style="text-align: right;">2.03</td>
+<td style="text-align: right;">2.51</td>
+<td style="text-align: right;">53.03</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="checking-the-results-for-data-problems" class="level2">
+<h2 class="anchored" data-anchor-id="checking-the-results-for-data-problems">Checking the results for data problems</h2>
+<p>Some things to notice -</p>
+<ul>
+<li><p>Gender is a “character” variable that uses letters and not numbers</p></li>
+<li><p>The range for the anx items is 1 to 5 and so there is a data error for item anx3 -</p>
+<ul>
+<li>33 is an invalid number, it could have been double entered</li>
+</ul></li>
+<li><p>Income may have an outlier</p>
+<ul>
+<li><p>This is a plausible value, just extreme</p></li>
+<li><p>The presence of that score contributes to some mild skew, and nonnormality</p></li>
+<li><p>This is also evident as the means and medians are quite different</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="making-changes-to-the-dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="making-changes-to-the-dataframe">Making changes to the dataframe</h2>
+<ul>
+<li>This will fix the 33 value and recode to a 3 (assuming it was double entered)</li>
+<li>Then we will “winsorize” income to see if we can reduce skew
+<ul>
+<li>Options for dealing with outliers
+<ul>
+<li>Delete the case (loses information)</li>
+<li>Transformations of variables to deal with skew (affects all scores)</li>
+<li>Winsorizing or bringing a value up/down while retaining ordering of scores</li>
+</ul></li>
+</ul></li>
+<li>Here I make those changes and look at the data again
+<ul>
+<li>Note that this tiny toy dataset is too small for Winsorizing in the typical sense to make a big difference, so I also did a more extreme rescaling</li>
+<li>Note also that Winsorizing in the DescTools package won’t work with missing data</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recoding the 33 to a 3</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df_csv<span class="sc">$</span>anx3[df_csv<span class="sc">$</span>anx3 <span class="sc">==</span> <span class="dv">33</span>] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Now will winsorize income </span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("DescTools")</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'DescTools' was built under R version 4.6.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'DescTools'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:psych':
+
+    AUC, ICC, SD</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_csv<span class="sc">$</span>income_w <span class="ot">&lt;-</span> <span class="fu">Winsorize</span>(df_csv<span class="sc">$</span>income) <span class="co"># This won't do much, small sample</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df_csv<span class="sc">$</span>income_w2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df_csv<span class="sc">$</span>income <span class="sc">&gt;</span> <span class="dv">100</span>, <span class="dv">100</span>, df_csv<span class="sc">$</span>income) <span class="co"># more dramatic</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">vars</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">trimmed</th>
+<th style="text-align: right;">mad</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">range</th>
+<th style="text-align: right;">skew</th>
+<th style="text-align: right;">kurtosis</th>
+<th style="text-align: right;">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">gender*</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">-2.17</td>
+<td style="text-align: right;">0.18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anx1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">0.70</td>
+<td style="text-align: right;">-1.03</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">anx2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2.75</td>
+<td style="text-align: right;">1.39</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">2.75</td>
+<td style="text-align: right;">1.48</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">-1.42</td>
+<td style="text-align: right;">0.49</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anx3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2.50</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">2.50</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-1.21</td>
+<td style="text-align: right;">0.33</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">anx4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2.78</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">2.78</td>
+<td style="text-align: right;">1.48</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">-0.99</td>
+<td style="text-align: right;">0.40</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">income</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">103.22</td>
+<td style="text-align: right;">159.08</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">103.22</td>
+<td style="text-align: right;">31.13</td>
+<td style="text-align: right;">27.0</td>
+<td style="text-align: right;">525.0</td>
+<td style="text-align: right;">498.0</td>
+<td style="text-align: right;">2.03</td>
+<td style="text-align: right;">2.51</td>
+<td style="text-align: right;">53.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">income_w</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">83.58</td>
+<td style="text-align: right;">99.73</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">83.58</td>
+<td style="text-align: right;">31.13</td>
+<td style="text-align: right;">29.4</td>
+<td style="text-align: right;">345.8</td>
+<td style="text-align: right;">316.4</td>
+<td style="text-align: right;">1.96</td>
+<td style="text-align: right;">2.34</td>
+<td style="text-align: right;">33.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">income_w2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">56.00</td>
+<td style="text-align: right;">23.70</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">56.00</td>
+<td style="text-align: right;">31.13</td>
+<td style="text-align: right;">27.0</td>
+<td style="text-align: right;">100.0</td>
+<td style="text-align: right;">73.0</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">-1.17</td>
+<td style="text-align: right;">7.90</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="other-tranformations" class="level3">
+<h3 class="anchored" data-anchor-id="other-tranformations">Other Tranformations</h3>
+<ul>
+<li><p>Let’s say that anxiety item 4 was in need of reverse scoring.</p></li>
+<li><p>This often arises in cases where items have different “valence” in terms of positive or negative valence.</p>
+<ul>
+<li>For example: anx1 asked participants “How often have you experienced overwhelming worry over the past week?” with response options of: Never, Rarely, Sometime, Often, Very Often</li>
+<li>anx4 asked “Have you been able to easily relax in the past week?”.</li>
+<li>Note that a score of ‘5’ for one item would indicate frequent experiences of anxiety, but a low anxiety on the other.</li>
+<li>In cases like this, items that are counter to the desired valence - in this case greater frequency of anxiety - would be reverse coded so that an overall summary score doesn’t combine high and low anxiety across the items</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_csv<span class="sc">$</span>anx4 <span class="ot">=</span> <span class="dv">5</span><span class="sc">-</span>df_csv<span class="sc">$</span>anx4 <span class="co"># This converts item 4 scores from: 4 --&gt; 1, 3 --&gt; 2, etc</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># After reverse coding, I want to create a summary score</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>df_csv<span class="sc">$</span>anxiety_mean <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(df_csv[, <span class="fu">c</span>(<span class="st">"anx1"</span>, <span class="st">"anx2"</span>, <span class="st">"anx3"</span>, <span class="st">"anx4"</span>)],</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># This creates a new variable 'anxiety_mean' in the df_csv dataframe, it creates means for  rows (people) across the columns anx1, anx2, etc. na.rm = TRUE keeps participants</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># even if they don't have scores for all of the items (avoids listwise deleting)</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># The resulting dataset now has a summary score for anxiety_mean that is </span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># scores properly</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">vars</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">trimmed</th>
+<th style="text-align: right;">mad</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">range</th>
+<th style="text-align: right;">skew</th>
+<th style="text-align: right;">kurtosis</th>
+<th style="text-align: right;">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">gender*</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">-2.17</td>
+<td style="text-align: right;">0.18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anx1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">0.70</td>
+<td style="text-align: right;">-1.03</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">anx2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2.75</td>
+<td style="text-align: right;">1.39</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">2.75</td>
+<td style="text-align: right;">1.48</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">5.00</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">-1.42</td>
+<td style="text-align: right;">0.49</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anx3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2.50</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">2.50</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-1.21</td>
+<td style="text-align: right;">0.33</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">anx4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2.22</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2.22</td>
+<td style="text-align: right;">1.48</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">-0.37</td>
+<td style="text-align: right;">-0.99</td>
+<td style="text-align: right;">0.40</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">income</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">103.22</td>
+<td style="text-align: right;">159.08</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">103.22</td>
+<td style="text-align: right;">31.13</td>
+<td style="text-align: right;">27.0</td>
+<td style="text-align: right;">525.00</td>
+<td style="text-align: right;">498.00</td>
+<td style="text-align: right;">2.03</td>
+<td style="text-align: right;">2.51</td>
+<td style="text-align: right;">53.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">income_w</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">83.58</td>
+<td style="text-align: right;">99.73</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">83.58</td>
+<td style="text-align: right;">31.13</td>
+<td style="text-align: right;">29.4</td>
+<td style="text-align: right;">345.80</td>
+<td style="text-align: right;">316.40</td>
+<td style="text-align: right;">1.96</td>
+<td style="text-align: right;">2.34</td>
+<td style="text-align: right;">33.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">income_w2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">56.00</td>
+<td style="text-align: right;">23.70</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">56.00</td>
+<td style="text-align: right;">31.13</td>
+<td style="text-align: right;">27.0</td>
+<td style="text-align: right;">100.00</td>
+<td style="text-align: right;">73.00</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">-1.17</td>
+<td style="text-align: right;">7.90</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">anxiety_mean</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2.48</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">2.48</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">3.25</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">-1.07</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-empty-content callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>What Are Outliers?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div></li>
+</ul>
+<p>An <strong>outlier</strong> is an observation that is unusually distant from the bulk of the data — either extremely high, extremely low, or both (in multivariate settings). Outliers may reflect:</p>
+<ul>
+<li><strong>Data entry errors</strong> (e.g., age coded as 999)</li>
+<li><strong>Measurement error</strong> (e.g., equipment malfunction)</li>
+<li><strong>True but rare observations</strong> (e.g., a legitimately high income in a low-income sample)</li>
+<li><strong>Violations of study protocol</strong> (e.g., participant who didn’t follow instructions)</li>
+</ul>
+</section>
+<section id="how-to-detect-outliers" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-detect-outliers">How to Detect Outliers</h3>
+<p><strong>Univariate (single variable):</strong> -</p>
+<ul>
+<li><p><strong>Visual:</strong> Boxplot, histogram, scatterplot — look for points far from the main cluster</p></li>
+<li><p><strong>IQR method:</strong> Mark as outlier if value &lt; Q1 − 1.5×IQR or &gt; Q3 + 1.5×IQR -</p></li>
+<li><p><strong>Z-score method:</strong> Mark as outlier if |z| &gt; 3 (more conservative: |z| &gt; 2.5) -</p></li>
+<li><p><strong>Range checks:</strong> Compare to known valid ranges (e.g., age should be 0–120)</p></li>
+</ul>
+<p><strong>Multivariate (multiple variables):</strong></p>
+<ul>
+<li><p><strong>Mahalanobis distance:</strong> Measures how far a case is from the centroid of all variables combined</p></li>
+<li><p><strong>Cook’s distance:</strong> Identifies cases with high influence on regression coefficients</p></li>
+<li><p><strong>Leverage + residuals:</strong> Cases with high leverage and large residuals are flagged</p></li>
+</ul>
+<p><strong>R Code Example:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IQR method</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">28</span>, <span class="dv">32</span>, <span class="dv">999</span>, <span class="dv">27</span>, <span class="dv">29</span>))  <span class="co"># 999 is an outlier</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>Q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(df<span class="sc">$</span>age, <span class="fl">0.25</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>Q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(df<span class="sc">$</span>age, <span class="fl">0.75</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>IQR <span class="ot">&lt;-</span> Q3 <span class="sc">-</span> Q1</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>lower_bound <span class="ot">&lt;-</span> Q1 <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> IQR</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>upper_bound <span class="ot">&lt;-</span> Q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> IQR</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">&lt;</span> lower_bound <span class="sc">|</span> age <span class="sc">&gt;</span> upper_bound)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Z-score method</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_age =</span> <span class="fu">scale</span>(age)[, <span class="dv">1</span>],</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">is_outlier =</span> <span class="fu">abs</span>(z_age) <span class="sc">&gt;</span> <span class="dv">3</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>:::: ## Coding Categorical Variables</p>
+<ul>
+<li><strong>Nominal</strong>: no inherent order (e.g., race/ethnicity, program site, referral source).</li>
+<li><strong>Ordered categorical</strong>: ordered categories without equal spacing assumed (e.g., Likert items, severity stages: mild/moderate/severe).</li>
+<li><strong>Dummy coding</strong>: reference group = 0, comparison groups = 1; coefficients interpreted relative to the reference.</li>
+<li><strong>Effect coding</strong>: groups coded -1/1; coefficients interpreted relative to the grand mean.</li>
+<li>Note that we will get into coding specifics in R when we run analyses…</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common Pitfall
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Numeric-looking codes (<code>1 = Male, 2 = Female</code>) get accidentally treated as continuous in R if not explicitly converted to a factor — this silently corrupts downstream models. Also, there are many good reasons for why binary variables should be recoded to 0/1. For example, got divorced = 1, did not get divorced = 0 as opposed to 1 and 2.</p>
+<ul>
+<li>Easier interpretation of intercepts in regressions</li>
+<li>Easier interpretation when doing product terms for interactions</li>
+<li>Mean is actually meaningful (will be percentage of participants in 1 category)</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="r-code-factors-and-recoding" class="level2">
+<h2 class="anchored" data-anchor-id="r-code-factors-and-recoding">R Code: Factors and Recoding</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">client_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">severity =</span> <span class="fu">c</span>(<span class="st">"mild"</span>, <span class="st">"severe"</span>, <span class="st">"moderate"</span>, <span class="st">"mild"</span>, <span class="st">"severe"</span>, <span class="st">"moderate"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to factor with meaningful labels</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sex =</span> <span class="fu">factor</span>(sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>)),</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">severity =</span> <span class="fu">factor</span>(severity,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"mild"</span>, <span class="st">"moderate"</span>, <span class="st">"severe"</span>),</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Set/change the reference level for regression</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">relevel</span>(df<span class="sc">$</span>sex, <span class="at">ref =</span> <span class="st">"Male"</span>)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick check</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(df<span class="sc">$</span>sex)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Male"   "Female"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>sex, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Male Female   &lt;NA&gt; 
+     3      3      0 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [6 × 3] (S3: tbl_df/tbl/data.frame)
+ $ client_id: int [1:6] 1 2 3 4 5 6
+ $ sex      : Factor w/ 2 levels "Male","Female": 1 2 2 1 1 2
+ $ severity : Ord.factor w/ 3 levels "mild"&lt;"moderate"&lt;..: 1 3 2 1 3 2</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Discussion Questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We need to be really careful with nominal IVs. Say for example I want to see if there is greater participation in blood pressure screening at Urban Health Clinics, Rural Clinics, or via TeleHealth visits (using home BP monitor)</p>
+<p>I would most likely have a variable titled “Clinic Type” that has values of 1, 2, and 3 that represent Urban, Rural, and Telehealth, respectively</p>
+<p>In an ANOVA, that isn’t much of a problem because the RQ is: Are there differences in participation across three clinics? In Multiple regression, however, we are asking: Is a one level <em>increase</em> in clinic type (meaningless) associated with greater BP screening participation</p>
+<p>In a case like this we need to <strong><em>dummy code</em></strong> site type. Will come back to this later…</p>
+</div>
+</div>
+</section>
+<section id="missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="missing-data">Missing Data</h2>
+<section id="will-review-later-but-quickly" class="level3">
+<h3 class="anchored" data-anchor-id="will-review-later-but-quickly">Will review later but quickly…</h3>
+<ul>
+<li><strong>MCAR</strong> (Missing Completely at Random) — missingness unrelated to any variable</li>
+<li><strong>MAR</strong> (Missing at Random) — missingness related to observed variables</li>
+<li><strong>MNAR</strong> (Missing Not at Random) — missingness related to the unobserved value itself</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Decide your missing-data policy before analysis</strong>, and document it — don’t let listwise deletion happen silently by default.</p>
+<p>Note that in R, missing data gets referred to as NA</p>
+</div>
+</div>
+</section>
+</section>
+<section id="r-code-screening-for-data-quality-issues" class="level2">
+<h2 class="anchored" data-anchor-id="r-code-screening-for-data-quality-issues">R Code: Screening for Data Quality Issues</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)  <span class="co"># A package with commands/functions to examine missing data</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example dataset with missing data and outliers</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>df_raw <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">client_id =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>),</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">34</span>, <span class="dv">150</span>, <span class="dv">150</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">45</span>, <span class="cn">NA</span>),</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">program_site =</span> <span class="fu">c</span>(<span class="st">"Urban"</span>, <span class="st">"Rural"</span>, <span class="st">"Rural"</span>, <span class="st">"Urban"</span>, <span class="cn">NA</span>, <span class="st">"Telehealth"</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Missingness summary by variable</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="fu">miss_var_summary</span>(df_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  variable     n_miss pct_miss
+  &lt;chr&gt;         &lt;int&gt;    &lt;num&gt;
+1 age               1     16.7
+2 program_site      1     16.7
+3 client_id         0      0  </code></pre>
+</div>
+</div>
+</section>
+<section id="data-structures-wide-vs.-long" class="level2">
+<h2 class="anchored" data-anchor-id="data-structures-wide-vs.-long">Data Structures: Wide vs.&nbsp;Long</h2>
+<p><strong>Wide format</strong> — one row per subject, repeated measures spread across columns:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>id</th>
+<th>score_t1</th>
+<th>score_t2</th>
+<th>score_t3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>12</td>
+<td>15</td>
+<td>18</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>9</td>
+<td>11</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Long format</strong> — one row per subject-time observation:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>id</th>
+<th>time</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>t1</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>t2</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>t3</td>
+<td>18</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>t1</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>t2</td>
+<td>11</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>t3</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>ggplot2</code>,</p>
+<p>Most cross-sectional data or SEM-type data are going to be “wide” format - so there is one row per participant, and each column represents a different variables. If the data are repeated measures/longitudinal, each variable would just be a score at a particular time point</p>
+<p>Many “mixed-effects” models (for example the lme4 package) will read in long-format data frames. So there will be multiple rows per participant and there often need to be more than one ID variable. Then there are columns for each variable and the rows represent different scores that are “nested” in teach participant.</p>
+</div>
+</div>
+</section>
+<section id="r-code-reshaping-data" class="level2">
+<h2 class="anchored" data-anchor-id="r-code-reshaping-data">R Code: Reshaping Data</h2>
+<p>R uses the work “reshaping”, other terms include “turning” the data or “reformatting”</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># First creating a "toy" data set to play with </span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Note a tibble is just a term for a simple rows/columns entry</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co"># This is just creating a quick data fram with ID and two rows</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Then score_t1 = the variable t1_anx is anxiety @ time 1</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Then t_2 and t_3 are for time 2 and 3 - so longitudinal</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Then the parentheses hold made up scores</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">t1_anx =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">9</span>),</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">t2_anx =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">11</span>),</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">t3_anx =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">10</span>))</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Wide -&gt; Long</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df_wide <span class="sc">%&gt;%</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"t"</span>),</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"time"</span>,</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_prefix =</span> <span class="st">"anxiety"</span>,</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"score"</span>)</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>df_long</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+     id time   score
+  &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
+1     1 t1_anx    12
+2     1 t2_anx    15
+3     1 t3_anx    18
+4     2 t1_anx     9
+5     2 t2_anx    11
+6     2 t3_anx    10</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Long -&gt; Wide </span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>df_wide2 <span class="ot">&lt;-</span> df_long <span class="sc">%&gt;%</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> time,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_prefix =</span> <span class="st">"anxiety"</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> score</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>df_wide2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+     id anxietyt1_anx anxietyt2_anx anxietyt3_anx
+  &lt;int&gt;         &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
+1     1            12            15            18
+2     2             9            11            10</code></pre>
+</div>
+</div>
+<p>You can see from these that the scores that were horizontal “turn” or are reshaped to vertical and vice versa :::</p>
+</section>
+<section id="more-on-getting-data-into-r" class="level2">
+<h2 class="anchored" data-anchor-id="more-on-getting-data-into-r">More on Getting Data into R</h2>
+<p>Most of my experience reading in data has to do with bringing data in from some sort of spreadsheet like in an excel or SPSS file.</p>
+<p>There are <strong>BaseR</strong> commands to read in .txt files like:</p>
+<ul>
+<li>df &lt;- read.csv(“myfile.csv”) : For comma separated files (csv)</li>
+<li>df &lt;- read.delim(“myfile.txt”) : For .txt or text files with tab delimiters (spacing)</li>
+<li>df &lt;- read.table(“myfile.txt”, header = TRUE) : For generic text files</li>
+<li>header = TRUE means that the first row includes column (variable) names</li>
+</ul>
+</section>
+</section>
+<section id="packages-with-functions-to-read-in-data-often-from-specific-software" class="level1">
+<h1>Packages with functions to read in data, often from specific software</h1>
+<ul>
+<li><p>Tidyverse has a package called “readr” - name of the dataset goes in the ()</p>
+<ul>
+<li>read_csv() CSV</li>
+<li>read_tsv() Tab-delimited</li>
+<li>read_delim() User-specified delimiter</li>
+<li>read_table() Fixed-width text tables</li>
+<li>read_fwf() Fixed-width files</li>
+<li>read_rds() will explain that later…</li>
+</ul></li>
+</ul>
+<p>Notice that there are very <strong>similar</strong> commands/functions here, the . and _ differentiate the package and what these do… easy to get confused.</p>
+<ul>
+<li><p>The haven Package - note, no caps in ‘haven’</p>
+<ul>
+<li>read_sav() # SPSS</li>
+<li>read_por() # SPSS portable - usually has been converted first</li>
+<li>read_dta() # Stata</li>
+<li>read_sas() # SAS</li>
+<li>read_xpt() # SAS transport</li>
+</ul></li>
+<li><p>You may also come across the foreign package, older probably less used</p>
+<ul>
+<li>read.spss() # SPSS</li>
+<li>read.dta() # Stata</li>
+</ul></li>
+</ul>
+<section id="data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="data-frames">Data Frames</h2>
+<p>Datasets are typically stored in <strong><em>data frames</em></strong>. R will refer to data frames has having Rows and Columns.</p>
+<p>Typically in a wide-format dataset, each person/case/subject/participant/unit will represent a row, while each variable will be in a column. It is helpful to remember that terminology because we will sometimes reference columns and rows.</p>
+</section>
+<section id="saving-out-dataframes-for-later-use-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="saving-out-dataframes-for-later-use-in-r">Saving out dataframes for later use in R</h2>
+<p>Typically I might read in a .sav file that I or a colleague created.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">ajsup</span><span class="sc">\\</span><span class="st">Desktop</span><span class="sc">\\</span><span class="st">Hmong Data File.sav"</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Then lets say I do some recoding</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>my_data<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">factor</span>(my_data<span class="sc">$</span>Gender,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>)) <span class="co"># All this does is create a factor</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>                                                  <span class="co"># Variable with character values, not numbers</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Then I save out an RDS file which is an R dataframe</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(my_data, <span class="st">"C:/Users/ajsup/Desktop/DCYA_clean.rds"</span>)</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Next time I go into R, I don't have to reload haven, read in the file, etc</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/Users/ajsup/Desktop/DCYA_clean.rds"</span>)</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(my_data<span class="sc">$</span>Gender))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+        1         2 
+0.5913978 0.4086022 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(my_data<span class="sc">$</span>gender))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Female      Male 
+0.5913978 0.4086022 </code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="./Chapter 2 Matching Research Designs to Analyses.html" class="pagination-link" aria-label="Chapter 2 Matching Research Designs to Analyses">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 2 Matching Research Designs to Analyses</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
