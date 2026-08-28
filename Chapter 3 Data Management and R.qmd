@@ -278,7 +278,7 @@ round(describe(df_csv), 2) |>
 
   ::: callout-warning
   ## What Are Outliers?
-  :::
+ 
 
 An **outlier** is an observation that is unusually distant from the bulk of the data — either extremely high, extremely low, or both (in multivariate settings). Outliers may reflect:
 
@@ -335,8 +335,8 @@ df <- df %>%
 
 
 ```
-
-:::: \## Coding Categorical Variables
+::::
+::: \## Coding Categorical Variables
 
 - **Nominal**: no inherent order (e.g., race/ethnicity, program site, referral source).
 - **Ordered categorical**: ordered categories without equal spacing assumed (e.g., Likert items, severity stages: mild/moderate/severe).
@@ -428,7 +428,7 @@ df_raw <- tibble(
 miss_var_summary(df_raw)
 
 ```
-
+::::
 ## Data Structures: Wide vs. Long
 
 **Wide format** — one row per subject, repeated measures spread across columns:
