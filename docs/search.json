@@ -24,7 +24,7 @@
     "href": "index.html#chapters",
     "title": "HHS627 Textbook2",
     "section": "Chapters",
-    "text": "Chapters\n\nChapter 1: Statistical Thinking and Quantitative Analysis\nChapter 2: Matching Research Designs to Analyses",
+    "text": "Chapters\n\nChapter 1: Statistical Thinking and Quantitative Analysis\nChapter 2: Matching Research Designs to Analyses\nChapter 3: Data Cleaning and Getting into R",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>HHS 627 Textbook</span>"
     ]
@@ -425,16 +425,6 @@
     "title": "Chapter 3: Data Cleaning and Getting into R",
     "section": "R Code: Screening for Data Quality Issues",
     "text": "R Code: Screening for Data Quality Issues\n\nlibrary(naniar)  # A package with commands/functions to examine missing data\n\n# Example dataset with missing data and outliers\n\ndf_raw &lt;- tibble(\n  client_id = c(1, 2, 2, 3, 4, 5),\n  age = c(34, 150, 150, -2, 45, NA),\n  program_site = c(\"Urban\", \"Rural\", \"Rural\", \"Urban\", NA, \"Telehealth\")\n)\n\n# Missingness summary by variable\nmiss_var_summary(df_raw)\n\n# A tibble: 3 × 3\n  variable     n_miss pct_miss\n  &lt;chr&gt;         &lt;int&gt;    &lt;num&gt;\n1 age               1     16.7\n2 program_site      1     16.7\n3 client_id         0      0  \n\n\n:::: ## Data Structures: Wide vs. Long\nWide format — one row per subject, repeated measures spread across columns:\n\n\n\nid\nscore_t1\nscore_t2\nscore_t3\n\n\n\n\n1\n12\n15\n18\n\n\n2\n9\n11\n10\n\n\n\nLong format — one row per subject-time observation:\n\n\n\nid\ntime\nscore\n\n\n\n\n1\nt1\n12\n\n\n1\nt2\n15\n\n\n1\nt3\n18\n\n\n2\nt1\n9\n\n\n2\nt2\n11\n\n\n2\nt3\n10\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nggplot2,\nMost cross-sectional data or SEM-type data are going to be “wide” format - so there is one row per participant, and each column represents a different variables. If the data are repeated measures/longitudinal, each variable would just be a score at a particular time point\nMany “mixed-effects” models (for example the lme4 package) will read in long-format data frames. So there will be multiple rows per participant and there often need to be more than one ID variable. Then there are columns for each variable and the rows represent different scores that are “nested” in teach participant.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Chapter 3: Data Cleaning and Getting into R</span>"
-    ]
-  },
-  {
-    "objectID": "Chapter 3 Data Management and R.html#data-structures-wide-vs.-long",
-    "href": "Chapter 3 Data Management and R.html#data-structures-wide-vs.-long",
-    "title": "Chapter 3: Data Cleaning and Getting into R",
-    "section": "Data Structures: Wide vs. Long",
-    "text": "Data Structures: Wide vs. Long\nWide format — one row per subject, repeated measures spread across columns:\n\n\n\nid\nscore_t1\nscore_t2\nscore_t3\n\n\n\n\n1\n12\n15\n18\n\n\n2\n9\n11\n10\n\n\n\nLong format — one row per subject-time observation:\n\n\n\nid\ntime\nscore\n\n\n\n\n1\nt1\n12\n\n\n1\nt2\n15\n\n\n1\nt3\n18\n\n\n2\nt1\n9\n\n\n2\nt2\n11\n\n\n2\nt3\n10\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nggplot2,\nMost cross-sectional data or SEM-type data are going to be “wide” format - so there is one row per participant, and each column represents a different variables. If the data are repeated measures/longitudinal, each variable would just be a score at a particular time point\nMany “mixed-effects” models (for example the lme4 package) will read in long-format data frames. So there will be multiple rows per participant and there often need to be more than one ID variable. Then there are columns for each variable and the rows represent different scores that are “nested” in teach participant.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Chapter 3: Data Cleaning and Getting into R</span>"
     ]
