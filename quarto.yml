@@ -11,6 +11,7 @@ book:
     - Chapter 1 HHS Statistical Thinking.qmd
     - Chapter 2 Matching Research Designs to Analyses.qmd
     - Chapter 3 Data Management and R.qmd
+    - Chapter 4 ANOVAs Part I.qmd
 
 bibliography: references.bib
 
