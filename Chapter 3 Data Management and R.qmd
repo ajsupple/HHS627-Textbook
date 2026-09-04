@@ -5,7 +5,7 @@ format:
     page-layout: full
 ---
 
-# Chapter Outline
+## Chapter Outline
 
 1.  Intro to R
 2.  Reading data into R
@@ -25,7 +25,10 @@ format:
 
 R is a programming environment in which researchers can do a variety of different things. Most typically we will use R to:
 
-1.Manage data sets 2.Clean, code data, create summary scores 3.Do statistical analyses like t-tests, regression, multilevel modeling, SEM 4.Create graphs, tables, and figures
+1.  Manage data sets,
+2.  Clean, code data, create summary scores,
+3.  Do statistical analyses like t-tests, regression, multilevel modeling,
+4.  Create graphs, tables, and figures
 
 But R can do a number of other tasks for us like reading OSF pages, scraping internet sties, renaming files, and converting files to PDFs.
 
@@ -242,7 +245,7 @@ round(describe(df_csv), 2) |>
   knitr::kable()
 ```
 
-### Other Tranformations
+### Other Transformations
 
 - Let's say that anxiety item 4 was in need of reverse scoring.
 
@@ -253,7 +256,8 @@ round(describe(df_csv), 2) |>
   - Note that a score of '5' for one item would indicate frequent experiences of anxiety, but a low anxiety on the other.
   - In cases like this, items that are counter to the desired valence - in this case greater frequency of anxiety - would be reverse coded so that an overall summary score doesn't combine high and low anxiety across the items
 
-  ```{R}
+```{r}
+  
   df_csv$anx4 = 5-df_csv$anx4 # This converts item 4 scores from: 4 --> 1, 3 --> 2, etc
 
   # After reverse coding, I want to create a summary score
@@ -266,19 +270,16 @@ round(describe(df_csv), 2) |>
 
   # The resulting dataset now has a summary score for anxiety_mean that is 
   # scores properly
+```
 
-
-  ```
-
-  ```{r, echo=F}
+```{r, echo=F}
   library(psych)
   round(describe(df_csv), 2) |>
-    knitr::kable()
-  ```
+  knitr::kable()
+```
 
-  ::: callout-warning
-  ## What Are Outliers?
- 
+::: callout-note
+What Are Outliers?
 
 An **outlier** is an observation that is unusually distant from the bulk of the data — either extremely high, extremely low, or both (in multivariate settings). Outliers may reflect:
 
@@ -306,6 +307,7 @@ An **outlier** is an observation that is unusually distant from the bulk of the 
 - **Cook's distance:** Identifies cases with high influence on regression coefficients
 
 - **Leverage + residuals:** Cases with high leverage and large residuals are flagged
+:::
 
 **R Code Example:**
 
@@ -335,24 +337,28 @@ df <- df %>%
 
 
 ```
-::::
-::: \## Coding Categorical Variables
+
+## Coding Categorical Variables
 
 - **Nominal**: no inherent order (e.g., race/ethnicity, program site, referral source).
+
 - **Ordered categorical**: ordered categories without equal spacing assumed (e.g., Likert items, severity stages: mild/moderate/severe).
+
 - **Dummy coding**: reference group = 0, comparison groups = 1; coefficients interpreted relative to the reference.
+
 - **Effect coding**: groups coded -1/1; coefficients interpreted relative to the grand mean.
+
 - Note that we will get into coding specifics in R when we run analyses...
 
-::: callout-warning
-## Common Pitfall
+  ::: callout-warning
+  Common Pitfall
 
-Numeric-looking codes (`1 = Male, 2 = Female`) get accidentally treated as continuous in R if not explicitly converted to a factor — this silently corrupts downstream models. Also, there are many good reasons for why binary variables should be recoded to 0/1. For example, got divorced = 1, did not get divorced = 0 as opposed to 1 and 2.
+  Numeric-looking codes (`1 = Male, 2 = Female`) get accidentally treated as continuous in R if not explicitly converted to a factor — this silently corrupts downstream models. Also, there are many good reasons for why binary variables should be recoded to 0/1. For example, got divorced = 1, did not get divorced = 0 as opposed to 1 and 2.
 
-- Easier interpretation of intercepts in regressions
-- Easier interpretation when doing product terms for interactions
-- Mean is actually meaningful (will be percentage of participants in 1 category)
-:::
+  - Easier interpretation of intercepts in regressions
+  - Easier interpretation when doing product terms for interactions
+  - Mean is actually meaningful (will be percentage of participants in 1 category)
+  :::
 
 ## R Code: Factors and Recoding
 
@@ -386,7 +392,7 @@ str(df)
 ::: callout-important
 ## Discussion Questions
 
-We need to be really careful with nominal IVs. Say for example I want to see if there is greater participation in blood pressure screening at Urban Health Clinics, Rural Clinics, or via TeleHealth visits (using home BP monitor)
+We need to be careful with nominal IVs. Say for example I want to see if there is greater participation in blood pressure screening at Urban Health Clinics, Rural Clinics, or via TeleHealth visits (using home BP monitor)
 
 I would most likely have a variable titled "Clinic Type" that has values of 1, 2, and 3 that represent Urban, Rural, and Telehealth, respectively
 
@@ -428,7 +434,7 @@ df_raw <- tibble(
 miss_var_summary(df_raw)
 
 ```
-::::
+
 ## Data Structures: Wide vs. Long
 
 **Wide format** — one row per subject, repeated measures spread across columns:
@@ -450,8 +456,6 @@ miss_var_summary(df_raw)
 | 2   | t3   | 10    |
 
 ::: callout-note
-`ggplot2`,
-
 Most cross-sectional data or SEM-type data are going to be "wide" format - so there is one row per participant, and each column represents a different variables. If the data are repeated measures/longitudinal, each variable would just be a score at a particular time point
 
 Many "mixed-effects" models (for example the lme4 package) will read in long-format data frames. So there will be multiple rows per participant and there often need to be more than one ID variable. Then there are columns for each variable and the rows represent different scores that are "nested" in teach participant.
@@ -503,7 +507,7 @@ df_wide2
 
 ```
 
-You can see from these that the scores that were horizontal "turn" or are reshaped to vertical and vice versa :::
+You can see from these that the scores that were horizontal "turn" or are reshaped to vertical and vice verse
 
 ## More on Getting Data into R
 
@@ -516,7 +520,7 @@ There are **BaseR** commands to read in .txt files like:
 - df \<- read.table("myfile.txt", header = TRUE) : For generic text files
 - header = TRUE means that the first row includes column (variable) names
 
-# Packages with functions to read in data, often from specific software
+## Packages with functions to read in data, often from specific software
 
 - Tidyverse has a package called "readr" - name of the dataset goes in the ()
 
@@ -555,7 +559,7 @@ Typically I might read in a .sav file that I or a colleague created.
 ```{r}
 library(haven)
 
-my_data <- read_sav("C:\\Users\\ajsup\\Desktop\\Hmong Data File.sav")
+my_data <- read_sav("Hmong Data File.sav")
 
 # Then lets say I do some recoding
 
@@ -566,11 +570,11 @@ my_data$gender <- factor(my_data$Gender,
 
 # Then I save out an RDS file which is an R dataframe
 
-saveRDS(my_data, "C:/Users/ajsup/Desktop/DCYA_clean.rds")
+saveRDS(my_data, "DCYA_clean.rds")
 
 # Next time I go into R, I don't have to reload haven, read in the file, etc
 
-my_data <- readRDS("C:/Users/ajsup/Desktop/DCYA_clean.rds")
+my_data <- readRDS("DCYA_clean.rds")
 
 prop.table(table(my_data$Gender))
 prop.table(table(my_data$gender))

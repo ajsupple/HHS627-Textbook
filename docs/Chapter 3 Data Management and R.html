@@ -183,8 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#chapter-outline" id="toc-chapter-outline" class="nav-link active" data-scroll-target="#chapter-outline">Chapter Outline</a>
-  <ul class="collapse">
+  <li><a href="#chapter-outline" id="toc-chapter-outline" class="nav-link active" data-scroll-target="#chapter-outline">Chapter Outline</a></li>
   <li><a href="#introduction-to-r" id="toc-introduction-to-r" class="nav-link" data-scroll-target="#introduction-to-r">Introduction to R</a>
   <ul class="collapse">
   <li><a href="#who-will-enjoy-r-the-most" id="toc-who-will-enjoy-r-the-most" class="nav-link" data-scroll-target="#who-will-enjoy-r-the-most">Who will enjoy R the most?</a></li>
@@ -208,8 +207,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#checking-the-results-for-data-problems" id="toc-checking-the-results-for-data-problems" class="nav-link" data-scroll-target="#checking-the-results-for-data-problems">Checking the results for data problems</a></li>
   <li><a href="#making-changes-to-the-dataframe" id="toc-making-changes-to-the-dataframe" class="nav-link" data-scroll-target="#making-changes-to-the-dataframe">Making changes to the dataframe</a>
   <ul class="collapse">
-  <li><a href="#other-tranformations" id="toc-other-tranformations" class="nav-link" data-scroll-target="#other-tranformations">Other Tranformations</a></li>
+  <li><a href="#other-transformations" id="toc-other-transformations" class="nav-link" data-scroll-target="#other-transformations">Other Transformations</a></li>
   </ul></li>
+  <li><a href="#coding-categorical-variables" id="toc-coding-categorical-variables" class="nav-link" data-scroll-target="#coding-categorical-variables">Coding Categorical Variables</a></li>
   <li><a href="#r-code-factors-and-recoding" id="toc-r-code-factors-and-recoding" class="nav-link" data-scroll-target="#r-code-factors-and-recoding">R Code: Factors and Recoding</a></li>
   <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing Data</a>
   <ul class="collapse">
@@ -219,12 +219,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-structures-wide-vs.-long" id="toc-data-structures-wide-vs.-long" class="nav-link" data-scroll-target="#data-structures-wide-vs.-long">Data Structures: Wide vs.&nbsp;Long</a></li>
   <li><a href="#r-code-reshaping-data" id="toc-r-code-reshaping-data" class="nav-link" data-scroll-target="#r-code-reshaping-data">R Code: Reshaping Data</a></li>
   <li><a href="#more-on-getting-data-into-r" id="toc-more-on-getting-data-into-r" class="nav-link" data-scroll-target="#more-on-getting-data-into-r">More on Getting Data into R</a></li>
-  </ul></li>
-  <li><a href="#packages-with-functions-to-read-in-data-often-from-specific-software" id="toc-packages-with-functions-to-read-in-data-often-from-specific-software" class="nav-link" data-scroll-target="#packages-with-functions-to-read-in-data-often-from-specific-software">Packages with functions to read in data, often from specific software</a>
-  <ul class="collapse">
+  <li><a href="#packages-with-functions-to-read-in-data-often-from-specific-software" id="toc-packages-with-functions-to-read-in-data-often-from-specific-software" class="nav-link" data-scroll-target="#packages-with-functions-to-read-in-data-often-from-specific-software">Packages with functions to read in data, often from specific software</a></li>
   <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames">Data Frames</a></li>
   <li><a href="#saving-out-dataframes-for-later-use-in-r" id="toc-saving-out-dataframes-for-later-use-in-r" class="nav-link" data-scroll-target="#saving-out-dataframes-for-later-use-in-r">Saving out dataframes for later use in R</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -250,8 +247,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="chapter-outline" class="level1">
-<h1>Chapter Outline</h1>
+<section id="chapter-outline" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-outline">Chapter Outline</h2>
 <ol type="1">
 <li>Intro to R</li>
 <li>Reading data into R</li>
@@ -271,10 +268,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol></li>
 <li>Ensuring missing data flags are correct</li>
 </ol>
+</section>
 <section id="introduction-to-r" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-to-r">Introduction to R</h2>
 <p>R is a programming environment in which researchers can do a variety of different things. Most typically we will use R to:</p>
-<p>1.Manage data sets 2.Clean, code data, create summary scores 3.Do statistical analyses like t-tests, regression, multilevel modeling, SEM 4.Create graphs, tables, and figures</p>
+<ol type="1">
+<li>Manage data sets,</li>
+<li>Clean, code data, create summary scores,</li>
+<li>Do statistical analyses like t-tests, regression, multilevel modeling,</li>
+<li>Create graphs, tables, and figures</li>
+</ol>
 <p>But R can do a number of other tasks for us like reading OSF pages, scraping internet sties, renaming files, and converting files to PDFs.</p>
 <p>Why R?</p>
 <ul>
@@ -843,8 +846,8 @@ Attaching package: 'DescTools'</code></pre>
 </table>
 </div>
 </div>
-<section id="other-tranformations" class="level3">
-<h3 class="anchored" data-anchor-id="other-tranformations">Other Tranformations</h3>
+<section id="other-transformations" class="level3">
+<h3 class="anchored" data-anchor-id="other-transformations">Other Transformations</h3>
 <ul>
 <li><p>Let’s say that anxiety item 4 was in need of reverse scoring.</p></li>
 <li><p>This often arises in cases where items have different “valence” in terms of positive or negative valence.</p>
@@ -1055,17 +1058,17 @@ Attaching package: 'DescTools'</code></pre>
 </table>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Warning
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>## What Are Outliers?</p>
+<p>What Are Outliers?</p>
 <p>An <strong>outlier</strong> is an observation that is unusually distant from the bulk of the data — either extremely high, extremely low, or both (in multivariate settings). Outliers may reflect:</p>
 <ul>
 <li><strong>Data entry errors</strong> (e.g., age coded as 999)</li>
@@ -1130,21 +1133,36 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">is_outlier =</span> <span class="fu">abs</span>(z_age) <span class="sc">&gt;</span> <span class="dv">3</span></span>
 <span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>:::: ::: ## Coding Categorical Variables</p>
+</section>
+</section>
+<section id="coding-categorical-variables" class="level2">
+<h2 class="anchored" data-anchor-id="coding-categorical-variables">Coding Categorical Variables</h2>
 <ul>
-<li><strong>Nominal</strong>: no inherent order (e.g., race/ethnicity, program site, referral source).</li>
-<li><strong>Ordered categorical</strong>: ordered categories without equal spacing assumed (e.g., Likert items, severity stages: mild/moderate/severe).</li>
-<li><strong>Dummy coding</strong>: reference group = 0, comparison groups = 1; coefficients interpreted relative to the reference.</li>
-<li><strong>Effect coding</strong>: groups coded -1/1; coefficients interpreted relative to the grand mean.</li>
-<li>Note that we will get into coding specifics in R when we run analyses… ::: ::: callout-warning ## Common Pitfall</li>
-</ul>
+<li><p><strong>Nominal</strong>: no inherent order (e.g., race/ethnicity, program site, referral source).</p></li>
+<li><p><strong>Ordered categorical</strong>: ordered categories without equal spacing assumed (e.g., Likert items, severity stages: mild/moderate/severe).</p></li>
+<li><p><strong>Dummy coding</strong>: reference group = 0, comparison groups = 1; coefficients interpreted relative to the reference.</p></li>
+<li><p><strong>Effect coding</strong>: groups coded -1/1; coefficients interpreted relative to the grand mean.</p></li>
+<li><p>Note that we will get into coding specifics in R when we run analyses…</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Common Pitfall</p>
 <p>Numeric-looking codes (<code>1 = Male, 2 = Female</code>) get accidentally treated as continuous in R if not explicitly converted to a factor — this silently corrupts downstream models. Also, there are many good reasons for why binary variables should be recoded to 0/1. For example, got divorced = 1, did not get divorced = 0 as opposed to 1 and 2.</p>
 <ul>
 <li>Easier interpretation of intercepts in regressions</li>
 <li>Easier interpretation when doing product terms for interactions</li>
-<li>Mean is actually meaningful (will be percentage of participants in 1 category) ::: ::::</li>
+<li>Mean is actually meaningful (will be percentage of participants in 1 category)</li>
 </ul>
-</section>
+</div>
+</div></li>
+</ul>
 </section>
 <section id="r-code-factors-and-recoding" class="level2">
 <h2 class="anchored" data-anchor-id="r-code-factors-and-recoding">R Code: Factors and Recoding</h2>
@@ -1196,7 +1214,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We need to be really careful with nominal IVs. Say for example I want to see if there is greater participation in blood pressure screening at Urban Health Clinics, Rural Clinics, or via TeleHealth visits (using home BP monitor)</p>
+<p>We need to be careful with nominal IVs. Say for example I want to see if there is greater participation in blood pressure screening at Urban Health Clinics, Rural Clinics, or via TeleHealth visits (using home BP monitor)</p>
 <p>I would most likely have a variable titled “Clinic Type” that has values of 1, 2, and 3 that represent Urban, Rural, and Telehealth, respectively</p>
 <p>In an ANOVA, that isn’t much of a problem because the RQ is: Are there differences in participation across three clinics? In Multiple regression, however, we are asking: Is a one level <em>increase</em> in clinic type (meaningless) associated with greater BP screening participation</p>
 <p>In a case like this we need to <strong><em>dummy code</em></strong> site type. Will come back to this later…</p>
@@ -1334,7 +1352,6 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>ggplot2</code>,</p>
 <p>Most cross-sectional data or SEM-type data are going to be “wide” format - so there is one row per participant, and each column represents a different variables. If the data are repeated measures/longitudinal, each variable would just be a score at a particular time point</p>
 <p>Many “mixed-effects” models (for example the lme4 package) will read in long-format data frames. So there will be multiple rows per participant and there often need to be more than one ID variable. Then there are columns for each variable and the rows represent different scores that are “nested” in teach participant.</p>
 </div>
@@ -1413,9 +1430,8 @@ Note
 <li>header = TRUE means that the first row includes column (variable) names</li>
 </ul>
 </section>
-</section>
-<section id="packages-with-functions-to-read-in-data-often-from-specific-software" class="level1">
-<h1>Packages with functions to read in data, often from specific software</h1>
+<section id="packages-with-functions-to-read-in-data-often-from-specific-software" class="level2">
+<h2 class="anchored" data-anchor-id="packages-with-functions-to-read-in-data-often-from-specific-software">Packages with functions to read in data, often from specific software</h2>
 <ul>
 <li><p>Tidyverse has a package called “readr” - name of the dataset goes in the ()</p>
 <ul>
@@ -1443,6 +1459,7 @@ Note
 <li>read.dta() # Stata</li>
 </ul></li>
 </ul>
+</section>
 <section id="data-frames" class="level2">
 <h2 class="anchored" data-anchor-id="data-frames">Data Frames</h2>
 <p>Datasets are typically stored in <strong><em>data frames</em></strong>. R will refer to data frames has having Rows and Columns.</p>
@@ -1486,7 +1503,6 @@ Note
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
