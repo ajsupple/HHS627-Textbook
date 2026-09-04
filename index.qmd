@@ -16,7 +16,6 @@ This book provides core concepts and applied examples for **HHS 627**.
 - [Chapter 1: Statistical Thinking and Quantitative Analysis](Chapter%201%20HHS%20Statistical%20Thinking.html)
 - [Chapter 2: Matching Research Designs to Analyses](Chapter%202%20Matching%20Research%20Designs%20to%20Analyses.html)
 - [Chapter 3: Data Cleaning and Getting into R](Chapter%203%20Data%20Management%20and%20R.html)
-- - [Chapter 4: ANOVAs Part I](Chapter%204%20ANOVAs%20Part%20I.html)
 
 ## Suggested citation
 
