@@ -2,20 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 4 ANOVAs Part I</title>
+<title>Chapter 4 ANOVAs Part I – HHS627 Textbook2</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -58,42 +61,57 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
-<script src="Chapter 4 ANOVAs Part I_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Chapter 4 ANOVAs Part I_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="Chapter 4 ANOVAs Part I_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="Chapter 4 ANOVAs Part I_files/libs/quarto-html/popper.min.js"></script>
-<script src="Chapter 4 ANOVAs Part I_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="Chapter 4 ANOVAs Part I_files/libs/quarto-html/anchor.min.js"></script>
-<link href="Chapter 4 ANOVAs Part I_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Chapter 4 ANOVAs Part I_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="Chapter 4 ANOVAs Part I_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="Chapter 4 ANOVAs Part I_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Chapter 4 ANOVAs Part I_files/libs/bootstrap/bootstrap-efbb37e9afcc02144ebbc7afd12a776f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Chapter 3 Data Management and R.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-631496449bf32ff9b0bb69a6bfd9195d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -124,15 +142,103 @@ window.Quarto = {
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter 4 ANOVAs Part I.html"><span class="chapter-title">Chapter 4 ANOVAs Part I</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">HHS627 Textbook2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HHS 627 Textbook</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 1 HHS Statistical Thinking.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1 HHS Statistical Thinking</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 2 Matching Research Designs to Analyses.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2 Matching Research Designs to Analyses</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 3 Data Management and R.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Data Cleaning and Getting into R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 4 ANOVAs Part I.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 4 ANOVAs Part I</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#anova-part-i" id="toc-anova-part-i" class="nav-link active" data-scroll-target="#anova-part-i">ANOVA: Part I</a></li>
+  <li><a href="#what-is-an-anova-why-would-you-do-one" id="toc-what-is-an-anova-why-would-you-do-one" class="nav-link" data-scroll-target="#what-is-an-anova-why-would-you-do-one">What is an ANOVA? Why would you do one?</a>
+  <ul class="collapse">
+  <li><a href="#using-r-to-run-the-anova" id="toc-using-r-to-run-the-anova" class="nav-link" data-scroll-target="#using-r-to-run-the-anova">Using R to run the ANOVA</a></li>
+  <li><a href="#a-sample-anova-table" id="toc-a-sample-anova-table" class="nav-link" data-scroll-target="#a-sample-anova-table">A sample ANOVA table</a></li>
+  </ul></li>
+  <li><a href="#technical-details-about-anovas" id="toc-technical-details-about-anovas" class="nav-link" data-scroll-target="#technical-details-about-anovas">Technical Details about ANOVAs</a>
+  <ul class="collapse">
+  <li><a href="#why-cant-we-just-stick-with-t-tests" id="toc-why-cant-we-just-stick-with-t-tests" class="nav-link" data-scroll-target="#why-cant-we-just-stick-with-t-tests">Why can’t we just stick with <span class="math inline">\(t-tests\)</span>?</a></li>
+  <li><a href="#anova-overcomes-the-alpha-inflation-problem-by-focusing-on-one-test." id="toc-anova-overcomes-the-alpha-inflation-problem-by-focusing-on-one-test." class="nav-link" data-scroll-target="#anova-overcomes-the-alpha-inflation-problem-by-focusing-on-one-test.">ANOVA overcomes the alpha inflation problem by focusing on one test.</a></li>
+  </ul></li>
+  <li><a href="#one-way-anova-details" id="toc-one-way-anova-details" class="nav-link" data-scroll-target="#one-way-anova-details">One Way ANOVA details</a></li>
+  <li><a href="#the-logic-of-anova" id="toc-the-logic-of-anova" class="nav-link" data-scroll-target="#the-logic-of-anova">The Logic of ANOVA</a></li>
+  <li><a href="#understanding-the-f-ratio" id="toc-understanding-the-f-ratio" class="nav-link" data-scroll-target="#understanding-the-f-ratio">Understanding the F Ratio</a>
+  <ul class="collapse">
+  <li><a href="#computing-the-f-ratio" id="toc-computing-the-f-ratio" class="nav-link" data-scroll-target="#computing-the-f-ratio">Computing the F Ratio</a></li>
+  </ul></li>
+  <li><a href="#how-to-run-the-same-anova-using-r-instead" id="toc-how-to-run-the-same-anova-using-r-instead" class="nav-link" data-scroll-target="#how-to-run-the-same-anova-using-r-instead">How to run the same ANOVA using R instead</a></li>
+  <li><a href="#that-is-the-one-way-anova" id="toc-that-is-the-one-way-anova" class="nav-link" data-scroll-target="#that-is-the-one-way-anova">That is the One-Way Anova</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 4 ANOVAs Part I</h1>
+<h1 class="title"><span class="chapter-title">Chapter 4 ANOVAs Part I</span></h1>
 </div>
 
 
@@ -149,8 +255,8 @@ window.Quarto = {
 </header>
 
 
-<section id="anovas-part-i" class="level2">
-<h2 class="anchored" data-anchor-id="anovas-part-i">ANOVAs: Part I</h2>
+<section id="anova-part-i" class="level2">
+<h2 class="anchored" data-anchor-id="anova-part-i">ANOVA: Part I</h2>
 <p>In this chapter we are going to discuss the family of <strong>Analysis of Variance</strong> (ANOVA) analyses that are typical in HHS research. These start from a place of <em>between groups</em> analyses that focus on comparison of means scores across multiple groups. That is the One-Way ANOVA. Other ANOVA models will include:</p>
 <ol type="1">
 <li>Multiple IVs or factors (factorial ANOVA)</li>
@@ -176,9 +282,9 @@ Note
 <div class="callout-body-container callout-body">
 <p>Hmong are a refugee group originally from the mountain regions of Laos who were drawn into the Vietnam conflict by US forces. Upon US withdrawal from SE Asia, many Hmong fled persecution and violence and were placed in refugee camps in Thailand. Many were granted refugee status to come to the US. There are an estimated 400,000 Hmong in the USA with the largest populations in California, Minnesota, Wisconsin, and North Carolina.</p>
 <p>Cultural and language brokering refers to children in immigrant families serving as translators/interpreters for non-English speaking parents and also teaching parents about social rules and norms in the US.</p>
-<p><span class="citation" data-cites="subramoney2025">(<a href="#ref-subramoney2025" role="doc-biblioref">Subramoney et al. 2025</a>)</span></p>
-<p><span class="citation" data-cites="im2025">(<a href="#ref-im2025" role="doc-biblioref">Im 2025</a>)</span></p>
-<p><span class="citation" data-cites="vang2019a">(<a href="#ref-vang2019a" role="doc-biblioref">Vang 2019</a>)</span></p>
+<p><span class="citation" data-cites="subramoney2025">(<a href="#ref-subramoney2025" role="doc-biblioref"><strong>subramoney2025?</strong></a>)</span></p>
+<p><span class="citation" data-cites="im2025">(<a href="#ref-im2025" role="doc-biblioref"><strong>im2025?</strong></a>)</span></p>
+<p><span class="citation" data-cites="vang2019a">(<a href="#ref-vang2019a" role="doc-biblioref"><strong>vang2019a?</strong></a>)</span></p>
 </div>
 </div>
 <p>In a survey of 7th grade adolescents, I asked students about experiences as cultural and language brokers. Based on those responses, I classified students into one of three groups: (1) Low, (2) Moderate, and (3) High. The classification reflected adolescents who reported very low engagement in cultural/language brokering or just doings things like answering the phone. Moderate engagement was some frequency of doing translating, particularly at school. High engagement referred to adolescents who frequently translated for parents including in “high stakes” settings like medical appointments.</p>
@@ -323,10 +429,10 @@ Note
 <p>Imagine the three pairwise tests produce these results:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 28%">
-<col style="width: 23%">
-<col style="width: 23%">
+<col style="width: 24%">
+<col style="width: 27%">
+<col style="width: 24%">
+<col style="width: 24%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -559,7 +665,7 @@ Note
 <img src="Chapter-4-ANOVAs-Part-I_files/figure-html/fig-anova-signal-noise-1.png" class="img-fluid figure-img" width="1056">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-anova-signal-noise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: ANOVA compares variability between group means with variability within groups. The group means are identical in both panels; only within-group variability changes.
+Figure&nbsp;5.1: ANOVA compares variability between group means with variability within groups. The group means are identical in both panels; only within-group variability changes.
 </figcaption>
 </figure>
 </div>
@@ -1422,23 +1528,13 @@ High-Medium -1.162338 -7.03155893  4.706884 0.8840506</code></pre>
 </tbody>
 </table>
 </section>
-<section id="that-is-the-one-way-anova" class="level2 unnumbered">
+<section id="that-is-the-one-way-anova" class="level2">
+<h2 class="anchored" data-anchor-id="that-is-the-one-way-anova">That is the One-Way Anova</h2>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">That is the One-Way Anova</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-im2025" class="csl-entry" role="listitem">
-Im, Carolyne. 2025. <span>“Facts about <span>Hmong</span> in the <span>U.S.</span>”</span> Pew Research Center, May 1. <a href="https://www.pewresearch.org/social-trends/fact-sheet/asian-americans-hmong-in-the-u-s/">https://www.pewresearch.org/social-trends/fact-sheet/asian-americans-hmong-in-the-u-s/</a>.
-</div>
-<div id="ref-subramoney2025" class="csl-entry" role="listitem">
-Subramoney, Sivenesi, Eric A Walle, Alexandra Main, and Dalia Magaña. 2025. <span>“Cultural Brokering in Immigrant Families.”</span> <em>Child Development Perspectives</em> 19 (3): 165–71. <a href="https://doi.org/10.1111/cdep.12539">https://doi.org/10.1111/cdep.12539</a>.
-</div>
-<div id="ref-vang2019a" class="csl-entry" role="listitem">
-Vang, Chia Youyee. 2019. <em>Fly Until You Die</em>. Oxford University PressNew York. <a href="https://doi.org/10.1093/oso/9780190622145.001.0001">https://doi.org/10.1093/oso/9780190622145.001.0001</a>.
-</div>
-</div></section></div></main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -1839,6 +1935,15 @@ Vang, Chia Youyee. 2019. <em>Fly Until You Die</em>. Oxford University PressNew 
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Chapter 3 Data Management and R.html" class="pagination-link" aria-label="Chapter 3: Data Cleaning and Getting into R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 3: Data Cleaning and Getting into R</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
