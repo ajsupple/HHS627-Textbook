@@ -57,72 +57,6 @@ A common follow up test is the $Tukey$ Honestly Difference test that will do gro
 
 Typically it is also helpful to see the means stratified by group and to compute a measure of effect size, $\eta^2$ or $\omega^2$.
 
-### Using R to run the ANOVA
-
-```{r}
-#| label: setup
-#| include: false
-
-library(dplyr)    # provides %>%
-library(gt)       # provides gt(), fmt_number(), tab_header(), cols_label()
-library(ggplot2)  # provides ggplot()
-brokering_df<-readRDS("brokering_df")  # Reads in the brokering data
-
-# Create a new object called 'means_brok'
-# aggregate() computes summary statistics for a variable within groups.
-# aafcs = Asian American Family Conflicts Scale scores
-# ~ = "grouped by" or "conditioned on"
-# brok_three = grouping variable with Low, Moderate, and High brokering groups
-# data = data frame containing the variables
-# FUN = mean = compute the mean within each group
-# na.rm = TRUE = ignore missing values when calculating means
-
-means_brok<-aggregate(aafcs ~ brok_three,      
-          data = brokering_df,                 
-          FUN = mean,
-          na.rm = TRUE)  
-
-means_brok # Print out the means for us to see
-
-## ANOVA part
-
-aov_brok<-aov(aafcs~brok_three,data=brokering_df)  # aov is ANOVA function
-                                  
-summary(aov_brok)                                  # Summary requests output with F
-
-# Note that the F is 3.511, which is statistically significant with p = .0347
-# Also note that F is a ratio of MS_B and MS_W which is 227.5/64.8 = 3.511 whici appears in the out put after we run these commands
-
-### The follow up test
-
-TukeyHSD(aov_brok)
-
-# Tukey Honestly Significant Difference test suggests that the 5 point difference separating the LOW and moderate brokering groups is statistically significant
-
-
-
-```
-
-The three AAFCS means are 24.27, 29.57, and 28.41 for the Low, Moderate, and High groups respectively.
-
-::: callout-note
-## Sample Write up
-
-A one-way analysis of variance (ANOVA) was conducted to examine differences in AAFCS scores across participants with low, moderate, and high levels of cultural brokering. There was a statistically significant F(2, 77) = 3.51, p = .035, η² = .084 indicating mean differences in AAFCS scores across groups. Group means indicated that participants in the moderate brokering group (M = 29.57) reported the highest AAFCS scores, followed by the high brokering group (M = 28.41) and the low brokering group (M = 24.27).
-
-**Posthoc** tests (Tukey's HSD) suggested that the moderate brokering group scored significantly higher than the low brokering group (mean difference = 5.30, 95% CI \[0.04, 10.56\], p = .048). The differences between the high and low brokering groups (mean difference = 4.14, p = .143) and between the high and moderate brokering groups (mean difference = -1.16, p = .884) were not statistically significant.
-:::
-
-### A sample ANOVA table
-
-| Source         |      SS |  df |     MS |    F |    p |   η² |
-|----------------|--------:|----:|-------:|-----:|-----:|-----:|
-| Between Groups |  455.04 |   2 | 227.52 | 3.51 | .035 | .084 |
-| Within Groups  | 4989.76 |  77 |  64.80 |      |      |      |
-| Total          | 5444.80 |  79 |        |      |      |      |
-
-: One-Way ANOVA for AAFCS by Brokering Group
-
 ## Technical Details about ANOVAs
 
 ### Why can't we just stick with $t-tests$?
@@ -156,7 +90,7 @@ $\alpha_{fw} = 1 - (.95)(.95)(.95) = 1 - .95^3 = 1 - .8574 = .1426$
 
 This suggests that, if all null hypotheses are true and the three tests are independent, there is about a 14.3% chance of obtaining at least one statistically significant result by chance alone.
 
-Put differently, even when there are no real group differences, running three separate tests at (\alpha = .05) makes it more likely that random sampling variation will make one of them appear statistically significant.
+Put differently, even when there are no real group differences, running three separate tests at ($\alpha$ = .05) makes it more likely that random sampling variation will make one of them appear statistically significant.
 :::
 
 ::: callout-note
@@ -164,16 +98,11 @@ Note that the above procedure assumes *independent tests*.
 
 A different approach is the **Bonferroni bound**:
 
-\[ \alpha\_{FW} \leq
-3(.05) = .15 \]
+$$
+\alpha_{FW} \leq 3(.05) = .15
+$$
 
-This means that if we conduct three tests, each at (\alpha = .05), the probability of making **at least one** Type I error is no greater than (15%).
-
-The (\leq) symbol is important. Unlike the calculation
-
-\[ 1 - .95\^3 = .1426, \]
-
-the Bonferroni bound does **not** assume that the tests are independent. It works even when the tests are related or share data, as pairwise comparisons among group means often do.
+This means that if we conduct three tests, each at ($\alpha$ = .05), the probability of making **at least one** Type I error is no greater than (15%).The **Bonferroni** bound does **not** assume that the tests are independent. It works even when the tests are related or share data, as pairwise comparisons among group means often do.
 
 Because it gives an upper limit rather than an exact probability, it may be somewhat conservative. In this example, the actual family-wise error rate could be below (15%), but Bonferroni guarantees that it will not exceed (15%).
 
@@ -181,51 +110,51 @@ When running multiple tests, The **Bonferroni correction** is a simple way to ke
 
 The rule is:
 
-\[ \alpha\_{\text{per test}} = \frac{\alpha_{\text{family-wise}}}{\text{number of tests}} \]
+$\alpha\_{\text{per test}} = \frac{\alpha_{\text{family-wise}}}{\text{number of tests}}$
 
 If we want the family-wise error rate to stay at (.05) and we have three comparisons:
 
-\[ \alpha\_{\text{per test}} = \frac{.05}{3} = .0167 \]
+$\alpha\_{\text{per test}} = \frac{.05}{3} = .0167$
 
-Therefore, instead of using (p \< .05) for each comparison, we use:
+Therefore, instead of using ($p$ < .05) for each comparison, we use:
 
-\[ p \< .0167 \]
+$p < .0167$
 
-A comparison must have a (p)-value below (.0167) to be statistically significant after the Bonferroni correction.
+A comparison must have a $p$-value below (.0167) to be statistically significant after the Bonferroni correction.
 
 ## Example
 
 Imagine the three pairwise tests produce these results:
 
-| Comparison | Original (p)-value | Significant using (p \< .05)? | Significant after Bonferroni? |
-|------------------|-------------------:|------------------|------------------|
+| Comparison | Original $p$-value | Significant using $p$ <.05)? | Significant after Bonferroni? |
+|------------------|------------------:|------------------|------------------|
 | Group 1 vs. Group 2 | .011 | Yes | Yes |
 | Group 1 vs. Group 3 | .021 | Yes | No |
 | Group 2 vs. Group 3 | .004 | Yes | Yes |
 
 After the Bonferroni correction, the cutoff is (.0167):
 
-- (.011 \< .0167), so Group 1 vs. Group 2 is significant.
-- (.021 \> .0167), so Group 1 vs. Group 3 is **not** significant.
-- (.004 \< .0167), so Group 2 vs. Group 3 is significant.
+- .011 < .0167), so Group 1 vs. Group 2 is significant.
+- .021 > .0167), so Group 1 vs. Group 3 is **not** significant.
+- .004 < .0167), so Group 2 vs. Group 3 is significant.
 
-## Another way: adjust the (p)-values
+## Another way: adjust the $p$-values
 
-Instead of lowering the cutoff, we can multiply each (p)-value by the number of tests:
+Instead of lowering the cutoff, we can multiply each $p$-value by the number of tests:
 
-\[ p\_{\text{adjusted}} = p \times m \]
+$p\_{\text{adjusted}} = p \times m \$
 
-where (m) is the number of comparisons.
+where $m$ is the number of comparisons.
 
 For three tests:
 
-\[ p\_{\text{adjusted}} = 3p \]
+$ p\_{\text{adjusted}} = 3p$
 
-Any adjusted (p)-value above 1 is reported as 1.
+Any adjusted $p$-value above 1 is reported as 1.
 
 For the earlier example:
 
-| Comparison          | Original (p)-value | Bonferroni-adjusted (p)-value |
+| Comparison          | Original $p$-value | Bonferroni-adjusted $p$-value |
 |---------------------|-------------------:|------------------------------:|
 | Group 1 vs. Group 2 |               .011 |                          .033 |
 | Group 1 vs. Group 3 |               .021 |                          .063 |
@@ -233,11 +162,11 @@ For the earlier example:
 
 We then compare the adjusted values to (.05):
 
-- (.033 \< .05): significant
-- (.063 \> .05): not significant
-- (.012 \< .05): significant
+- (.033 < .05): significant
+- (.063 > .05): not significant
+- (.012 < .05): significant
 
-This produces the same decisions as using the corrected cutoff of (.0167).
+This produces the same decisions as using the corrected cutoff of .0167.
 
 ## Important tradeoff
 

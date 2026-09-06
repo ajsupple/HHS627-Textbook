@@ -1,0 +1,1028 @@
+---
+title: "Chapter 4 ANOVAs Part II"
+author: "Andy Supple"
+format: html
+editor: source
+references: references.bib
+---
+
+## ANOVAs Part II
+
+Thus far we considered an ANOVA with three groups and one outcome. That model was a One-Way ANOVA because it included one factor (language/cultural brokering) and one outcome. We are frequently going to want to consider more complex models that include multiple outcomes, comparing within-person scores that are repeated over time, more than one factor in a study, and including covariates of control variables.
+
+### Factorial ANOVA
+
+Factorial ANOVAs are models with more than one factor. These models offer the ability to consider mean differences across multiple factors simultaneously (the main effects) and the interaction between factors.
+
+Let's work through an example where we might be interested in self-reported anxiety scores on adolescent males based on sexual orientation and race. Let's say that we have one factor
+
+- Race: where participants indicated whether they were African American/Black or European American/White
+- And sexual orientation: where participants indicated if they were gay or straight
+
+This analysis would have two factors (race and sexual orientation) and one outcome. Each variable has two levels, resulting in four possible groups.
+
+This design allows for a few different research questions:
+
+1.  *Is self-reported anxiety higher among gay adolescent males compared to straight males*?
+2.  *Is self-reported anxiety higher among White adolescent males compared to Black males*?
+3.  *Is the difference in anxiety among gay/straight males greater for Black males compared to white males*?
+
+The first two of these research questions test for main effects, while the third question tests an interaction effect.
+
+::: callout-note
+Interaction effects are sometimes referred to as moderator effects. Moderators in general refer to variables that modify the association of a predictor on an outcome. In ANOVAs, the interaction can be thought of as group means varying across one factor in a different way based on the other factor. A significant interaction would suggest that the main factor difference depends upon levels of the other factor.
+:::
+
+### A 2X2 ANOVA Comparing Anxiety Scores by Race and Sexual Orientation
+
+We will start with an example study, work through some research questions, prepare some data to analyze, then use R to run the 2X2 ANOVA and interpret our results.
+
+**Outcome Variable**
+
+- Anxiety symptoms (higher scores indicate greater anxiety)
+- Possible range: 10 to 28
+
+**Independent Variables**
+
+- Race
+  - Black
+  - White
+- Sexual Orientation
+  - Gay
+  - Straight
+
+**Study Groups**
+
+1.  Black and Gay
+2.  Black and Straight
+3.  White and Gay
+4.  White and Straight
+
+For this demonstration, assume that we have **30 participants per group**.
+
+$$N = 30 + 30 + 30 + 30 = 120$$
+
+## Hypothesized Group Means
+
+| Race  | Orientation | Mean Anxiety |
+|:------|:------------|-------------:|
+| White | Straight    |           15 |
+| White | Gay         |           17 |
+| Black | Straight    |           15 |
+| Black | LGB         |           25 |
+
+Notice that:
+
+- Black adolescents report no more anxiety than White adolescents within straight group
+- Gay adolescents report more anxiety than non-LGB adolescents, regardless of race
+- Black and gay adolescents have the highest anxiety scores.
+
+The overall mean is:
+
+$$\bar{Y}_{Grand} = 17$$
+
+## The Factorial ANOVA Model
+
+The two-way ANOVA can be represented as: $$Y = \mu + \text{Race} + \text{Orientation} +
+\text{Race} \times \text{Orientation} + e$$ \## Partitioning Variability into Sources for Race, Orientation and the Interaction
+
+As with a one-way ANOVA, total variability is divided into explained (between groups) and unexplained (within-groups) components.
+
+$$SS_{Total}
+=
+SS_{Race}
++
+SS_{Orientation}
++
+SS_{Race\times Orientation}
++
+SS_{Error}$$
+
+The ANOVA table therefore evaluates:
+
+1.  Main effect of race
+2.  Main effect of sexual orientation
+3.  Race × Sexual Orientation interaction
+4.  Residual error (what isn't explained by the factors)
+
+## Degrees of Freedom
+
+For this example:
+
+$$df_{Race}=2-1=1$$
+
+$$df_{Orientation}=2-1=1$$
+
+$$df_{Interaction}=(2-1)(2-1)=1$$
+
+$$df_{Error}=N-ab$$
+
+where:
+
+- $N=120$
+- $a=2$ race groups
+- $b=2$ orientation groups
+
+Therefore,
+
+$$df_{Error}=120-4=116$$
+
+## Mean Squares
+
+$$MS_{Race}
+=
+\frac{SS_{Race}}
+{df_{Race}}$$
+
+$$MS_{Orientation}
+=
+\frac{SS_{Orientation}}
+{df_{Orientation}}$$
+
+$$MS_{Interaction}
+=
+\frac{SS_{Interaction}}
+{df_{Interaction}}$$
+
+$$MS_{Error}
+=
+\frac{SS_{Error}}
+{df_{Error}}$$
+
+## F Statistics
+
+For each effect, the amount of explained variance is compared against unexplained variance.
+
+### Main Effect of Race
+
+$$F_{Race}
+=
+\frac{MS_{Race}}
+{MS_{Error}}$$
+
+### Main Effect of Sexual Orientation
+
+$$F_{Orientation}
+=
+\frac{MS_{Orientation}}
+{MS_{Error}}$$
+
+### Interaction Effect
+
+$$F_{Interaction}
+=
+\frac{MS_{Interaction}}
+{MS_{Error}}$$
+
+Large F values indicate that between-group variability is large relative to within-group variability.
+
+## Simulating Data in R
+
+```{r,echo=F}
+set.seed(627) # A seed just ensures that if we do this again, get same data characteristics
+
+n <- 30       # Create an object = 30 
+
+anxiety_df <- data.frame( race = rep(c("White", "White", "Black", "Black"), each = n),
+  orientation = rep(c("Straight", "Gay","Straight", "Gay"), each = n),
+  anxiety = c(
+    rnorm(n, mean = 15, sd = 3),
+    rnorm(n, mean = 17, sd = 3),
+    rnorm(n, mean = 15, sd = 3),
+    rnorm(n, mean = 25, sd = 3)))
+
+# Create object 'anxiety_df' it will be a data.frame, has race = repeat, concatenate,
+# gives variable labels, each n of 30
+# Repeat for orientation
+# Then simulates data with rnorm, n = 30, then gives means and SDs to characterize the data
+# scores will be stored in a variable called 'anxiety'
+
+anxiety_df$anxiety[anxiety_df$anxiety < 10] <- 10  
+anxiety_df$anxiety[anxiety_df$anxiety > 28] <- 28
+
+# Can get negative numbers, scores that aren't realistic with simulated data. THe above
+# commands set scores to be a minimum of 10 and maximum of 28 to fit our example
+
+anova_gayr <- aov(anxiety ~ race * orientation,
+           data = anxiety_df) # ANOVA syntax, the * indicates that we want to test an interaction
+
+summary(anova_gayr)
+
+```
+```{r}
+# As an example of the F computations, take the Race SS_B, divide by the df = 1
+# so the MW_B = 437.6. The F is MS_B/MS_W, the latter of which is 8.5 from the table
+
+ms_b = 437.6
+ms_w = 8.5
+F_value = ms_b/ms_w
+F_value
+
+# R code to estimate the critical value of F at 1,116 degrees of freedom
+
+qf(.95, 1, 116)
+
+# R code for an exact p value given an F and the df1 and df2
+
+options(scipen = 999) # This turns of scientific notation for p values
+
+pf(F_value, 1, 116, lower.tail = FALSE)
+
+
+
+
+```
+Note our computations are slightly different due to rounding
+```{r}
+
+aggregate(anxiety ~ race + orientation,
+          data = anxiety_df,
+          mean) # gets the means as a function of race and orientation
+
+```
+Group means crossed by race and sexual orientation. What is visible is that among straight males
+there seems to be no difference in anxeity by race. Among gay males, however, anxiety seems to be higher among Black males compared to White males. Another way of thinking about it is "What is the increase" in anxiety of going from straight-to-gay? And is that increase stronger/greater for Black males (an interaction effect)?
+
+```{r}
+anxiety_df$orientation <- factor( anxiety_df$orientation,
+  levels = c("Straight", "Gay"))
+
+interaction.plot(
+  x.factor = anxiety_df$orientation,
+  trace.factor = anxiety_df$race,
+  response = anxiety_df$anxiety,
+  ylab = "Mean Anxiety",
+  xlab = "Sexual Orientation",
+  trace.label = "Race"
+)
+# Plots out the means, X is sexual orientation, moderator factor is race
+# response variable = the outcome
+# ylab and xlab give labels to the x and y axis for the plot
+
+```
+This plots out conditional means: Means at the two levels of one factor (Race) and two levels of the other factor (sexual orientation). 
+------------------------------------------------------------------------
+
+### Note that what we just ran works well for ***balanced designs***
+
+***Balanced design*** have equal numbers of participants in each "cell" crossing race and sexual orientation.
+
+- That might be a reasonable expectation if I did quota sampling to get exact numbers
+- In available data, however, that is unlikely to be the case
+
+Let's see what happens if we run the same general analysis, but with unbalanced groups
+
+But **first** let's show how a multiple regression come to the same conclusions as the 2X2 ANOVA we have been running
+
+```{r}
+
+# These are our group means
+
+aggregate(anxiety ~ race + orientation,
+          data = anxiety_df,
+          mean) 
+
+```
+```{r}
+
+# For right now, let's just show the main effects and omit the interaction
+
+anova_res<-aov(anxiety~race+orientation,data=anxiety_df)
+summary(anova_res)
+
+TukeyHSD(anova_res)
+
+```
+```{r}
+
+# Now we do as a multipe regression
+
+reg_res<-lm(anxiety~race+orientation,data=anxiety_df)
+summary(reg_res)
+
+```
+Note that the regression coefficient is the same as the TukeyHSD result. When holding race "constant" there is a 6.1694 difference in anxiety across gay/straight. In regression language, a one unit increase in gay is associated with a 6.1694 increase in anxiety, controlling for race.
+
+The point here is just to see how R uses the outcome ~ factor + factor for both ANOVA and Regression and the difference is the aov and lm functions.
+
+### Here we will now run an unbalanced design to demonstrate additional complications 
+
+```{r,echo=F}
+set.seed(222)
+
+# Unequal cell sizes
+
+n_ws <- 25   # White Straight
+n_wg <- 10   # White Gay
+n_bs <- 8   # Black Straight
+n_bg <- 17   # Black Gay
+
+anxiety_df2 <- data.frame(
+  race = c(
+    rep("White", n_ws + n_wg),
+    rep("Black", n_bs + n_bg)
+  ),
+
+  orientation = c(
+    rep("Straight", n_ws),
+    rep("Gay", n_wg),
+    rep("Straight", n_bs),
+    rep("Gay", n_bg)
+  ),
+
+  anxiety = c(
+    rnorm(n_ws, mean = 15, sd = 3),
+    rnorm(n_wg, mean = 17, sd = 3),
+    rnorm(n_bs, mean = 15, sd = 3),
+    rnorm(n_bg, mean = 25, sd = 3)
+  )
+)
+
+# Trim unrealistic values
+
+anxiety_df2$anxiety[anxiety_df2$anxiety < 7] <- 7
+anxiety_df2$anxiety[anxiety_df2$anxiety > 31] <- 31
+
+# Means by cell
+
+aggregate(anxiety ~ race + orientation,
+          data = anxiety_df2,
+          mean)
+```
+
+
+```{r}
+# Fit model
+
+mod <- lm(anxiety ~ race * orientation,
+          data = anxiety_df2)
+
+# Type I SS
+
+anova(mod)
+
+## Now if we REVERSE the order of the variables
+
+mod1 <- lm(anxiety ~ orientation*race,
+          data = anxiety_df2)
+
+anova(mod1)
+
+# Under these two conditions, the F values change
+# Type I SS actually tests for variance explained in the order variables are entered
+# So the order can affect statistical significance
+# In this case it doesn't, however notice the Mean SS for rae (756) and for orientation (339). 
+# We might think that race explains much more variance in anxeity than does orientation.
+# However when we change the order of entry for the factors - that conclusion is reversed
+# This uses Type I sum of squares and with unbalanced data, results - including decisions about
+# statistical significanct - will vary based on the order of entry for the factors
+
+
+```
+
+```{r}
+# Type II SS 
+
+library(car)
+
+Anova(mod, type = 2)
+
+```
+The Type II sum of squares takes into account both factors at once and note the sum of squares being roughly more equal. The downside here is that we don't get the interactio included, so we need Type III SS
+
+```{r}
+
+mod3 <- lm(anxiety ~ race * orientation,
+           data = anxiety_df2)
+
+Anova(mod3, type = 3)
+
+
+```
+Here we have better proportioning of the variable by the two factors and we also get the interaction F value. 
+
+::: callout-note
+## Type I, II, and III Sum of Squares
+
+- Factorial ANOVAs can be *balanced* or *unbalanced*
+  - Balanced is when the groups have the same sample size in all of the cells
+  - Unbalanced is when groups have different sample sizes in the cells
+    - There are different ways to do sum of squares tests in ANOVAs
+    - Some statistical packages by default use Type III Sum of Squares
+    - In cases where you have unbalanced groups, Type III is more accurate
+    - Less sensitive to the order of variables
+
+Type I (Sequential) sums of squares evaluate effects in the order they are entered into the model. Results may change if the order of variables changes. Type II sums of squares test each main effect after adjusting for the other main effects but ignore interactions when testing main effects. Type III sums of squares test each effect after adjusting for all other effects in the model, including interactions.
+
+Because Type I tests depend on variable order, they are most appropriate for hierarchical models or balanced designs. In contrast, Type III sums of squares are commonly used in unbalanced factorial ANOVAs when interactions are included in the model.
+
+*Type III* asks, "What does this variable explain after accounting for everything else?
+
+## More Complex Factorial ANOVAs
+
+Example: Examining the effect of *high intensity interval training* (HIIT) on $VO_2$ max scores across four different training regimens. 
+
+- Hypothesis: HIIT will demonstrated 
+
+Researchers assigned 20 partic
+
+```{r,echo=F}
+set.seed(2328)
+
+n <- 10
+
+body_df <- data.frame(
+  age_group = rep(c("8-11", "12-15"), each = 4 * n),
+
+  sport = rep(
+    c("Ice Skating",
+      "Gymnastics",
+      "Soccer",
+      "Basketball"),
+    each = n,
+    times = 2
+  ),
+
+  body_image = c(
+    rnorm(n, 78, 12),  # 8-11 Ice Skating
+    rnorm(n, 76, 12),  # 8-11 Gymnastics
+    rnorm(n, 82, 12),  # 8-11 Soccer
+    rnorm(n, 81, 12),  # 8-11 Basketball
+
+    rnorm(n, 68, 12),  # 12-15 Ice Skating
+    rnorm(n, 63, 12),  # 12-15 Gymnastics
+    rnorm(n, 78, 12),  # 12-15 Soccer
+    rnorm(n, 80, 12)   # 12-15 Basketball
+  )
+)
+```
+
+```{r,echo=F}
+aggregate(
+  body_image ~ age_group + sport,
+  data = body_df,
+  mean)
+```
+The means by age group and by sport. Notice that in general, body image is higher in 8-11 year old girls compared to 12-15 year old girls. Also notice that body impage appears to be lower in "judged sports", particularly among 12-15 year old girls. This suggests that there could be an age-by-sport interaction. To test that, we run an ANOVA
+
+```{r}
+
+anova_body <- aov(body_image ~ age_group * sport,  data = body_df)
+
+summary(anova_body)
+
+
+```
+The results suggest that there are *age* differences in body image, no *sport played* main effect, but a statistically significant interaction, suggesting that the age difference in body image *may vary* as a function of *sport played*.
+
+```{r}
+# Interaction plot
+interaction.plot(
+  body_df$sport,
+  body_df$age_group,
+  body_df$body_image)
+
+```
+
+```{r}
+# Cell means
+emmeans(mod, ~ age_group * sport)
+```
+```{r}
+
+# Simple effects
+emmeans(mod,
+        pairwise ~ sport | age_group,
+        adjust = "tukey")
+```
+
+
+------------------------------------------------------------------------
+
+# Repeated-Measures ANOVA
+
+Now suppose participants are measured:
+
+- Beginning of semester
+- Midterm
+- End of semester
+
+Same participants repeatedly measured.
+
+Question:
+
+> Does the outcome change across time?
+
+------------------------------------------------------------------------
+
+# Connection to Paired $t_test$s
+
+Paired $t_test$:
+
+$$2$$
+
+time points
+
+Repeated-Measures ANOVA:
+
+$$3+$$
+
+time points
+
+A paired $t_test$ is simply a special case of repeated measures ANOVA.
+
+------------------------------------------------------------------------
+
+# Mixed ANOVA
+
+Suppose we have:
+
+Groups:
+
+- Treatment
+- Control
+
+Measured at:
+
+- Pretest
+- Posttest
+- Follow-up
+
+Now we have:
+
+Between-Subjects Factor:
+
+- Group
+
+Within-Subjects Factor:
+
+- Time
+
+------------------------------------------------------------------------
+
+# Mixed ANOVA Questions
+
+Main Effect of Time:
+
+> Do scores change over time?
+
+Main Effect of Group:
+
+> Do groups differ overall?
+
+Interaction:
+
+> Do groups change differently over time?
+
+The interaction is usually the primary research question.
+
+------------------------------------------------------------------------
+
+# ANCOVA
+
+Analysis of Covariance
+
+Research Question:
+
+> Do interventions differ after controlling for baseline differences?
+
+Example:
+
+Outcome:
+
+- Posttest depression
+
+Group:
+
+- Treatment vs Control
+
+Covariate:
+
+- Baseline depression
+
+------------------------------------------------------------------------
+
+# ANCOVA Model
+
+ANCOVA combines:
+
+ANOVA +
+
+Regression
+
+Conceptually:
+
+$$Outcome =
+Group + Covariate + Error$$
+
+ANCOVA adjusts group means for preexisting differences.
+
+------------------------------------------------------------------------
+
+# MANOVA
+
+MANOVA stands for:
+
+**Multivariate Analysis of Variance**
+
+ANOVA:
+
+- One outcome
+
+MANOVA:
+
+- Multiple outcomes
+
+------------------------------------------------------------------------
+
+# Example MANOVA
+
+Independent Variable:
+
+- Treatment Group
+
+Dependent Variables:
+
+- Depression
+- Anxiety
+- Stress
+- Self-Esteem
+
+Question:
+
+> Do groups differ on the overall profile of outcomes?
+
+------------------------------------------------------------------------
+
+# Why Use MANOVA?
+
+Instead of conducting:
+
+- ANOVA for Depression
+- ANOVA for Anxiety
+- ANOVA for Stress
+- ANOVA for Self-Esteem
+
+MANOVA evaluates them simultaneously.
+
+Advantages:
+
+- Controls Type I error
+- Examines combined outcome patterns
+
+------------------------------------------------------------------------
+
+# Linear Mixed Models
+
+Repeated-measures ANOVA has limitations:
+
+- Missing data
+- Unequal measurement occasions
+- Unequal spacing of observations
+- Nested data structures
+
+Mixed models address these issues.
+
+------------------------------------------------------------------------
+
+# Examples of Mixed Models
+
+Students nested within classrooms
+
+Repeated assessments nested within individuals
+
+Patients nested within clinics
+
+Family members nested within families
+
+Longitudinal developmental studies
+
+------------------------------------------------------------------------
+
+# Mixed Model Example
+
+$$Y_{ij}
+=
+\beta_0
++
+\beta_1(Time)
++
+u_i
++
+e_{ij}$$
+
+Where:
+
+- Fixed effects describe average change
+- Random effects describe individual differences
+
+------------------------------------------------------------------------
+
+# What Is a Paired Samples t-Test?
+
+The paired samples t-test evaluates whether the mean difference between two measurements equals zero.
+
+Rather than comparing two independent groups, the same participant contributes two observations.
+
+Common examples:
+
+- Pretest vs. posttest
+- Before treatment vs. after treatment
+- Beginning of semester vs. end of semester
+- Parent report vs. child report
+- Two conditions measured on the same person
+
+------------------------------------------------------------------------
+
+# Key Idea
+
+For an independent samples t-test:
+
+$$\text{Person A is unrelated to Person B}$$
+
+For a paired samples t-test:
+
+$$\text{Observation 1 and Observation 2 belong to the same person}$$
+
+The observations are linked (paired).
+
+Ignoring the pairing throws away information and generally reduces statistical power.
+
+------------------------------------------------------------------------
+
+# Difference Scores
+
+The paired samples t-test focuses on:
+
+$$D = X_1 - X_2$$
+
+where:
+
+- $X_1$ = first measurement
+- $X_2$ = second measurement
+- $D$ = difference score
+
+------------------------------------------------------------------------
+
+# Null and Alternative Hypotheses
+
+Null hypothesis:
+
+$$H_0:\mu_D = 0$$
+
+Alternative hypothesis:
+
+$$H_A:\mu_D \neq 0$$
+
+where:
+
+$$\mu_D$$
+
+is the population mean difference.
+
+------------------------------------------------------------------------
+
+# The Test Statistic
+
+The paired samples t statistic is:
+
+$$t=
+\frac{\bar D}
+{s_D/\sqrt{n}}$$
+
+where
+
+- $\bar D$ = mean difference score
+- $s_D$ = standard deviation of difference scores
+- $n$ = number of pairs
+
+------------------------------------------------------------------------
+
+# Understanding the Formula
+
+$$t=
+\frac{\bar D}
+{s_D/\sqrt{n}}$$
+
+Numerator:
+
+$$\bar D$$
+
+Average amount of change.
+
+Denominator:
+
+$$s_D/\sqrt{n}$$
+
+Expected sampling variability in the mean difference.
+
+Interpretation:
+
+> How large is the observed average change relative to the amount of change we would expect due to random sampling error?
+
+------------------------------------------------------------------------
+
+# Annotated Formula
+
+$$t=
+\frac{
+\underbrace{\bar D}_{\text{Average change}}
+}
+{
+\underbrace{
+s_D/\sqrt{n}
+}_{\text{Standard error of the change}}
+}$$
+
+A useful way to think about the formula:
+
+$$t=
+\frac{\text{Signal}}
+{\text{Noise}}$$
+
+Signal = average change
+
+Noise = uncertainty in that change
+
+------------------------------------------------------------------------
+
+# Degrees of Freedom
+
+For a paired samples t-test:
+
+$$df = n - 1$$
+
+Example:
+
+If there are 30 participants:
+
+$$df = 29$$
+
+Notice that degrees of freedom depend on the number of pairs, not the number of observations.
+
+------------------------------------------------------------------------
+
+# Assumptions
+
+## 1. Paired Observations
+
+Scores must be meaningfully linked.
+
+Examples:
+
+- Same person measured twice
+- Married couples
+- Parent-child dyads
+
+## 2. Independence Between Pairs
+
+One participant's scores should not influence another participant's scores.
+
+## 3. Approximate Normality of Difference Scores
+
+The assumption applies to:
+
+$$D = X_1 - X_2$$
+
+not necessarily to the original variables.
+
+------------------------------------------------------------------------
+
+# Why Is Pairing Helpful?
+
+Suppose people differ greatly in baseline characteristics.
+
+Comparing participants to themselves removes much of this person-to-person variability.
+
+As a result:
+
+- Standard errors decrease
+- Statistical power increases
+- Smaller effects become easier to detect
+
+This is one reason repeated-measures designs are often efficient.
+
+------------------------------------------------------------------------
+
+# Confidence Interval
+
+The paired samples t-test produces a confidence interval for:
+
+$$\mu_D$$
+
+Interpretation:
+
+A 95% confidence interval gives a range of plausible values for the population mean change.
+
+If the interval contains 0:
+
+- Not statistically significant
+
+If the interval excludes 0:
+
+- Statistically significant
+
+------------------------------------------------------------------------
+
+# Effect Size
+
+Cohen's d for paired data is:
+
+$$d=
+\frac{\bar D}{s_D}$$
+
+General guidelines:
+
+| d   | Interpretation |
+|-----|----------------|
+| .20 | Small          |
+| .50 | Medium         |
+| .80 | Large          |
+
+Always interpret effect size separately from statistical significance.
+
+------------------------------------------------------------------------
+
+# APA Style Example
+
+A paired samples t-test indicated that statistics anxiety was significantly lower at the end of the semester than at the beginning of the semester, t(29) = 3.12, p = .004, d = 0.57.
+
+------------------------------------------------------------------------
+
+# R Code
+
+``` r
+t.test(
+  data$posttest,
+  data$pretest,
+  paired = TRUE
+)
+```
+
+or
+
+``` r
+t.test(
+  posttest,
+  pretest,
+  paired = TRUE
+)
+```
+
+The critical argument is:
+
+``` r
+paired = TRUE
+```
+
+which tells R that the observations are linked.
+
+------------------------------------------------------------------------
+
+# Independent vs. Paired t-Tests
+
+| Question                          | Test                       |
+|-----------------------------------|----------------------------|
+| Two separate groups?              | Independent samples t-test |
+| Same participants measured twice? | Paired samples t-test      |
+| Matched or linked observations?   | Paired samples t-test      |
+| Treatment vs control groups?      | Independent samples t-test |
+| Pretest-posttest design?          | Paired samples t-test      |
+
+------------------------------------------------------------------------
+
+# Key Takeaways
+
+- The paired samples t-test evaluates whether the mean change differs from zero.
+- The analysis is conducted on difference scores.
+- The key parameter is:
+
+$$\mu_D$$
+
+- Pairing typically reduces error variance and increases power.
+
+- The normality assumption applies to the difference scores.
+
+- The test is commonly used for pretest-posttest and repeated-measures designs.
+
+  # Research Question
+
+Researchers examined whether a six-week psychological skills training and mindfulness intervention reduced stress among NCAA Division I baseball players.
+
+Participants:
+
+- 25 collegiate baseball players
+
+Outcome:
+
+- Perceived Stress Scale (PSS)
+
+Measurements:
+
+- Pre-intervention stress
+- Post-intervention stress
+
+Research question:
+
+> Did athletes report lower stress following the intervention?
+:::

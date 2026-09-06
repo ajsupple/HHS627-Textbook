@@ -1,0 +1,368 @@
+---
+title: "Chapter 2 Slides"
+subtitle: "HHS 627"
+
+format:
+  pptx:
+    reference-doc: uncg_template.pptx
+    incremental: true
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+------------------------------------------------------------------------
+
+## Matching Research Designs to Analyses
+
+### HHS 627
+
+------------------------------------------------------------------------
+
+## Comparative Questions
+
+- Experimental designs
+
+- Quasi experiments comparing across groups
+
+- Basic group comparisons
+
+- Comparative analyses
+
+  - T-tests for independent samples
+  - ANOVAs for when there are more than two groups
+
+------------------------------------------------------------------------
+
+## Assocational Designs or Questions
+
+- How do variables covary?
+
+- Do higher scores on one variable predict/relate to higher scores on
+  another variable?
+
+- Correlations
+
+- Regressions
+
+- Multiple regressions
+
+------------------------------------------------------------------------
+
+## The General Linear Model
+
+$$Y = \beta X + \varepsilon$$
+
+- The basic idea is that there is a y variable that moves up of down
+  depending on levels of X
+  - Is the level of anxiety higher when the level of school-related
+    stress is 20 versus 16?
+  - Is the level of anxiety higher in SE Asian students versus East
+    Asian students?
+- The movement up or down is captured by Beta
+  - A one unit "increase" in $X$ is associated with a $\beta$ increase
+    in $Y$
+- In ANVOAs, $X$ is categorical, in regressions it is continuous
+  - That is somewhat artificial regressions can have categorical
+    predictors
+    - ANOVAs generally cannot have continuous predictors, sometimes
+      categorize for purposes of doing ANOVA
+
+------------------------------------------------------------------------
+
+## The general linear model suggests that ANOVA and regressions are the same
+
+- Generally speaking that is true
+
+- ANOVA is a "special case" of regression where the IV is categorical
+
+- However there are some models that are only possible in one approach
+  versus the other
+
+  - Nominal grouping variables also need dummy coding in regressions
+    which complicates things
+  - I would rather see an ANOVA for self-esteem differences in White,
+    Black, Latino and Asian adolescents than run a regression with White
+    as the reference group and the three minoritized groups as
+    categories that "differ from" the reference group.
+
+------------------------------------------------------------------------
+
+## Comparative vs. Associational Designs
+
+| Comparative Designs | Associational Designs      |
+|---------------------|----------------------------|
+| Compare groups      | Examine relationships      |
+| Categorical IV      | Continuous predictors      |
+| Mean differences    | Prediction and explanation |
+| t-tests, ANOVA      | Correlation, Regression    |
+
+**Key Question**
+
+## ***Do groups differ, or are variables related?***
+
+## The Family of ANOVAs
+
+| Research Situation | Analysis |
+|-----------------------------------------------|-------------------------|
+| Two groups | Independent-samples *t* test |
+| Three or more groups | ANOVA |
+| Groups + control variables | ANCOVA |
+| Multiple outcomes | MANOVA |
+| Two or more factors/IVs | Factorial ANOVA |
+| Multiple assessments per participant | Repeated Measures ANOVA |
+| Repeated measures and group differences in those measures | Mixed Designs |
+
+|  |
+|:-----------------------------------------------------------------------|
+| \## ANOVA |
+| Statistical details for the next few weeks. HHS examples: |
+| From Nutrition: Are levels of WIC participation associated with healthy eating? |
+| Let's break this down... |
+| \- What would a reasonable research question be? - How could we go about assessing WIC participation? - How would we differentiate among participants who had different levels - How would we measure that? - More importantly, is that a comparison? Or an association? - If so, what analysis would be done? |
+
+### Weinfield, N. S., Borger, C., Au, L. E., Whaley, S. E., Berman, D., & Ritchie, L. D. (2020). Longer participation in WIC is associated with better diet quality in 24-month-old children. Journal of the Academy of Nutrition and Dietetics, 120(6), 963-971.
+
+Note: paper is in share folder if you want to follow along
+
+- Objective to examine *association* between **duration of WIC
+  participation** and diet quality 24-month-old children
+- Telephone interview with mothers 2013 - 2016
+  - Was longitudinal
+  - ***Categorized*** participants into **low**, **medium**, **high**
+    based on WIC participation at each interview point
+- Main outcome was the Healthy Eating Index - 24 hour dietary recalls
+
+***What analysis would you expect the authors to run?***
+
+------------------------------------------------------------------------
+
+## WIC Participation Duration Groups
+
+**Low Duration** (n = 43; 3% weighted)
+
+- WIC at 4 or fewer interviews
+- No participation after 13 months
+
+**Intermediate Duration** (n = 186; 15% weighted)
+
+- WIC at 5-7 interviews
+
+**High Duration** (n = 1,013; 82% weighted)
+
+- WIC at 8-9 interviews
+- Participated through most of the first 2 years
+
+------------------------------------------------------------------------
+
+### Results
+
+Note the researchers first did ***ANOVA*** to just test mean differences
+
+- Will get into details later, but relies on a *Global F-Test*
+- Tests for mean differences across the groups generally, then typically
+  there are follow up tests to compare groups specifically (if F is
+  statistically significant
+
+Then they did a multiple regression (multivariable in this case) to
+control for other variables that could have explained the differences
+that were observed
+
+- Could have done an ANCOVA, but these are generally the same...
+
+------------------------------------------------------------------------
+
+### Analysis of Covariance
+
+ANOVA plus one or more covariates.
+
+Example:
+
+- Compare depression groups on BDNF levels
+- Control for age
+
+### Purpose
+
+Determine whether group differences remain after accounting for
+potential confounds.
+
+::: notes
+Students often learn ANCOVA and regression separately, but they are
+mathematically very similar.
+:::
+
+------------------------------------------------------------------------
+
+## MANOVA
+
+### Multivariate Analysis of Variance
+
+Used when there are multiple outcomes.
+
+Example:
+
+Compare groups on:
+
+- Depression
+- Anxiety
+- Stress
+
+### Advantages
+
+- Considers correlations among outcomes
+- Reduces multiple testing
+- Evaluates overall outcome patterns
+
+------------------------------------------------------------------------
+## Analyses for Associational Designs
+
+These generally would have numeric/continuous outcome, numeric/continuous predictor
+
+- That isn't true, however
+- There are different types of correlations, regressions that account for categorical variables either as predictors or outcomes
+
+***Correlations***
+
+- Is there a positive/negative association among two variables
+- Are participants who are higher on the continuum for one variable also higher/lower on the othe variable
+- What does a **positive** correlation imply or suggest?
+  - What does a **negative** correlation imply or suggest?
+  
+***Correlations are interesting and important*** but often only descriptive and most HHS research is too complex and needs multiple predictors as control variables and so correlations are often only a first, descriptive step in our analyses
+
+---------------------
+
+## Correlation Family
+
+| Correlation Type | Variables               |
+|------------------|-------------------------|
+| Pearson          | Continuous × Continuous |
+| Spearman         | Ordered-Categorical     |
+| Kendall's Tau    | Ordered-Categorical     |
+| Point-Biserial   | Continuous × Binary     |
+| Phi              | Binary × Binary         |
+
+### Core Question
+
+How strongly are two variables related?
+
+------------------------------------------------------------------------
+
+## Multiple Regression
+
+### General Model
+
+$$Y = a + b_1X_1 + b_2X_2 + e$$
+
+Researchers use regression to:
+
+- Predict outcomes
+- Control confounding variables
+- Estimate unique effects
+- Test theoretical models
+
+------------------------------------------------------------------------
+
+## Logistic Regression
+
+Used when the outcome is binary.
+
+### Examples
+
+- Passed / Failed
+- Pregnant / Not Pregnant
+- Smoker / Non-Smoker
+- Survived / Died
+
+### Typical Results
+
+- Odds ratios
+- Confidence intervals
+- Predicted probabilities
+
+------------------------------------------------------------------------
+
+## Correlation vs. Regression
+
+### Correlation
+
+- Measures association
+- Usually involves two variables
+- No statistical control
+
+### Regression
+
+- Multiple predictors possible
+- Allows statistical control
+- Supports prediction
+
+### Key Idea
+
+Regression often provides stronger evidence than a simple correlation.
+
+
+------------------------------------------------------------------------
+
+## Data Sources in HHS Research
+
+Common sources include:
+
+- Self-report surveys
+- Observational data
+- Physiological measures
+- Administrative records
+- Public datasets
+- Wearable devices
+
+### Key Point
+
+Data source often influences research design and statistical analysis.
+
+------------------------------------------------------------------------
+
+## Levels of Measurement
+
+### Hierarchy
+
+**Nominal → Ordinal → Interval → Ratio**
+
+| Level    | Example               |
+|----------|-----------------------|
+| Nominal  | Gender, Race          |
+| Ordinal  | Likert Item           |
+| Interval | Standardized Scores   |
+| Ratio    | Weight, Steps, Income |
+
+------------------------------------------------------------------------
+
+## Choosing the Correct Analysis
+
+### Decision Process
+
+1.  Comparative or associational question?
+2.  How many groups?
+3.  How many variables?
+4.  What is the outcome type?
+5.  What is the level of measurement?
+
+### Take-Home Message
+
+**Match the statistical analysis to the research design, not the other
+way around.**
+
+------------------------------------------------------------------------
+
+# Discussion
+
+Consider a study of college students:
+
+- Outcome: Depression
+- Predictor: Gender
+- Covariate: Body image
+
+### Questions
+
+1.  What is the research question?
+2.  Comparative or associational?
+3.  What analysis would you choose?
+4.  Could this be analyzed using regression?

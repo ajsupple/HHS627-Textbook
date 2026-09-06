@@ -1,0 +1,24 @@
+[1mdiff --git a/index.qmd b/index.qmd[m
+[1mindex 21773bc..05feda1 100644[m
+[1m--- a/index.qmd[m
+[1m+++ b/index.qmd[m
+[36m@@ -16,6 +16,7 @@[m [mThis book provides core concepts and applied examples for **HHS 627**.[m
+ - [Chapter 1: Statistical Thinking and Quantitative Analysis](Chapter%201%20HHS%20Statistical%20Thinking.html)[m
+ - [Chapter 2: Matching Research Designs to Analyses](Chapter%202%20Matching%20Research%20Designs%20to%20Analyses.html)[m
+ - [Chapter 3: Data Cleaning and Getting into R](Chapter%203%20Data%20Management%20and%20R.html)[m
+[32m+[m[32m- [Chapter 4: ANOVAs Part I](Chapter%204%20ANOVAs%20Part%20I.html)[m
+ [m
+ ## Suggested citation[m
+ [m
+[1mdiff --git a/quarto.yml b/quarto.yml[m
+[1mindex c3db12f..40ce4d6 100644[m
+[1m--- a/quarto.yml[m
+[1m+++ b/quarto.yml[m
+[36m@@ -11,6 +11,7 @@[m [mbook:[m
+     - Chapter 1 HHS Statistical Thinking.qmd[m
+     - Chapter 2 Matching Research Designs to Analyses.qmd[m
+     - Chapter 3 Data Management and R.qmd[m
+[32m+[m[32m    - Chapter 4 ANOVAs Part I.qmd[m[41m [m
+ [m
+ bibliography: references.bib[m
+ [m

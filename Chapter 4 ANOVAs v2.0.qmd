@@ -1,0 +1,1283 @@
+---
+title: "Chapter 4 v2.0"
+format: html
+editor: visual
+---
+
+## ANOVAs: Part I
+
+In this chapter we are going to discuss the family of **Analysis of Variance** (ANOVA) analyses that are typical in HHS research. These start from a place of *between groups* analyses that focus on comparison of means scores across multiple groups. That is the One-Way ANOVA. Other ANOVA models will include:
+
+1.  Multiple IVs or factors (factorial ANOVA)
+2.  Covariates or control variables (ANCOVA)
+3.  Multiple Outcomes (MANOVA)
+4.  Repeated-measures ANOVA (RMANOVA)
+5.  mixed-design ANOVAs, which include both within-person and between-person factors.
+
+## What is an Anova? Why would you do one?
+
+ANOVAs are an analysis that is typically done to compare means across 3 or more groups. 
+
+Let's take for example a comparison of Hmong American adolescents who were classified into three groups based on their experiences as cultural and language brokers.
+
+:::callout-note
+
+Hmong are a refugee group originally from the mountain regions of Laos who were drawn into the Vietnam conflict by US forces. Upon US withdrawal from SE Asia, many Hmong fled persecution and violence and were placed in refugee camps in Thailand. Many were granted refugee status to come to the US. There are an estimated 400,000 to 600,000 Hmong in the USA with the largest populations in 1. California, 2. Minnesota, 3. Wisconsin, and 4. North Carolina.
+
+Cultural and language brokering refers to children in immigrant families serving as translators/interpreters for non-English speaking parents and also teaching parents about social rules and norms in the US.
+
+Im, C. (2025, May 1). Facts about Hmong in the U.S. Pew Research Center. https://www.pewresearch.org/race-and-ethnicity/fact-sheet/asian-americans-hmong-in-the-u-s/
+
+Subramoney, S., Walle, E. A., Main, A., & Magaña, D. (2025). Cultural brokering in immigrant families. *Child Development Perspectives*.
+
+Vang, C. Y. (2019). *Fly until you die: An oral history of Hmong pilots in the Vietnam War*. Oxford University Press
+
+:::
+
+In a survey of 95 7th grade adolescents, I asked students about experiences as cultural and language brokers. Based on those responses, I classified students into one of three groups: (1) Low, (2) Moderate, and (3) High. The classification reflected adolescents who reported very low engagement in cultural/language brokering or just doings things like answering the phone. Moderate engagement was some frequency of doing translating, particularly at school. High engagement referred to adolescents who frequently translated for parents including in "high stakes" settings like medical appointments.
+
+My research questions included:
+
+- Do Hmong adolescents who engage in high levels of cultural and language brokering differ from adolescents who are lower in cultural and language brokering?
+- In terms of self-esteem, conflict with parents, and GPA
+
+One main hypothesis I had was:
+
+- Hmong adolescents who engage in high levels of cultural and language brokering will report higher mean levels of culture-related conflicts with parents compared to adolescents who engage in moderate and low engagement.
+
+From the perspective of an ANOVA, the null hypothesis would be:
+$$
+H_0: \mu_{low} = \mu_{moderate} = \mu_{high}
+$$
+Where $\mu$ refers to group means
+
+An appropriate statistical test to evaluate this hypothesis would be an ANOVA because of the comparison of means across three groups. The specific details of ANOVAs, computing $F$ statistics, and other technical points come later. Here we are focused on the conceptual aspect of what ANOVA is testing, how to run the ANOVA, and its interpretation.
+
+The central test statistic in ANOVA is the $F$ statistic. Just like when we do a $t$-test, there is a critical values associated with $F$ that is determined by the chosen significance level ($\alpha$, often .05) and the model degrees of freedom ($df$). Unlike a $t$-test, however, the $F$-distribution requires two sets of degrees of freedom: one for the numerator (between-groups variation) and one for the denominator (within-groups variation).
+
+The $F$ statistic is computed from the sample data. If the obtained $F$ statistic exceeds the critical value, or equivalently if the $p$-value is less than $\alpha$, the researcher rejects the null hypothesis and concludes that there is a statistically significant difference among the population means. Specifically, the conclusion is that at least one group mean differs from at least one other group mean, although the ANOVA itself does not indicate which groups differ. Follow-up analyses, such as *posthoc* tests, are needed to determine the specific group differences. 
+
+A common follow up test is the $Tukey$ Honestly Difference test that will do group-by-group **posthoc** tests to identify specific statstically significant differences across the three groups (as in our case).
+
+Typically it is also helpful to see the means stratified by group and to compute a measure of effect size, $\eta^2$ or $\omega^2$.
+
+### Using R to run the ANOVA
+
+```{r}
+
+brokering_df<-readRDS("brokering_df")  # Reads in the brokering data
+
+# Create a new object called 'means_brok'
+# aggregate() computes summary statistics for a variable within groups.
+# aafcs = Asian American Family Conflicts Scale scores
+# ~ = "grouped by" or "conditioned on"
+# brok_three = grouping variable with Low, Moderate, and High brokering groups
+# data = data frame containing the variables
+# FUN = mean = compute the mean within each group
+# na.rm = TRUE = ignore missing values when calculating means
+
+means_brok<-aggregate(aafcs ~ brok_three,      
+          data = brokering_df,                 
+          FUN = mean,
+          na.rm = TRUE)  
+
+means_brok # Print out the means for us to see
+
+## ANOVA part
+
+aov_brok<-aov(aafcs~brok_three,data=brokering_df)  # aov is ANOVA function
+                                  
+summary(aov_brok)                                  # Summary requests output with F
+
+# Note that the F is 3.511, which is statistically significant with p = .0347
+# Also note that F is a ratio of MS_B and MS_W which is 227.5/64.8 = 3.511 whici appears in the out put after we run these commands
+
+### The follow up test
+
+TukeyHSD(aov_brok)
+
+# Tukey Honestly Difference test suggests that the 5 point difference separating the LOW and moderate brokering groups is statistically significant
+
+
+
+```
+The three AAFCS means are 24.27, 29.57, and 28.41 for the Low, Moderate, and High groups respectively. 
+
+
+::: callout-note
+## Sample Write up
+
+A one-way analysis of variance (ANOVA) was conducted to examine differences in AAFCS scores across participants with low, moderate, and high levels of cultural brokering. There was a statistically significant F(2, 77) = 3.51, p = .035, η² = .084 indicating mean differences in AAFCS scores across groups. Group means indicated that participants in the moderate brokering group (M = 29.57) reported the highest AAFCS scores, followed by the high brokering group (M = 28.41) and the low brokering group (M = 24.27).
+
+**Posthoc** tests (Tukey's HSD) suggested that the moderate brokering group scored significantly higher than the low brokering group (mean difference = 5.30, 95% CI \[0.04, 10.56\], p = .048). The differences between the high and low brokering groups (mean difference = 4.14, p = .143) and between the high and moderate brokering groups (mean difference = -1.16, p = .884) were not statistically significant.
+:::
+
+### A sample ANOVA table
+
+| Source         |      SS |  df |     MS |    F |    p |   η² |
+|----------------|--------:|----:|-------:|-----:|-----:|-----:|
+| Between Groups |  455.04 |   2 | 227.52 | 3.51 | .035 | .084 |
+| Within Groups  | 4989.76 |  77 |  64.80 |      |      |      |
+| Total          | 5444.80 |  79 |        |      |      |      |
+
+: One-Way ANOVA for AAFCS by Brokering Group
+
+## Technical Details about ANOVAs
+
+### Why can't we just stick with $t_test$s?
+
+For the above study, I might have thought about doing $t-tests$. For example, couldn't I have just done one $t-test$ comparing the LOW group to the moderate group, then another $t-test$ comparing the LOW to the HIGH group and another to test moderate versus HIGH?
+
+While that is possible, there is a statistical problem that occurs when running multiple tests. When running multiple tests, researchers run the risk of creating *Type I Error Inflation*. What that means is that multiple tests increase the risk of committing Type I errors (rejecting a null that really is true, i.e., claiming a significant difference that is not really different).
+
+Think about the various different research questions we might have related to group comparisons: Is motivation to exercise different across adults who played different types of sports? Are reports of anxiety different across different sexual orientation and gender identity groups?
+
+These questions involve tests of more than two groups and doing multiple $t-tests$ would raise lead to *alpha inflation* and raise the *familywise error rate*.
+
+::: callout-note
+## Family wise Error Rate (FWE)
+
+When we think of Type I errors, we think about a specific test. For example, what is the probability of us making a Type I error when doing a *$t_test$* to evaluate if males have higher self-esteem than females. This is a **per-comparison error rate**
+
+When we conduct multiple statistical tests, such as a series of pairwise $t_test$s across several groups or outcomes, those tests form a *family of tests*. The probability of making at least one Type I error across that entire set of tests is called the **familywise error rate (FWE)**.
+
+*FWE* refers to the probability of incorrectly rejecting at least one true null hypothesis when multiple statistical tests are conducted. In general, as the number of statistical tests increases, the likelihood of obtaining a statistically significant result purely by chance also increases.
+
+Consequently, the FWE becomes larger than the target significance level (e.g., α = .05) used for any individual test.
+
+The formula to compute the increase in the FWE is $\alpha_{FWE} = 1 - (1 - \alpha)^K$
+
+If doing 3 comparisons:
+
+$H_0: \mu_1 = \mu_2 = \mu_3$
+
+$\alpha_{fw} = 1 - (.95)(.95)(.95) = 1 - .95^3 = 1 - .8574 = .1426$
+
+This suggests that there is a 14% chance of finding a statistically significant effect even if in the *family of tests* we are running, all null hypotheses are true.
+:::
+
+ANOVA overcomes the alpha inflation problem by focusing on one test.
+
+- The $F$ test is an omnibus test of whether there are mean differences across multiple levels of a factor
+  - That one test controls FWE rates and reduces risk of Type I error
+  - The test only suggests that mean differences exist in two sets of means
+  - Often follow-up tests are needed to sort out specific differences across groups or levels of factors
+  
+::: callout-note
+
+Note that the above procedure assumes *independent tests*. 
+
+A different approach is the **Bonferroni bound**:
+
+\[
+\alpha_{FW}
+\leq
+3(.05)
+=
+.15
+\]
+
+This means that if we conduct three tests, each at \(\alpha = .05\), the probability of making **at least one** Type I error is no greater than \(15\%\).
+
+The \(\leq\) symbol is important. Unlike the calculation
+
+\[
+1 - .95^3 = .1426,
+\]
+
+the Bonferroni bound does **not** assume that the tests are independent. It works even when the tests are related or share data, as pairwise comparisons among group means often do.
+
+Because it gives an upper limit rather than an exact probability, it may be somewhat conservative. In this example, the actual family-wise error rate could be below \(15\%\), but Bonferroni guarantees that it will not exceed \(15\%\).
+
+When running multiple tests, 
+The **Bonferroni correction** is a simple way to keep the overall probability of one or more false positives at or below a chosen family-wise significance level.
+
+The rule is:
+
+\[
+\alpha_{\text{per test}}
+=
+\frac{\alpha_{\text{family-wise}}}{\text{number of tests}}
+\]
+
+If we want the family-wise error rate to stay at \(.05\) and we have three comparisons:
+
+\[
+\alpha_{\text{per test}}
+=
+\frac{.05}{3}
+=
+.0167
+\]
+
+Therefore, instead of using \(p < .05\) for each comparison, we use:
+
+\[
+p < .0167
+\]
+
+A comparison must have a \(p\)-value below \(.0167\) to be statistically significant after the Bonferroni correction.
+
+## Example
+
+Imagine the three pairwise tests produce these results:
+
+| Comparison | Original \(p\)-value | Significant using \(p < .05\)? | Significant after Bonferroni? |
+|---|---:|---|---|
+| Group 1 vs. Group 2 | .011 | Yes | Yes |
+| Group 1 vs. Group 3 | .021 | Yes | No |
+| Group 2 vs. Group 3 | .004 | Yes | Yes |
+
+After the Bonferroni correction, the cutoff is \(.0167\):
+
+- \(.011 < .0167\), so Group 1 vs. Group 2 is significant.
+- \(.021 > .0167\), so Group 1 vs. Group 3 is **not** significant.
+- \(.004 < .0167\), so Group 2 vs. Group 3 is significant.
+
+## Another way: adjust the \(p\)-values
+
+Instead of lowering the cutoff, we can multiply each \(p\)-value by the number of tests:
+
+\[
+p_{\text{adjusted}} = p \times m
+\]
+
+where \(m\) is the number of comparisons.
+
+For three tests:
+
+\[
+p_{\text{adjusted}} = 3p
+\]
+
+Any adjusted \(p\)-value above 1 is reported as 1.
+
+For the earlier example:
+
+| Comparison | Original \(p\)-value | Bonferroni-adjusted \(p\)-value |
+|---|---:|---:|
+| Group 1 vs. Group 2 | .011 | .033 |
+| Group 1 vs. Group 3 | .021 | .063 |
+| Group 2 vs. Group 3 | .004 | .012 |
+
+We then compare the adjusted values to \(.05\):
+
+- \(.033 < .05\): significant
+- \(.063 > .05\): not significant
+- \(.012 < .05\): significant
+
+This produces the same decisions as using the corrected cutoff of \(.0167\).
+
+## Important tradeoff
+
+The Bonferroni correction reduces false positives, but it also makes it harder to find real effects.
+
+In other words:
+
+- It lowers the chance of a **Type I error** (false positive).
+- It can increase the chance of a **Type II error** (missing a real difference).
+
+For a small number of planned comparisons, such as three, Bonferroni is easy to use and often reasonable. For many comparisons, it may be too strict, and other methods—such as the Holm correction or Tukey's HSD—may be better choices.
+
+:::
+
+
+## One Way ANOVA details
+
+Addresses mean difference questions across multiple groups.
+
+- Conceptually ANOVAs are extensions of $t_test$s
+  - Doing an ANOVA with two groups would be the same as a $t_test$
+- ANOVAs are multiple group, non-directional tests
+- Use **one** Type I error rate
+
+The *technical* statistical test asks:
+
+- Are the observed group differences larger than would be expected due to random variation?
+
+Instead of comparing two means directly, ANOVA compares:
+
+- Between-group variability to within-group variability
+
+So while our goal is to compare means, the Analysis of **Variance** includes evaluations of variances as a means to test for group differences.
+
+------------------------------------------------------------------------
+
+## The Logic of ANOVA
+
+If groups truly differ:
+
+- Group means should be far apart and individuals within groups should be relatively similar
+
+```{r}
+#| label: fig-anova-signal-noise
+#| fig-cap: "ANOVA compares variability between group means with variability within groups. The group means are identical in both panels; only within-group variability changes."
+#| fig-width: 11
+#| fig-height: 5
+#| warning: false
+#| message: false
+
+library(ggplot2)
+
+# The group means are held constant in both panels.
+# Only the within-group standard deviation changes.
+group_means <- c(
+  "Group 1" = 0,
+  "Group 2" = 0.50,
+  "Group 3" = 1.00
+)
+
+scenarios <- data.frame(
+  scenario = c(
+    "Large within-group variation\n(smaller F ratio)",
+    "Small within-group variation\n(larger F ratio)"
+  ),
+  sd = c(1.15, 0.35)
+)
+
+# Create normal-distribution curves for each group in each scenario.
+plot_data <- expand.grid(
+  x = seq(-3.5, 4.5, length.out = 500),
+  group = names(group_means),
+  scenario = scenarios$scenario,
+  KEEP.OUT.ATTRS = FALSE,
+  stringsAsFactors = FALSE
+)
+
+plot_data$mean <- unname(group_means[plot_data$group])
+plot_data$sd <- scenarios$sd[
+  match(plot_data$scenario, scenarios$scenario)
+]
+plot_data$density <- dnorm(
+  plot_data$x,
+  mean = plot_data$mean,
+  sd = plot_data$sd
+)
+
+# Data used to draw a dashed line at each group mean.
+mean_lines <- expand.grid(
+  group = names(group_means),
+  scenario = scenarios$scenario,
+  KEEP.OUT.ATTRS = FALSE,
+  stringsAsFactors = FALSE
+)
+mean_lines$mean <- unname(group_means[mean_lines$group])
+
+ggplot(plot_data, aes(x = x, y = density, fill = group, color = group)) +
+  geom_area(alpha = 0.28, linewidth = 0.9) +
+  geom_vline(
+    data = mean_lines,
+    aes(xintercept = mean, color = group),
+    linetype = "dashed",
+    linewidth = 0.8,
+    show.legend = FALSE
+  ) +
+  facet_wrap(~scenario, nrow = 1) +
+  scale_fill_manual(
+    values = c(
+      "Group 1" = "#3B82B9",
+      "Group 2" = "#E68613",
+      "Group 3" = "#35A853"
+    )
+  ) +
+  scale_color_manual(
+    values = c(
+      "Group 1" = "#3B82B9",
+      "Group 2" = "#E68613",
+      "Group 3" = "#35A853"
+    )
+  ) +
+  coord_cartesian(xlim = c(-3.5, 4.5), ylim = c(0, 2.0)) +
+  labs(
+    title = "The ANOVA F Ratio: Differences Between Groups Relative to Differences Within Groups",
+    subtitle = "Dashed lines represent group means. The means are the same in both panels.",
+    x = "Outcome score",
+    y = "Relative frequency",
+    fill = "Group"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(color = "gray35"),
+    strip.text = element_text(face = "bold", size = 11),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank()
+  )
+```
+
+::: callout-note
+Take this back to a $t_test$ for a moment. The $t_test$ formula is a ratio of mean differences over variability within groups.
+
+$$t =
+\frac{\bar X_1-\bar X_2}
+{
+\sqrt{
+s_p^2
+\left(
+\frac{1}{n_1}+\frac{1}{n_2}
+\right)
+}}$$
+
+The resulting t-ratio is conceptually a ratio of between group differences (in means; the numerator) to within group variation. What this formula basically is saying is that the difference between two groups (variation *between groups*) is evaluated by standard errors that capture within group differences (how different participants in each group are; *within group differences*)
+:::
+
+ANOVA evaluates:
+
+$$F =
+\frac{
+\text{Between-Group Variance}
+}{
+\text{Within-Group Variance}
+}$$
+
+------------------------------------------------------------------------
+
+## Understanding the F Ratio
+
+Let's think about what this means: The ANOVA is creating a ratio of *between group variance* to *within group variance*
+
+- The **between group variance** is going to capture differences in the means across groups - i.e., how the means vary or differ across/between groups
+- The **within group variance** is going to capture differences in scores within groups, or how different people in the same group are from each other
+- A bigger F essentially means that groups differences are relatively large relative to within group differences
+
+### Computing the F Ratio
+
+To compute the F Ratio, we would need to compute the between group variation and the within group variation, then compute that ratio.The resulting ratio can be thought of ***an index of separation*** between the groups.
+
+Technically the F Ratio is computed by dividing the **Mean Sum of Squares** for the between group variation $MS_B$ and the **Mean Sum of Squares** for the within-group variation $MS_W$.
+
+The hand calculation involves computing each of these two values, then creating the ratio.
+
+------------------------------------------------------------------------
+
+```{r,echo=FALSE}
+
+# These are data I collected in 2009 from a sample of Hmong 7th grade students
+# in Burke County, NC
+
+# These are just a few cases where I categorized the adolescents based on their
+# participation in "cultural/language brokering" for their parents. For this example I 
+# just randomly sampled 10 cases in each of the three conditions
+
+# I created three categories based on adolescents' involvement in language
+# brokering being 'low' (not much involvement), 'moderate' (answering phone,
+# needing to be home to translate) and 'high' (needing to go to medical appointment,
+# translate across many domains)
+
+# I want to compare adolescent outcomes across brokering types
+
+# Pretty table
+
+demo_table %>%
+  gt(rowname_col = "Case") %>%
+  fmt_number(
+    columns = c(Low, moderate, High),
+    decimals = 2
+  ) %>%
+  tab_header(
+    title = "AAFCS Scores by Brokering Group"
+  ) %>%
+  cols_label(
+    Low = "Low",
+    moderate = "moderate",
+    High = "High"
+  )
+
+
+```
+
+The first step in *manually* computing an ANOVA F Statistic is to compute the Mean Squares of the Between group variance
+
+Quick reminder the variance of a set of scores is computed by summing deviations from a mean
+
+$$s^2 = \frac{\sum (X_i - \bar{X})^2}{n - 1}$$ The *variance* for group American-Oriented Group would be the sum of squared deviations, divided by the sample size (minus 1). We would take each score, subtract the group mean, square that value, then sum that number, then divide by 9.
+
+The analogous formula for the *Between-Group Variance* ($MS_B$) = $SS_B/df$
+
+$SS_B/df$ is computed as an extension of the variance for a sample (above). The differences between each group mean *j* and the *grand mean* squared are multiplied by the group sizes $N_j$ and then summed to get the $SS_B$. The degrees of freedom are the number of groups $K - 1$.
+
+$$SS_B = \sum_{j=1}^{K} N_j (\bar{X}_j - \bar{X})^2$$
+
+$$df = K-1$$
+
+Which leads to:
+
+$$MS_B = \frac{SS_B}{df}$$
+
+In addition to computing the $MS_B$ we also compute the $SS_W$
+
+That means that the $F$ statistic is comparing/computing two sources of variance: Between group variance and within group variance.
+
+::: callout-note
+The *Between Groups* SS is just the deviations of each group mean **from the grand** mean squared, then summed, and multiplied by the number of values in each group. That value is then divided by the between groups $df$ which is $K$-1 (or \# of groups, minus 1).
+
+In our case since these groups are equal, then $N_1$ = $N_2$ = $N_3$ = 10
+
+The mean of the groups are:
+
+$\bar{Low}$ = 26.40 $\bar{moderate}$ = 29.60 $\bar{High}$ = 32.50 and the **grand mean** = (26.40+29.60+32.50)/3 = 29.50
+:::
+
+The computation for $SS_B$ then would be
+
+```{r}
+
+mean_low<-26.40
+mean_med<-29.60
+mean_hi <-32.50
+
+grand_mean<-29.50
+
+group_size_low<- 10
+group_size_med<- 10
+group_size_hi <- 10
+
+SS_B <- ((mean_low-grand_mean)^2)*10 + ((mean_med-grand_mean)^2)*10 + 
+  ((mean_hi-grand_mean)^2)*10
+
+# Then the MS_B is calculated as SS_B/K-1 or
+
+MS_B <- SS_B/2
+
+MS_B
+
+```
+
+The computation of the $SS_W$ is a bit more complicated in that this captures within group variance and necessitates subtracting each individual score from the *group* mean.
+
+The group means are 26.40, 29.60, and 32.50 for the Low, Moderate, and High brokering groups, respectively. Individual participant's scores within each group are deviated from those means, then squared, then summed. Those values capture within group variance.
+
+$$ SS_W = \sum_{j=1}^{K}\sum_{i=1}^{n_j}(X_{ij}-\bar{X}_{j})^2 $$
+
+$$X_ij$$ = The i or individual score in group j (low, moderate, high)
+
+$$\bar{X}_j$$ = The group mean, e.g., the low group mean of 26.40
+
+So each deviation in a group squared, then summed together, then summed across the groups
+
+```{r}
+
+# Create group means in the data
+
+group_means <- aggregate(aafcs ~ brok_three, data = toy_brokering, mean)
+
+# Add the means back into the data using "merge"
+
+toy_brokering <- merge(toy_brokering, group_means, by = "brok_three",
+            suffixes = c("", "_mean"))
+
+# Squared deviations from group mean
+
+toy_brokering$deviations<- (toy_brokering$aafcs - toy_brokering$aafcs_mean)^2
+
+# Sum them up to get the total SS_W
+
+SS_W <- sum(toy_brokering$deviations)
+
+SS_W
+
+```
+
+Then the within-groups mean square is computed as:
+
+$$MS_W = \frac{SS_W}{df_W}$$
+
+where
+
+$$df_W = N - K$$
+
+```{r}
+
+k = 3 # Number of groups
+df_b = k-1
+n = 30 # sample size
+df_w = n-k
+
+MS_W = SS_W/df_w
+
+MS_W
+
+
+```
+
+The F statistic is then computed as:
+
+$$F = \frac{MS_B}{MS_W}$$
+
+Large values of F indicate that between-group variability is much larger than within-group variability, suggesting that at least one group mean differs from the others.
+
+The null hypothesis is $$H_0 = \mu_1 = \mu_2 = \mu_3$$
+
+where $mu$ is each group mean.
+
+The $F$ is evaluated for statistical significance if the test statistic we just computed is *more extreme* than the critical value for $F$ at our chosen p value and the model number of degrees of freedom.
+
+At a $p$ \< .05 with degress of freedom of 2 and 27
+
+- These are the $df$ for the $MS_B$ which is $K-1$ and $MS_W$ which is $N-K$
+
+we can consult a table to see that the critical value is 3.35 for this p value and combination of $df$
+
+Alternatively we can use an R function to compute the critical value
+
+```{r}
+
+# Critical F for alpha = .05
+qf(.95, df1 = 2, df2 = 27)
+
+```
+
+Our value of
+
+```{r}
+
+F_Stat = MS_B/MS_W
+
+F_Stat
+
+F_Stat > 3.35
+
+```
+
+## How to run the same ANOVA using R instead
+
+```{r}
+
+# aov command
+# broker_anova = an object that includes the results
+# affcs ~ brok_three = aafcs scores conditioned on brok_three
+# data is the dataset to use
+# summary is the command/function to read out the results
+
+broker_anova<-aov(aafcs ~ brok_three, data = toy_brokering)
+
+summary(broker_anova)
+
+
+
+```
+
+```{r}
+
+# Now we will run an ANOVA with the actual data n = 85
+
+broker_n85 <- aov(aafcs ~ brok_three,data=brokering_df)
+summary(broker_n85)
+
+# Since this produced a statistically significant F, we will typically want to do
+# follow up tests and to see the means as well
+
+# Means by group in the full data
+
+model.tables(broker_n85, type = "means")
+
+# Then the posthoc test
+
+TukeyHSD(broker_n85)
+
+# EFfect size for the overall effect
+
+eta_sq= 455 / (455+ 4990)
+
+eta_sq
+
+
+
+```
+
+::: callout-note
+## Sample Write up
+
+A one-way analysis of variance (ANOVA) was conducted to examine differences in AAFCS scores across participants with low, moderate, and high levels of cultural brokering. There was a statistically significant F(2, 77) = 3.51, p = .035, η² = .084 indicating mean differences in AAFCS scores across groups. Group means indicated that participants in the moderate brokering group (M = 29.57) reported the highest AAFCS scores, followed by the high brokering group (M = 28.41) and the low brokering group (M = 24.27).
+
+**Posthoc** tests (Tukey's HSD) suggested that the moderate brokering group scored significantly higher than the low brokering group (mean difference = 5.30, 95% CI \[0.04, 10.56\], p = .048). The differences between the high and low brokering groups (mean difference = 4.14, p = .143) and between the high and moderate brokering groups (mean difference = -1.16, p = .884) were not statistically significant.
+:::
+
+| Source         |      SS |  df |     MS |    F |    p |   η² |
+|----------------|--------:|----:|-------:|-----:|-----:|-----:|
+| Between Groups |  455.04 |   2 | 227.52 | 3.51 | .035 | .084 |
+| Within Groups  | 4989.76 |  77 |  64.80 |      |      |      |
+| Total          | 5444.80 |  79 |        |      |      |      |
+
+: One-Way ANOVA for AAFCS by Brokering Group
+
+## That is the One-Way Anova
+
+# Factorial ANOVA: Part II
+
+ANOVA with more than one factor or IV
+
+- The main obvious feature is that we will be able to examine *main effects* that compare mean outcomes across multiple different factors
+- But we also can consider an interaction, or how means differ on one factor as a function of the other
+- In a simple 2X2 ANOVA
+  - Two factors with 2 value/categories each
+  - There are four possible groups
+
+Example:
+
+- Let's compare anxiety symptoms by sexual orientation and race
+  - For this example, let's just do Black/White, and LGB/Not
+  - Two categories or levels for race, two categories or levels for sexual orientation
+  - Four categories total: 1.Black and LGB 2.Black and Not-LGB 3.White and LGB 4.White and Non-LGB
+- A possible RQ would be, is self-reported anxiety higher among LGB adolescents compared to Not-LGB and is that difference **greater** for Black adolescents compared to white adolescents?
+
+## Example: A 2 × 2 Factorial ANOVA
+
+Suppose we are interested in whether anxiety symptoms differ as a function of **race** and **sexual orientation**.
+
+### Research Question
+
+Is self-reported anxiety higher among gay adolescent males compared to straight male adolescents, and is that difference greater for Black adolescents than for White adolescents?
+
+### Variables
+
+**Outcome Variable**
+
+- Anxiety symptoms (higher scores indicate greater anxiety)
+- Possible range: 10 to 28
+
+**Independent Variables**
+
+- Race
+  - Black
+  - White
+- Sexual Orientation
+  - Gay
+  - Straight
+
+Because there are two race groups and two sexual orientation groups, this is a **2 × 2 factorial ANOVA**.
+
+### Study Groups
+
+1.  Black and Gay
+2.  Black and Straight
+3.  White and Gay
+4.  White and Straight
+
+For this demonstration, assume that we have **30 participants per group**.
+
+$$N = 30 + 30 + 30 + 30 = 120$$
+
+## Hypothesized Group Means
+
+| Race  | Orientation | Mean Anxiety |
+|:------|:------------|-------------:|
+| White | Straight    |           15 |
+| White | Gay         |           17 |
+| Black | Straight    |           15 |
+| Black | LGB         |           25 |
+
+Notice that:
+
+- Black adolescents report no more anxiety than White adolescents within straight group
+- Gay adolescents report more anxiety than non-LGB adolescents, regardless of race
+- Black and gay adolescents have the highest anxiety scores.
+
+The overall mean is:
+
+$$\bar{Y}_{Grand} = 17$$
+
+## The Factorial ANOVA Model
+
+The two-way ANOVA can be represented as: $$Y = \mu + \text{Race} + \text{Orientation} +
+\text{Race} \times \text{Orientation} + e$$ \## Partitioning Variability into Sources for Race, Orienation and the Interaction
+
+As with a one-way ANOVA, total variability is divided into explained (between groups) and unexplained (within-groups) components.
+
+$$SS_{Total}
+=
+SS_{Race}
++
+SS_{Orientation}
++
+SS_{Race\times Orientation}
++
+SS_{Error}$$
+
+The ANOVA table therefore evaluates:
+
+1.  Main effect of race
+2.  Main effect of sexual orientation
+3.  Race × Sexual Orientation interaction
+4.  Residual error
+
+## Degrees of Freedom
+
+For this example:
+
+$$df_{Race}=2-1=1$$
+
+$$df_{Orientation}=2-1=1$$
+
+$$df_{Interaction}=(2-1)(2-1)=1$$
+
+$$df_{Error}=N-ab$$
+
+where:
+
+- $N=120$
+- $a=2$ race groups
+- $b=2$ orientation groups
+
+Therefore,
+
+$$df_{Error}=120-4=116$$
+
+## Mean Squares
+
+$$MS_{Race}
+=
+\frac{SS_{Race}}
+{df_{Race}}$$
+
+$$MS_{Orientation}
+=
+\frac{SS_{Orientation}}
+{df_{Orientation}}$$
+
+$$MS_{Interaction}
+=
+\frac{SS_{Interaction}}
+{df_{Interaction}}$$
+
+$$MS_{Error}
+=
+\frac{SS_{Error}}
+{df_{Error}}$$
+
+## F Statistics
+
+For each effect, the amount of explained variance is compared against unexplained variance.
+
+### Main Effect of Race
+
+$$F_{Race}
+=
+\frac{MS_{Race}}
+{MS_{Error}}$$
+
+### Main Effect of Sexual Orientation
+
+$$F_{Orientation}
+=
+\frac{MS_{Orientation}}
+{MS_{Error}}$$
+
+### Interaction Effect
+
+$$F_{Interaction}
+=
+\frac{MS_{Interaction}}
+{MS_{Error}}$$
+
+Large F values indicate that between-group variability is large relative to within-group variability.
+
+## Simulating Data in R
+
+```{r,echo=F}
+set.seed(627)
+
+n <- 30
+
+anxiety_df <- data.frame(
+  race = rep(c("White", "White", "Black", "Black"), each = n),
+  orientation = rep(c("Straight", "Gay",
+                      "Straight", "Gay"), each = n),
+  anxiety = c(
+    rnorm(n, mean = 15, sd = 3),
+    rnorm(n, mean = 17, sd = 3),
+    rnorm(n, mean = 15, sd = 3),
+    rnorm(n, mean = 25, sd = 3)
+  )
+)
+
+anxiety_df$anxiety <- round(anxiety_df$anxiety)
+
+anxiety_df$anxiety[anxiety_df$anxiety < 10] <- 10
+anxiety_df$anxiety[anxiety_df$anxiety > 28] <- 28
+
+head(anxiety_df, 5) # First 5 participants
+
+fit <- aov(anxiety ~ race * orientation,
+           data = anxiety_df)
+
+summary(fit)
+
+aggregate(anxiety ~ race + orientation,
+          data = anxiety_df,
+          mean)
+
+interaction.plot(
+  x.factor = anxiety_df$orientation,
+  trace.factor = anxiety_df$race,
+  response = anxiety_df$anxiety,
+  ylab = "Mean Anxiety",
+  xlab = "Sexual Orientation",
+  trace.label = "Race"
+)
+
+```
+
+------------------------------------------------------------------------
+
+This works well for a ***balanced design*** in which there are equal numbers of participants in each "cell" crossing race and sexual orientation.
+
+- That might be a reasonable expectation if I did quota sampling to get exact numbers
+- In available data, however, that is unlikely to be the case
+
+::: callout-note
+## Type I, II, and III Sum of Squares
+
+- Factorial ANOVAs can be *balanced* or *unbalanced*
+  - Balanced is when the groups have the same sample size in all of the cells
+  - Unbalanced is when groups have different sample sizes in the cells
+    - There are different ways to do sum of squares tests in ANOVAs
+    - Some statistical packages by default use Type III Sum of Squares
+    - In cases where you have unbalanced groups, Type III is more accurate
+    - Less sensitive to the order of variables
+
+Type I (Sequential) sums of squares evaluate effects in the order they are entered into the model. Results may change if the order of variables changes. Type II sums of squares test each main effect after adjusting for the other main effects but ignore interactions when testing main effects. Type III sums of squares test each effect after adjusting for all other effects in the model, including interactions.
+
+Because Type I tests depend on variable order, they are most appropriate for hierarchical models or balanced designs. In contrast, Type III sums of squares are commonly used in unbalanced factorial ANOVAs when interactions are included in the model.
+
+Or even more concise for slides:
+
+Balanced Designs
+
+Equal sample sizes across groups Type I = Type II = Type III Choice of sums of squares usually does not matter
+
+Unbalanced Designs
+
+Unequal sample sizes across groups Type I depends on variable order Type II and III adjust for overlap among predictors Type III is commonly reported when interactions are present
+
+A nice classroom soundbite is:
+
+Type I asks, "What does this variable explain when entered at this point in the model?"
+
+## Type III asks, "What does this variable explain after accounting for everything else?
+
+# One-Way ANOVA
+
+## Research Question
+
+Does exercise motivation differ across:
+
+- Freshmen
+- Sophomores
+- Juniors
+- Seniors
+
+Independent Variable:
+
+- Class standing
+
+Dependent Variable:
+
+- Exercise motivation
+
+One categorical predictor
+
+One continuous outcome
+
+------------------------------------------------------------------------
+
+# One-Way ANOVA Structure
+
+$$Y = \mu + Group + Error$$
+
+Where:
+
+- Y = outcome
+- μ = grand mean
+- Group = treatment effect
+- Error = residual variation
+
+Question:
+
+> Are some group means different?
+
+------------------------------------------------------------------------
+
+# After One-Way ANOVA
+
+A significant F-test tells us:
+
+> At least one group differs.
+
+It does NOT tell us:
+
+> Which groups differ.
+
+Follow-up analyses include:
+
+- Tukey HSD
+- Bonferroni tests
+- Planned contrasts
+
+# Factorial ANOVA
+
+Now suppose we have:
+
+- Gender
+- Class Standing
+
+and want to predict:
+
+- Exercise Motivation
+
+We now have two independent variables.
+
+------------------------------------------------------------------------
+
+# Factorial ANOVA Questions
+
+Main Effect of Gender:
+
+> Do males and females differ?
+
+Main Effect of Class Standing:
+
+> Does motivation differ across class levels?
+
+Interaction:
+
+> Does the effect of gender depend on class standing?
+
+------------------------------------------------------------------------
+
+# Interaction Effects
+
+Main effects are often not the most interesting finding.
+
+Interactions answer:
+
+> Does the impact of one variable change across levels of another variable?
+
+Examples:
+
+- Treatment effectiveness differs by gender
+- Intervention effects differ by age
+- Program effects differ by ethnicity
+
+Interactions are foundational for modern statistical modeling.
+
+------------------------------------------------------------------------
+
+# Repeated-Measures ANOVA
+
+Now suppose participants are measured:
+
+- Beginning of semester
+- Midterm
+- End of semester
+
+Same participants repeatedly measured.
+
+Question:
+
+> Does the outcome change across time?
+
+------------------------------------------------------------------------
+
+# Connection to Paired $t_test$s
+
+Paired $t_test$:
+
+$$2$$
+
+time points
+
+Repeated-Measures ANOVA:
+
+$$3+$$
+
+time points
+
+A paired $t_test$ is simply a special case of repeated measures ANOVA.
+
+------------------------------------------------------------------------
+
+# Mixed ANOVA
+
+Suppose we have:
+
+Groups:
+
+- Treatment
+- Control
+
+Measured at:
+
+- Pretest
+- Posttest
+- Follow-up
+
+Now we have:
+
+Between-Subjects Factor:
+
+- Group
+
+Within-Subjects Factor:
+
+- Time
+
+------------------------------------------------------------------------
+
+# Mixed ANOVA Questions
+
+Main Effect of Time:
+
+> Do scores change over time?
+
+Main Effect of Group:
+
+> Do groups differ overall?
+
+Interaction:
+
+> Do groups change differently over time?
+
+The interaction is usually the primary research question.
+
+------------------------------------------------------------------------
+
+# ANCOVA
+
+Analysis of Covariance
+
+Research Question:
+
+> Do interventions differ after controlling for baseline differences?
+
+Example:
+
+Outcome:
+
+- Posttest depression
+
+Group:
+
+- Treatment vs Control
+
+Covariate:
+
+- Baseline depression
+
+------------------------------------------------------------------------
+
+# ANCOVA Model
+
+ANCOVA combines:
+
+ANOVA +
+
+Regression
+
+Conceptually:
+
+$$Outcome =
+Group + Covariate + Error$$
+
+ANCOVA adjusts group means for preexisting differences.
+
+------------------------------------------------------------------------
+
+# MANOVA
+
+MANOVA stands for:
+
+**Multivariate Analysis of Variance**
+
+ANOVA:
+
+- One outcome
+
+MANOVA:
+
+- Multiple outcomes
+
+------------------------------------------------------------------------
+
+# Example MANOVA
+
+Independent Variable:
+
+- Treatment Group
+
+Dependent Variables:
+
+- Depression
+- Anxiety
+- Stress
+- Self-Esteem
+
+Question:
+
+> Do groups differ on the overall profile of outcomes?
+
+------------------------------------------------------------------------
+
+# Why Use MANOVA?
+
+Instead of conducting:
+
+- ANOVA for Depression
+- ANOVA for Anxiety
+- ANOVA for Stress
+- ANOVA for Self-Esteem
+
+MANOVA evaluates them simultaneously.
+
+Advantages:
+
+- Controls Type I error
+- Examines combined outcome patterns
+
+------------------------------------------------------------------------
+
+# Linear Mixed Models
+
+Repeated-measures ANOVA has limitations:
+
+- Missing data
+- Unequal measurement occasions
+- Unequal spacing of observations
+- Nested data structures
+
+Mixed models address these issues.
+
+------------------------------------------------------------------------
+
+# Examples of Mixed Models
+
+Students nested within classrooms
+
+Repeated assessments nested within individuals
+
+Patients nested within clinics
+
+Family members nested within families
+
+Longitudinal developmental studies
+
+------------------------------------------------------------------------
+
+# Mixed Model Example
+
+$$Y_{ij}
+=
+\beta_0
++
+\beta_1(Time)
++
+u_i
++
+e_{ij}$$
+
+Where:
+
+- Fixed effects describe average change
+- Random effects describe individual differences
+
+------------------------------------------------------------------------

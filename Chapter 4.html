@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>chapter-4</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Chapter 4_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Chapter 4_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Chapter 4_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Chapter 4_files/libs/quarto-html/popper.min.js"></script>
+<script src="Chapter 4_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Chapter 4_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Chapter 4_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Chapter 4_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Chapter 4_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Chapter 4_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Chapter 4_files/libs/bootstrap/bootstrap-215b371544c282197b31c8aa00ce3677.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="from-t-tests-to-anova" class="level1">
+<h1>From t-Tests to ANOVA</h1>
+</section>
+<section id="from-t-tests-to-anova-1" class="level1">
+<h1>From t-Tests to ANOVA</h1>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this unit, students should be able to:</p>
+<ul>
+<li>Explain why ANOVA was developed.</li>
+<li>Distinguish among different ANOVA models.</li>
+<li>Understand the logic of the F-test.</li>
+<li>Determine when to use:
+<ul>
+<li>One-Way ANOVA</li>
+<li>Factorial ANOVA</li>
+<li>Repeated Measures ANOVA</li>
+<li>Mixed ANOVA</li>
+<li>ANCOVA</li>
+<li>MANOVA</li>
+</ul></li>
+<li>Understand how ANOVA connects to regression and mixed models.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="where-we-have-been" class="level1">
+<h1>Where We Have Been</h1>
+<p>Thus far we have compared means using t-tests.</p>
+<p>Independent Samples t-Test:</p>
+<ul>
+<li>Two independent groups</li>
+<li>One continuous outcome</li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li>Male vs Female</li>
+<li>Treatment vs Control</li>
+</ul>
+<p>Paired Samples t-Test:</p>
+<ul>
+<li>Same participants measured twice</li>
+<li>One continuous outcome</li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li>Pretest vs Posttest</li>
+<li>Before treatment vs After treatment</li>
+</ul>
+<hr>
+</section>
+<section id="the-limitation-of-t-tests" class="level1">
+<h1>The Limitation of t-Tests</h1>
+<p>Suppose we want to compare:</p>
+<ul>
+<li>Freshmen</li>
+<li>Sophomores</li>
+<li>Juniors</li>
+<li>Seniors</li>
+</ul>
+<p>Can we use a t-test?</p>
+<p>No.</p>
+<p>A t-test only compares:</p>
+<p><span class="math display">\[2 \text{ groups}\]</span></p>
+<p>Conducting multiple t-tests creates a problem:</p>
+<blockquote class="blockquote">
+<p>Type I error inflation</p>
+</blockquote>
+<p>The probability of making a false positive conclusion increases with each additional test.</p>
+<hr>
+</section>
+<section id="enter-anova" class="level1">
+<h1>Enter ANOVA</h1>
+<p>ANOVA stands for:</p>
+<p><strong>Analysis of Variance</strong></p>
+<p>Developed by:</p>
+<p><strong>Sir Ronald Fisher</strong></p>
+<p>Core question:</p>
+<blockquote class="blockquote">
+<p>Are the observed group differences larger than would be expected due to random variation?</p>
+</blockquote>
+<p>Instead of comparing two means directly, ANOVA compares:</p>
+<ul>
+<li>Between-group variability</li>
+</ul>
+<p>to</p>
+<ul>
+<li>Within-group variability</li>
+</ul>
+<hr>
+</section>
+<section id="the-logic-of-anova" class="level1">
+<h1>The Logic of ANOVA</h1>
+<p>If groups truly differ:</p>
+<ul>
+<li>Group means should be far apart</li>
+</ul>
+<p>and</p>
+<ul>
+<li>Individuals within groups should be relatively similar</li>
+</ul>
+<p>ANOVA evaluates:</p>
+<p><span class="math display">\[F =
+\frac{
+\text{Between-Group Variance}
+}{
+\text{Within-Group Variance}
+}\]</span></p>
+<hr>
+</section>
+<section id="understanding-the-f-ratio" class="level1">
+<h1>Understanding the F Ratio</h1>
+<p>Small F:</p>
+<p><span class="math display">\[\text{Between} \approx \text{Within}\]</span></p>
+<p>Little evidence of group differences.</p>
+<p>Large F:</p>
+<p><span class="math display">\[\text{Between} &gt; \text{Within}\]</span></p>
+<p>Evidence that group means differ.</p>
+<p>Think of:</p>
+<p><span class="math display">\[F =
+\frac{\text{Signal}}{\text{Noise}}\]</span></p>
+<p>just as</p>
+<p><span class="math display">\[t =
+\frac{\text{Signal}}{\text{Noise}}\]</span></p>
+<p>for a t-test.</p>
+<hr>
+</section>
+<section id="anova-family-roadmap" class="level1">
+<h1>ANOVA Family Roadmap</h1>
+<p>We will study:</p>
+<ol type="1">
+<li>One-Way ANOVA</li>
+<li>Factorial ANOVA</li>
+<li>Repeated Measures ANOVA</li>
+<li>Mixed ANOVA</li>
+<li>ANCOVA</li>
+<li>MANOVA</li>
+<li>Linear Mixed Models</li>
+</ol>
+<p>Each model extends the previous one.</p>
+<hr>
+</section>
+<section id="one-way-anova" class="level1">
+<h1>One-Way ANOVA</h1>
+<section id="research-question" class="level2">
+<h2 class="anchored" data-anchor-id="research-question">Research Question</h2>
+<p>Does exercise motivation differ across:</p>
+<ul>
+<li>Freshmen</li>
+<li>Sophomores</li>
+<li>Juniors</li>
+<li>Seniors</li>
+</ul>
+<p>Independent Variable:</p>
+<ul>
+<li>Class standing</li>
+</ul>
+<p>Dependent Variable:</p>
+<ul>
+<li>Exercise motivation</li>
+</ul>
+<p>One categorical predictor</p>
+<p>One continuous outcome</p>
+<hr>
+</section>
+</section>
+<section id="one-way-anova-structure" class="level1">
+<h1>One-Way ANOVA Structure</h1>
+<p><span class="math display">\[Y = \mu + Group + Error\]</span></p>
+<p>Where:</p>
+<ul>
+<li>Y = outcome</li>
+<li>μ = grand mean</li>
+<li>Group = treatment effect</li>
+<li>Error = residual variation</li>
+</ul>
+<p>Question:</p>
+<blockquote class="blockquote">
+<p>Are some group means different?</p>
+</blockquote>
+<hr>
+</section>
+<section id="after-one-way-anova" class="level1">
+<h1>After One-Way ANOVA</h1>
+<p>A significant F-test tells us:</p>
+<blockquote class="blockquote">
+<p>At least one group differs.</p>
+</blockquote>
+<p>It does NOT tell us:</p>
+<blockquote class="blockquote">
+<p>Which groups differ.</p>
+</blockquote>
+<p>Follow-up analyses include:</p>
+<ul>
+<li>Tukey HSD</li>
+<li>Bonferroni tests</li>
+<li>Planned contrasts</li>
+</ul>
+<hr>
+</section>
+<section id="factorial-anova" class="level1">
+<h1>Factorial ANOVA</h1>
+<p>Now suppose we have:</p>
+<ul>
+<li>Gender</li>
+<li>Class Standing</li>
+</ul>
+<p>and want to predict:</p>
+<ul>
+<li>Exercise Motivation</li>
+</ul>
+<p>We now have two independent variables.</p>
+<hr>
+</section>
+<section id="factorial-anova-questions" class="level1">
+<h1>Factorial ANOVA Questions</h1>
+<p>Main Effect of Gender:</p>
+<blockquote class="blockquote">
+<p>Do males and females differ?</p>
+</blockquote>
+<p>Main Effect of Class Standing:</p>
+<blockquote class="blockquote">
+<p>Does motivation differ across class levels?</p>
+</blockquote>
+<p>Interaction:</p>
+<blockquote class="blockquote">
+<p>Does the effect of gender depend on class standing?</p>
+</blockquote>
+<hr>
+</section>
+<section id="interaction-effects" class="level1">
+<h1>Interaction Effects</h1>
+<p>Main effects are often not the most interesting finding.</p>
+<p>Interactions answer:</p>
+<blockquote class="blockquote">
+<p>Does the impact of one variable change across levels of another variable?</p>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li>Treatment effectiveness differs by gender</li>
+<li>Intervention effects differ by age</li>
+<li>Program effects differ by ethnicity</li>
+</ul>
+<p>Interactions are foundational for modern statistical modeling.</p>
+<hr>
+</section>
+<section id="repeated-measures-anova" class="level1">
+<h1>Repeated Measures ANOVA</h1>
+<p>Now suppose participants are measured:</p>
+<ul>
+<li>Beginning of semester</li>
+<li>Midterm</li>
+<li>End of semester</li>
+</ul>
+<p>Same participants repeatedly measured.</p>
+<p>Question:</p>
+<blockquote class="blockquote">
+<p>Does the outcome change across time?</p>
+</blockquote>
+<hr>
+</section>
+<section id="connection-to-paired-t-tests" class="level1">
+<h1>Connection to Paired t-Tests</h1>
+<p>Paired t-Test:</p>
+<p><span class="math display">\[2\]</span></p>
+<p>time points</p>
+<p>Repeated Measures ANOVA:</p>
+<p><span class="math display">\[3+\]</span></p>
+<p>time points</p>
+<p>A paired t-test is simply a special case of repeated measures ANOVA.</p>
+<hr>
+</section>
+<section id="mixed-anova" class="level1">
+<h1>Mixed ANOVA</h1>
+<p>Suppose we have:</p>
+<p>Groups:</p>
+<ul>
+<li>Treatment</li>
+<li>Control</li>
+</ul>
+<p>Measured at:</p>
+<ul>
+<li>Pretest</li>
+<li>Posttest</li>
+<li>Follow-up</li>
+</ul>
+<p>Now we have:</p>
+<p>Between-Subjects Factor:</p>
+<ul>
+<li>Group</li>
+</ul>
+<p>Within-Subjects Factor:</p>
+<ul>
+<li>Time</li>
+</ul>
+<hr>
+</section>
+<section id="mixed-anova-questions" class="level1">
+<h1>Mixed ANOVA Questions</h1>
+<p>Main Effect of Time:</p>
+<blockquote class="blockquote">
+<p>Do scores change over time?</p>
+</blockquote>
+<p>Main Effect of Group:</p>
+<blockquote class="blockquote">
+<p>Do groups differ overall?</p>
+</blockquote>
+<p>Interaction:</p>
+<blockquote class="blockquote">
+<p>Do groups change differently over time?</p>
+</blockquote>
+<p>The interaction is usually the primary research question.</p>
+<hr>
+</section>
+<section id="ancova" class="level1">
+<h1>ANCOVA</h1>
+<p>Analysis of Covariance</p>
+<p>Research Question:</p>
+<blockquote class="blockquote">
+<p>Do interventions differ after controlling for baseline differences?</p>
+</blockquote>
+<p>Example:</p>
+<p>Outcome:</p>
+<ul>
+<li>Posttest depression</li>
+</ul>
+<p>Group:</p>
+<ul>
+<li>Treatment vs Control</li>
+</ul>
+<p>Covariate:</p>
+<ul>
+<li>Baseline depression</li>
+</ul>
+<hr>
+</section>
+<section id="ancova-model" class="level1">
+<h1>ANCOVA Model</h1>
+<p>ANCOVA combines:</p>
+<p>ANOVA +</p>
+<p>Regression</p>
+<p>Conceptually:</p>
+<p><span class="math display">\[Outcome =
+Group + Covariate + Error\]</span></p>
+<p>ANCOVA adjusts group means for preexisting differences.</p>
+<hr>
+</section>
+<section id="manova" class="level1">
+<h1>MANOVA</h1>
+<p>MANOVA stands for:</p>
+<p><strong>Multivariate Analysis of Variance</strong></p>
+<p>ANOVA:</p>
+<ul>
+<li>One outcome</li>
+</ul>
+<p>MANOVA:</p>
+<ul>
+<li>Multiple outcomes</li>
+</ul>
+<hr>
+</section>
+<section id="example-manova" class="level1">
+<h1>Example MANOVA</h1>
+<p>Independent Variable:</p>
+<ul>
+<li>Treatment Group</li>
+</ul>
+<p>Dependent Variables:</p>
+<ul>
+<li>Depression</li>
+<li>Anxiety</li>
+<li>Stress</li>
+<li>Self-Esteem</li>
+</ul>
+<p>Question:</p>
+<blockquote class="blockquote">
+<p>Do groups differ on the overall profile of outcomes?</p>
+</blockquote>
+<hr>
+</section>
+<section id="why-use-manova" class="level1">
+<h1>Why Use MANOVA?</h1>
+<p>Instead of conducting:</p>
+<ul>
+<li>ANOVA for Depression</li>
+<li>ANOVA for Anxiety</li>
+<li>ANOVA for Stress</li>
+<li>ANOVA for Self-Esteem</li>
+</ul>
+<p>MANOVA evaluates them simultaneously.</p>
+<p>Advantages:</p>
+<ul>
+<li>Controls Type I error</li>
+<li>Examines combined outcome patterns</li>
+</ul>
+<hr>
+</section>
+<section id="linear-mixed-models" class="level1">
+<h1>Linear Mixed Models</h1>
+<p>Repeated-measures ANOVA has limitations:</p>
+<ul>
+<li>Missing data</li>
+<li>Unequal measurement occasions</li>
+<li>Unequal spacing of observations</li>
+<li>Nested data structures</li>
+</ul>
+<p>Mixed models address these issues.</p>
+<hr>
+</section>
+<section id="examples-of-mixed-models" class="level1">
+<h1>Examples of Mixed Models</h1>
+<p>Students nested within classrooms</p>
+<p>Repeated assessments nested within individuals</p>
+<p>Patients nested within clinics</p>
+<p>Family members nested within families</p>
+<p>Longitudinal developmental studies</p>
+<hr>
+</section>
+<section id="mixed-model-example" class="level1">
+<h1>Mixed Model Example</h1>
+<p><span class="math display">\[Y_{ij}
+=
+\beta_0
++
+\beta_1(Time)
++
+u_i
++
+e_{ij}\]</span></p>
+<p>Where:</p>
+<ul>
+<li>Fixed effects describe average change</li>
+<li>Random effects describe individual differences</li>
+</ul>
+<hr>
+</section>
+<section id="big-picture" class="level1">
+<h1>Big Picture</h1>
+<p>t-Test</p>
+<p>↓</p>
+<p>One-Way ANOVA</p>
+<p>↓</p>
+<p>Factorial ANOVA</p>
+<p>↓</p>
+<p>Repeated Measures ANOVA</p>
+<p>↓</p>
+<p>Mixed ANOVA</p>
+<p>↓</p>
+<p>ANCOVA</p>
+<p>↓</p>
+<p>MANOVA</p>
+<p>↓</p>
+<p>Linear Mixed Models</p>
+<hr>
+</section>
+<section id="key-takeaways" class="level1">
+<h1>Key Takeaways</h1>
+<ul>
+<li>ANOVA extends the logic of the t-test.</li>
+<li>One-Way ANOVA compares more than two groups.</li>
+<li>Factorial ANOVA introduces multiple predictors and interactions.</li>
+<li>Repeated Measures ANOVA analyzes change over time.</li>
+<li>Mixed ANOVA combines groups and time.</li>
+<li>ANCOVA adjusts for covariates.</li>
+<li>MANOVA analyzes multiple outcomes simultaneously.</li>
+<li>Mixed models provide a flexible framework for complex longitudinal and nested data.</li>
+</ul>
+</section>
+<section id="example-4-one-way-anova" class="level1">
+<h1>Example 4: One-Way ANOVA</h1>
+<section id="research-question-1" class="level2">
+<h2 class="anchored" data-anchor-id="research-question-1">Research Question</h2>
+<p>Researchers were interested in whether ethnic-racial identity (ERI) exploration differed across stages of high school.</p>
+<p>Specifically, they compared:</p>
+<ul>
+<li>9th Grade Students</li>
+<li>10th Grade Students</li>
+<li>11th Grade Students</li>
+<li>12th Grade Students</li>
+</ul>
+<p>Outcome:</p>
+<ul>
+<li>ERI Exploration Score</li>
+</ul>
+<p>Research Question:</p>
+<blockquote class="blockquote">
+<p>Does ethnic-racial identity exploration differ across grade levels?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="why-not-use-multiple-t-tests" class="level1">
+<h1>Why Not Use Multiple t-Tests?</h1>
+<p>Suppose we compared:</p>
+<ul>
+<li>9th vs 10th</li>
+<li>9th vs 11th</li>
+<li>9th vs 12th</li>
+<li>10th vs 11th</li>
+<li>10th vs 12th</li>
+<li>11th vs 12th</li>
+</ul>
+<p>That would require six separate t-tests.</p>
+<p>Problems:</p>
+<ul>
+<li>Increased Type I Error</li>
+<li>More complicated interpretation</li>
+</ul>
+<p>Instead, we use a single One-Way ANOVA.</p>
+<hr>
+</section>
+<section id="independent-variable" class="level1">
+<h1>Independent Variable</h1>
+<section id="grade-level" class="level2">
+<h2 class="anchored" data-anchor-id="grade-level">Grade Level</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>9th</td>
+</tr>
+<tr class="even">
+<td>10th</td>
+</tr>
+<tr class="odd">
+<td>11th</td>
+</tr>
+<tr class="even">
+<td>12th</td>
+</tr>
+</tbody>
+</table>
+<p>This variable is categorical.</p>
+<hr>
+</section>
+</section>
+<section id="dependent-variable" class="level1">
+<h1>Dependent Variable</h1>
+<section id="eri-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="eri-exploration">ERI Exploration</h2>
+<p>Example items:</p>
+<ul>
+<li>I have spent time trying to learn more about my ethnic group.</li>
+<li>I have participated in activities that help me understand my ethnic background.</li>
+<li>I think a lot about what my ethnicity means to me.</li>
+</ul>
+<p>Higher scores indicate greater exploration.</p>
+<hr>
+</section>
+</section>
+<section id="hypotheses" class="level1">
+<h1>Hypotheses</h1>
+<p>Null Hypothesis:</p>
+<p><span class="math display">\[H_0:
+\mu_{9th}
+=
+\mu_{10th}
+=
+\mu_{11th}
+=
+\mu_{12th}\]</span></p>
+<p>All population means are equal.</p>
+<p>Alternative Hypothesis:</p>
+<p><span class="math display">\[H_A:
+\text{At least one population mean differs}\]</span></p>
+<p>Notice that ANOVA does not specify which group differs.</p>
+<hr>
+</section>
+<section id="sample-data" class="level1">
+<h1>Sample Data</h1>
+<p>Suppose the study produced the following sample means.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Grade</th>
+<th style="text-align: right;">N</th>
+<th style="text-align: right;">Mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>9th</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">2.90</td>
+</tr>
+<tr class="even">
+<td>10th</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">3.12</td>
+</tr>
+<tr class="odd">
+<td>11th</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">3.47</td>
+</tr>
+<tr class="even">
+<td>12th</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">3.61</td>
+</tr>
+</tbody>
+</table>
+<p>Visual inspection suggests exploration may increase across grade levels.</p>
+<p>The question is:</p>
+<blockquote class="blockquote">
+<p>Are these differences larger than we would expect from sampling error alone?</p>
+</blockquote>
+<hr>
+</section>
+<section id="logic-of-anova" class="level1">
+<h1>Logic of ANOVA</h1>
+<p>ANOVA compares:</p>
+<section id="between-group-variation" class="level2">
+<h2 class="anchored" data-anchor-id="between-group-variation">Between-Group Variation</h2>
+<p>Differences among group means</p>
+<p>versus</p>
+</section>
+<section id="within-group-variation" class="level2">
+<h2 class="anchored" data-anchor-id="within-group-variation">Within-Group Variation</h2>
+<p>Differences among individuals inside each group</p>
+<p>The test statistic is</p>
+<p><span class="math display">\[F=
+\frac{
+MS_{Between}
+}{
+MS_{Within}
+}\]</span></p>
+<hr>
+</section>
+</section>
+<section id="understanding-the-f-ratio-1" class="level1">
+<h1>Understanding the F Ratio</h1>
+<p>If group means are very similar:</p>
+<p><span class="math display">\[F \approx 1\]</span></p>
+<p>Little evidence of group differences.</p>
+<p>If group means differ substantially:</p>
+<p><span class="math display">\[F &gt; 1\]</span></p>
+<p>Evidence of group differences.</p>
+<p>Larger F values provide stronger evidence against the null hypothesis.</p>
+<hr>
+</section>
+<section id="simulating-data" class="level1">
+<h1>Simulating Data</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">grade =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"9th"</span>,<span class="st">"10th"</span>,<span class="st">"11th"</span>,<span class="st">"12th"</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">each =</span> n</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">exploration =</span> <span class="fu">c</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="fl">2.90</span>, .<span class="dv">50</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="fl">3.12</span>, .<span class="dv">50</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="fl">3.47</span>, .<span class="dv">50</span>),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="fl">3.61</span>, .<span class="dv">50</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  grade exploration
+1   9th    2.619762
+2   9th    2.784911
+3   9th    3.679354
+4   9th    2.935254
+5   9th    2.964644
+6   9th    3.757532</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="descriptive-statistics" class="level1">
+<h1>Descriptive Statistics</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(grade) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> <span class="fu">n</span>(),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="fu">mean</span>(exploration),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span> <span class="fu">sd</span>(exploration)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  grade     N  Mean    SD
+  &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 10th     50  3.19 0.453
+2 11th     50  3.34 0.495
+3 12th     50  3.63 0.465
+4 9th      50  2.92 0.463</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="conducting-the-one-way-anova" class="level1">
+<h1>Conducting the One-Way ANOVA</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">aov</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  exploration <span class="sc">~</span> grade,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+grade         3  13.24   4.414   20.05 2.24e-11 ***
+Residuals   196  43.15   0.220                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="example-output" class="level1">
+<h1>Example Output</h1>
+<pre class="text"><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)
+grade         3  18.72   6.24   21.84 &lt;.001
+Residuals   196  56.02   0.29</code></pre>
+<p>Interpretation:</p>
+<p><span class="math display">\[F(3,196)=21.84,\quad p&lt;.001\]</span></p>
+<p>The omnibus test indicates significant differences among grade levels.</p>
+<hr>
+</section>
+<section id="what-does-the-omnibus-test-tell-us" class="level1">
+<h1>What Does the Omnibus Test Tell Us?</h1>
+<p>The ANOVA tells us:</p>
+<p>✅ Some mean differs</p>
+<p>The ANOVA does NOT tell us:</p>
+<p>❌ Which means differ</p>
+<p>To answer that question we conduct post hoc comparisons.</p>
+<hr>
+</section>
+<section id="tukey-post-hoc-tests" class="level1">
+<h1>Tukey Post Hoc Tests</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = exploration ~ grade, data = dat)
+
+$grade
+                diff         lwr         upr     p adj
+11th-10th  0.1498456 -0.09331974  0.39301104 0.3828324
+12th-10th  0.4361993  0.19303389  0.67936467 0.0000362
+9th-10th  -0.2760024 -0.51916775 -0.03283697 0.0190471
+12th-11th  0.2863536  0.04318825  0.52951902 0.0137084
+9th-11th  -0.4258480 -0.66901340 -0.18268262 0.0000582
+9th-12th  -0.7122016 -0.95536703 -0.46903625 0.0000000</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="example-interpretation" class="level1">
+<h1>Example Interpretation</h1>
+<p>Suppose the results indicate:</p>
+<ul>
+<li>11th &gt; 9th</li>
+<li>12th &gt; 9th</li>
+<li>12th &gt; 10th</li>
+</ul>
+<p>Interpretation:</p>
+<p>Students in the upper grades reported significantly greater ethnic-racial identity exploration than students in the lower grades.</p>
+<hr>
+</section>
+<section id="effect-size" class="level1">
+<h1>Effect Size</h1>
+<p>One common effect size is Eta-Squared:</p>
+<p><span class="math display">\[\eta^2
+=
+\frac{
+SS_{Between}
+}{
+SS_{Total}
+}\]</span></p>
+<p>In R:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'effectsize' was built under R version 4.4.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eta_squared</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>For one-way between subjects designs, partial eta squared is equivalent
+  to eta squared. Returning eta squared.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Effect Size for ANOVA
+
+Parameter | Eta2 |       95% CI
+-------------------------------
+grade     | 0.23 | [0.15, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="apa-style-write-up" class="level1">
+<h1>APA Style Write-Up</h1>
+<p>A one-way analysis of variance examined differences in ethnic-racial identity exploration across grade levels. Results indicated a significant effect of grade level on exploration, F(3, 196) = 21.84, p &lt; .001. Follow-up Tukey comparisons suggested that students in the upper grades reported greater levels of ethnic-racial identity exploration than students in the lower grades.</p>
+<hr>
+</section>
+<section id="key-takeaways-1" class="level1">
+<h1>Key Takeaways</h1>
+<ul>
+<li>One-Way ANOVA compares three or more means.</li>
+<li>The F-test compares between-group variability to within-group variability.</li>
+<li>A significant omnibus test indicates that at least one mean differs.</li>
+<li>Post hoc tests identify where differences occur.</li>
+<li>Effect sizes quantify the magnitude of group differences.</li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

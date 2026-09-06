@@ -1,0 +1,170 @@
+---
+title: "Chapter 4: ANOVAS"
+format: html
+editor: visual
+---
+---
+title: "Chapter 4 v2.0"
+format: html
+editor: visual
+---
+
+## ANOVAs: Part I
+
+In this chapter, we discuss the family of ANOVA analyses commonly used in HHS research. These analyses begin with *between-groups* comparisons that focus on mean differences across multiple groups. The most basic model is the one-way ANOVA, or analysis of variance.
+
+Other ANOVA-related models include:
+
+1. Multiple IVs or factors (*factorial ANOVA*)
+2. Covariates or control variables (*ANCOVA*)
+3. Multiple outcomes (*MANOVA*)
+4. Repeated measures (*repeated-measures ANOVA* or RMANOVA)
+5. Both within-person factors (repeated measures) and between-person factors, often referred to as *mixed-design* or *mixed-effects* models
+
+## One-Way ANOVA
+
+- A basic *between-groups* analysis that compares means across three or more groups.
+  - A one-way ANOVA can technically be conducted with two groups, in which case it is equivalent to an independent-samples *t*-test when the same assumptions and model are used.
+- Relies on a global *F* test that indicates whether there is evidence that **at least one group mean differs from another**.
+- Typically followed by adjusted **post-hoc** tests to determine specifically which groups differ from one another.
+- Common effect-size measures include eta squared ($\eta^2$) and standardized mean differences such as Cohen's *d* for pairwise comparisons.
+  - Conventional benchmarks for $\eta^2$ are .01, .06, and .14 for small, medium, and large effects, respectively. These benchmarks are only rough guidelines; substantive context matters.
+
+ callout-note
+## Basic ANOVA Assumptions
+
+A standard one-way ANOVA generally assumes:
+
+- Independent observations
+- Approximately normally distributed residuals within groups
+- Similar variances across groups (*homogeneity of variance*)
+
+The analysis can be reasonably robust to modest departures from normality, especially with similar group sizes, but substantial assumption violations may require alternative methods or adjustments.
+
+
+## Brief Review: Between-Groups Research Designs Compare Groups on an Outcome
+
+Between-groups designs typically focus on a comparison: often a categorical or nominal IV/predictor and a continuous (interval/ratio) DV/outcome.
+
+- Returning to the general linear model (GLM), a basic formula is:
+
+  $Y = X\beta + \epsilon$
+
+- This suggests that an outcome, $Y$, is predicted by or depends on some $X$ variable. In a group-comparison design, it can also be understood as testing whether the mean of $Y$ differs across levels of $X$.
+
+- In associational designs that use regression, the IV or $X$ variable is often continuous.
+
+- In comparative designs that use between-person analyses, the IV is categorical and is often called a *factor*.
+
+  - If the factor is binary (two groups), an independent-samples *t*-test may be used.
+  - If the factor has three or more groups, a one-way ANOVA may be used.
+
+- The design may be a randomized controlled trial (RCT) or another true experimental design.
+
+- It could be quasi-experimental.
+
+- It could also be a comparison across naturally occurring groups of participants.
+
+## Between-Groups Analyses in HHS Research
+
+*Why can't we just stick with t-tests?*
+
+- *T*-tests work well when comparing two groups on one outcome.
+- They become problematic when a study includes:
+  - More than two groups
+  - More than one IV or predictor
+  - Multiple outcomes
+- In more complex studies, running many *t*-tests can result in *alpha inflation*.
+
+**We will almost always encounter more complex studies.**
+
+- Do males report greater motivation to exercise, and does that difference depend on type of sport?  
+  *(Two predictors with a possible interaction)*
+
+- Are gay adolescents more likely to report anxiety, depression, and fear of going to school than heterosexual male adolescents?  
+  *(Three outcomes)*
+
+- Are there ethnic-racial identity (ERI) differences among African American, Asian American, Latinx, and Arab American adolescents?  
+  *(More than two groups)*
+
+## Why Not Use Multiple *t*-Tests?
+
+- Multiple *t*-tests can inflate Type I error rates.
+  - Conducting multiple statistical tests increases the risk of making at least one Type I error.
+  - A set of related statistical tests is often called a *family* of tests.
+  - The probability of making at least one Type I error across that family is the **familywise error rate (FWE)**.
+  - This problem is also referred to as **alpha inflation**.
+
+ANOVAs address this problem by first using an omnibus *F* test.
+
+- The *F* test provides one overall test of whether mean differences exist among multiple groups for a given outcome.
+- If the omnibus test is statistically significant, researchers often conduct adjusted post-hoc comparisons to identify which groups differ.
+- The omnibus *F* test does **not** eliminate multiplicity concerns across multiple outcomes or multiple follow-up tests. Those situations still require a planned approach, such as adjusted post-hoc tests, correction procedures, or MANOVA when appropriate.
+
+Suppose we want to compare ethnic-racial identity (ERI) among a sample of Asian American high school students.
+
+ callout-note
+**Ethnic-Racial Identity** (ERI) is a multidimensional construct that may include adolescents' **exploration** of their ethnicity (e.g., reading about it, engaging with related social media, or seeking information), their *sense of belonging* (feeling connected to the group), and *affirmation* (feeling proud of one's ethnicity).[^1]
+
+
+[^1]: These dimensions are illustrative rather than exhaustive. Add a citation to the specific ERI framework or measure used in your course or study.
+
+If I wanted to determine whether the means of three ERI dimensions varied by high-school grade level:
+
+- Freshmen
+- Sophomores
+- Juniors
+- Seniors
+
+How would I use *t*-tests?
+
+- With four groups, there are six possible pairwise comparisons for each outcome:
+
+  $\binom{4}{2} = 6$
+
+- With three outcomes, conducting every pairwise comparison would result in:
+
+  $6 \times 3 = 18$
+
+  statistical tests.
+
+- If each test is conducted at $\alpha = .05$, and if all 18 tests are treated as one family, the illustrative familywise error rate is:
+
+  $\alpha_{FWE} = 1 - (1 - .05)^{18} \approx .603$
+
+- Thus, assuming independent tests and assuming all null hypotheses are true, there is an approximately 60% chance of obtaining at least one false-positive result across the 18 tests.
+
+ callout-note
+## Familywise Error Rate (FWE)
+
+When we think about Type I errors, we often think about a specific test. For example: What is the probability of making a Type I error when conducting a *t*-test to evaluate whether males report higher self-esteem than females?
+
+This is the **per-comparison error rate**: the probability of a Type I error for one individual statistical test.
+
+When we conduct multiple statistical tests, such as a series of pairwise *t*-tests across several groups or outcomes, those tests can form a *family* of tests. The probability of making at least one Type I error across that entire family is called the **familywise error rate (FWE)**.
+
+FWE refers to the probability of incorrectly rejecting at least one true null hypothesis when multiple statistical tests are conducted. In general, as the number of statistical tests increases, the likelihood of obtaining a statistically significant result purely by chance also increases.
+
+Consequently, the FWE becomes larger than the target significance level (e.g., $\alpha = .05$) used for any individual test.
+
+Under an assumption that the tests are independent, the FWE can be calculated as:
+
+$\alpha_{FWE} = 1 - (1 - \alpha)^K$
+
+where $K$ is the number of tests in the family.
+
+For example, if we conduct three comparisons at $\alpha = .05$:
+
+$H_0: \mu_1 = \mu_2 = \mu_3$
+
+$\alpha_{FWE} = 1 - (.95)(.95)(.95)$
+
+$\alpha_{FWE} = 1 - .95^3$
+
+$\alpha_{FWE} = 1 - .8574$
+
+$\alpha_{FWE} = .1426$
+
+Therefore, across many *families of three comparisons*, approximately 14 out of every 100 families would be expected to contain at least one Type I error when all null hypotheses are true.
+
+Note that statistical tests are often correlated rather than independent, so this formula should be treated as an illustration of how familywise error can increase.

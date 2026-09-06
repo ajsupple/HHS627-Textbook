@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -78,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-631496449bf32ff9b0bb69a6bfd9195d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -111,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -212,11 +209,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#anova-part-i" id="toc-anova-part-i" class="nav-link active" data-scroll-target="#anova-part-i">ANOVA: Part I</a></li>
-  <li><a href="#what-is-an-anova-why-would-you-do-one" id="toc-what-is-an-anova-why-would-you-do-one" class="nav-link" data-scroll-target="#what-is-an-anova-why-would-you-do-one">What is an ANOVA? Why would you do one?</a>
-  <ul class="collapse">
-  <li><a href="#using-r-to-run-the-anova" id="toc-using-r-to-run-the-anova" class="nav-link" data-scroll-target="#using-r-to-run-the-anova">Using R to run the ANOVA</a></li>
-  <li><a href="#a-sample-anova-table" id="toc-a-sample-anova-table" class="nav-link" data-scroll-target="#a-sample-anova-table">A sample ANOVA table</a></li>
-  </ul></li>
+  <li><a href="#what-is-an-anova-why-would-you-do-one" id="toc-what-is-an-anova-why-would-you-do-one" class="nav-link" data-scroll-target="#what-is-an-anova-why-would-you-do-one">What is an ANOVA? Why would you do one?</a></li>
   <li><a href="#technical-details-about-anovas" id="toc-technical-details-about-anovas" class="nav-link" data-scroll-target="#technical-details-about-anovas">Technical Details about ANOVAs</a>
   <ul class="collapse">
   <li><a href="#why-cant-we-just-stick-with-t-tests" id="toc-why-cant-we-just-stick-with-t-tests" class="nav-link" data-scroll-target="#why-cant-we-just-stick-with-t-tests">Why can’t we just stick with <span class="math inline">\(t-tests\)</span>?</a></li>
@@ -303,70 +296,6 @@ Note
 <p>The <span class="math inline">\(F\)</span> statistic is computed from the sample data. If the obtained <span class="math inline">\(F\)</span> statistic exceeds the critical value, or equivalently if the <span class="math inline">\(p\)</span>-value is less than <span class="math inline">\(\alpha\)</span>, the researcher rejects the null hypothesis and concludes that there is a statistically significant difference among the population means. Specifically, the conclusion is that at least one group mean differs from at least one other group mean, although the ANOVA itself does not indicate which groups differ. Follow-up analyses, such as <em>posthoc</em> tests, are needed to determine the specific group differences.</p>
 <p>A common follow up test is the <span class="math inline">\(Tukey\)</span> Honestly Difference test that will do group-by-group <strong>posthoc</strong> tests to identify specific statstically significant differences across the three groups (as in our case).</p>
 <p>Typically it is also helpful to see the means stratified by group and to compute a measure of effect size, <span class="math inline">\(\eta^2\)</span> or <span class="math inline">\(\omega^2\)</span>.</p>
-<section id="using-r-to-run-the-anova" class="level3">
-<h3 class="anchored" data-anchor-id="using-r-to-run-the-anova">Using R to run the ANOVA</h3>
-<p>The three AAFCS means are 24.27, 29.57, and 28.41 for the Low, Moderate, and High groups respectively.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Sample Write up
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A one-way analysis of variance (ANOVA) was conducted to examine differences in AAFCS scores across participants with low, moderate, and high levels of cultural brokering. There was a statistically significant F(2, 77) = 3.51, p = .035, η² = .084 indicating mean differences in AAFCS scores across groups. Group means indicated that participants in the moderate brokering group (M = 29.57) reported the highest AAFCS scores, followed by the high brokering group (M = 28.41) and the low brokering group (M = 24.27).</p>
-<p><strong>Posthoc</strong> tests (Tukey’s HSD) suggested that the moderate brokering group scored significantly higher than the low brokering group (mean difference = 5.30, 95% CI [0.04, 10.56], p = .048). The differences between the high and low brokering groups (mean difference = 4.14, p = .143) and between the high and moderate brokering groups (mean difference = -1.16, p = .884) were not statistically significant.</p>
-</div>
-</div>
-</section>
-<section id="a-sample-anova-table" class="level3">
-<h3 class="anchored" data-anchor-id="a-sample-anova-table">A sample ANOVA table</h3>
-<table class="caption-top table">
-<caption>One-Way ANOVA for AAFCS by Brokering Group</caption>
-<thead>
-<tr class="header">
-<th>Source</th>
-<th style="text-align: right;">SS</th>
-<th style="text-align: right;">df</th>
-<th style="text-align: right;">MS</th>
-<th style="text-align: right;">F</th>
-<th style="text-align: right;">p</th>
-<th style="text-align: right;">η²</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Between Groups</td>
-<td style="text-align: right;">455.04</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">227.52</td>
-<td style="text-align: right;">3.51</td>
-<td style="text-align: right;">.035</td>
-<td style="text-align: right;">.084</td>
-</tr>
-<tr class="even">
-<td>Within Groups</td>
-<td style="text-align: right;">4989.76</td>
-<td style="text-align: right;">77</td>
-<td style="text-align: right;">64.80</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td>Total</td>
-<td style="text-align: right;">5444.80</td>
-<td style="text-align: right;">79</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-</tr>
-</tbody>
-</table>
-</section>
 </section>
 <section id="technical-details-about-anovas" class="level2">
 <h2 class="anchored" data-anchor-id="technical-details-about-anovas">Technical Details about ANOVAs</h2>
@@ -395,7 +324,7 @@ Note
 <p><span class="math inline">\(H_0: \mu_1 = \mu_2 = \mu_3\)</span></p>
 <p><span class="math inline">\(\alpha_{fw} = 1 - (.95)(.95)(.95) = 1 - .95^3 = 1 - .8574 = .1426\)</span></p>
 <p>This suggests that, if all null hypotheses are true and the three tests are independent, there is about a 14.3% chance of obtaining at least one statistically significant result by chance alone.</p>
-<p>Put differently, even when there are no real group differences, running three separate tests at (= .05) makes it more likely that random sampling variation will make one of them appear statistically significant.</p>
+<p>Put differently, even when there are no real group differences, running three separate tests at (<span class="math inline">\(\alpha\)</span> = .05) makes it more likely that random sampling variation will make one of them appear statistically significant.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -410,35 +339,34 @@ Note
 <div class="callout-body-container callout-body">
 <p>Note that the above procedure assumes <em>independent tests</em>.</p>
 <p>A different approach is the <strong>Bonferroni bound</strong>:</p>
-<p>[ _{FW} (.05) = .15 ]</p>
-<p>This means that if we conduct three tests, each at (= .05), the probability of making <strong>at least one</strong> Type I error is no greater than (15%).</p>
-<p>The () symbol is important. Unlike the calculation</p>
-<p>[ 1 - .95^3 = .1426, ]</p>
-<p>the Bonferroni bound does <strong>not</strong> assume that the tests are independent. It works even when the tests are related or share data, as pairwise comparisons among group means often do.</p>
+<p><span class="math display">\[
+\alpha_{FW} \leq 3(.05) = .15
+\]</span></p>
+<p>This means that if we conduct three tests, each at (<span class="math inline">\(\alpha\)</span> = .05), the probability of making <strong>at least one</strong> Type I error is no greater than (15%).The <strong>Bonferroni</strong> bound does <strong>not</strong> assume that the tests are independent. It works even when the tests are related or share data, as pairwise comparisons among group means often do.</p>
 <p>Because it gives an upper limit rather than an exact probability, it may be somewhat conservative. In this example, the actual family-wise error rate could be below (15%), but Bonferroni guarantees that it will not exceed (15%).</p>
 <p>When running multiple tests, The <strong>Bonferroni correction</strong> is a simple way to keep the overall probability of one or more false positives at or below a chosen family-wise significance level.</p>
 <p>The rule is:</p>
-<p>[ _{} = ]</p>
+<p><span class="math inline">\(\alpha\_{\text{per test}} = \frac{\alpha_{\text{family-wise}}}{\text{number of tests}}\)</span></p>
 <p>If we want the family-wise error rate to stay at (.05) and we have three comparisons:</p>
-<p>[ _{} = = .0167 ]</p>
-<p>Therefore, instead of using (p &lt; .05) for each comparison, we use:</p>
-<p>[ p &lt; .0167 ]</p>
-<p>A comparison must have a (p)-value below (.0167) to be statistically significant after the Bonferroni correction.</p>
+<p><span class="math inline">\(\alpha\_{\text{per test}} = \frac{.05}{3} = .0167\)</span></p>
+<p>Therefore, instead of using (<span class="math inline">\(p\)</span> &lt; .05) for each comparison, we use:</p>
+<p><span class="math inline">\(p &lt; .0167\)</span></p>
+<p>A comparison must have a <span class="math inline">\(p\)</span>-value below (.0167) to be statistically significant after the Bonferroni correction.</p>
 <section id="example" class="level2">
 <h2 class="anchored" data-anchor-id="example">Example</h2>
 <p>Imagine the three pairwise tests produce these results:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 24%">
-<col style="width: 27%">
+<col style="width: 26%">
 <col style="width: 24%">
 <col style="width: 24%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Comparison</th>
-<th style="text-align: right;">Original (p)-value</th>
-<th>Significant using (p &lt; .05)?</th>
+<th style="text-align: right;">Original <span class="math inline">\(p\)</span>-value</th>
+<th>Significant using <span class="math inline">\(p\)</span> &lt;.05)?</th>
 <th>Significant after Bonferroni?</th>
 </tr>
 </thead>
@@ -465,19 +393,19 @@ Note
 </table>
 <p>After the Bonferroni correction, the cutoff is (.0167):</p>
 <ul>
-<li>(.011 &lt; .0167), so Group 1 vs.&nbsp;Group 2 is significant.</li>
-<li>(.021 &gt; .0167), so Group 1 vs.&nbsp;Group 3 is <strong>not</strong> significant.</li>
-<li>(.004 &lt; .0167), so Group 2 vs.&nbsp;Group 3 is significant.</li>
+<li>.011 &lt; .0167), so Group 1 vs.&nbsp;Group 2 is significant.</li>
+<li>.021 &gt; .0167), so Group 1 vs.&nbsp;Group 3 is <strong>not</strong> significant.</li>
+<li>.004 &lt; .0167), so Group 2 vs.&nbsp;Group 3 is significant.</li>
 </ul>
 </section>
 <section id="another-way-adjust-the-p-values" class="level2">
-<h2 class="anchored" data-anchor-id="another-way-adjust-the-p-values">Another way: adjust the (p)-values</h2>
-<p>Instead of lowering the cutoff, we can multiply each (p)-value by the number of tests:</p>
-<p>[ p_{} = p m ]</p>
-<p>where (m) is the number of comparisons.</p>
+<h2 class="anchored" data-anchor-id="another-way-adjust-the-p-values">Another way: adjust the <span class="math inline">\(p\)</span>-values</h2>
+<p>Instead of lowering the cutoff, we can multiply each <span class="math inline">\(p\)</span>-value by the number of tests:</p>
+<p>$p_{} = p m $</p>
+<p>where <span class="math inline">\(m\)</span> is the number of comparisons.</p>
 <p>For three tests:</p>
-<p>[ p_{} = 3p ]</p>
-<p>Any adjusted (p)-value above 1 is reported as 1.</p>
+<p>$ p_{} = 3p$</p>
+<p>Any adjusted <span class="math inline">\(p\)</span>-value above 1 is reported as 1.</p>
 <p>For the earlier example:</p>
 <table class="caption-top table">
 <colgroup>
@@ -488,8 +416,8 @@ Note
 <thead>
 <tr class="header">
 <th>Comparison</th>
-<th style="text-align: right;">Original (p)-value</th>
-<th style="text-align: right;">Bonferroni-adjusted (p)-value</th>
+<th style="text-align: right;">Original <span class="math inline">\(p\)</span>-value</th>
+<th style="text-align: right;">Bonferroni-adjusted <span class="math inline">\(p\)</span>-value</th>
 </tr>
 </thead>
 <tbody>
@@ -516,7 +444,7 @@ Note
 <li>(.063 &gt; .05): not significant</li>
 <li>(.012 &lt; .05): significant</li>
 </ul>
-<p>This produces the same decisions as using the corrected cutoff of (.0167).</p>
+<p>This produces the same decisions as using the corrected cutoff of .0167.</p>
 </section>
 <section id="important-tradeoff" class="level2">
 <h2 class="anchored" data-anchor-id="important-tradeoff">Important tradeoff</h2>

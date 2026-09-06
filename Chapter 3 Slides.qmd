@@ -1,0 +1,293 @@
+---
+title: "Chapter 2: Matching Research Designs to Analyses"
+subtitle: "HHS 627"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    chalkboard: false
+    preview-links: auto
+---
+
+# Matching Research Designs to Analyses
+
+## HHS 627
+
+---
+
+## Choosing the Correct Statistical Test
+
+Before selecting an analysis, ask:
+
+1. What is the research question?
+2. What is the hypothesis?
+3. What is the research design?
+4. How many variables are involved?
+5. What levels of measurement are present?
+
+::: notes
+Everything starts with the research question, not the statistical test.
+:::
+
+---
+
+## Research Questions Drive Analysis
+
+### Comparative Question
+
+Do groups differ?
+
+- Are girls more likely than boys to report suicidal thoughts?
+- Do treatment participants differ from controls?
+
+### Associational Question
+
+Are variables related?
+
+- Is discrimination associated with anxiety?
+- Is exercise intention associated with physical activity?
+
+---
+
+## Comparative vs. Associational Designs
+
+| Comparative Designs | Associational Designs |
+|--------------------|----------------------|
+| Compare groups | Examine relationships |
+| Categorical IV | Continuous predictors |
+| Mean differences | Prediction and explanation |
+| t-tests, ANOVA | Correlation, Regression |
+
+### Key Question
+
+**Do groups differ, or are variables related?**
+
+---
+
+## Internal Validity
+
+**Internal validity** is the extent to which researchers can be confident that the proposed cause of an outcome is the actual cause.
+
+### High Internal Validity
+
+- Random assignment
+- Equivalent groups
+- Greater control
+
+### Low Internal Validity
+
+- Nonequivalent groups
+- Selection effects
+- Alternative explanations
+
+---
+
+## Group Comparison Analyses
+
+| Research Situation | Analysis |
+|-------------------|----------|
+| Two groups | Independent-samples *t* test |
+| Three or more groups | ANOVA |
+| Groups + control variables | ANCOVA |
+| Multiple outcomes | MANOVA |
+
+### Common Goal
+
+Determine whether group means differ.
+
+---
+
+## ANCOVA
+
+### Analysis of Covariance
+
+ANOVA plus one or more covariates.
+
+Example:
+
+- Compare depression groups on BDNF levels
+- Control for age
+
+### Purpose
+
+Determine whether group differences remain after accounting for potential confounds.
+
+::: notes
+Students often learn ANCOVA and regression separately, but they are mathematically very similar.
+:::
+
+---
+
+## MANOVA
+
+### Multivariate Analysis of Variance
+
+Used when there are multiple outcomes.
+
+Example:
+
+Compare groups on:
+
+- Depression
+- Anxiety
+- Stress
+
+### Advantages
+
+- Considers correlations among outcomes
+- Reduces multiple testing
+- Evaluates overall outcome patterns
+
+---
+
+## Correlation Family
+
+| Correlation Type | Variables |
+|-----------------|-----------|
+| Pearson | Continuous × Continuous |
+| Spearman | Ordered-Categorical |
+| Kendall's Tau | Ordered-Categorical |
+| Point-Biserial | Continuous × Binary |
+| Phi | Binary × Binary |
+
+### Core Question
+
+How strongly are two variables related?
+
+---
+
+## Multiple Regression
+
+### General Model
+
+$$
+Y = a + b_1X_1 + b_2X_2 + e
+$$
+
+Researchers use regression to:
+
+- Predict outcomes
+- Control confounding variables
+- Estimate unique effects
+- Test theoretical models
+
+---
+
+## Logistic Regression
+
+Used when the outcome is binary.
+
+### Examples
+
+- Passed / Failed
+- Pregnant / Not Pregnant
+- Smoker / Non-Smoker
+- Survived / Died
+
+### Typical Results
+
+- Odds ratios
+- Confidence intervals
+- Predicted probabilities
+
+---
+
+## Correlation vs. Regression
+
+### Correlation
+
+- Measures association
+- Usually involves two variables
+- No statistical control
+
+### Regression
+
+- Multiple predictors possible
+- Allows statistical control
+- Supports prediction
+
+### Key Idea
+
+Regression often provides stronger evidence than a simple correlation.
+
+---
+
+## The General Linear Model
+
+### Big Idea
+
+Many statistical procedures are simply variations of the same framework.
+
+- *t* tests
+- ANOVA
+- ANCOVA
+- Multiple Regression
+
+### Important Point
+
+**ANOVA is a special case of regression.**
+
+---
+
+## Data Sources in HHS Research
+
+Common sources include:
+
+- Self-report surveys
+- Observational data
+- Physiological measures
+- Administrative records
+- Public datasets
+- Wearable devices
+
+### Key Point
+
+Data source often influences research design and statistical analysis.
+
+---
+
+## Levels of Measurement
+
+### Hierarchy
+
+**Nominal → Ordinal → Interval → Ratio**
+
+| Level | Example |
+|---------|---------|
+| Nominal | Gender, Race |
+| Ordinal | Likert Item |
+| Interval | Standardized Scores |
+| Ratio | Weight, Steps, Income |
+
+---
+
+## Choosing the Correct Analysis
+
+### Decision Process
+
+1. Comparative or associational question?
+2. How many groups?
+3. How many variables?
+4. What is the outcome type?
+5. What is the level of measurement?
+
+### Take-Home Message
+
+**Match the statistical analysis to the research design, not the other way around.**
+
+---
+
+# Discussion
+
+Consider a study of college students:
+
+- Outcome: Depression
+- Predictor: Gender
+- Covariate: Body image
+
+### Questions
+
+1. What is the research question?
+2. Comparative or associational?
+3. What analysis would you choose?
+4. Could this be analyzed using regression?
