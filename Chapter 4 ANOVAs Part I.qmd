@@ -98,9 +98,7 @@ Note that the above procedure assumes *independent tests*.
 
 A different approach is the **Bonferroni bound**:
 
-$$
-\alpha_{FW} \leq 3(.05) = .15
-$$
+$$\alpha_{FW} \leq 3(.05) = .15$$
 
 This means that if we conduct three tests, each at ($\alpha$ = .05), the probability of making **at least one** Type I error is no greater than (15%).The **Bonferroni** bound does **not** assume that the tests are independent. It works even when the tests are related or share data, as pairwise comparisons among group means often do.
 
@@ -116,7 +114,7 @@ If we want the family-wise error rate to stay at (.05) and we have three compari
 
 $\alpha\_{\text{per test}} = \frac{.05}{3} = .0167$
 
-Therefore, instead of using ($p$ < .05) for each comparison, we use:
+Therefore, instead of using ($p$ \< .05) for each comparison, we use:
 
 $p < .0167$
 
@@ -126,31 +124,31 @@ A comparison must have a $p$-value below (.0167) to be statistically significant
 
 Imagine the three pairwise tests produce these results:
 
-| Comparison | Original $p$-value | Significant using $p$ <.05)? | Significant after Bonferroni? |
+| Comparison | Original $p$-value | Significant using $p$ \<.05)? | Significant after Bonferroni? |
 |------------------|------------------:|------------------|------------------|
 | Group 1 vs. Group 2 | .011 | Yes | Yes |
 | Group 1 vs. Group 3 | .021 | Yes | No |
 | Group 2 vs. Group 3 | .004 | Yes | Yes |
 
-After the Bonferroni correction, the cutoff is (.0167):
+After the *Bonferroni* correction, the cutoff is (.0167):
 
-- .011 < .0167), so Group 1 vs. Group 2 is significant.
-- .021 > .0167), so Group 1 vs. Group 3 is **not** significant.
-- .004 < .0167), so Group 2 vs. Group 3 is significant.
+- .011 \< .0167), so Group 1 vs. Group 2 is significant.
+- .021 \> .0167), so Group 1 vs. Group 3 is **not** significant.
+- .004 \< .0167), so Group 2 vs. Group 3 is significant.
 
 ## Another way: adjust the $p$-values
 
 Instead of lowering the cutoff, we can multiply each $p$-value by the number of tests:
 
-$p\_{\text{adjusted}} = p \times m \$
+$$p_{\text{adjusted}} = p \times m$$
 
 where $m$ is the number of comparisons.
 
 For three tests:
 
-$ p\_{\text{adjusted}} = 3p$
+$$p_{\text{adjusted}} = 3p$$
 
-Any adjusted $p$-value above 1 is reported as 1.
+Any adjusted $p$-value above 1 is reported as 1. \`
 
 For the earlier example:
 
@@ -162,22 +160,22 @@ For the earlier example:
 
 We then compare the adjusted values to (.05):
 
-- (.033 < .05): significant
-- (.063 > .05): not significant
-- (.012 < .05): significant
+- (.033 \< .05): significant
+- (.063 \> .05): not significant
+- (.012 \< .05): significant
 
 This produces the same decisions as using the corrected cutoff of .0167.
 
 ## Important tradeoff
 
-The Bonferroni correction reduces false positives, but it also makes it harder to find real effects.
+The *Bonferroni* correction reduces false positives, but it also makes it harder to find real effects.
 
 In other words:
 
 - It lowers the chance of a **Type I error** (false positive).
 - It can increase the chance of a **Type II error** (missing a real difference).
 
-For a small number of planned comparisons, such as three, Bonferroni is easy to use and often reasonable. For many comparisons, it may be too strict, and other methods—such as the Holm correction or Tukey's HSD—may be better choices.
+For a small number of planned comparisons, such as three, Bonferroni is easy to use and often reasonable. For many comparisons, it may be too strict, and other methods—such as the Holm correction or *Tukey's HSD*—may be better choices.
 :::
 
 ### ANOVA overcomes the alpha inflation problem by focusing on one test.
@@ -215,12 +213,14 @@ If groups truly differ:
 - Group means should be far apart and individuals within groups should be relatively similar
 
 ```{r}
+#| echo: false
 #| label: fig-anova-signal-noise
 #| fig-cap: "ANOVA compares variability between group means with variability within groups. The group means are identical in both panels; only within-group variability changes."
 #| fig-width: 11
 #| fig-height: 5
 #| warning: false
 #| message: false
+
 
 library(ggplot2)
 
@@ -358,6 +358,7 @@ The hand calculation involves computing each of these two values, then creating 
 ```{r}
 #| label: create-demo-table
 #| include: false
+#| echo: false
 
 library(dplyr)
 library(tidyr)
@@ -406,7 +407,13 @@ demo_table <- demo_table %>%
   select(Case, Low, Medium, High)
 ```
 
-```{r,echo=FALSE}
+### Example: Culture-based conflicts with parents by level of language brokering
+
+Remember, I want to compare mean levels of culture-based conflicts in a sample of adolescents across low, moderate, and high levels of language and cultural brokering.
+
+We will use a few cases first to demonstrate how to calculate the $F$ statistic, then use the full data to run an ANOVA.
+
+```{r}
 
 # These are data I collected in 2009 from a sample of Hmong 7th grade students
 # in Burke County, NC
@@ -442,6 +449,8 @@ demo_table %>%
 
 ```
 
+Note: This table shows values of AAFCS scores (Asian American Family Conflicts Scale) for 10 randonly select 7th graders from each of the three cultural/language brokering groups. The bottom row shows the group means.
+
 The first step in *manually* computing an ANOVA F Statistic is to compute the Mean Squares of the Between group variance
 
 Quick reminder the variance of a set of scores is computed by summing deviations from a mean
@@ -452,7 +461,7 @@ The analogous formula for the *Between-Group Variance* ($MS_B$) = $SS_B/df$
 
 $SS_B/df$ is computed as an extension of the variance for a sample (above). The differences between each group mean *j* and the *grand mean* squared are multiplied by the group sizes $N_j$ and then summed to get the $SS_B$. The degrees of freedom are the number of groups $K - 1$.
 
-$$SS_B = \sum_{j=1}^{K} N_j (\bar{X}_j - \bar{X})^2$$
+$$= \sum_{j=1}^{K} N_j (\bar{X}_j - \bar{X})^2$$
 
 $$df = K-1$$
 
