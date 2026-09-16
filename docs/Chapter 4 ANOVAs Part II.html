@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andy Supple">
+
+<title>Chapter 4 ANOVAs Part II – HHS627 Textbook2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Chapter 4 ANOVAs Part I.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter 4 ANOVAs Part II.html"><span class="chapter-title">Chapter 4 ANOVAs Part II</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">HHS627 Textbook2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HHS 627 Textbook</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 1 HHS Statistical Thinking.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1 HHS Statistical Thinking</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 2 Matching Research Designs to Analyses.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2 Matching Research Designs to Analyses</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 3 Data Management and R.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Data Cleaning and Getting into R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 4 ANOVAs Part I.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4 ANOVAs Part I</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 4 ANOVAs Part II.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 4 ANOVAs Part II</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#anovas-part-ii" id="toc-anovas-part-ii" class="nav-link active" data-scroll-target="#anovas-part-ii">ANOVAs Part II</a>
+  <ul class="collapse">
+  <li><a href="#factorial-anova" id="toc-factorial-anova" class="nav-link" data-scroll-target="#factorial-anova">Factorial ANOVA</a></li>
+  <li><a href="#a-2-x-2-anova-comparing-anxiety-scores-by-race-and-sexual-orientation" id="toc-a-2-x-2-anova-comparing-anxiety-scores-by-race-and-sexual-orientation" class="nav-link" data-scroll-target="#a-2-x-2-anova-comparing-anxiety-scores-by-race-and-sexual-orientation">A 2 X 2 ANOVA Comparing Anxiety Scores by Race and Sexual Orientation</a></li>
+  </ul></li>
+  <li><a href="#hypothesized-group-means" id="toc-hypothesized-group-means" class="nav-link" data-scroll-target="#hypothesized-group-means">Hypothesized Group Means</a></li>
+  <li><a href="#simulating-data-in-r" id="toc-simulating-data-in-r" class="nav-link" data-scroll-target="#simulating-data-in-r">Simulating Data in R</a></li>
+  <li><a href="#running-the-2-x-2-anova" id="toc-running-the-2-x-2-anova" class="nav-link" data-scroll-target="#running-the-2-x-2-anova">Running the 2 X 2 ANOVA</a></li>
+  <li><a href="#the-factorial-anova-model-details" id="toc-the-factorial-anova-model-details" class="nav-link" data-scroll-target="#the-factorial-anova-model-details">The Factorial ANOVA Model Details</a></li>
+  <li><a href="#degrees-of-freedom" id="toc-degrees-of-freedom" class="nav-link" data-scroll-target="#degrees-of-freedom">Degrees of Freedom</a></li>
+  <li><a href="#mean-squares" id="toc-mean-squares" class="nav-link" data-scroll-target="#mean-squares">Mean Squares</a></li>
+  <li><a href="#f-statistics" id="toc-f-statistics" class="nav-link" data-scroll-target="#f-statistics">F Statistics</a>
+  <ul class="collapse">
+  <li><a href="#main-effect-of-race" id="toc-main-effect-of-race" class="nav-link" data-scroll-target="#main-effect-of-race">Main Effect of Race</a></li>
+  <li><a href="#main-effect-of-sexual-orientation" id="toc-main-effect-of-sexual-orientation" class="nav-link" data-scroll-target="#main-effect-of-sexual-orientation">Main Effect of Sexual Orientation</a></li>
+  <li><a href="#interaction-effect" id="toc-interaction-effect" class="nav-link" data-scroll-target="#interaction-effect">Interaction Effect</a></li>
+  </ul></li>
+  <li><a href="#what-we-just-ran-works-well-for-balanced-designs" id="toc-what-we-just-ran-works-well-for-balanced-designs" class="nav-link" data-scroll-target="#what-we-just-ran-works-well-for-balanced-designs">What we just ran works well for <strong><em>balanced designs</em></strong></a>
+  <ul class="collapse">
+  <li><a href="#here-we-will-now-run-an-unbalanced-design-to-demonstrate-additional-complications" id="toc-here-we-will-now-run-an-unbalanced-design-to-demonstrate-additional-complications" class="nav-link" data-scroll-target="#here-we-will-now-run-an-unbalanced-design-to-demonstrate-additional-complications">Here we will now run an unbalanced design to demonstrate additional complications</a></li>
+  </ul></li>
+  <li><a href="#more-complex-factorial-anovas" id="toc-more-complex-factorial-anovas" class="nav-link" data-scroll-target="#more-complex-factorial-anovas">More Complex Factorial ANOVAs</a></li>
+  <li><a href="#multivariate-analysis-of-variance-manova" id="toc-multivariate-analysis-of-variance-manova" class="nav-link" data-scroll-target="#multivariate-analysis-of-variance-manova">Multivariate Analysis of Variance (MANOVA)</a>
+  <ul class="collapse">
+  <li><a href="#what-is-manova" id="toc-what-is-manova" class="nav-link" data-scroll-target="#what-is-manova">What is MANOVA?</a></li>
+  </ul></li>
+  <li><a href="#when-is-manova-used" id="toc-when-is-manova-used" class="nav-link" data-scroll-target="#when-is-manova-used">When is MANOVA Used?</a></li>
+  <li><a href="#why-not-run-multiple-anovas" id="toc-why-not-run-multiple-anovas" class="nav-link" data-scroll-target="#why-not-run-multiple-anovas">Why Not Run Multiple ANOVAs?</a>
+  <ul class="collapse">
+  <li><a href="#what-does-manova-test" id="toc-what-does-manova-test" class="nav-link" data-scroll-target="#what-does-manova-test">What Does MANOVA Test?</a></li>
+  <li><a href="#cultural-conflicts-and-adolescent-adjustment" id="toc-cultural-conflicts-and-adolescent-adjustment" class="nav-link" data-scroll-target="#cultural-conflicts-and-adolescent-adjustment">Cultural Conflicts and Adolescent Adjustment</a></li>
+  </ul></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics">Descriptive Statistics</a></li>
+  <li><a href="#correlations-among-outcomes" id="toc-correlations-among-outcomes" class="nav-link" data-scroll-target="#correlations-among-outcomes">Correlations Among Outcomes</a></li>
+  <li><a href="#running-the-manova" id="toc-running-the-manova" class="nav-link" data-scroll-target="#running-the-manova">Running the MANOVA</a>
+  <ul class="collapse">
+  <li><a href="#multivariate-test-statistics" id="toc-multivariate-test-statistics" class="nav-link" data-scroll-target="#multivariate-test-statistics">Multivariate Test Statistics</a></li>
+  <li><a href="#sample-write-up" id="toc-sample-write-up" class="nav-link" data-scroll-target="#sample-write-up">Sample write up</a></li>
+  <li><a href="#follow-up-anovas" id="toc-follow-up-anovas" class="nav-link" data-scroll-target="#follow-up-anovas">Follow-Up ANOVAs</a></li>
+  <li><a href="#results-from-follow-up-anovas" id="toc-results-from-follow-up-anovas" class="nav-link" data-scroll-target="#results-from-follow-up-anovas">Results from follow-up ANOVAs</a></li>
+  </ul></li>
+  <li><a href="#manova-assumptions" id="toc-manova-assumptions" class="nav-link" data-scroll-target="#manova-assumptions">MANOVA Assumptions</a>
+  <ul class="collapse">
+  <li><a href="#testing-homogeneity-of-variance-covariance-matrices-boxs-m-test" id="toc-testing-homogeneity-of-variance-covariance-matrices-boxs-m-test" class="nav-link" data-scroll-target="#testing-homogeneity-of-variance-covariance-matrices-boxs-m-test">Testing Homogeneity of Variance-Covariance Matrices: Box’s M Test</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Chapter 4 ANOVAs Part II</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andy Supple </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="anovas-part-ii" class="level2">
+<h2 class="anchored" data-anchor-id="anovas-part-ii">ANOVAs Part II</h2>
+<p>Thus far we considered an ANOVA with three groups and one outcome. That model was a One-Way ANOVA because it included one factor (language/cultural brokering) and one outcome. We are frequently going to want to consider more complex models that include multiple outcomes, comparing within-person scores that are repeated over time, more than one factor in a study, and including covariates of control variables.</p>
+<section id="factorial-anova" class="level3">
+<h3 class="anchored" data-anchor-id="factorial-anova">Factorial ANOVA</h3>
+<p>Factorial ANOVAs are models with more than one factor. These models offer the ability to consider mean differences across multiple factors simultaneously (the main effects) and the interaction between factors.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="What is a Factor?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What is a Factor?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <strong>factor</strong> refers to a categorical variable and is often considered the independent variable (IV) in an ANOVA. In ANOVA, we examine whether the means of the dependent variable differ across the <strong>levels</strong> of one or more factors. Models with one factor are called <strong>one-way ANOVAs</strong>, models with two factors are called <strong>two-way ANOVAs</strong>, and more generally ANOVAs with two or more factors are referred to as <strong>factorial ANOVAs</strong>.</p>
+<p>Factorial ANOVAs are often described by the number of levels in each factor. For example, a two-way ANOVA with two binary factors would be called a <strong>2 × 2 ANOVA</strong>. An ANOVA with three factors having two, three, and two levels, respectively, would be called a <strong>2 × 3 × 2 ANOVA</strong>.</p>
+<p>In R, it is important to distinguish between categorical and numeric independent variables. For ANOVA, categorical predictors should generally be coded as <strong>factors</strong>. When a variable is coded as a factor, values such as 1, 2, and 3 or labels such as “White”, “Black”, and “Latino” are treated as distinct <strong>levels</strong> of a categorical variable. If the variable is instead treated as <strong>numeric</strong>, R assumes the values represent a quantitative scale and estimates a linear relationship rather than separate group means. This changes the model being estimated and can affect the associated degrees of freedom and statistical tests.</p>
+</div>
+</div>
+<p>Let’s work through an example where we might be interested in self-reported anxiety scores on adolescent males based on sexual orientation and race. This example will have two <strong>factors</strong> and so is referred to as a <strong>Two-Way Analysis of Variance</strong>.</p>
+<p>The two factors are:</p>
+<ul>
+<li>Race: where participants indicated whether they were African American/Black or European American/White</li>
+<li>Sexual orientation: where participants indicated if they were gay or straight</li>
+</ul>
+<p>This analysis would have two factors (race and sexual orientation) and one outcome. Each variable has two levels, resulting in four possible groups.</p>
+<p>This design allows for a few different research questions:</p>
+<ol type="1">
+<li><em>Is self-reported anxiety higher among gay adolescent males compared to straight males</em>?</li>
+<li><em>Is self-reported anxiety higher among White adolescent males compared to Black males</em>?</li>
+<li><em>Is the difference in anxiety among gay/straight males greater for Black males compared to white males</em>?</li>
+</ol>
+<p>The first two of these research questions test for <em>main effects</em>, while the third question tests an <em>interaction</em> effect.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Interaction Effects">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Interaction Effects
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Interaction effects are sometimes referred to as moderator effects. Moderators in general refer to variables that modify the association of a predictor on an outcome. In ANOVAs, the interaction can be thought of as group means varying across one factor in a different way based on the other factor. A significant interaction would suggest that the main factor difference depends upon levels of the other factor.</p>
+</div>
+</div>
+</section>
+<section id="a-2-x-2-anova-comparing-anxiety-scores-by-race-and-sexual-orientation" class="level3">
+<h3 class="anchored" data-anchor-id="a-2-x-2-anova-comparing-anxiety-scores-by-race-and-sexual-orientation">A 2 X 2 ANOVA Comparing Anxiety Scores by Race and Sexual Orientation</h3>
+<p>We will start with an example study, work through some research questions, prepare some data to analyze, then use R to run the 2 X 2 ANOVA and interpret our results.</p>
+<p><strong>Outcome Variable</strong></p>
+<ul>
+<li>Anxiety symptoms (higher scores indicate greater anxiety)</li>
+<li>Possible range: 10 to 28</li>
+</ul>
+<p><strong>Independent Variables</strong></p>
+<ul>
+<li>Race
+<ul>
+<li>Black</li>
+<li>White</li>
+</ul></li>
+<li>Sexual Orientation
+<ul>
+<li>Gay</li>
+<li>Straight</li>
+</ul></li>
+</ul>
+<p><strong>Study Groups</strong></p>
+<ol type="1">
+<li>Black and Gay</li>
+<li>Black and Straight</li>
+<li>White and Gay</li>
+<li>White and Straight</li>
+</ol>
+<p>For this demonstration, assume that we have <strong>15 participants per group</strong>.</p>
+<p><span class="math display">\[N = 15  + 15 + 15 + 15 = 60\]</span></p>
+</section>
+</section>
+<section id="hypothesized-group-means" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesized-group-means">Hypothesized Group Means</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Race</th>
+<th style="text-align: left;">Orientation</th>
+<th style="text-align: right;">Mean Anxiety</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">White</td>
+<td style="text-align: left;">Straight</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">White</td>
+<td style="text-align: left;">Gay</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Black</td>
+<td style="text-align: left;">Straight</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Black</td>
+<td style="text-align: left;">Gay</td>
+<td style="text-align: right;">18.5</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that:</p>
+<ul>
+<li>Black adolescents report no more anxiety than White adolescents within straight group</li>
+<li>Gay adolescents report more anxiety than straight adolescents, regardless of race</li>
+<li>Black and gay adolescents have the highest anxiety scores.</li>
+</ul>
+<p>The overall mean for these hypothesized data is:</p>
+<p><span class="math display">\[\bar{Y}_{Grand} = 16.12\]</span></p>
+</section>
+<section id="simulating-data-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="simulating-data-in-r">Simulating Data in R</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## This syntax will simulate a dataset for the Two-Way or Factorial ANOVA</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># There are two main effects and an interaction</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">612</span>) <span class="co"># A seed just ensures that if we do this again, get same data characteristics</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">15</span>      <span class="co"># Create an object = 15</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>anxiety_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">Race =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"White"</span>, <span class="st">"White"</span>, <span class="st">"Black"</span>, <span class="st">"Black"</span>), <span class="at">each =</span> n),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Orientation =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Straight"</span>, <span class="st">"Gay"</span>,<span class="st">"Straight"</span>, <span class="st">"Gay"</span>), <span class="at">each =</span> n),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">anxiety =</span> <span class="fu">c</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">15</span>, <span class="at">sd =</span> <span class="dv">3</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">16</span>, <span class="at">sd =</span> <span class="fl">2.5</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">15</span>, <span class="at">sd =</span> <span class="dv">3</span>),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="fl">18.5</span>, <span class="at">sd =</span> <span class="fl">2.3</span>)))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Create object 'anxiety_df' it will be a data.frame, has Race = repeat, concatenate,</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># gives variable labels, each n of 15</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Repeat for Orientation</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Then simulates data with rnorm, n = 15, then gives means and SDs to characterize the data</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># scores will be stored in a variable called 'anxiety'</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>anxiety_df<span class="sc">$</span>anxiety[anxiety_df<span class="sc">$</span>anxiety <span class="sc">&lt;</span> <span class="dv">10</span>] <span class="ot">&lt;-</span> <span class="dv">10</span>  </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>anxiety_df<span class="sc">$</span>anxiety[anxiety_df<span class="sc">$</span>anxiety <span class="sc">&gt;</span> <span class="dv">28</span>] <span class="ot">&lt;-</span> <span class="dv">28</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Can get negative numbers, scores that aren't realistic with simulated data. The above</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># commands set scores to be a minimum of 10 and maximum of 28 to fit our example</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates an object where means are computed "conditioned on" Race and Orientation</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>cell_means <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(anxiety <span class="sc">~</span> Race <span class="sc">+</span> Orientation,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> anxiety_df,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                        <span class="at">FUN =</span> mean)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># X Tabs will create means I can use in a 2 X 2 table</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>mean_table <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(anxiety <span class="sc">~</span> Race <span class="sc">+</span> Orientation,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> cell_means)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Row marginal means (Race)</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Marginal means refers to means on the "margins" of the table, there are those</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co"># for the rows - going across the table - and for the columns, going down the table</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>race_means <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(anxiety <span class="sc">~</span> Race,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> anxiety_df,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>                        <span class="at">FUN =</span> mean)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Column marginal means (Orientation)</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>orientation_means <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(anxiety <span class="sc">~</span> Orientation,</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>                               <span class="at">data =</span> anxiety_df,</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>                               <span class="at">FUN =</span> mean)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Grand mean - this is just the overall mean in the sample </span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>grand_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(anxiety_df<span class="sc">$</span>anxiety, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Create display table, this will be a 3X3 Matrix, the NA is just a placeholder</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co"># until I tell R what to put in the table</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>display_table <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nrow =</span> <span class="dv">3</span>,</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>                        <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Gives the names for the rows and columns in the table we are creating</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(display_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Black"</span>,<span class="st">"White"</span>,<span class="st">"Marginal Mean"</span>)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(display_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Straight"</span>,<span class="st">"Gay"</span>,<span class="st">"Marginal Mean"</span>)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Cell means</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>display_table[<span class="st">"Black"</span>, <span class="st">"Straight"</span>] <span class="ot">&lt;-</span> mean_table[<span class="st">"Black"</span>, <span class="st">"Straight"</span>]</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>display_table[<span class="st">"Black"</span>, <span class="st">"Gay"</span>] <span class="ot">&lt;-</span>mean_table[<span class="st">"Black"</span>, <span class="st">"Gay"</span>]</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>display_table[<span class="st">"White"</span>, <span class="st">"Straight"</span>] <span class="ot">&lt;-</span> mean_table[<span class="st">"White"</span>, <span class="st">"Straight"</span>]</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>display_table[<span class="st">"White"</span>, <span class="st">"Gay"</span>] <span class="ot">&lt;-</span>  mean_table[<span class="st">"White"</span>, <span class="st">"Gay"</span>]</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Race marginal means</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>display_table[<span class="st">"Black"</span>, <span class="st">"Marginal Mean"</span>] <span class="ot">&lt;-</span> race_means<span class="sc">$</span>anxiety[race_means<span class="sc">$</span>Race <span class="sc">==</span> <span class="st">"Black"</span>]</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>display_table[<span class="st">"White"</span>, <span class="st">"Marginal Mean"</span>] <span class="ot">&lt;-</span> race_means<span class="sc">$</span>anxiety[race_means<span class="sc">$</span>Race <span class="sc">==</span> <span class="st">"White"</span>]</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Orientation marginal means</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>display_table[<span class="st">"Marginal Mean"</span>, <span class="st">"Straight"</span>] <span class="ot">&lt;-</span> orientation_means<span class="sc">$</span>anxiety[orientation_means<span class="sc">$</span>Orientation <span class="sc">==</span> <span class="st">"Straight"</span>]</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>display_table[<span class="st">"Marginal Mean"</span>, <span class="st">"Gay"</span>] <span class="ot">&lt;-</span> orientation_means<span class="sc">$</span>anxiety[orientation_means<span class="sc">$</span>Orientation <span class="sc">==</span> <span class="st">"Gay"</span> ]</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="co"># Grand mean</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>display_table[<span class="st">"Marginal Mean"</span>, <span class="st">"Marginal Mean"</span>] <span class="ot">&lt;-</span> grand_mean</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>display_table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Straight      Gay Marginal Mean
+Black         15.17599 19.02665      17.10132
+White         15.00653 15.80343      15.40498
+Marginal Mean 15.09126 17.41504      16.25315</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>black_mean  <span class="ot">&lt;-</span> <span class="fu">round</span>(display_table[<span class="st">"Black"</span>, <span class="st">"Marginal Mean"</span>], <span class="dv">2</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>white_mean  <span class="ot">&lt;-</span> <span class="fu">round</span>(display_table[<span class="st">"White"</span>, <span class="st">"Marginal Mean"</span>], <span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>gay_mean      <span class="ot">&lt;-</span> <span class="fu">round</span>(display_table[<span class="st">"Marginal Mean"</span>, <span class="st">"Gay"</span>], <span class="dv">2</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>straight_mean <span class="ot">&lt;-</span> <span class="fu">round</span>(display_table[<span class="st">"Marginal Mean"</span>, <span class="st">"Straight"</span>], <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The row marginal means show the average anxiety score for each Race group. Black adolescents have a higher mean anxiety score (<em>M</em> = 17.1) than White adolescents (<em>M</em> = 15.4), suggesting a possible main effect of Race.</p>
+<p>Similarly, the column marginal means show that gay adolescents (<em>M</em> = 17.42) report higher anxiety than straight adolescents (<em>M</em> = 15.09), suggesting a possible main effect of Sexual Orientation.</p>
+<p>In this particular instance, there appears to be an <em>interaction</em> that qualifies these differences. For example, by “holding sexual orientation <em>constant</em>” in the column “straight”, we see a very small anxiety difference by race. Another way to think about this is that if we look within race groups, we might see a somewhat modest difference in anxiety when comparing gay (<span class="math inline">\(M\)</span> = 16.48) to straight White adolescents (<span class="math inline">\(M\)</span> = 14.42) but a large difference when comparing gay (<span class="math inline">\(M\)</span> = 18.25) to straight adolescents (<span class="math inline">\(M\)</span> = 15.066) who are Black. That would suggest the higher anxiety “effect” of being gay would be stronger among Black adolescents when compared to that same “effect” for White adolescents.</p>
+<p>We would test that with the <strong>2 X 2 ANOVA</strong></p>
+</section>
+<section id="running-the-2-x-2-anova" class="level2">
+<h2 class="anchored" data-anchor-id="running-the-2-x-2-anova">Running the 2 X 2 ANOVA</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>anova_gayr <span class="ot">&lt;-</span> <span class="fu">aov</span>(anxiety <span class="sc">~</span> Race <span class="sc">*</span> Orientation,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> anxiety_df) <span class="co"># ANOVA syntax, the * indicates that we want to test an interaction</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_gayr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+Race              1   43.2   43.16   6.065 0.01689 * 
+Orientation       1   81.0   81.00  11.382 0.00135 **
+Race:Orientation  1   35.0   34.97   4.914 0.03072 * 
+Residuals        56  398.5    7.12                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpreting the ANOVA Table">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Interpreting the ANOVA Table
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The ANOVA results indicate statistically significant main effects for both Race, F(1, 56) = 6.07, p = .017, and Sexual Orientation, F(1, 56) = 11.38, p = .001. These findings suggest that average anxiety levels differ across race groups and across sexual orientation groups. In addition, the significant Race × Sexual Orientation interaction, F(1, 56) = 4.91, p = .031, indicates that the relationship between sexual orientation and anxiety depends on race. Because the interaction is significant, the main effects should be interpreted with caution, as the magnitude of the group differences is not consistent across all combinations of Race and Sexual Orientation.</p>
+</div>
+</div>
+<p>As a visual:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>anxiety_df<span class="sc">$</span>Orientation <span class="ot">&lt;-</span> <span class="fu">factor</span>( anxiety_df<span class="sc">$</span>Orientation,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Straight"</span>, <span class="st">"Gay"</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x.factor =</span> anxiety_df<span class="sc">$</span>Orientation,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">trace.factor =</span> anxiety_df<span class="sc">$</span>Race,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">response =</span> anxiety_df<span class="sc">$</span>anxiety,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Mean Anxiety"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Sexual Orientation"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">trace.label =</span> <span class="st">"Race"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter-4-ANOVAs-Part-II_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plots out the means, X is sexual orientation, moderator factor is race</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># response variable = the outcome</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ylab and xlab give labels to the x and y axis for the plot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Conditional Means by Two Factors">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Conditional Means by Two Factors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What this figure shows are conditional means based on the two factors of sexual orientation and race .From left to right shows an increase in anxiety for gay adolescents compared to straight adolescents, but that increase is much greater for Black adolescents than for white adolescents.</p>
+<p>This is an example of a moderator effect in which a moderator (in this case Race) alters the difference in means for another factor - in this case sexual orientation.</p>
+<p>Plotting conditional means is a frequently used approach to visualizing interactions/moderator effects in both ANOVA and regression approaches.</p>
+</div>
+</div>
+</section>
+<section id="the-factorial-anova-model-details" class="level2">
+<h2 class="anchored" data-anchor-id="the-factorial-anova-model-details">The Factorial ANOVA Model Details</h2>
+<p>The two-way ANOVA can be represented as:</p>
+<p><span class="math display">\[Y = \mu + \text{Race} + \text{Orientation} +
+\text{Race} \times \text{Orientation} + e\]</span> Partitioning Variability into Sources for Race, Orientation and the Interaction</p>
+<p>As with a one-way ANOVA, total variability is divided into explained (between groups) and unexplained (within-groups) components.</p>
+<p><span class="math display">\[SS_{Total}
+=
+SS_{Race}
++
+SS_{Orientation}
++
+SS_{Race\times Orientation}
++
+SS_{Error}\]</span></p>
+<p>The ANOVA table therefore evaluates:</p>
+<ol type="1">
+<li>Main effect of race</li>
+<li>Main effect of sexual orientation</li>
+<li>Race × Sexual Orientation interaction</li>
+<li>Residual error (what isn’t explained by the factors)</li>
+</ol>
+</section>
+<section id="degrees-of-freedom" class="level2">
+<h2 class="anchored" data-anchor-id="degrees-of-freedom">Degrees of Freedom</h2>
+<p>For this example:</p>
+<p><span class="math display">\[df_{Race}=2-1=1\]</span></p>
+<p><span class="math display">\[df_{Orientation}=2-1=1\]</span></p>
+<p><span class="math display">\[df_{Interaction}=(2-1)(2-1)=1\]</span></p>
+<p><span class="math display">\[df_{Error}=N-ab\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(N=60\)</span></li>
+<li><span class="math inline">\(a=2\)</span> Race groups</li>
+<li><span class="math inline">\(b=2\)</span> Orientation groups</li>
+</ul>
+<p>Therefore,</p>
+<p><span class="math display">\[df_{Error}=60-4=56\]</span></p>
+</section>
+<section id="mean-squares" class="level2">
+<h2 class="anchored" data-anchor-id="mean-squares">Mean Squares</h2>
+<p><span class="math display">\[MS_{Race}
+=
+\frac{SS_{Race}}
+{df_{Race}}\]</span></p>
+<p><span class="math display">\[MS_{Orientation}
+=
+\frac{SS_{Orientation}}
+{df_{Orientation}}\]</span></p>
+<p><span class="math display">\[MS_{Interaction}
+=
+\frac{SS_{Interaction}}
+{df_{Interaction}}\]</span></p>
+<p><span class="math display">\[MS_{Error}
+=
+\frac{SS_{Error}}
+{df_{Error}}\]</span></p>
+</section>
+<section id="f-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="f-statistics">F Statistics</h2>
+<p>For each effect, the variability explained by that effect is compared with the unexplained within-group variability. Put another way, each effect is focused on how much difference there is across groups relative to how much “error” which is the within-group differences.</p>
+<section id="main-effect-of-race" class="level3">
+<h3 class="anchored" data-anchor-id="main-effect-of-race">Main Effect of Race</h3>
+<p><span class="math display">\[F_{Race}
+=
+\frac{MS_{Race}}
+{MS_{Error}}\]</span></p>
+</section>
+<section id="main-effect-of-sexual-orientation" class="level3">
+<h3 class="anchored" data-anchor-id="main-effect-of-sexual-orientation">Main Effect of Sexual Orientation</h3>
+<p><span class="math display">\[F_{Orientation}
+=
+\frac{MS_{Orientation}}
+{MS_{Error}}\]</span></p>
+</section>
+<section id="interaction-effect" class="level3">
+<h3 class="anchored" data-anchor-id="interaction-effect">Interaction Effect</h3>
+<p><span class="math display">\[F_{Interaction}
+=
+\frac{MS_{Interaction}}
+{MS_{Error}}\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># As an example of the F computations, take the Race SS_B, divide by the df = 1</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># so the MW_B = 43.2. The F is MS_B/MS_W, the latter of which is 7.12 from the table</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#               Df Sum Sq Mean Sq F value  Pr(&gt;F)   </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Race              1   43.2   43.16   6.065 0.01689 * </span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Orientation       1   81.0   81.00  11.382 0.00135 **</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Race:Orientation  1   35.0   34.97   4.914 0.03072 * </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Residuals        56  398.5    7.12                   </span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#---</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>ms_b <span class="ot">=</span> <span class="fl">43.2</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>ms_w <span class="ot">=</span> <span class="fl">7.12</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>F_value <span class="ot">=</span> ms_b<span class="sc">/</span>ms_w</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>F_value</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.067416</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># R code to estimate the critical value of F at 1,56 degrees of freedom</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(.<span class="dv">95</span>, <span class="dv">1</span>, <span class="dv">56</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.012973</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># R code for an exact p value given an F and the df1 and df2</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">999</span>) <span class="co"># This turns of scientific notation for p values</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pf</span>(F_value, <span class="dv">1</span>, <span class="dv">56</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01686924</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that our results are slightly different due to rounding</p>
+</div>
+</div>
+</section>
+</section>
+<section id="what-we-just-ran-works-well-for-balanced-designs" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-just-ran-works-well-for-balanced-designs">What we just ran works well for <strong><em>balanced designs</em></strong></h2>
+<p><strong><em>Balanced design</em></strong> have equal numbers of participants in each “cell” crossing race and sexual orientation.</p>
+<ul>
+<li>That might be a reasonable expectation if I did quota sampling to get exact numbers</li>
+<li>In available data, however, that is unlikely to be the case</li>
+</ul>
+<p>Let’s see what happens if we run the same general analysis, but with unbalanced groups</p>
+<section id="here-we-will-now-run-an-unbalanced-design-to-demonstrate-additional-complications" class="level3">
+<h3 class="anchored" data-anchor-id="here-we-will-now-run-an-unbalanced-design-to-demonstrate-additional-complications">Here we will now run an unbalanced design to demonstrate additional complications</h3>
+<p>The issue is that a basic ANOVA computed F values using what is called Type I Sum of Squares. With an interaction and unbalanced designs, the order of variables impacts F and p values. The details of different sums of squares is below. For now, let’s look at doing an ANOVA the “regular” way with unbalanced data and the consequences of the ordering of factors.</p>
+<p>First we simulate data with different sample sizes.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>   Race Orientation  anxiety  n
+1 Black         Gay 18.53494 20
+2 Black    Straight 14.29537 24
+3 White         Gay 16.33366  8
+4 White    Straight 14.74137 18</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Classic way to do an ANOVA</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the ANOVA SYNTAX you can use</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># in this instance, I added effects coding by using options, etc</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># What that does is "contrast sum" which makes a contrast between the group that sum to 0</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># So Race is coded as -1 and +1, same for sexual orientation</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># That is helpful for interpreting main effects in the context of interactions, but not necessary</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span><span class="fu">aov</span>(anxiety <span class="sc">~</span> Race<span class="sc">*</span>Orientation,<span class="at">data=</span>anxiety_df2)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Df Sum Sq Mean Sq F value      Pr(&gt;F)    
+Race              1   16.1   16.05   2.901      0.0932 .  
+Orientation       1  184.4  184.38  33.318 0.000000229 ***
+Race:Orientation  1   25.7   25.74   4.652      0.0347 *  
+Residuals        66  365.2    5.53                        
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same ANOVA, reversed the order of the factors</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>mod2<span class="ot">&lt;-</span><span class="fu">aov</span>(anxiety <span class="sc">~</span> Orientation<span class="sc">*</span>Race,<span class="at">data=</span>anxiety_df2)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Df Sum Sq Mean Sq F value      Pr(&gt;F)    
+Orientation       1  196.4  196.44  35.498 0.000000109 ***
+Race              1    4.0    3.99   0.721      0.3988    
+Orientation:Race  1   25.7   25.74   4.652      0.0347 *  
+Residuals        66  365.2    5.53                        
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In unbalanced factorial designs, Type I (sequential) sums of squares can produce different conclusions depending on the order in which factors enter the model. In this example, Race is statistically significant when entered first (p = .044) but not when entered after Orientation (p = .087). This occurs because the factors share explanatory variance, and the first factor entered receives credit for that shared variance.</p>
+</div>
+</div>
+<p><strong>Type II</strong> Sum of Squares fixes tests this differently and doesn’t depend on the order of entry for the factors. Type II SS tests each main effect controlling for the other, but those main effects are not adjusted for the interaction. In cases where the interaction is absent or not of interest, this test is appropriate.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Type II SS </span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span><span class="fu">aov</span>(anxiety <span class="sc">~</span> Race<span class="sc">*</span>Orientation,<span class="at">data=</span>anxiety_df2)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>mod2<span class="ot">&lt;-</span><span class="fu">aov</span>(anxiety <span class="sc">~</span> Orientation<span class="sc">*</span>Race,<span class="at">data=</span>anxiety_df2)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(mod1, <span class="at">type =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type II tests)
+
+Response: anxiety
+                 Sum Sq Df F value       Pr(&gt;F)    
+Race               3.99  1  0.7212      0.39881    
+Orientation      184.38  1 33.3178 0.0000002285 ***
+Race:Orientation  25.74  1  4.6520      0.03466 *  
+Residuals        365.24 66                         
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(mod2, <span class="at">type =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type II tests)
+
+Response: anxiety
+                 Sum Sq Df F value       Pr(&gt;F)    
+Orientation      184.38  1 33.3178 0.0000002285 ***
+Race               3.99  1  0.7212      0.39881    
+Orientation:Race  25.74  1  4.6520      0.03466 *  
+Residuals        365.24 66                         
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p><strong>Type III</strong> sums of squares test each effect after accounting for all other terms in the model, including the interaction. When interactions are included, the interpretation of Type III main effects depends on the contrast coding and should generally be supplemented with estimated marginal means or simple-effects analyses.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Dummy versus Effects Coding">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Dummy versus Effects Coding
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Dummy coding</em> is the default in R with factor variables. Typically in a factor variable there is a level of 0. That level becomes a default, against which other means are compared. In the context of ANOVAs, dummy coding makes main effects difficult to interpret in the context of interaction effects. With dummy coding, a main effect of one factor is interpreted as a group difference in that factor when the other factor is 0 or for the reference group.</p>
+<p>For our example, the significant main effect indicating a race difference in anxiety would be comparing only among the straight adolescents. The main effect of sexual orientation, likewise, would represent mean differences by sexual orientation among the white participants. In the context of a statistically significant interaction, we would generally avoid interpreting these main effects and instead, compute marginal means or plot means to understand the nature of the interaction.</p>
+<p><em>Effects coding</em> assigns numerical values to factor levels that sum to zero. For a two-group race variable, for example, Black participants might be coded as -1 and White participants as +1. Unlike dummy coding, which compares groups at a specific reference category, effects coding centers the factors on the grand mean. In a 2 × 2 ANOVA, the main effect of Race therefore represents the average racial difference across sexual orientation groups, and the main effect of Sexual Orientation represents the average orientation difference across racial groups. When an interaction is present, these main effects can still be interpreted as average effects, although the interaction indicates that the size of the group differences varies across levels of the other factor.</p>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, R uses treatment (dummy) coding for factors.</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># With dummy coding, coefficients are interpreted relative</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to a reference group.</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># One option, to change contrasts for all analyses in this session:</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.treatment"</span>, <span class="st">"contr.poly"</span>))   <span class="co"># Treatment is dummy coding</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(anxiety <span class="sc">~</span> Race <span class="sc">*</span> Orientation, <span class="at">data =</span> anxiety_df2)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Df Sum Sq Mean Sq F value      Pr(&gt;F)    
+Race              1   16.1   16.05   2.901      0.0932 .  
+Orientation       1  184.4  184.38  33.318 0.000000229 ***
+Race:Orientation  1   25.7   25.74   4.652      0.0347 *  
+Residuals        66  365.2    5.53                        
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod1,<span class="at">type=</span><span class="dv">3</span>)   <span class="co"># Uses the car package to use Type III SS</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type III tests)
+
+Response: anxiety
+                 Sum Sq Df   F value                Pr(&gt;F)    
+(Intercept)      6870.9  1 1241.5930 &lt; 0.00000000000000022 ***
+Race               27.7  1    5.0036               0.02868 *  
+Orientation       196.1  1   35.4323          0.0000001119 ***
+Race:Orientation   25.7  1    4.6520               0.03466 *  
+Residuals         365.2 66                                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now repeat the same analysis using effects-coded factors </span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(anxiety <span class="sc">~</span> Race <span class="sc">*</span> Orientation, <span class="at">data =</span> anxiety_df2)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod2, <span class="at">type =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type III tests)
+
+Response: anxiety
+                  Sum Sq Df   F value                Pr(&gt;F)    
+(Intercept)      15002.1  1 2710.9257 &lt; 0.00000000000000022 ***
+Race                11.3  1    2.0452               0.15740    
+Orientation        124.9  1   22.5766            0.00001132 ***
+Race:Orientation    25.7  1    4.6520               0.03466 *  
+Residuals          365.2 66                                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To avoid changing how factors are coded for the entire session, could use this instead:</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># anxiety_df2$Race &lt;- factor(anxiety_df2$Race,contrasts = contr.sum)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Type I, II, and III Sum of Squares summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Factorial ANOVAs can be <em>balanced</em> or <em>unbalanced</em>
+<ul>
+<li>Balanced is when the groups have the same sample size in all of the cells</li>
+<li>Unbalanced is when groups have different sample sizes in the cells
+<ul>
+<li>There are different ways to do sum of squares tests in ANOVAs</li>
+<li>Some statistical packages by default use Type III Sum of Squares</li>
+<li>In cases where you have unbalanced groups, Type III can help with interpretation of main effects</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Type I (Sequential) sums of squares evaluate effects in the order they are entered into the model. Results may change if the order of variables changes. Type II sums of squares test each main effect after adjusting for the other main effects but ignore interactions when testing main effects. Type III sums of squares test each effect after adjusting for all other effects in the model, including interactions.</p>
+<p>Because Type I tests depend on variable order, they are most appropriate for hierarchical models or balanced designs. In contrast, Type III sums of squares are commonly used in unbalanced factorial ANOVAs when interactions are included in the model.</p>
+<p><em>Type III</em> asks, “What does this variable explain after accounting for everything else?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="more-complex-factorial-anovas" class="level2">
+<h2 class="anchored" data-anchor-id="more-complex-factorial-anovas">More Complex Factorial ANOVAs</h2>
+<p>Example: Examining <strong>body image</strong> in girls aged 8-11 versus 12-15 across four different types of sports played.</p>
+<ul>
+<li>Body image assessed by items related to “I feel good about my body”, “I am comfortable in my body”, “I take a positive attitude toward my body”
+<ul>
+<li>5-point Likert scale from Never to Always</li>
+<li>10 items added together for scores ranging from 10 to 50</li>
+</ul></li>
+<li>Sample of girls who frequently participated in either (competitively, one sport only) ice skating, gymnastics, soccer, or basketball
+<ul>
+<li>Gymnastics and ice skating are <em>judged sports</em> which may have stronger effects on body image in girls, compared to team sports like soccer or basketball</li>
+<li>Age groupings of 8-11 year old girls versus 12-15 year old girls to roughly capture the period of pubertal transition when developmental changes in body image may occur more frequently</li>
+</ul></li>
+</ul>
+<p><strong><em>Hypotheses</em></strong></p>
+<ul>
+<li>Younger girls will report higher average body image compared to older girls</li>
+<li>Girls who play basketball and soccer will report higher average body image than will girls who participate in skating and gymnastics</li>
+<li>**There will be an interaction, however, so that body image differences by age will be more pronounced in the two <em>judged</em> sports of ice skating and gymnastics.</li>
+</ul>
+<p><strong>Analysis</strong></p>
+<p>A 2 X 4 ANOVA</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  age_group       sport body_image
+1     12-15  Basketball   35.58435
+2      8-11  Basketball   37.16388
+3     12-15  Gymnastics   25.16739
+4      8-11  Gymnastics   32.86308
+5     12-15 Ice Skating   26.93805
+6      8-11 Ice Skating   32.35375
+7     12-15      Soccer   36.79292
+8      8-11      Soccer   35.67509</code></pre>
+</div>
+</div>
+<p>The means by age group and by sport. Notice that in general, body image is higher in 8-11 year old girls compared to 12-15 year old girls. Also notice that body image appears to be lower in “judged sports”, particularly among 12-15 year old girls. This suggests that there could be an age-by-sport interaction. To test that, we run an ANOVA.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>anova_body <span class="ot">&lt;-</span> <span class="fu">aov</span>(body_image <span class="sc">~</span> age_group <span class="sc">*</span> sport,  <span class="at">data =</span> body_df)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_body)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Df Sum Sq Mean Sq F value        Pr(&gt;F)    
+age_group         1    461   460.6  10.828       0.00124 ** 
+sport             3   1954   651.2  15.309 0.00000000939 ***
+age_group:sport   3    462   154.1   3.624       0.01453 *  
+Residuals       152   6466    42.5                          
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Results suggest a statistically significant interaction. When there is a statistically significant interaction effect, often we do not attempt to interpret main effects. The reason why is that any age differences in changes in body image depend on type of sport played. As such, that main effect is difficult to interpret without taking the interaction into account. In this balanced design, we ran this using R defaults</p>
+<ul>
+<li>Dummy coding for the factors meaning one group is the reference category</li>
+<li>Type I SS</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction plot</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  body_df<span class="sc">$</span>sport,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  body_df<span class="sc">$</span>age_group,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  body_df<span class="sc">$</span>body_image)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter-4-ANOVAs-Part-II_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the context of an interaction effect, it is helpful to look at marginal means to get a sense of the differences.</p>
+<p>Then we can also examine simple effects which are differences by one factor, but within the other factor. So for example, we can look at age differences within each sport to test for statistically significant differences. Alternatively, can consider if there are <em>type of sport</em> differences in body image at the two different levels of age.</p>
+<p>The original hypothesis was that age differences in body image would vary by type of sport, so I set up the emmeans to do that comparison.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome to emmeans.
+Caution: You lose important information if you filter this package's results.
+See '? untidy'</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple effects</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(anova_body,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>        pairwise <span class="sc">~</span> age_group <span class="sc">|</span> sport,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+sport = Basketball:
+ age_group emmean   SE  df lower.CL upper.CL
+ 12-15       35.6 1.46 152     32.7     38.5
+ 8-11        37.2 1.46 152     34.3     40.0
+
+sport = Gymnastics:
+ age_group emmean   SE  df lower.CL upper.CL
+ 12-15       25.2 1.46 152     22.3     28.0
+ 8-11        32.9 1.46 152     30.0     35.7
+
+sport = Ice Skating:
+ age_group emmean   SE  df lower.CL upper.CL
+ 12-15       26.9 1.46 152     24.1     29.8
+ 8-11        32.4 1.46 152     29.5     35.2
+
+sport = Soccer:
+ age_group emmean   SE  df lower.CL upper.CL
+ 12-15       36.8 1.46 152     33.9     39.7
+ 8-11        35.7 1.46 152     32.8     38.6
+
+Confidence level used: 0.95 
+
+$contrasts
+sport = Basketball:
+ contrast         estimate   SE  df t.ratio p.value
+ (12-15) - (8-11)    -1.58 2.06 152  -0.766  0.4449
+
+sport = Gymnastics:
+ contrast         estimate   SE  df t.ratio p.value
+ (12-15) - (8-11)    -7.70 2.06 152  -3.731  0.0003
+
+sport = Ice Skating:
+ contrast         estimate   SE  df t.ratio p.value
+ (12-15) - (8-11)    -5.42 2.06 152  -2.626  0.0095
+
+sport = Soccer:
+ contrast         estimate   SE  df t.ratio p.value
+ (12-15) - (8-11)     1.12 2.06 152   0.542  0.5886</code></pre>
+</div>
+</div>
+<p>These results suggest that, for girl basketball and soccer players, the small differences in body image across age are not statistically significant. For girls who participate in gymnastics and ice skating, the decrease in body image from ages 8-11 to 12-15 is statistically significant suggesting that age decreases in body image depend on what type of sport girls play (at least in this sample and with these sports).</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Estimated Marginal Means with the emmeans Package">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Estimated Marginal Means with the emmeans Package
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>emmeans</strong> is an R package that has functions for calculating <strong>marginal means</strong> by using model results. These can be used in ANOVAs to show what averages are for certain groups when adjusting for other variables in the model.</p>
+<p>In factorial ANOVA, <code>emmeans</code> is particularly useful because the ANOVA table indicates whether effects are statistically significant, but it does not identify which groups differ or provide estimates of group means. The <code>emmeans</code> package allows researchers to:</p>
+<ul>
+<li>Obtain estimated marginal means for factors in the model.</li>
+<li>Conduct pairwise comparisons among group means.</li>
+<li>Examine simple effects following a significant interaction.</li>
+<li>Test theory-driven planned contrasts.</li>
+<li>Compute confidence intervals and effect estimates.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Planned Contrasts">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Planned Contrasts
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Planned contrasts</strong> involve a way of coding factors so that there are specific comparisons being made across groups in an ANOVA. These generally were used to make a specific comparison within multiple grouping, e.g., is any therapy (CBT, DBT, talk, recreational) better than none?</p>
+<p>The benefits of a planned contrast is that researchers do not need to examine a global F test, can test targeted differences, and these have greater statistical power. Planned contrasts are <strong>a priori</strong> tests as contrasted to <strong>post hoc</strong> tests like Tukey HSD and others.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="multivariate-analysis-of-variance-manova" class="level2">
+<h2 class="anchored" data-anchor-id="multivariate-analysis-of-variance-manova">Multivariate Analysis of Variance (MANOVA)</h2>
+<section id="what-is-manova" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-manova">What is MANOVA?</h3>
+<p>Multivariate Analysis of Variance (MANOVA) is an extension of ANOVA that allows researchers to examine group differences on <strong>multiple dependent variables simultaneously</strong>.</p>
+<p>Recall that ANOVA asks:</p>
+<blockquote class="blockquote">
+<p>Do groups differ on a single outcome?</p>
+</blockquote>
+<p>MANOVA asks:</p>
+<blockquote class="blockquote">
+<p>Do groups differ on a combination of outcomes?</p>
+</blockquote>
+<p>For example, rather than examining whether language brokering groups differ only in self-esteem, a MANOVA can simultaneously evaluate group differences in:</p>
+<ul>
+<li>Self-esteem</li>
+<li>Family cohesion</li>
+<li>Depressive symptoms</li>
+</ul>
+<p>Because these outcomes are related, analyzing them together can provide a more complete understanding of group differences.</p>
+</section>
+</section>
+<section id="when-is-manova-used" class="level2">
+<h2 class="anchored" data-anchor-id="when-is-manova-used">When is MANOVA Used?</h2>
+<p>MANOVA is appropriate when:</p>
+<ol type="1">
+<li>There are one or more categorical independent variables.</li>
+<li>There are multiple continuous dependent variables.</li>
+<li>The dependent variables are conceptually related.</li>
+<li>Researchers want to control the overall Type I error rate.</li>
+</ol>
+<p>Examples include:</p>
+<ul>
+<li>Comparing ethnic groups on multiple parenting dimensions.</li>
+<li>Comparing intervention groups on several psychosocial outcomes.</li>
+<li>Comparing family structures on several indicators of child well-being.</li>
+</ul>
+</section>
+<section id="why-not-run-multiple-anovas" class="level2">
+<h2 class="anchored" data-anchor-id="why-not-run-multiple-anovas">Why Not Run Multiple ANOVAs?</h2>
+<p>Researchers could conduct separate ANOVAs for each dependent variable.</p>
+<p>However, doing so creates two concerns.</p>
+<ul>
+<li><p>Inflation of Type I Error</p>
+<ul>
+<li>Each hypothesis test introduces a chance of a false positive.</li>
+<li>Running several ANOVAs increases the likelihood of finding at least one significant result due to chance alone.</li>
+</ul></li>
+<li><p>Ignoring Relationships Among Variables</p></li>
+</ul>
+<p>Many HHS outcomes may be related, for example if comparing groups on depression, anxiety, and stress, these are related constructs and MANOVA can incorporate those relationships into the analysis.</p>
+<section id="what-does-manova-test" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-manova-test">What Does MANOVA Test?</h3>
+<p>MANOVA first evaluates whether groups differ on the <strong>combined set of dependent variables</strong>.</p>
+<p>The null hypothesis is:</p>
+<p><span class="math display">\[H_0:\text{ The vector of population means is equal across groups}\]</span> - The <strong>vector</strong> refers to the totality of means across the various outcome variables under consideration. So the main null hypotheses is that those means are equal across the groups. Rejecting that null would indicate at least some differences in some outcomes across some groups.</p>
+<p>If the overall MANOVA is significant, researchers typically examine:</p>
+<ul>
+<li>Follow-up ANOVAs</li>
+<li>Estimated marginal means</li>
+<li>Pairwise comparisons</li>
+</ul>
+<p>to determine which dependent variables contribute to the overall multivariate effect.</p>
+<ul>
+<li>Note that <strong>multivariate</strong> refers to <strong>multiple</strong> outcomes</li>
+</ul>
+</section>
+<section id="cultural-conflicts-and-adolescent-adjustment" class="level3">
+<h3 class="anchored" data-anchor-id="cultural-conflicts-and-adolescent-adjustment">Cultural Conflicts and Adolescent Adjustment</h3>
+<p>Let’s take an example of whether Hmong adolescents who report greater cultural conflicts with parents have different psychosocial outcomes compared to adolescents who report fewer cultural conflicts with parents.</p>
+<p>We are going to consider <strong>multiple</strong> aspects of psychosocial outcomes across low, moderate, and high levels of cultural conflicts and so MANOVA is a good analytical choice, because these outcomes are likely correlated.</p>
+<p>Participants are classified into:</p>
+<ul>
+<li>Low conflict</li>
+<li>Moderate conflict</li>
+<li>High conflict
+<ul>
+<li>Used tertile splits to create three different, <em>roughly</em> equally sized groups</li>
+</ul></li>
+</ul>
+<p>I used the following outcomes</p>
+<ul>
+<li>Self-esteem</li>
+<li>Ethnic pride</li>
+<li>Depressive symptoms</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.6.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+✖ dplyr::recode() masks car::recode()
+✖ purrr::some()   masks car::some()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Age"               "Gender"            "BornUS"           
+ [4] "parinvolv"         "FESmod"            "traditionalparmod"
+ [7] "confwparmod"       "posesteemmod"      "selfdepremod"     
+[10] "affmod"            "expmod"            "resmod"           
+[13] "cesd4r"            "CESD"             </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="descriptive-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-statistics">Descriptive Statistics</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## I read in a data set using read_sav from the haven package</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="do">## That data is called accult_gap_df</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here are the variable names</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(accult_gap_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Age"         "Gender"      "BornUS"      "ParenInvolv" "FES"        
+[6] "acculgap"    "esteem"      "eth_pride"   "depress"    </code></pre>
+</div>
+</div>
+<p>Note: This next section creates a tertile split using R. All of these commands and functions are Base R, note that no packages are loaded in the R script</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Age, Gender, BornUS (born in the US = 1, not = 0)</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ParenInvolv = monitoring and warmth/love</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># FES = Family Ethnic Socialization</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># acculgap = acculturation gaps, or culture-based conflicts</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co"># esteem = Rosenberg self-esteem scale, positively worded items only</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co"># eth_pride = pride in being Hmong</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co"># depress = four items from CESD measure of depression</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Create Tertile Split for the culture-based conflicts variable to create the main factor</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the 33rd and 67th percentile cut points</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>tertiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>( accult_gap_df<span class="sc">$</span>acculgap,           <span class="co"># Quantile creates percentiles for acculgap</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>),                                  <span class="co"># Probs is splitting at the .33 and .67 percentiles</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                                         <span class="co"># Ignores missing when creating percentiles</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>                                                        <span class="co"># This is all BaseR commands</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create Low, Moderate, and High categories</span></span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a><span class="co"># The cut function tells R to take a continuous variable and create groupings based on "breaks" in the continuous variable</span></span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>accult_gap_df<span class="sc">$</span>accg_tertile <span class="ot">&lt;-</span> <span class="fu">cut</span>(accult_gap_df<span class="sc">$</span>acculgap,<span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, tertiles, <span class="cn">Inf</span>),</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"Moderate"</span>, <span class="st">"High"</span>),              <span class="co"># -Inf means that any score from negative infinity to </span></span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">include.lowest =</span> <span class="cn">TRUE</span>,                              <span class="co"># the lowest tertile value is the first group - Low</span></span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered_result =</span> <span class="cn">TRUE</span>)        <span class="co"># Include lowest is just a safeguard to include the lowest score</span></span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>                                <span class="co"># Ordered makes this variable a factor, but with an ordering</span></span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the cut points</span></span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>tertiles</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>33.33333% 66.66667% 
+ 2.214815  3.100000 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count participants in each category</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(accult_gap_df<span class="sc">$</span>accg_tertile, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Low Moderate     High 
+      31       36       26 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View original and categorized values</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(accult_gap_df[, <span class="fu">c</span>(<span class="st">"acculgap"</span>, <span class="st">"accg_tertile"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  acculgap accg_tertile
+     &lt;dbl&gt; &lt;ord&gt;       
+1     1.9  Low         
+2     4.1  High        
+3     3.11 High        
+4     2.4  Moderate    
+5     4.2  High        
+6     2    Low         </code></pre>
+</div>
+</div>
+</section>
+<section id="correlations-among-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="correlations-among-outcomes">Correlations Among Outcomes</h2>
+<p>Because MANOVA is most useful when dependent variables are related, it is often helpful to examine correlations.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Base R: select the variables and calculate their correlations</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that because we have some missing data, I need to tell R how to handle those</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># I could use complete.obs or "complete observations" which would be listwise deletion</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Here I am using pairwise which is "pairwise present" which keeps participants if they have scores</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co"># for each individual correlation</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>accult_gap_df[, <span class="fu">c</span>(<span class="st">"esteem"</span>, <span class="st">"eth_pride"</span>, <span class="st">"depress"</span>)] <span class="sc">|&gt;</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              esteem  eth_pride    depress
+esteem     1.0000000  0.2621496 -0.1858581
+eth_pride  0.2621496  1.0000000 -0.1158990
+depress   -0.1858581 -0.1158990  1.0000000</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that the above Base R only gives correlations. It is a bit tedious to get base R to give p values and asterisk, so usually adding and loading a package works better.</p>
+<p>We can use the <em>psych</em> package instead. Later in the semester we will go over creating correlation tables and packages that table these automatically.</p>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'psych'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:ggplot2':
+
+    %+%, alpha</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:car':
+
+    logit</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corr.test</span>(</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  accult_gap_df[, <span class="fu">c</span>(<span class="st">"esteem"</span>, <span class="st">"eth_pride"</span>, <span class="st">"depress"</span>)],</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:corr.test(x = accult_gap_df[, c("esteem", "eth_pride", "depress")], 
+    use = "pairwise.complete.obs")
+Correlation matrix 
+          esteem eth_pride depress
+esteem      1.00      0.26   -0.19
+eth_pride   0.26      1.00   -0.12
+depress    -0.19     -0.12    1.00
+Sample Size 
+          esteem eth_pride depress
+esteem        93        92      92
+eth_pride     92        92      91
+depress       92        91      92
+Probability values (Entries above the diagonal are adjusted for multiple tests.) 
+          esteem eth_pride depress
+esteem      0.00      0.03    0.15
+eth_pride   0.01      0.00    0.27
+depress     0.08      0.27    0.00
+
+ To see confidence intervals of the correlations, print with the short=FALSE option</code></pre>
+</div>
+</div>
+</section>
+<section id="running-the-manova" class="level2">
+<h2 class="anchored" data-anchor-id="running-the-manova">Running the MANOVA</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="do">## MANOVA is the function</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Cbind is a combine command, so the three outcomes conditions on </span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>manova_fit <span class="ot">&lt;-</span> <span class="fu">manova</span>(<span class="fu">cbind</span>(esteem,eth_pride,depress) <span class="sc">~</span> accg_tertile,</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> accult_gap_df)</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(manova_fit,<span class="at">test =</span> <span class="st">"Pillai"</span>) <span class="co"># Can change the different ways the test statistic is computed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df  Pillai approx F num Df den Df  Pr(&gt;F)  
+accg_tertile  2 0.18192   2.9017      6    174 0.01012 *
+Residuals    88                                         
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(manova_fit,<span class="at">test =</span> <span class="st">"Wilks"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df   Wilks approx F num Df den Df   Pr(&gt;F)   
+accg_tertile  2 0.82166   2.9584      6    172 0.008968 **
+Residuals    88                                           
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<section id="multivariate-test-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="multivariate-test-statistics">Multivariate Test Statistics</h3>
+<p>When conducting a MANOVA, the overall test examines whether the groups differ on the <strong>combined</strong> dependent variables. Four common test statistics are available:</p>
+<ol type="1">
+<li><strong>Pillai’s Trace</strong>
+<ul>
+<li>Range: 0 to number of DVs</li>
+<li>Interpretation: Larger values indicate stronger multivariate effects</li>
+<li><strong>Robustness</strong>: Most robust to violations of assumptions (especially homogeneity of covariance matrices)</li>
+<li>Best used when sample sizes are unequal or assumptions are violated</li>
+</ul></li>
+<li><strong>Wilks’ Lambda</strong>
+<ul>
+<li>Range: 0 to 1 (inverse interpretation—smaller values indicate stronger effects)</li>
+<li>Interpretation: Smaller values indicate stronger multivariate effects</li>
+<li>Power: Generally most powerful test</li>
+<li>Assumption sensitive: More sensitive to violations of homogeneity assumption</li>
+<li>Best used when assumptions are met and sample sizes are equal</li>
+</ul></li>
+<li><strong>Hotelling’s Trace</strong>
+<ul>
+<li>Similar interpretation to Pillai’s Trace (larger values = stronger effects)</li>
+<li>Power: Similar power to Wilks’ Lambda</li>
+<li>Best for: Two-group comparisons or when homogeneity assumptions are met</li>
+</ul></li>
+<li><strong>Roy’s Criterion</strong> (Greatest Root)
+<ul>
+<li>Range: 0 to infinity</li>
+<li>Interpretation: Larger values indicate stronger effects</li>
+<li>Power: Most powerful when the first discriminant function accounts for most of the variance</li>
+<li>Assumption sensitive: Most sensitive to violations of assumptions</li>
+<li>Best for: Confirmatory studies with clear expectations</li>
+</ul></li>
+</ol>
+<p>In our example, we used <strong>Pillai’s Trace</strong> test, which is a conservative and robust choice for introductory MANOVA. The interpretation is straightforward: Pillai’s Trace indicates a multivariate effect of levels of culture-based conflicts with parents on the combined psychosocial outcomes.</p>
+</section>
+<section id="sample-write-up" class="level3">
+<h3 class="anchored" data-anchor-id="sample-write-up">Sample write up</h3>
+<p>A one-way MANOVA was conducted to determine whether adolescents with low, moderate, and high levels of culture-based conflict with parents would report different levels of self-esteem, ethnic pride, and depressive symptoms.</p>
+<p>The multivariate effect was statistically significant, Pillai’s Trace = .181, F(2, 88) = 2.90, p &lt; .05.</p>
+<ul>
+<li>This result indicates that the three groups differed on the combined set of psychosocial outcomes.</li>
+<li>Because the overall MANOVA was significant, follow-up univariate ANOVAs were conducted for each outcome.</li>
+</ul>
+</section>
+<section id="follow-up-anovas" class="level3">
+<h3 class="anchored" data-anchor-id="follow-up-anovas">Follow-Up ANOVAs</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(manova_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Response esteem :
+             Df  Sum Sq Mean Sq F value Pr(&gt;F)
+accg_tertile  2  0.4323 0.21613  1.1477 0.3221
+Residuals    88 16.5719 0.18832               
+
+ Response eth_pride :
+             Df  Sum Sq Mean Sq F value   Pr(&gt;F)   
+accg_tertile  2  3.4522 1.72610  7.3301 0.001136 **
+Residuals    88 20.7224 0.23548                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+ Response depress :
+             Df Sum Sq Mean Sq F value Pr(&gt;F)
+accg_tertile  2  1.282 0.64106  1.4594 0.2379
+Residuals    88 38.655 0.43926               
+
+2 observations deleted due to missingness</code></pre>
+</div>
+</div>
+</section>
+<section id="results-from-follow-up-anovas" class="level3">
+<h3 class="anchored" data-anchor-id="results-from-follow-up-anovas">Results from follow-up ANOVAs</h3>
+<p>The follow-up ANOVAs indicated that the univariate effect was statistically significant for ethnic pride, whereas the effects for self-esteem and depressive symptoms were not statistically significant.</p>
+<p>To further understand this difference, we can compute marginal means using the <em>emmeans</em> package</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>e_pride <span class="ot">&lt;-</span> <span class="fu">aov</span>(</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  eth_pride <span class="sc">~</span> accg_tertile,</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> accult_gap_df)</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(e_pride, pairwise <span class="sc">~</span> accg_tertile)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+ accg_tertile emmean     SE df lower.CL upper.CL
+ Low            3.82 0.0867 89     3.64     3.99
+ Moderate       3.56 0.0816 89     3.39     3.72
+ High           3.31 0.0947 89     3.13     3.50
+
+Confidence level used: 0.95 
+
+$contrasts
+ contrast        estimate    SE df t.ratio p.value
+ Low - Moderate     0.260 0.119 89   2.183  0.0796
+ Low - High         0.503 0.128 89   3.917  0.0005
+ Moderate - High    0.243 0.125 89   1.944  0.1325
+
+P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="manova-assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="manova-assumptions">MANOVA Assumptions</h2>
+<p>Like ANOVA, MANOVA is based on several key assumptions, including the <em>independence of observations</em>. The other MANOVA assumptions are a bit more complicated due to the fact that MANOVA has multiple outcome variables and is, as such, <strong>multivariate</strong>.</p>
+<p>So for example, instead of <em>normality</em> of the outcomes, MANOVA is also concerned with:</p>
+<ol type="1">
+<li><p><strong>multivariate normality</strong></p>
+<ul>
+<li>The dependent variables should jointly follow a multivariate normal distribution within each group. This means that all linear combinations of the dependent variables should be normally distributed within each group. While MANOVA is somewhat robust to violations of this assumption with large samples, severe violations should be addressed (e.g., through transformation or non-parametric alternatives).</li>
+</ul></li>
+<li><p><strong>Homogeneity of Variance-Covariance Matrices</strong></p>
+<ul>
+<li>The variance-covariance matrices of the dependent variables should be approximately equal across all groups. This is tested using <strong>Box’s M test</strong>. Unlike univariate ANOVA which tests homogeneity of variance (Levene’s test), MANOVA tests the homogeneity of the entire covariance matrix structure.</li>
+</ul></li>
+<li><p><strong>Linearity</strong></p>
+<ul>
+<li>The relationship between all pairs of dependent variables should be linear within each group. Scatterplots between pairs of DVs can be examined to assess this.</li>
+</ul></li>
+<li><p><strong>Absence of Multicollinearity Among Dependent Variables</strong></p>
+<ul>
+<li>The dependent variables should not be so highly correlated that they are essentially measuring the same construct (multicollinearity), nor should there be a perfect linear relationship (singularity). Generally, correlations between DVs should be moderate (r &lt; .90).</li>
+</ul></li>
+<li><p><strong>Adequate Sample Size</strong></p>
+<ul>
+<li>MANOVA requires sufficient sample size to reliably estimate the covariance matrices. A common rule of thumb is that each group should have more cases than the number of dependent variables. For example, with three dependent variables, each group should ideally have at least 20 participants.</li>
+</ul></li>
+</ol>
+<section id="testing-homogeneity-of-variance-covariance-matrices-boxs-m-test" class="level3">
+<h3 class="anchored" data-anchor-id="testing-homogeneity-of-variance-covariance-matrices-boxs-m-test">Testing Homogeneity of Variance-Covariance Matrices: Box’s M Test</h3>
+<p>The most commonly tested MANOVA assumption is homogeneity of variance-covariance matrices. While univariate ANOVA uses Levene’s test to evaluate equality of variances across groups, MANOVA uses <strong>Box’s M test</strong>.</p>
+<p>A <strong>non-significant Box’s M test</strong> (p &gt; .05) suggests that the covariance matrices are approximately equal across groups, which satisfies the assumption. However, Box’s M is sensitive to violations of multivariate normality, so a significant result doesn’t necessarily invalidate MANOVA results, especially with larger sample sizes. In practice, if sample sizes are equal across groups and reasonably large, moderate violations of this assumption are often tolerable.</p>
+<p>Here is how to run that test using the <em>biotools</em> package.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(biotools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'biotools' was built under R version 4.6.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: MASS</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'MASS'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>---
+biotools version 4.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Box's M test for homogeneity of covariance matrices</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The test requires the dependent variables and the grouping factor</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>boxM_test <span class="ot">&lt;-</span> <span class="fu">boxM</span>(accult_gap_df[, <span class="fu">c</span>(<span class="st">"esteem"</span>, <span class="st">"eth_pride"</span>, <span class="st">"depress"</span>)],</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>  accult_gap_df<span class="sc">$</span>accg_tertile)</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(boxM_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Box's M-test for Homogeneity of Covariance Matrices
+
+data:  accult_gap_df[, c("esteem", "eth_pride", "depress")]
+Chi-Sq (approx.) = NA, df = 12, p-value = NA</code></pre>
+</div>
+</div>
+<p><strong>Interpretation</strong>:</p>
+<ul>
+<li>If p &gt; .05, we fail to reject the null hypothesis and conclude that the covariance matrices are approximately equal across the three brokering groups. The homogeneity assumption is satisfied.</li>
+<li>If p &lt; .05, the covariance matrices differ significantly across groups. However, this does not necessarily invalidate MANOVA results, particularly if sample sizes are balanced and large. With violations of this assumption, some researchers prefer to use Pillai’s Trace test statistic (over Wilks’ Lambda) because Pillai’s Trace is more robust to violations of homogeneity.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Chapter 4 ANOVAs Part I.html" class="pagination-link" aria-label="Chapter 4 ANOVAs Part I">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 4 ANOVAs Part I</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
