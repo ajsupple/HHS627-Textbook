@@ -8,7 +8,7 @@
 
 <meta name="author" content="Andy Supple">
 
-<title>Chapter 4: ANOVAs Part III</title>
+<title>Chapter 4: ANOVAs Part III – HHS627 Textbook2</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -62,17 +62,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="Chapter 4 ANOVAS Part III_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Chapter 4 ANOVAS Part III_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="Chapter 4 ANOVAS Part III_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="Chapter 4 ANOVAS Part III_files/libs/quarto-html/popper.min.js"></script>
-<script src="Chapter 4 ANOVAS Part III_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="Chapter 4 ANOVAS Part III_files/libs/quarto-html/anchor.min.js"></script>
-<link href="Chapter 4 ANOVAS Part III_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Chapter 4 ANOVAS Part III_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="Chapter 4 ANOVAS Part III_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="Chapter 4 ANOVAS Part III_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Chapter 4 ANOVAS Part III_files/libs/bootstrap/bootstrap-efbb37e9afcc02144ebbc7afd12a776f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Chapter 4 ANOVAs Part II.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -106,15 +140,198 @@ window.Quarto = {
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter 4 ANOVAS Part III.html"><span class="chapter-title">Chapter 4: ANOVAs Part III</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">HHS627 Textbook2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HHS 627 Textbook</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 1 HHS Statistical Thinking.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1 HHS Statistical Thinking</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 2 Matching Research Designs to Analyses.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2 Matching Research Designs to Analyses</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 3 Data Management and R.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Data Cleaning and Getting into R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 4 ANOVAs Part I.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4 ANOVAs Part I</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 4 ANOVAs Part II.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4 ANOVAs Part II</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter 4 ANOVAS Part III.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 4: ANOVAs Part III</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#repeated-measures-anova" id="toc-repeated-measures-anova" class="nav-link active" data-scroll-target="#repeated-measures-anova">Repeated-Measures ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#mixed-designs" id="toc-mixed-designs" class="nav-link" data-scroll-target="#mixed-designs">Mixed Designs</a></li>
+  </ul></li>
+  <li><a href="#connection-to-the-paired-samples-t-test" id="toc-connection-to-the-paired-samples-t-test" class="nav-link" data-scroll-target="#connection-to-the-paired-samples-t-test">Connection to the Paired-Samples <em>t</em> Test</a>
+  <ul class="collapse">
+  <li><a href="#difference-scores" id="toc-difference-scores" class="nav-link" data-scroll-target="#difference-scores">Difference Scores</a></li>
+  <li><a href="#null-and-alternative-hypotheses" id="toc-null-and-alternative-hypotheses" class="nav-link" data-scroll-target="#null-and-alternative-hypotheses">Null and Alternative Hypotheses</a></li>
+  <li><a href="#test-statistic" id="toc-test-statistic" class="nav-link" data-scroll-target="#test-statistic">Test Statistic</a></li>
+  <li><a href="#degrees-of-freedom" id="toc-degrees-of-freedom" class="nav-link" data-scroll-target="#degrees-of-freedom">Degrees of Freedom</a></li>
+  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions">Assumptions</a>
+  <ul class="collapse">
+  <li><a href="#paired-observations" id="toc-paired-observations" class="nav-link" data-scroll-target="#paired-observations">1. Paired Observations</a></li>
+  <li><a href="#independence-between-pairs" id="toc-independence-between-pairs" class="nav-link" data-scroll-target="#independence-between-pairs">2. Independence Between Pairs</a></li>
+  <li><a href="#approximate-normality-of-difference-scores" id="toc-approximate-normality-of-difference-scores" class="nav-link" data-scroll-target="#approximate-normality-of-difference-scores">3. Approximate Normality of Difference Scores</a></li>
+  </ul></li>
+  <li><a href="#why-is-pairing-helpful" id="toc-why-is-pairing-helpful" class="nav-link" data-scroll-target="#why-is-pairing-helpful">Why Is Pairing Helpful?</a></li>
+  <li><a href="#effect-size" id="toc-effect-size" class="nav-link" data-scroll-target="#effect-size">Effect Size</a></li>
+  <li><a href="#r-code" id="toc-r-code" class="nav-link" data-scroll-target="#r-code">R Code</a></li>
+  </ul></li>
+  <li><a href="#repeated-measures-anova-1" id="toc-repeated-measures-anova-1" class="nav-link" data-scroll-target="#repeated-measures-anova-1">Repeated-Measures ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#example-1-one-factor-repeated-measures-anova" id="toc-example-1-one-factor-repeated-measures-anova" class="nav-link" data-scroll-target="#example-1-one-factor-repeated-measures-anova">Example 1: One-Factor Repeated-Measures ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#research-scenario" id="toc-research-scenario" class="nav-link" data-scroll-target="#research-scenario">Research Scenario</a></li>
+  <li><a href="#why-use-a-repeated-measures-anova" id="toc-why-use-a-repeated-measures-anova" class="nav-link" data-scroll-target="#why-use-a-repeated-measures-anova">Why Use a Repeated-Measures ANOVA?</a></li>
+  <li><a href="#simulate-data" id="toc-simulate-data" class="nav-link" data-scroll-target="#simulate-data">Simulate Data</a></li>
+  <li><a href="#reshape-to-long-format-using-pivot_longer" id="toc-reshape-to-long-format-using-pivot_longer" class="nav-link" data-scroll-target="#reshape-to-long-format-using-pivot_longer">Reshape to Long Format using pivot_longer</a></li>
+  <li><a href="#examine-means-by-condition" id="toc-examine-means-by-condition" class="nav-link" data-scroll-target="#examine-means-by-condition">Examine Means by Condition</a></li>
+  <li><a href="#conduct-the-repeated-measures-anova" id="toc-conduct-the-repeated-measures-anova" class="nav-link" data-scroll-target="#conduct-the-repeated-measures-anova">Conduct the Repeated-Measures ANOVA</a></li>
+  <li><a href="#follow-up-pairwise-comparisons" id="toc-follow-up-pairwise-comparisons" class="nav-link" data-scroll-target="#follow-up-pairwise-comparisons">Follow-Up Pairwise Comparisons</a></li>
+  </ul></li>
+  <li><a href="#example-2-mixed-design-anova" id="toc-example-2-mixed-design-anova" class="nav-link" data-scroll-target="#example-2-mixed-design-anova">Example 2: Mixed-Design ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#research-scenario-1" id="toc-research-scenario-1" class="nav-link" data-scroll-target="#research-scenario-1">Research Scenario</a></li>
+  <li><a href="#design" id="toc-design" class="nav-link" data-scroll-target="#design">Design</a></li>
+  <li><a href="#hypothesized-means" id="toc-hypothesized-means" class="nav-link" data-scroll-target="#hypothesized-means">Hypothesized Means</a></li>
+  <li><a href="#next-step-is-reshaping-or-turning-the-data" id="toc-next-step-is-reshaping-or-turning-the-data" class="nav-link" data-scroll-target="#next-step-is-reshaping-or-turning-the-data">Next step is reshaping or turning the data</a></li>
+  <li><a href="#examine-cell-means" id="toc-examine-cell-means" class="nav-link" data-scroll-target="#examine-cell-means">Examine Cell Means</a></li>
+  <li><a href="#conduct-the-mixed-design-anova-using-the-afex-package" id="toc-conduct-the-mixed-design-anova-using-the-afex-package" class="nav-link" data-scroll-target="#conduct-the-mixed-design-anova-using-the-afex-package">Conduct the Mixed-Design ANOVA using the <code>afex</code> package</a></li>
+  <li><a href="#visualize-the-interaction" id="toc-visualize-the-interaction" class="nav-link" data-scroll-target="#visualize-the-interaction">Visualize the Interaction</a></li>
+  <li><a href="#interpreting-the-three-effects" id="toc-interpreting-the-three-effects" class="nav-link" data-scroll-target="#interpreting-the-three-effects">Interpreting the Three Effects</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#repeated-measures-anova-with-more-than-two-time-points" id="toc-repeated-measures-anova-with-more-than-two-time-points" class="nav-link" data-scroll-target="#repeated-measures-anova-with-more-than-two-time-points">Repeated-Measures ANOVA with More Than Two Time Points</a>
+  <ul class="collapse">
+  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing Data</a></li>
+  <li><a href="#sphericity" id="toc-sphericity" class="nav-link" data-scroll-target="#sphericity">Sphericity</a></li>
+  <li><a href="#why-does-sphericity-matter" id="toc-why-does-sphericity-matter" class="nav-link" data-scroll-target="#why-does-sphericity-matter">Why Does Sphericity Matter?</a></li>
+  <li><a href="#testing-sphericity" id="toc-testing-sphericity" class="nav-link" data-scroll-target="#testing-sphericity">Testing Sphericity</a></li>
+  <li><a href="#adjusting-for-violations-of-sphericity" id="toc-adjusting-for-violations-of-sphericity" class="nav-link" data-scroll-target="#adjusting-for-violations-of-sphericity">Adjusting for Violations of Sphericity</a></li>
+  <li><a href="#reporting-corrected-results" id="toc-reporting-corrected-results" class="nav-link" data-scroll-target="#reporting-corrected-results">Reporting Corrected Results</a></li>
+  <li><a href="#example-3-mixed-design-anova-with-three-repeated-measures" id="toc-example-3-mixed-design-anova-with-three-repeated-measures" class="nav-link" data-scroll-target="#example-3-mixed-design-anova-with-three-repeated-measures">Example 3: Mixed-Design ANOVA with Three Repeated Measures</a>
+  <ul class="collapse">
+  <li><a href="#research-scenario-2" id="toc-research-scenario-2" class="nav-link" data-scroll-target="#research-scenario-2">Research Scenario</a></li>
+  <li><a href="#design-1" id="toc-design-1" class="nav-link" data-scroll-target="#design-1">Design</a></li>
+  <li><a href="#hypothesized-means-1" id="toc-hypothesized-means-1" class="nav-link" data-scroll-target="#hypothesized-means-1">Hypothesized Means</a></li>
+  <li><a href="#convert-to-long-format" id="toc-convert-to-long-format" class="nav-link" data-scroll-target="#convert-to-long-format">Convert to Long Format</a></li>
+  <li><a href="#examine-cell-means-1" id="toc-examine-cell-means-1" class="nav-link" data-scroll-target="#examine-cell-means-1">Examine Cell Means</a></li>
+  <li><a href="#conduct-the-mixed-design-anova-using-afex" id="toc-conduct-the-mixed-design-anova-using-afex" class="nav-link" data-scroll-target="#conduct-the-mixed-design-anova-using-afex">Conduct the Mixed-Design ANOVA using afex</a></li>
+  </ul></li>
+  <li><a href="#visualize-the-interaction-1" id="toc-visualize-the-interaction-1" class="nav-link" data-scroll-target="#visualize-the-interaction-1">Visualize the Interaction</a></li>
+  <li><a href="#interpreting-the-anova-results" id="toc-interpreting-the-anova-results" class="nav-link" data-scroll-target="#interpreting-the-anova-results">Interpreting the ANOVA results</a>
+  <ul class="collapse">
+  <li><a href="#evaluating-sphericity" id="toc-evaluating-sphericity" class="nav-link" data-scroll-target="#evaluating-sphericity">Evaluating Sphericity</a></li>
+  <li><a href="#follow-up-comparisons" id="toc-follow-up-comparisons" class="nav-link" data-scroll-target="#follow-up-comparisons">Follow-Up Comparisons</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#analysis-of-covariance" id="toc-analysis-of-covariance" class="nav-link" data-scroll-target="#analysis-of-covariance">Analysis of Covariance</a>
+  <ul class="collapse">
+  <li><a href="#what-is-ancova" id="toc-what-is-ancova" class="nav-link" data-scroll-target="#what-is-ancova">What Is ANCOVA?</a>
+  <ul class="collapse">
+  <li><a href="#why-use-a-covariate" id="toc-why-use-a-covariate" class="nav-link" data-scroll-target="#why-use-a-covariate">Why Use a Covariate?</a></li>
+  <li><a href="#interpreting-ancova" id="toc-interpreting-ancova" class="nav-link" data-scroll-target="#interpreting-ancova">Interpreting ANCOVA</a></li>
+  </ul></li>
+  <li><a href="#key-assumptions" id="toc-key-assumptions" class="nav-link" data-scroll-target="#key-assumptions">Key Assumptions</a></li>
+  <li><a href="#example-1-mental-health-intervention-for-latina-women" id="toc-example-1-mental-health-intervention-for-latina-women" class="nav-link" data-scroll-target="#example-1-mental-health-intervention-for-latina-women">Example 1: Mental Health Intervention for Latina Women</a>
+  <ul class="collapse">
+  <li><a href="#independent-variable" id="toc-independent-variable" class="nav-link" data-scroll-target="#independent-variable">Independent Variable</a></li>
+  <li><a href="#dependent-variables" id="toc-dependent-variables" class="nav-link" data-scroll-target="#dependent-variables">Dependent Variables</a></li>
+  <li><a href="#covariates" id="toc-covariates" class="nav-link" data-scroll-target="#covariates">Covariates</a></li>
+  </ul></li>
+  <li><a href="#ancova-and-multiple-regression" id="toc-ancova-and-multiple-regression" class="nav-link" data-scroll-target="#ancova-and-multiple-regression">ANCOVA and Multiple Regression</a></li>
+  <li><a href="#example-2-generational-status-and-breastfeeding-attitudes" id="toc-example-2-generational-status-and-breastfeeding-attitudes" class="nav-link" data-scroll-target="#example-2-generational-status-and-breastfeeding-attitudes">Example 2: Generational Status and Breastfeeding Attitudes</a>
+  <ul class="collapse">
+  <li><a href="#independent-variable-1" id="toc-independent-variable-1" class="nav-link" data-scroll-target="#independent-variable-1">Independent Variable</a></li>
+  <li><a href="#dependent-variable" id="toc-dependent-variable" class="nav-link" data-scroll-target="#dependent-variable">Dependent Variable</a></li>
+  <li><a href="#covariate" id="toc-covariate" class="nav-link" data-scroll-target="#covariate">Covariate</a></li>
+  </ul></li>
+  <li><a href="#simulation-study-for-ancova" id="toc-simulation-study-for-ancova" class="nav-link" data-scroll-target="#simulation-study-for-ancova">Simulation Study for ANCOVA</a>
+  <ul class="collapse">
+  <li><a href="#hypothesis" id="toc-hypothesis" class="nav-link" data-scroll-target="#hypothesis">Hypothesis</a></li>
+  <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables">Variables</a></li>
+  <li><a href="#simulate-data-1" id="toc-simulate-data-1" class="nav-link" data-scroll-target="#simulate-data-1">Simulate Data</a></li>
+  <li><a href="#examine-descriptive-statistics" id="toc-examine-descriptive-statistics" class="nav-link" data-scroll-target="#examine-descriptive-statistics">Examine Descriptive Statistics</a></li>
+  <li><a href="#visualize-the-data" id="toc-visualize-the-data" class="nav-link" data-scroll-target="#visualize-the-data">Visualize the Data</a></li>
+  </ul></li>
+  <li><a href="#unadjusted-one-way-anova" id="toc-unadjusted-one-way-anova" class="nav-link" data-scroll-target="#unadjusted-one-way-anova">Unadjusted One-Way ANOVA</a></li>
+  <li><a href="#ancova-model-do-these-differences-remain-after-controlling-for-family-support" id="toc-ancova-model-do-these-differences-remain-after-controlling-for-family-support" class="nav-link" data-scroll-target="#ancova-model-do-these-differences-remain-after-controlling-for-family-support">ANCOVA Model: Do these differences remain after controlling for family support?</a>
+  <ul class="collapse">
+  <li><a href="#unadjusted-and-adjusted-means" id="toc-unadjusted-and-adjusted-means" class="nav-link" data-scroll-target="#unadjusted-and-adjusted-means">Unadjusted and Adjusted Means</a></li>
+  </ul></li>
+  <li><a href="#testing-homogeneity-of-regression-slopes" id="toc-testing-homogeneity-of-regression-slopes" class="nav-link" data-scroll-target="#testing-homogeneity-of-regression-slopes">Testing Homogeneity of Regression Slopes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 4: ANOVAs Part III</h1>
+<h1 class="title"><span class="chapter-title">Chapter 4: ANOVAs Part III</span></h1>
 </div>
 
 
@@ -1715,11 +1932,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>A statistically significant <code>generation:family_support</code> interaction suggests that the slopes differ across generational groups. If this interaction is important, the assumption of homogeneous regression slopes is not supported, and the ANCOVA should not be summarized using one common adjusted group comparison. In this case the interaction was <em>not</em> statistically significant and so the assumption is met.</p>
+
+
 </section>
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -2120,6 +2338,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Chapter 4 ANOVAs Part II.html" class="pagination-link" aria-label="Chapter 4 ANOVAs Part II">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 4 ANOVAs Part II</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
