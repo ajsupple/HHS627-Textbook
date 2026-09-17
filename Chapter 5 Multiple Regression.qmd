@@ -1,0 +1,53 @@
+---
+title: "Chapter 4 ANOVAs Part III"
+author: "Andy Supple"
+format: html
+editor: source
+references: references.bib
+---
+
+
+
+
+
+# ANCOVA
+
+Analysis of Covariance
+
+Research Question:
+
+> Do interventions differ after controlling for baseline differences?
+
+Example:
+
+Outcome:
+
+- Posttest depression
+
+Group:
+
+- Treatment vs Control
+
+Covariate:
+
+- Baseline depression
+
+------------------------------------------------------------------------
+
+# ANCOVA Model
+
+ANCOVA combines:
+
+ANOVA +
+
+Regression
+
+Conceptually:
+
+$$Outcome =
+Group + Covariate + Error$$
+
+ANCOVA adjusts group means for preexisting differences.
+
+------------------------------------------------------------------------
+

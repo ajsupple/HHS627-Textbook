@@ -1,0 +1,2128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andy Supple">
+
+<title>Chapter 4: ANOVAs Part III</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Chapter 4 ANOVA Part III_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Chapter 4 ANOVA Part III_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Chapter 4 ANOVA Part III_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Chapter 4 ANOVA Part III_files/libs/quarto-html/popper.min.js"></script>
+<script src="Chapter 4 ANOVA Part III_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Chapter 4 ANOVA Part III_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Chapter 4 ANOVA Part III_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Chapter 4 ANOVA Part III_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Chapter 4 ANOVA Part III_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Chapter 4 ANOVA Part III_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Chapter 4 ANOVA Part III_files/libs/bootstrap/bootstrap-efbb37e9afcc02144ebbc7afd12a776f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 4: ANOVAs Part III</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andy Supple </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="repeated-measures-anova" class="level1">
+<h1>Repeated-Measures ANOVA</h1>
+<p>Up to this point, the ANOVAs we have examined have focused primarily on <strong>between-group differences</strong> in an outcome. These analyses compare mean scores across different groups of participants and are appropriate for between-subjects designs.</p>
+<p>Another important member of the ANOVA family is the <strong>repeated-measures ANOVA</strong> (RM ANOVA).</p>
+<p>A repeated-measures design involves collecting <strong>multiple assessments from the same participant</strong>. Rather than comparing mean scores between different groups of people, repeated-measures ANOVA evaluates whether mean scores differ <strong>within the same participants across multiple conditions or time points</strong>.</p>
+<p>Examples from health and human sciences research include:</p>
+<ul>
+<li>Do participants report different levels of exertion when running on a treadmill while talking with a friend, listening to music, listening to an audiobook, or listening to nothing?</li>
+<li>Do participants beginning a new weight-training regimen report higher levels of self-confidence at three and six months compared with baseline?</li>
+<li>Do parents who attend a divorce education program show reductions in interparental conflict from the beginning to the end of a 10-week intervention?</li>
+<li>Do participants report increased fruit and vegetable consumption after attending a nutrition education program compared with their consumption before the program?</li>
+</ul>
+<p>In each example, the primary research question concerns whether scores change within individuals across conditions or time points. Repeated measures are commonly used to evaluate change following an intervention, but they can also be used whenever researchers wish to compare participants’ ratings, preferences, or performance across multiple conditions.</p>
+<section id="mixed-designs" class="level2">
+<h2 class="anchored" data-anchor-id="mixed-designs">Mixed Designs</h2>
+<p>Many studies combine repeated measures with a traditional between-subjects grouping variable. These designs are called <strong>mixed designs</strong> because they include both:</p>
+<ul>
+<li>A <strong>within-subjects factor</strong>, representing repeated observations from the same participants.</li>
+<li>A <strong>between-subjects factor</strong>, representing differences between groups of participants.</li>
+</ul>
+<p>Researchers frequently use mixed designs to evaluate intervention effectiveness. In these studies:</p>
+<ul>
+<li>One group receives a treatment or intervention that is expected to produce change.</li>
+<li>A comparison or control group does not receive the intervention.</li>
+<li>Participants in both groups are measured repeatedly over time.</li>
+</ul>
+<p>Mixed designs allow researchers to address three questions:</p>
+<ol type="1">
+<li><strong>Within-subjects effect:</strong> Do participants change over time?</li>
+<li><strong>Between-subjects effect:</strong> Do the groups differ overall?</li>
+<li><strong>Interaction effect:</strong> Does the pattern of change over time differ across groups?</li>
+</ol>
+<p>For example, consider a study examining a six-week strength-training program:</p>
+<ul>
+<li>Does maximum leg-press strength increase from baseline to six weeks?</li>
+<li>Do participants in the training program have greater strength overall than participants in a comparison group?</li>
+<li>Does the increase in strength over time differ between the training and comparison groups?</li>
+</ul>
+<p>Researchers might expect the two groups to be similar at baseline but differ after six weeks. Statistically, this prediction corresponds to an <strong>interaction between time and group membership</strong>, indicating that the amount of change over time depends on whether participants participated in the strength-training program.</p>
+</section>
+</section>
+<section id="connection-to-the-paired-samples-t-test" class="level1">
+<h1>Connection to the Paired-Samples <em>t</em> Test</h1>
+<p>The paired-samples <em>t</em> test evaluates whether the mean difference between two measurements equals zero. Rather than comparing two independent groups, the same participant contributes two observations.</p>
+<p>Common examples include:</p>
+<ul>
+<li>Pretest versus posttest</li>
+<li>Before treatment versus after treatment</li>
+<li>Beginning of semester versus end of semester</li>
+<li>Parent report versus child report</li>
+<li>Two conditions measured on the same person</li>
+</ul>
+<p>For an independent-samples <em>t</em> test:</p>
+<p><span class="math display">\[
+\text{Person A is unrelated to Person B}
+\]</span></p>
+<p>For a paired-samples <em>t</em> test:</p>
+<p><span class="math display">\[
+\text{Observation 1 and Observation 2 belong to the same person}
+\]</span></p>
+<p>The observations are linked, or paired. Ignoring the pairing discards information and generally reduces statistical power.</p>
+<section id="difference-scores" class="level2">
+<h2 class="anchored" data-anchor-id="difference-scores">Difference Scores</h2>
+<p>The paired-samples <em>t</em> test focuses on the difference score:</p>
+<p><span class="math display">\[
+D = X_1 - X_2
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(X_1\)</span> is the first measurement.</li>
+<li><span class="math inline">\(X_2\)</span> is the second measurement.</li>
+<li><span class="math inline">\(D\)</span> is the difference score.</li>
+</ul>
+<p>These could represent</p>
+<ul>
+<li>Differences in participant scores before and after some experience</li>
+<li>Differences in wives’ and husbands’ report of marital conflict</li>
+<li>Differences in a participant’s motivation to excercise versus play video games</li>
+</ul>
+</section>
+<section id="null-and-alternative-hypotheses" class="level2">
+<h2 class="anchored" data-anchor-id="null-and-alternative-hypotheses">Null and Alternative Hypotheses</h2>
+<p>The null hypothesis is:</p>
+<p><span class="math display">\[
+H_0: \mu_D = 0
+\]</span></p>
+<p>The alternative hypothesis is:</p>
+<p><span class="math display">\[
+H_A: \mu_D \neq 0
+\]</span></p>
+<p>where <span class="math inline">\(\mu_D\)</span> is the population mean difference.</p>
+</section>
+<section id="test-statistic" class="level2">
+<h2 class="anchored" data-anchor-id="test-statistic">Test Statistic</h2>
+<p>The paired-samples <em>t</em> statistic is:</p>
+<p><span class="math display">\[
+t =
+\frac{\bar{D}}
+{s_D / \sqrt{n}}
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(\bar{D}\)</span> is the mean difference score.</li>
+<li><span class="math inline">\(s_D\)</span> is the standard deviation of the difference scores.</li>
+<li><span class="math inline">\(n\)</span> is the number of pairs.</li>
+</ul>
+<p>The formula can be interpreted as:</p>
+<p><span class="math display">\[
+t =
+\frac{\text{Signal}}
+{\text{Noise}}
+\]</span></p>
+<p>The signal is the average change. The noise is the uncertainty in that change.</p>
+</section>
+<section id="degrees-of-freedom" class="level2">
+<h2 class="anchored" data-anchor-id="degrees-of-freedom">Degrees of Freedom</h2>
+<p>For a paired-samples <em>t</em> test:</p>
+<p><span class="math display">\[
+df = n - 1
+\]</span></p>
+<p>For example, if there are 30 participants:</p>
+<p><span class="math display">\[
+df = 29
+\]</span></p>
+<p>Degrees of freedom depend on the number of pairs, not the total number of observations.</p>
+</section>
+<section id="assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="assumptions">Assumptions</h2>
+<section id="paired-observations" class="level3">
+<h3 class="anchored" data-anchor-id="paired-observations">1. Paired Observations</h3>
+<p>Scores must be meaningfully linked.</p>
+<p>Examples include:</p>
+<ul>
+<li>The same person measured twice</li>
+<li>Married couples</li>
+<li>Parent-child dyads</li>
+</ul>
+</section>
+<section id="independence-between-pairs" class="level3">
+<h3 class="anchored" data-anchor-id="independence-between-pairs">2. Independence Between Pairs</h3>
+<p>One participant’s scores should not influence another participant’s scores.</p>
+</section>
+<section id="approximate-normality-of-difference-scores" class="level3">
+<h3 class="anchored" data-anchor-id="approximate-normality-of-difference-scores">3. Approximate Normality of Difference Scores</h3>
+<p>The normality assumption applies to:</p>
+<p><span class="math display">\[
+D = X_1 - X_2
+\]</span></p>
+<p>The original variables do not each need to be perfectly normally distributed.</p>
+</section>
+</section>
+<section id="why-is-pairing-helpful" class="level2">
+<h2 class="anchored" data-anchor-id="why-is-pairing-helpful">Why Is Pairing Helpful?</h2>
+<p>Suppose people differ substantially in baseline characteristics. Comparing participants with themselves removes much of this person-to-person variability.</p>
+<p>As a result:</p>
+<ul>
+<li>Standard errors may decrease.</li>
+<li>Statistical power may increase.</li>
+<li>Smaller effects may become easier to detect.</li>
+</ul>
+<p>This is one reason repeated-measures designs are often efficient.</p>
+</section>
+<section id="effect-size" class="level2">
+<h2 class="anchored" data-anchor-id="effect-size">Effect Size</h2>
+<p>A common effect size for paired data is:</p>
+<p><span class="math display">\[
+d =
+\frac{\bar{D}}{s_D}
+\]</span></p>
+<p>General guidelines are:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;"><span class="math inline">\(d\)</span></th>
+<th style="text-align: left;">Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.20</td>
+<td style="text-align: left;">Small</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.50</td>
+<td style="text-align: left;">Medium</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.80</td>
+<td style="text-align: left;">Large</td>
+</tr>
+</tbody>
+</table>
+<p>Effect size should always be interpreted separately from statistical significance.</p>
+</section>
+<section id="r-code" class="level2">
+<h2 class="anchored" data-anchor-id="r-code">R Code</h2>
+<pre><code>t.test(
+  data$posttest,
+  data$pretest,
+  paired = TRUE)
+  </code></pre>
+</section>
+</section>
+<section id="repeated-measures-anova-1" class="level1">
+<h1>Repeated-Measures ANOVA</h1>
+<p>Repeated-measures ANOVA extends the paired-samples <em>t</em> test to situations involving three or more repeated conditions or time points. A two-level repeated-measures ANOVA is mathematically equivalent to a paired-samples <em>t</em> test.</p>
+<p>A mixed-design ANOVA additionally includes one or more between-subjects factors.</p>
+<section id="example-1-one-factor-repeated-measures-anova" class="level2">
+<h2 class="anchored" data-anchor-id="example-1-one-factor-repeated-measures-anova">Example 1: One-Factor Repeated-Measures ANOVA</h2>
+<section id="research-scenario" class="level3">
+<h3 class="anchored" data-anchor-id="research-scenario">Research Scenario</h3>
+<p>Suppose exercise researchers are interested in whether different auditory distractions influence perceived exertion during exercise.</p>
+<p>Participants complete a 20-minute treadmill run under four conditions:</p>
+<ul>
+<li>Talking with a friend</li>
+<li>Listening to music</li>
+<li>Listening to an audiobook</li>
+<li>No audio stimulus</li>
+</ul>
+<p>After each run, participants rate their perceived exertion on a scale ranging from 1 to 20.</p>
+</section>
+<section id="why-use-a-repeated-measures-anova" class="level3">
+<h3 class="anchored" data-anchor-id="why-use-a-repeated-measures-anova">Why Use a Repeated-Measures ANOVA?</h3>
+<p>A traditional one-way ANOVA would not be appropriate because the observations are not independent. Each participant contributes four observations, one for each listening condition.</p>
+<p>A repeated-measures ANOVA is appropriate because:</p>
+<ul>
+<li>The same participants experience all four conditions.</li>
+<li>Each participant serves as their own control.</li>
+<li>Stable individual differences can be separated from the within-person error term.</li>
+<li>The analysis evaluates whether mean exertion differs across listening conditions.</li>
+</ul>
+<p>The within-subjects factor is <code>condition</code>, with four levels:</p>
+<ul>
+<li>Talking</li>
+<li>Music</li>
+<li>Audiobook</li>
+<li>Silence</li>
+</ul>
+<p>The outcome variable is perceived exertion.</p>
+</section>
+<section id="simulate-data" class="level3">
+<h3 class="anchored" data-anchor-id="simulate-data">Simulate Data</h3>
+<p>The simulation includes a participant-level effect so that scores from the same participant are positively correlated across conditions.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">627</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>participant_effect <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">factor</span>(<span class="dv">1</span><span class="sc">:</span>n),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">talking =</span> <span class="fl">14.5</span> <span class="sc">+</span> participant_effect <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">1.5</span>),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">music =</span> <span class="fl">13.0</span> <span class="sc">+</span> participant_effect <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">1.5</span>),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">audiobook =</span> <span class="fl">14.0</span> <span class="sc">+</span> participant_effect <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">1.5</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">silence =</span> <span class="fl">15.5</span> <span class="sc">+</span> participant_effect <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">1.5</span>))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id  talking     music audiobook  silence
+1  1 15.65725 12.111609  14.09196 14.42829
+2  2 13.41045 13.070248  12.43826 16.73736
+3  3 11.05417 12.940270  13.38861 15.21541
+4  4 14.66509 13.872669  15.73124 16.14007
+5  5 12.06789  9.571999  10.04246 13.67842
+6  6 12.10963 10.538199  12.31302 11.73187</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that these are <em>wide</em> format data. There is one row per id # and then there are columns for each of the conditions, the rows contain the single id # and then scores on perceived exertion across the conditions. For our analysis, these data need to be “turned” or reformatted into a person-period or long dataframe structure.</p>
+</div>
+</div>
+</section>
+<section id="reshape-to-long-format-using-pivot_longer" class="level3">
+<h3 class="anchored" data-anchor-id="reshape-to-long-format-using-pivot_longer">Reshape to Long Format using pivot_longer</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>long_dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> talking<span class="sc">:</span>silence, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"condition"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"exertion"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">condition =</span> <span class="fu">factor</span>(condition,<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"talking"</span>, <span class="st">"music"</span>, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"audiobook"</span>, <span class="st">"silence"</span>)))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># pivot_longer function takes the columns of talking:silence or talking, music, </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># audiobook, silence and makes them longer, moves their names to a column called</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 'condition' and then takes the values in those original variables and puts </span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># them in a new column called 'exertion'</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># mutate is a modification to avariable, in this care creatina a factor variable</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># out of 'condition' and given it levels</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  id    condition exertion
+  &lt;fct&gt; &lt;fct&gt;        &lt;dbl&gt;
+1 1     talking       15.7
+2 1     music         12.1
+3 1     audiobook     14.1
+4 1     silence       14.4
+5 2     talking       13.4
+6 2     music         13.1</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Turning data details">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Turning data details
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the original wide-format data, each row represents one participant and each condition is represented by a separate column. In the long-format data, each participant has one row for each repeated condition.</p>
+<p>The above R code uses <em>pivot_longer</em> which is a tidyr function. It takes data in a wide-format and “pivots” it to a long format.</p>
+<p>In the long format, the participant id is repeated - in this case four times - and each participant has a level in “condition” because each participant is “exposed” to the same condition. Then there are four exertion scores for each participant and the RM-ANOVA will focus on if there are mean differences across conditions but <strong>within</strong> participants.</p>
+</div>
+</div>
+</section>
+<section id="examine-means-by-condition" class="level3">
+<h3 class="anchored" data-anchor-id="examine-means-by-condition">Examine Means by Condition</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This uses dplyr functions</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by = put together scores in a grouping, in this case condition across </span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># participants</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize across n = n (uses the n from the dataframe), creates a new variable </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># called mean_exertion, computes that via the mean of the variable (exertion)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># same for sd = standard deviation</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># groups = "drop" just stops the grouping to avoid any dplyr warnings</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>long_dat <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(condition) <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(),<span class="at">mean_exertion =</span> <span class="fu">mean</span>(exertion),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_exertion =</span> <span class="fu">sd</span>(exertion),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  condition     n mean_exertion sd_exertion
+  &lt;fct&gt;     &lt;int&gt;         &lt;dbl&gt;       &lt;dbl&gt;
+1 talking      30          14.4        1.96
+2 music        30          12.6        1.80
+3 audiobook    30          13.6        2.02
+4 silence      30          15.5        1.63</code></pre>
+</div>
+</div>
+<p>Looking at these means, appears as if more exertion reported when exercising in silence, lowest with music</p>
+</section>
+<section id="conduct-the-repeated-measures-anova" class="level3">
+<h3 class="anchored" data-anchor-id="conduct-the-repeated-measures-anova">Conduct the Repeated-Measures ANOVA</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model_exer <span class="ot">&lt;-</span> <span class="fu">aov</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  exertion <span class="sc">~</span> condition <span class="sc">+</span> <span class="fu">Error</span>(id <span class="sc">/</span> condition),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> long_dat</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_exer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Error: id
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals 29  219.1   7.554               
+
+Error: id:condition
+          Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+condition  3  130.4   43.45   20.66 3.39e-10 ***
+Residuals 87  183.0    2.10                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>These results suggest that the F value is statistically significant, meaning that there is at least one mean comparison across the conditions that is different from another.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="What does Error(id / condition) mean?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What does Error(id / condition) mean?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Repeated-measures data contain observations that are related because they come from the same participant. We therefore need to tell R that the four condition scores for a given participant should not be treated as independent observations.</p>
+<p>The expression Error(id / condition) specifies the error structure for the repeated-measures ANOVA. It tells aov() to account for variability associated with participants and with participant-by-condition differences when testing the effect of condition.</p>
+</div>
+</div>
+</section>
+<section id="follow-up-pairwise-comparisons" class="level3">
+<h3 class="anchored" data-anchor-id="follow-up-pairwise-comparisons">Follow-Up Pairwise Comparisons</h3>
+<p>Just like with One-Way ANOVAs, when there is a statistically significant F test, follow-up comparisons are helpful to determine which specific conditions varied in mean levels of perceived exertion.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  model_exer,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  pairwise <span class="sc">~</span> condition)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+ condition emmean   SE   df lower.CL upper.CL
+ talking     14.4 0.34 79.2     13.7     15.0
+ music       12.6 0.34 79.2     11.9     13.3
+ audiobook   13.6 0.34 79.2     12.9     14.3
+ silence     15.5 0.34 79.2     14.8     16.1
+
+Warning: EMMs are biased unless design is perfectly balanced 
+Confidence level used: 0.95 
+
+$contrasts
+ contrast            estimate    SE df t.ratio p.value
+ talking - music        1.755 0.374 87   4.687 &lt;0.0001
+ talking - audiobook    0.747 0.374 87   1.995  0.1980
+ talking - silence     -1.096 0.374 87  -2.928  0.0222
+ music - audiobook     -1.008 0.374 87  -2.692  0.0416
+ music - silence       -2.851 0.374 87  -7.614 &lt;0.0001
+ audiobook - silence   -1.843 0.374 87  -4.922 &lt;0.0001
+
+P value adjustment: tukey method for comparing a family of 4 estimates </code></pre>
+</div>
+</div>
+<p><em>Interpretation</em>: In terms of overall means, perceived exertion was highest in the <strong>silence</strong> group, followed by the talking group, then the audiobook, and then the music group (see emmeans above). There were statistically significant mean differences across conditions with perceived exertion being higher in the silence condition when compared to the other three groups. For example, the result <code>music - silence       -2.851 0.374 87  -7.614 &lt;0.0001</code> suggests that - on average - participants reported exertion to be 2.851 points lower in the music condition then when in the silence condition. That estimate has a standard error of .374, there are 87 degrees of freedom for this specific <em>t</em> test, and the critical value has a <span class="math inline">\(p-value\)</span> of &lt; .0001.</p>
+</section>
+</section>
+<section id="example-2-mixed-design-anova" class="level2">
+<h2 class="anchored" data-anchor-id="example-2-mixed-design-anova">Example 2: Mixed-Design ANOVA</h2>
+<section id="research-scenario-1" class="level3">
+<h3 class="anchored" data-anchor-id="research-scenario-1">Research Scenario</h3>
+<p>Researchers develop a six-week strength-training intervention and wish to determine whether participation in the program is associated with greater improvement in leg-press strength than participation in a comparison group. <em>Untrained</em> athletes who currently do not lift weights were first recruited and then randomly assigned to one of two conditions: the strength training program and a control group. The experimental group was led by a personal trainer and coached on how to properly work to muscle failure with proper form. The control group was asked to work on their leg press strength by going to the recreation center at a university. Participants in both conditions were rewarded with $10 each time they “swiped in” at the student recreation center using their university provided ID.</p>
+<p>Participants are assessed at:</p>
+<ul>
+<li>Baseline</li>
+<li>Six weeks</li>
+</ul>
+<p>Participants belong to one of two groups:</p>
+<ul>
+<li>Training program</li>
+<li>Control group</li>
+</ul>
+</section>
+<section id="design" class="level3">
+<h3 class="anchored" data-anchor-id="design">Design</h3>
+<p>The repeated-measures factor is <code>time</code>, with two levels:</p>
+<ul>
+<li>Baseline</li>
+<li>Six weeks</li>
+</ul>
+<p>The between-subjects factor is <code>group</code>, with two levels:</p>
+<ul>
+<li>Training</li>
+<li>Control</li>
+</ul>
+<p>A mixed-design ANOVA addresses three questions:</p>
+<ol type="1">
+<li>Do participants change over time?</li>
+<li>Do groups differ overall?</li>
+<li>Does the amount of change over time differ between groups?</li>
+</ol>
+<p>The third question is usually the primary intervention question because it evaluates whether improvement differs between the training and control groups.</p>
+</section>
+<section id="hypothesized-means" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesized-means">Hypothesized Means</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: right;">Baseline</th>
+<th style="text-align: right;">Six Weeks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Control</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">104</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Training</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">125</td>
+</tr>
+</tbody>
+</table>
+<p>Both groups are expected to begin at approximately the same strength level, but the training group is expected to improve more over time.</p>
+<p>The simulation includes a participant-level random effect that is added to both baseline and posttest scores. Because the same effect contributes to both measurements, scores from the same participant are correlated.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  id   group       pre      post
+1  1 Control  91.97698  85.22456
+2  2 Control  86.35591  97.69305
+3  3 Control  97.55524  97.33496
+4  4 Control 108.16620 105.62815
+5  5 Control  92.06885 106.27937
+6  6 Control  97.35751  93.94829</code></pre>
+</div>
+</div>
+</section>
+<section id="next-step-is-reshaping-or-turning-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="next-step-is-reshaping-or-turning-the-data">Next step is reshaping or turning the data</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>long_training_df <span class="ot">&lt;-</span> training_df <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>( <span class="at">cols =</span> pre<span class="sc">:</span>post,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"time"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"strength"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">factor</span>(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      time,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"pre"</span>, <span class="st">"post"</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Baseline"</span>, <span class="st">"Six Weeks"</span>)))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_training_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+     id group   time      strength
+  &lt;int&gt; &lt;fct&gt;   &lt;fct&gt;        &lt;dbl&gt;
+1     1 Control Baseline      92.0
+2     1 Control Six Weeks     85.2
+3     2 Control Baseline      86.4
+4     2 Control Six Weeks     97.7
+5     3 Control Baseline      97.6
+6     3 Control Six Weeks     97.3</code></pre>
+</div>
+</div>
+<p>This <em>tibble</em> shows repeated id numbers in the first column, and then baseline and six weeks strength scores for the first 3 participants in the control group.</p>
+</section>
+<section id="examine-cell-means" class="level3">
+<h3 class="anchored" data-anchor-id="examine-cell-means">Examine Cell Means</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>long_training_df <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group, time) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_strength =</span> <span class="fu">mean</span>(strength),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_strength =</span> <span class="fu">sd</span>(strength),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  group    time          n mean_strength sd_strength
+  &lt;fct&gt;    &lt;fct&gt;     &lt;int&gt;         &lt;dbl&gt;       &lt;dbl&gt;
+1 Control  Baseline     25          98.8       11.1 
+2 Control  Six Weeks    25         100.        11.6 
+3 Training Baseline     25         100.         8.23
+4 Training Six Weeks    25         125.         8.57</code></pre>
+</div>
+</div>
+<p>These results suggest that the difference in mean strength from baseline to six weeks looks small in the control group and looks much bigger in the training group. That would imply a <em>time X condition</em> interaction where the change from baseline to six weeks depends on group.</p>
+</section>
+<section id="conduct-the-mixed-design-anova-using-the-afex-package" class="level3">
+<h3 class="anchored" data-anchor-id="conduct-the-mixed-design-anova-using-the-afex-package">Conduct the Mixed-Design ANOVA using the <code>afex</code> package</h3>
+<div class="callout callout-style-default callout-note callout-titled" title="The 'afex' package for RM-ANOVAs">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The ‘afex’ package for RM-ANOVAs
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>afex::aov_ez() is designed for repeated-measures and mixed-design ANOVA. By default, it uses Type III sums of squares and sum-to-zero coding for categorical predictors. This is a common choice for factorial and mixed designs, especially when the design is not perfectly balanced. In balanced designs, Type II and Type III tests are often similar; in unbalanced designs, the choice of SS type can affect the results, so it should be reported clearly.</p>
+<p><code>afex</code> is also useful because it can:</p>
+<ul>
+<li>Report appropriate corrections for violations of sphericity. (<em>see below</em>)</li>
+<li>Provide Greenhouse-Geisser and Huynh-Feldt adjusted results when needed. (<em>see below</em>)</li>
+<li>Report effect sizes such as generalized eta squared.</li>
+<li>Handle complex repeated-measures error structures more transparently than a manually specified <code>aov()</code> model.</li>
+<li>Work well with <code>emmeans()</code> for follow-up comparisons.</li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>model_strength <span class="ot">&lt;-</span> <span class="fu">aov_ez</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="st">"id"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dv =</span> <span class="st">"strength"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">within =</span> <span class="st">"time"</span>,                   <span class="co"># Time varies within participants</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">between =</span> <span class="st">"group"</span>,                 <span class="co"># group varies between participants only</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> long_training_df</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_strength)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: strength
+           num Df den Df     MSE       F     ges    Pr(&gt;F)    
+group           1     48 177.831  24.643 0.31358 9.106e-06 ***
+time            1     48  22.021 202.380 0.31721 &lt; 2.2e-16 ***
+group:time      1     48  22.021 159.483 0.26799 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>In a scenario like this, where these is a statistically significant interaction, the main effects should be interpreted with caution because those are misleading.</p>
+<p>In order to understand better the nature of the interaction, it is often helpful to create a plot of conditional means in the outcome (strength) across the different levels of the two factors, time and group.</p>
+</section>
+<section id="visualize-the-interaction" class="level3">
+<h3 class="anchored" data-anchor-id="visualize-the-interaction">Visualize the Interaction</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>long_training_df <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group, time) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_strength =</span> <span class="fu">mean</span>(strength),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> time,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> mean_strength,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> group,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">group =</span> group</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Mean Leg-Press Strength"</span>,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Group"</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter-4-ANOVA-Part-III_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This visual makes it clear that the time <strong>effect</strong> in the control group is very small, whereas it is much larger in the training group (blue line). This figure plots out conditional means, or means at different levels of two factors</p>
+</section>
+<section id="interpreting-the-three-effects" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-the-three-effects">Interpreting the Three Effects</h3>
+<p>Main Effect of Time: whether participants change from baseline to six weeks, averaging across groups.</p>
+<p>Main Effect of Group: whether the training and control groups differ overall, averaging across time.</p>
+<p>Time-by-Group Interaction: whether the amount of change over time depends on group membership.</p>
+<p>In an intervention study, this interaction is often the primary research question. A significant interaction indicates that the groups have different patterns of change. The direction and practical meaning of that interaction should be examined using cell means, a graph, and follow-up comparisons.</p>
+<p>In the case of a statistically significant interaction, beyond a figure, we can also look at mean comparisons using emmeans and compare groups at each time point with this:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  model_strength,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  pairwise <span class="sc">~</span> group <span class="sc">|</span> time)   <span class="co"># the vertical bar | means nested in</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+time = Baseline:
+ group    emmean   SE df lower.CL upper.CL
+ Control    98.8 1.96 48     94.8      103
+ Training  100.2 1.96 48     96.2      104
+
+time = Six.Weeks:
+ group    emmean   SE df lower.CL upper.CL
+ Control   100.3 2.04 48     96.2      104
+ Training  125.4 2.04 48    121.3      129
+
+Confidence level used: 0.95 
+
+$contrasts
+time = Baseline:
+ contrast           estimate   SE df t.ratio p.value
+ Control - Training    -1.39 2.77 48  -0.501  0.6188
+
+time = Six.Weeks:
+ contrast           estimate   SE df t.ratio p.value
+ Control - Training   -25.09 2.88 48  -8.704 &lt;0.0001</code></pre>
+</div>
+</div>
+<p>Which shows us that <em>at baseline</em> there was <em>no</em> different in strength across groups.</p>
+<p>At six weeks, however, as hypothesized, there was a group difference favoring the training group.</p>
+<p>Researchers can also compare time points within each group:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  model_strength,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  pairwise <span class="sc">~</span> time <span class="sc">|</span> group)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+group = Control:
+ time      emmean   SE df lower.CL upper.CL
+ Baseline    98.8 1.96 48     94.8      103
+ Six.Weeks  100.3 2.04 48     96.2      104
+
+group = Training:
+ time      emmean   SE df lower.CL upper.CL
+ Baseline   100.2 1.96 48     96.2      104
+ Six.Weeks  125.4 2.04 48    121.3      129
+
+Confidence level used: 0.95 
+
+$contrasts
+group = Control:
+ contrast             estimate   SE df t.ratio p.value
+ Baseline - Six.Weeks     -1.5 1.33 48  -1.130  0.2643
+
+group = Training:
+ contrast             estimate   SE df t.ratio p.value
+ Baseline - Six.Weeks    -25.2 1.33 48 -18.989 &lt;0.0001</code></pre>
+</div>
+</div>
+<p>And with these results we can see that within the training group there is a large difference score from baseline to six weeks, and a small difference score from baseline to six weeks in the control group.</p>
+<p>Together these post hoc results and the figure give us a nice conceptual sense of how effective the intervention program was.</p>
+</section>
+</section>
+</section>
+<section id="repeated-measures-anova-with-more-than-two-time-points" class="level1">
+<h1>Repeated-Measures ANOVA with More Than Two Time Points</h1>
+<p>Many studies include more than two measurement occasions. These studies may involve interventions related to health, nutrition, exercise, parenting, or education. They may also examine developmental change and whether that change differs across groups.</p>
+<p>Traditional repeated-measures ANOVA can be useful for simple, balanced designs. However, many contemporary researchers use linear mixed models for more complex longitudinal data. Linear mixed models can:</p>
+<ul>
+<li>Accommodate some incomplete data under assumptions about the missing-data mechanism.</li>
+<li>Model participant-level random effects.</li>
+<li>Represent more flexible covariance structures.</li>
+<li>Avoid requiring sphericity for the repeated-measures outcome.</li>
+</ul>
+<p>Mixed models do not automatically solve missing-data problems. Their validity depends on model assumptions, including assumptions about how data are missing.</p>
+<p>Mixed models (<em>later in semester</em>) overcome two other significant flaws with RM ANOVAs.</p>
+<section id="missing-data" class="level3">
+<h3 class="anchored" data-anchor-id="missing-data">Missing Data</h3>
+<p>Traditional repeated-measures ANOVA generally requires complete data for every participant across all measurement occasions. If a participant is missing even a single observation, many implementations remove that participant from the analysis.</p>
+<p>For example, suppose a participant completes assessments at baseline and three months but misses the six-month assessment. In a traditional complete-case repeated-measures ANOVA, that participant would typically be excluded.</p>
+<p>This approach, known as listwise deletion, can create several problems:</p>
+<ul>
+<li>Reduced sample size and statistical power.</li>
+<li>Potential bias if missingness is related to the outcome or predictors.</li>
+<li>Loss of information from participants who completed most of the study.</li>
+</ul>
+<p>Linear mixed models can often incorporate participants with incomplete data, provided the model and missing-data assumptions are reasonable.</p>
+</section>
+<section id="sphericity" class="level3">
+<h3 class="anchored" data-anchor-id="sphericity">Sphericity</h3>
+<p>Sphericity is an assumption concerning the variances of difference scores among the levels of a within-subjects factor.</p>
+<p>For a study with three measurement occasions:</p>
+<ul>
+<li>Baseline</li>
+<li>Three months</li>
+<li>Six months</li>
+</ul>
+<p>the relevant difference scores include:</p>
+<ul>
+<li>Baseline minus three months</li>
+<li>Baseline minus six months</li>
+<li>Three months minus six months</li>
+</ul>
+<p>Sphericity requires the variances of these difference scores to be approximately equal.</p>
+</section>
+<section id="why-does-sphericity-matter" class="level3">
+<h3 class="anchored" data-anchor-id="why-does-sphericity-matter">Why Does Sphericity Matter?</h3>
+<p>Violations of sphericity can inflate the Type I error rate. This means that researchers may be more likely to conclude that a statistically significant effect exists when the effect is not actually present in the population.</p>
+<p>Sphericity is relevant for within-subjects effects with three or more levels. With only two levels, there is only one set of difference scores, so sphericity is automatically satisfied.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Design</th>
+<th style="text-align: center;">Sphericity Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Pretest versus posttest</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Baseline, three months, six months</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Four listening conditions</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="testing-sphericity" class="level3">
+<h3 class="anchored" data-anchor-id="testing-sphericity">Testing Sphericity</h3>
+<p>The most common test of sphericity is Mauchly’s test.</p>
+<p>The hypotheses are:</p>
+<p><span class="math display">\[
+H_0: \text{Sphericity is satisfied}
+\]</span></p>
+<p><span class="math display">\[
+H_A: \text{Sphericity is violated}
+\]</span></p>
+<p>Interpretation is usually described as follows:</p>
+<ul>
+<li>A nonsignificant result, <span class="math inline">\(p &gt; .05\)</span>, provides no evidence against sphericity. It does not prove that the assumption is exactly true.</li>
+<li>A significant result, <span class="math inline">\(p &lt; .05\)</span>, indicates evidence that sphericity has been violated.</li>
+</ul>
+<p>Because Mauchly’s test can be sensitive to sample size, it should be considered along with the design, the data, and the corrected results.</p>
+</section>
+<section id="adjusting-for-violations-of-sphericity" class="level3">
+<h3 class="anchored" data-anchor-id="adjusting-for-violations-of-sphericity">Adjusting for Violations of Sphericity</h3>
+<p>When sphericity is violated, researchers typically apply a correction to the degrees of freedom used in the <em>F</em> test.</p>
+<section id="greenhouse-geisser-correction" class="level4">
+<h4 class="anchored" data-anchor-id="greenhouse-geisser-correction">Greenhouse-Geisser Correction</h4>
+<p>The Greenhouse-Geisser correction is commonly reported. It:</p>
+<ul>
+<li>Reduces the degrees of freedom.</li>
+<li>Produces a more conservative test.</li>
+<li>Usually produces a larger <em>p</em> value.</li>
+<li>Provides protection against inflated Type I error.</li>
+</ul>
+</section>
+<section id="huynh-feldt-correction" class="level4">
+<h4 class="anchored" data-anchor-id="huynh-feldt-correction">Huynh-Feldt Correction</h4>
+<p>The Huynh-Feldt correction is less conservative than the Greenhouse-Geisser correction. It adjusts the degrees of freedom to a lesser extent and is sometimes used when the violation is relatively mild.</p>
+</section>
+</section>
+<section id="reporting-corrected-results" class="level3">
+<h3 class="anchored" data-anchor-id="reporting-corrected-results">Reporting Corrected Results</h3>
+<p>When Mauchly’s test indicates that sphericity has been violated, researchers should report the selected corrected test. For example:</p>
+<blockquote class="blockquote">
+<p>Mauchly’s test indicated that the assumption of sphericity was violated. Therefore, Greenhouse-Geisser-corrected results were interpreted. The effect of time remained statistically significant, <em>F</em>(1.84, 53.24) = 8.72, <em>p</em> = .001.</p>
+</blockquote>
+<p>The numerical values in this example are illustrative. Actual values should always be taken from the statistical output.</p>
+</section>
+<section id="example-3-mixed-design-anova-with-three-repeated-measures" class="level2">
+<h2 class="anchored" data-anchor-id="example-3-mixed-design-anova-with-three-repeated-measures">Example 3: Mixed-Design ANOVA with Three Repeated Measures</h2>
+<section id="research-scenario-2" class="level3">
+<h3 class="anchored" data-anchor-id="research-scenario-2">Research Scenario</h3>
+<p>In a study of older women, researchers at Arizona State University were interested in whether high-intensity interval training (HIIT) would lead to greater improvements in cardiorespiratory fitness than a traditional steady-state elliptical training program.</p>
+<p>To test their hypothesis, the researchers recruited women between the ages of 50 and 65 and randomly assigned participants to one of two conditions:</p>
+<ol type="1">
+<li>HIIT training exercise program</li>
+<li>Steady-state training program</li>
+</ol>
+<p>To assess cardiorespiratory fitness, the researchers measured VO₂ Max at three time points:</p>
+<ol type="1">
+<li>Baseline</li>
+<li>Three months</li>
+<li>Six months</li>
+</ol>
+</section>
+<section id="design-1" class="level3">
+<h3 class="anchored" data-anchor-id="design-1">Design</h3>
+<p>The within-subjects factor is <code>time</code>, with three levels:</p>
+<ul>
+<li>Baseline</li>
+<li>Month 3</li>
+<li>Month 6</li>
+</ul>
+<p>The between-subjects factor is <code>group</code>, with two levels:</p>
+<ul>
+<li>HIIT</li>
+<li>Steady-State</li>
+</ul>
+<p>The dependent variable is VO₂ Max, measured in mL/kg/min.</p>
+</section>
+<section id="hypothesized-means-1" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesized-means-1">Hypothesized Means</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: right;">Baseline</th>
+<th style="text-align: right;">Month 3</th>
+<th style="text-align: right;">Month 6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Steady-State</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HIIT</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">46</td>
+</tr>
+</tbody>
+</table>
+<p>Both groups are expected to improve over time, but the HIIT group is expected to improve more rapidly.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  id        group baseline   month3   month6
+1  1 Steady-State 33.03352 36.66743 36.72798
+2  2 Steady-State 33.74232 33.02234 39.68750
+3  3 Steady-State 34.58228 35.66285 38.20750
+4  4 Steady-State 37.63136 41.06231 41.24369
+5  5 Steady-State 27.96710 29.08453 34.64446
+6  6 Steady-State 29.73716 33.02853 31.55994</code></pre>
+</div>
+</div>
+</section>
+<section id="convert-to-long-format" class="level3">
+<h3 class="anchored" data-anchor-id="convert-to-long-format">Convert to Long Format</h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+     id group        time     vo2max
+  &lt;int&gt; &lt;fct&gt;        &lt;fct&gt;     &lt;dbl&gt;
+1     1 Steady-State Baseline   33.0
+2     1 Steady-State Month 3    36.7
+3     1 Steady-State Month 6    36.7
+4     2 Steady-State Baseline   33.7
+5     2 Steady-State Month 3    33.0
+6     2 Steady-State Month 6    39.7</code></pre>
+</div>
+</div>
+</section>
+<section id="examine-cell-means-1" class="level3">
+<h3 class="anchored" data-anchor-id="examine-cell-means-1">Examine Cell Means</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>long_hiit_df <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group, time) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_vo2max =</span> <span class="fu">mean</span>(vo2max),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_vo2max =</span> <span class="fu">sd</span>(vo2max),</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  group        time         n mean_vo2max sd_vo2max
+  &lt;fct&gt;        &lt;fct&gt;    &lt;int&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+1 Steady-State Baseline    30        34.1      3.87
+2 Steady-State Month 3     30        36.1      4.44
+3 Steady-State Month 6     30        38.7      3.56
+4 HIIT         Baseline    30        34.4      3.42
+5 HIIT         Month 3     30        41.2      4.66
+6 HIIT         Month 6     30        46.5      3.24</code></pre>
+</div>
+</div>
+</section>
+<section id="conduct-the-mixed-design-anova-using-afex" class="level3">
+<h3 class="anchored" data-anchor-id="conduct-the-mixed-design-anova-using-afex">Conduct the Mixed-Design ANOVA using afex</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>model_vo2 <span class="ot">&lt;-</span> <span class="fu">aov_ez</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="st">"id"</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dv =</span> <span class="st">"vo2max"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">within =</span> <span class="st">"time"</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">between =</span> <span class="st">"group"</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> long_hiit_df</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_vo2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: vo2max
+           num Df den Df    MSE       F     ges    Pr(&gt;F)    
+group      1.0000  58.00 32.443  26.431 0.24454 3.362e-06 ***
+time       1.9026 110.35  6.955 159.813 0.44391 &lt; 2.2e-16 ***
+group:time 1.9026 110.35  6.955  33.587 0.14366 9.454e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Again, there is a statistically signficant interaction indicating that the time effect varies by group. We can start with a visualization to get a sense of what that interaction might look like.</p>
+</section>
+</section>
+<section id="visualize-the-interaction-1" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-the-interaction-1">Visualize the Interaction</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>long_hiit_df <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group, time) <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_vo2 =</span> <span class="fu">mean</span>(vo2max),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> time,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> mean_vo2,</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> group,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">group =</span> group</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span>,</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Mean VO₂ Max"</span>,</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Training Program"</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter-4-ANOVA-Part-III_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interpreting-the-anova-results" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-anova-results">Interpreting the ANOVA results</h2>
+<p>The statistically significant F tests suggested that:</p>
+<ol type="1">
+<li>Main Effect of Time: VO₂ Max scores were different across time from baseline to Month 3 to Month 6, averaging across both training programs.</li>
+<li>Main effect of Group: Participants in the HIIT and Steady-State programs had different <span class="math inline">\(VO_2\)</span> max scores averaging across all three measurement occasions.</li>
+<li>Time-by-Group Interaction: The pattern of change in VO₂ Max over time differed between the two exercise programs</li>
+</ol>
+<p>The interaction is the most interesting and important effect, because the main hypothesis suggests that the effect of time on increased <span class="math inline">\(VO_2\)</span> Max is <strong><em>different</em></strong> depending on which group someone is in.</p>
+<p>Put another way, everyone should show an increase, but that increase is moderated by, or depends on which exercise regimen they were assigned to.</p>
+<section id="evaluating-sphericity" class="level3">
+<h3 class="anchored" data-anchor-id="evaluating-sphericity">Evaluating Sphericity</h3>
+<p>Because this study contains three repeated measurements, sphericity must be considered. The <code>afex</code> output can provide corrected tests for within-subjects effects.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_vo2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+            Sum Sq num Df Error SS den Df  F value    Pr(&gt;F)    
+(Intercept) 266818      1  1881.70     58 8224.190 &lt; 2.2e-16 ***
+group          858      1  1881.70     58   26.431 3.362e-06 ***
+time          2115      2   767.49    116  159.813 &lt; 2.2e-16 ***
+group:time     444      2   767.49    116   33.587 3.109e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Mauchly Tests for Sphericity
+
+           Test statistic p-value
+time              0.94879 0.22356
+group:time        0.94879 0.22356
+
+
+Greenhouse-Geisser and Huynh-Feldt Corrections
+ for Departure from Sphericity
+
+            GG eps Pr(&gt;F[GG])    
+time       0.95129  &lt; 2.2e-16 ***
+group:time 0.95129  9.454e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+              HF eps   Pr(&gt;F[HF])
+time       0.9826826 1.638855e-33
+group:time 0.9826826 4.615791e-12</code></pre>
+</div>
+</div>
+<p>These results suggested that there were no violations of the sphericity assumption, because the Mauchly Test was n.s.</p>
+<p>If sphericity were violated, then the alternative results presented above could be used to draw study conclusions via the Greenhouse-Geisser or Huynh-Feldt corrected results.</p>
+</section>
+<section id="follow-up-comparisons" class="level3">
+<h3 class="anchored" data-anchor-id="follow-up-comparisons">Follow-Up Comparisons</h3>
+<p>If the interaction is statistically significant, follow-up analyses can identify where the groups differ.</p>
+<section id="compare-groups-at-each-time-point" class="level4">
+<h4 class="anchored" data-anchor-id="compare-groups-at-each-time-point">Compare Groups at Each Time Point</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  model_vo2,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  pairwise <span class="sc">~</span> group <span class="sc">|</span> time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+time = Baseline:
+ group        emmean    SE df lower.CL upper.CL
+ Steady-State   34.1 0.666 58     32.8     35.5
+ HIIT           34.4 0.666 58     33.0     35.7
+
+time = Month.3:
+ group        emmean    SE df lower.CL upper.CL
+ Steady-State   36.1 0.832 58     34.5     37.8
+ HIIT           41.2 0.832 58     39.5     42.8
+
+time = Month.6:
+ group        emmean    SE df lower.CL upper.CL
+ Steady-State   38.7 0.622 58     37.5     39.9
+ HIIT           46.5 0.622 58     45.3     47.8
+
+Confidence level used: 0.95 
+
+$contrasts
+time = Baseline:
+ contrast              estimate    SE df t.ratio p.value
+ (Steady-State) - HIIT   -0.232 0.942 58  -0.246  0.8067
+
+time = Month.3:
+ contrast              estimate    SE df t.ratio p.value
+ (Steady-State) - HIIT   -5.018 1.180 58  -4.267 &lt;0.0001
+
+time = Month.6:
+ contrast              estimate    SE df t.ratio p.value
+ (Steady-State) - HIIT   -7.846 0.880 58  -8.920 &lt;0.0001</code></pre>
+</div>
+</div>
+<p>At 3 and 6 months we see a group difference, but not at baseline.</p>
+</section>
+<section id="compare-time-points-within-each-group" class="level4">
+<h4 class="anchored" data-anchor-id="compare-time-points-within-each-group">Compare Time Points Within Each Group</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  model_vo2,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  pairwise <span class="sc">~</span> time <span class="sc">|</span> group)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+group = Steady-State:
+ time     emmean    SE df lower.CL upper.CL
+ Baseline   34.1 0.666 58     32.8     35.5
+ Month.3    36.1 0.832 58     34.5     37.8
+ Month.6    38.7 0.622 58     37.5     39.9
+
+group = HIIT:
+ time     emmean    SE df lower.CL upper.CL
+ Baseline   34.4 0.666 58     33.0     35.7
+ Month.3    41.2 0.832 58     39.5     42.8
+ Month.6    46.5 0.622 58     45.3     47.8
+
+Confidence level used: 0.95 
+
+$contrasts
+group = Steady-State:
+ contrast           estimate    SE df t.ratio p.value
+ Baseline - Month.3    -2.01 0.716 58  -2.812  0.0181
+ Baseline - Month.6    -4.59 0.587 58  -7.806 &lt;0.0001
+ Month.3 - Month.6     -2.57 0.682 58  -3.769  0.0011
+
+group = HIIT:
+ contrast           estimate    SE df t.ratio p.value
+ Baseline - Month.3    -6.80 0.716 58  -9.498 &lt;0.0001
+ Baseline - Month.6   -12.20 0.587 58 -20.770 &lt;0.0001
+ Month.3 - Month.6     -5.40 0.682 58  -7.912 &lt;0.0001
+
+P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
+</div>
+</div>
+<p>These results suggest that we see differences across time points in both groups that are statistically significant. Both groups improved in their cardiorespiratory capacity. We can see that those differences across time points appear larger and that is what the interaction test tells us as well.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="analysis-of-covariance" class="level1">
+<h1>Analysis of Covariance</h1>
+<section id="what-is-ancova" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-ancova">What Is ANCOVA?</h2>
+<p>ANCOVA, or analysis of covariance, combines ANOVA and regression. It allows researchers to compare group means while statistically controlling for one or more continuous variables called covariates.</p>
+<p>This is a type of ANOVA focused on mean group differences across levels of a factor, but we also introduce other variables (often continuous) to control for their possible effects on the outcome.</p>
+<p>The general ANCOVA model is:</p>
+<p><span class="math display">\[
+Y = \text{Group Effects} + \text{Covariate Effects} + \varepsilon
+\]</span></p>
+<p>or:</p>
+<p><span class="math display">\[
+Y = X\beta + C\beta_C + \varepsilon
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(X\beta\)</span> represents the ANOVA portion of the model.</li>
+<li><span class="math inline">\(C\beta_C\)</span> represents the regression portion of the model.</li>
+<li><span class="math inline">\(\varepsilon\)</span> represents random error.</li>
+</ul>
+<section id="why-use-a-covariate" class="level3">
+<h3 class="anchored" data-anchor-id="why-use-a-covariate">Why Use a Covariate?</h3>
+<p>A covariate can:</p>
+<ul>
+<li>Explain variance in the dependent variable.</li>
+<li>Reduce unexplained error variance.</li>
+<li>Increase statistical precision.</li>
+<li>Adjust for preexisting differences among participants.</li>
+</ul>
+<p>ANCOVA evaluates whether group differences remain after statistically controlling for the covariate.</p>
+</section>
+<section id="interpreting-ancova" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-ancova">Interpreting ANCOVA</h3>
+<p>Unlike an unadjusted ANOVA, ANCOVA compares <strong>adjusted means</strong>, also called estimated marginal means.</p>
+<p>Conceptually, ANCOVA asks:</p>
+<blockquote class="blockquote">
+<p>What would the group differences look like if all groups had the same value on the covariate?</p>
+</blockquote>
+<p>As a result, effects that appear significant in an unadjusted ANOVA may become nonsignificant after an important covariate is included.</p>
+</section>
+</section>
+<section id="key-assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="key-assumptions">Key Assumptions</h2>
+<p>Important ANCOVA assumptions include:</p>
+<ol type="1">
+<li>The covariate has an approximately linear relationship with the dependent variable.</li>
+<li>The covariate is measured reliably.</li>
+<li>The relationship between the covariate and outcome is similar across groups.</li>
+<li>Observations are independent.</li>
+<li>Residuals are approximately normally distributed.</li>
+<li>Residual variances are reasonably similar across groups.</li>
+<li>There are no highly influential outliers.</li>
+<li>The covariate is measured before the outcome and is appropriate for adjustment.</li>
+</ol>
+<p>The assumption that the regression relationship is the same across groups is called <strong>homogeneity of regression slopes</strong>. It can be evaluated by including factor-by-covariate interactions.</p>
+<p>For example:</p>
+<p><span class="math display">\[
+Y =
+A + B + C + A \times B + A \times C + B \times C
+\]</span></p>
+<p>where <span class="math inline">\(C\)</span> is the covariate.</p>
+<p>A significant factor-by-covariate interaction suggests that the relationship between the covariate and the outcome differs across groups. In that situation, a single adjusted group comparison may not adequately summarize the data.</p>
+</section>
+<section id="example-1-mental-health-intervention-for-latina-women" class="level2">
+<h2 class="anchored" data-anchor-id="example-1-mental-health-intervention-for-latina-women">Example 1: Mental Health Intervention for Latina Women</h2>
+<p>Suppose researchers evaluate a culturally tailored mental health intervention designed for Latina women experiencing psychological distress.</p>
+<section id="independent-variable" class="level3">
+<h3 class="anchored" data-anchor-id="independent-variable">Independent Variable</h3>
+<ul>
+<li>Treatment condition:
+<ul>
+<li>Intervention</li>
+<li>Control</li>
+</ul></li>
+</ul>
+</section>
+<section id="dependent-variables" class="level3">
+<h3 class="anchored" data-anchor-id="dependent-variables">Dependent Variables</h3>
+<ul>
+<li>Anxiety symptoms</li>
+<li>PTSD symptoms</li>
+<li>Depression symptoms</li>
+</ul>
+</section>
+<section id="covariates" class="level3">
+<h3 class="anchored" data-anchor-id="covariates">Covariates</h3>
+<ul>
+<li>Baseline anxiety</li>
+<li>Baseline PTSD</li>
+<li>Baseline depression</li>
+</ul>
+<p>Participants complete measures before the intervention begins and again after the intervention concludes.</p>
+<p>The primary research question is:</p>
+<blockquote class="blockquote">
+<p>Do women receiving the intervention report lower anxiety, PTSD, and depression at posttest than women in the control group, after controlling for baseline symptom levels?</p>
+</blockquote>
+<p>The ANCOVA model for anxiety is:</p>
+<p><span class="math display">\[
+\text{Posttest Anxiety} =
+\beta_0 +
+\beta_1(\text{Treatment}) +
+\beta_2(\text{Baseline Anxiety}) +
+\varepsilon
+\]</span></p>
+</section>
+</section>
+<section id="ancova-and-multiple-regression" class="level2">
+<h2 class="anchored" data-anchor-id="ancova-and-multiple-regression">ANCOVA and Multiple Regression</h2>
+<p>ANCOVA is a linear regression model that includes categorical predictors and continuous covariates. The R syntax for ANCOVA and multiple regression is therefore the same.</p>
+<p>Both analyses can address whether group mean differences remain after adjusting for a covariate. In experimental designs, the covariate is often a baseline score on the outcome.</p>
+<p>In this example, baseline anxiety is not necessarily a nuisance variable. It may improve precision by accounting for individual differences that existed before treatment began.</p>
+<p>By controlling for baseline scores, researchers obtain a more precise estimate of the treatment effect. However, the interpretation depends on the study design and on whether the covariate was measured before treatment.</p>
+</section>
+<section id="example-2-generational-status-and-breastfeeding-attitudes" class="level2">
+<h2 class="anchored" data-anchor-id="example-2-generational-status-and-breastfeeding-attitudes">Example 2: Generational Status and Breastfeeding Attitudes</h2>
+<p>Suppose researchers compare Latina mothers from three generational groups on attitudes toward breastfeeding. Some research suggests that acculturation among later-generation women may be associated with less positive views of breastfeeding and more favorable views of infant formula.</p>
+<p>Family support of breastfeeding may also influence breastfeeding attitudes. Researchers therefore wish to determine whether generational differences remain after controlling for levels of family support.</p>
+<section id="independent-variable-1" class="level3">
+<h3 class="anchored" data-anchor-id="independent-variable-1">Independent Variable</h3>
+<p>Generational status:</p>
+<ul>
+<li>First-generation immigrant</li>
+<li>Second-generation</li>
+<li>Third-generation or later</li>
+</ul>
+</section>
+<section id="dependent-variable" class="level3">
+<h3 class="anchored" data-anchor-id="dependent-variable">Dependent Variable</h3>
+<ul>
+<li>Attitudes toward breastfeeding</li>
+</ul>
+</section>
+<section id="covariate" class="level3">
+<h3 class="anchored" data-anchor-id="covariate">Covariate</h3>
+<ul>
+<li>Family support</li>
+</ul>
+<p>The research question is:</p>
+<blockquote class="blockquote">
+<p>Do breastfeeding attitudes differ across generational groups after controlling for family support for breastfeeding?</p>
+</blockquote>
+<p>The ANCOVA model is:</p>
+<p><span class="math display">\[
+\text{Breastfeeding Attitudes} =
+\beta_0 +
+\beta_1(\text{Generation}) +
+\beta_2(\text{Support}) +
+\varepsilon
+\]</span></p>
+<p>In this example, support functions as an extraneous or explanatory variable because it may account for some differences in breastfeeding attitudes that are not attributable to generational status.</p>
+</section>
+</section>
+<section id="simulation-study-for-ancova" class="level2">
+<h2 class="anchored" data-anchor-id="simulation-study-for-ancova">Simulation Study for ANCOVA</h2>
+<section id="hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis">Hypothesis</h3>
+<p>First-generation women are expected to report more positive breastfeeding attitudes than second-generation and third-generation-or-later women.</p>
+<p>Researchers also believe that family support for breastfeeding may explain some of the generational differences. They therefore conduct an ANCOVA to compare adjusted breastfeeding-attitude means while controlling for family support.</p>
+</section>
+<section id="variables" class="level3">
+<h3 class="anchored" data-anchor-id="variables">Variables</h3>
+<section id="independent-variable-2" class="level4">
+<h4 class="anchored" data-anchor-id="independent-variable-2">Independent Variable</h4>
+<p>Generational status:</p>
+<ul>
+<li>First generation</li>
+<li>Second generation</li>
+<li>Third generation or later</li>
+</ul>
+</section>
+<section id="dependent-variable-1" class="level4">
+<h4 class="anchored" data-anchor-id="dependent-variable-1">Dependent Variable</h4>
+<p>The Iowa Infant Feeding Attitude Scale (IIFAS):</p>
+<ul>
+<li>A continuous numeric score.</li>
+<li>Higher scores indicate more positive attitudes toward breastfeeding.</li>
+<li>The scale is translated and back-translated for use with Spanish speakers.</li>
+</ul>
+</section>
+<section id="covariate-1" class="level4">
+<h4 class="anchored" data-anchor-id="covariate-1">Covariate</h4>
+<ul>
+<li>Family support for breastfeeding</li>
+</ul>
+</section>
+</section>
+<section id="simulate-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="simulate-data-1">Simulate Data</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">627</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>n_group <span class="ot">&lt;-</span> <span class="dv">80</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>generation <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rep</span>(</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"First Generation"</span>,</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Second Generation"</span>,</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Third Generation+"</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">each =</span> n_group</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"First Generation"</span>,</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Second Generation"</span>,</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Third Generation+"</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Family support on a 1-to-10 scale.</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>family_support <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(n_group, <span class="at">mean =</span> <span class="dv">8</span>, <span class="at">sd =</span> <span class="fl">1.2</span>),</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(n_group, <span class="at">mean =</span> <span class="dv">7</span>, <span class="at">sd =</span> <span class="fl">1.2</span>),</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(n_group, <span class="at">mean =</span> <span class="dv">6</span>, <span class="at">sd =</span> <span class="fl">1.2</span>)</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>family_support <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(family_support, <span class="dv">1</span>), <span class="dv">10</span>)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a><span class="co"># IIFAS scores.</span></span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>iifas <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="sc">+</span></span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="dv">8</span>, n_group),</span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="dv">4</span>, n_group),</span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="dv">0</span>, n_group)</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2.5</span> <span class="sc">*</span> family_support <span class="sc">+</span></span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="dv">3</span> <span class="sc">*</span> n_group, <span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a>iifas <span class="ot">&lt;-</span> <span class="fu">round</span>(iifas)</span>
+<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a>bf_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb37-45"><a href="#cb37-45" aria-hidden="true" tabindex="-1"></a>  generation,</span>
+<span id="cb37-46"><a href="#cb37-46" aria-hidden="true" tabindex="-1"></a>  family_support,</span>
+<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a>  iifas</span>
+<span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bf_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        generation family_support iifas
+1 First Generation       7.562756    74
+2 First Generation       6.762720    75
+3 First Generation       7.713644    85
+4 First Generation       9.059221    77
+5 First Generation       6.812389    67
+6 First Generation       6.956141    75</code></pre>
+</div>
+</div>
+</section>
+<section id="examine-descriptive-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="examine-descriptive-statistics">Examine Descriptive Statistics</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>bf_data <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(generation) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_iifas =</span> <span class="fu">mean</span>(iifas),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_iifas =</span> <span class="fu">sd</span>(iifas),</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_support =</span> <span class="fu">mean</span>(family_support),</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  generation            n mean_iifas sd_iifas mean_support
+  &lt;fct&gt;             &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;
+1 First Generation     80       77.4     6.46         7.87
+2 Second Generation    80       70.9     5.95         6.92
+3 Third Generation+    80       63.4     6.66         5.99</code></pre>
+</div>
+</div>
+</section>
+<section id="visualize-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="visualize-the-data">Visualize the Data</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  bf_data,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> generation,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> iifas,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> generation</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Generational Status"</span>,</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"IIFAS Score"</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter-4-ANOVA-Part-III_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="unadjusted-one-way-anova" class="level2">
+<h2 class="anchored" data-anchor-id="unadjusted-one-way-anova">Unadjusted One-Way ANOVA</h2>
+<p>The unadjusted model compares mean IIFAS scores across generational groups without controlling for family support.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>bf_model <span class="ot">&lt;-</span> <span class="fu">aov</span>(iifas <span class="sc">~</span> generation,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> bf_data)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bf_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+generation    2   7850    3925   96.96 &lt;2e-16 ***
+Residuals   237   9595      40                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(bf_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = iifas ~ generation, data = bf_data)
+
+$generation
+                                        diff        lwr        upr p adj
+Second Generation-First Generation   -6.5625  -8.935245  -4.189755     0
+Third Generation+-First Generation  -14.0000 -16.372745 -11.627255     0
+Third Generation+-Second Generation  -7.4375  -9.810245  -5.064755     0</code></pre>
+</div>
+</div>
+<p>These results suggest that there is a generational difference in breasfeeding attitudes overall, then the folow up tests indicated that first generation mothers have more positive breastfeeding attitudes compared to both second and third-generation mothers. In addition, second-generation mothers have more positive breastfeeding attitudes when compared to third-generation mothers.</p>
+</section>
+<section id="ancova-model-do-these-differences-remain-after-controlling-for-family-support" class="level2">
+<h2 class="anchored" data-anchor-id="ancova-model-do-these-differences-remain-after-controlling-for-family-support">ANCOVA Model: Do these differences remain after controlling for family support?</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>bf_ancova <span class="ot">&lt;-</span> <span class="fu">lm</span>(iifas <span class="sc">~</span> generation <span class="sc">+</span> family_support,</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> bf_data)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bf_ancova)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = iifas ~ generation + family_support, data = bf_data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-12.3645  -3.5944  -0.2328   3.4303  12.4879 
+
+Coefficients:
+                            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                  51.4435     2.1358  24.086  &lt; 2e-16 ***
+generationSecond Generation  -3.4408     0.8182  -4.206 3.70e-05 ***
+generationThird Generation+  -7.7866     0.9227  -8.439 3.26e-15 ***
+family_support                3.3028     0.2623  12.592  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.931 on 236 degrees of freedom
+Multiple R-squared:  0.671, Adjusted R-squared:  0.6668 
+F-statistic: 160.5 on 3 and 236 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>These results suggest that generational difference persist, even after controlling for family support</p>
+<p>Can use these results (Based on regression) to examine ANOVA-like output using car package</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(bf_ancova)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type II tests)
+
+Response: iifas
+               Sum Sq  Df F value    Pr(&gt;F)    
+generation     1742.9   2  35.835 2.568e-14 ***
+family_support 3855.6   1 158.548 &lt; 2.2e-16 ***
+Residuals      5739.0 236                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<section id="unadjusted-and-adjusted-means" class="level3">
+<h3 class="anchored" data-anchor-id="unadjusted-and-adjusted-means">Unadjusted and Adjusted Means</h3>
+<p>The following model produces unadjusted estimated means from the ANCOVA we just ran:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(bf_model,<span class="sc">~</span> generation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> generation        emmean    SE  df lower.CL upper.CL
+ First Generation    77.4 0.711 237     76.0     78.8
+ Second Generation   70.9 0.711 237     69.5     72.3
+ Third Generation+   63.4 0.711 237     62.0     64.8
+
+Confidence level used: 0.95 </code></pre>
+</div>
+</div>
+<p>The following model produces adjusted estimated marginal means, averaging over family support:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>adjusted_means <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(bf_ancova,<span class="sc">~</span> generation)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>adjusted_means</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> generation        emmean    SE  df lower.CL upper.CL
+ First Generation    74.3 0.604 236     73.1     75.5
+ Second Generation   70.9 0.551 236     69.8     72.0
+ Third Generation+   66.5 0.604 236     65.3     67.7
+
+Confidence level used: 0.95 </code></pre>
+</div>
+</div>
+<p>Adjusted pairwise comparisons can be obtained as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(adjusted_means)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast                                estimate    SE  df t.ratio p.value
+ First Generation - Second Generation        3.44 0.818 236   4.206  0.0001
+ First Generation - (Third Generation+)      7.79 0.923 236   8.439 &lt;0.0001
+ Second Generation - (Third Generation+)     4.35 0.817 236   5.316 &lt;0.0001
+
+P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
+</div>
+</div>
+<p>Again, we see that there are statistically signficant generational differences, even after controlling for family support.</p>
+</section>
+</section>
+<section id="testing-homogeneity-of-regression-slopes" class="level2">
+<h2 class="anchored" data-anchor-id="testing-homogeneity-of-regression-slopes">Testing Homogeneity of Regression Slopes</h2>
+<p>To evaluate whether the association between family support and IIFAS scores differs across generational groups, include the generation-by-family-support interaction:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>assumption_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(iifas <span class="sc">~</span> generation <span class="sc">*</span> family_support,</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> bf_data)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(assumption_model,<span class="at">type =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type II tests)
+
+Response: iifas
+                          Sum Sq  Df  F value    Pr(&gt;F)    
+generation                1742.9   2  35.6959 2.951e-14 ***
+family_support            3855.6   1 157.9328 &lt; 2.2e-16 ***
+generation:family_support   26.5   2   0.5418    0.5825    
+Residuals                 5712.6 234                       
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>A statistically significant <code>generation:family_support</code> interaction suggests that the slopes differ across generational groups. If this interaction is important, the assumption of homogeneous regression slopes is not supported, and the ANCOVA should not be summarized using one common adjusted group comparison. In this case the interaction was <em>not</em> statistically significant and so the assumption is met.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

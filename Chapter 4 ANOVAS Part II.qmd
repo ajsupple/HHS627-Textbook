@@ -14,10 +14,20 @@ Thus far we considered an ANOVA with three groups and one outcome. That model wa
 
 Factorial ANOVAs are models with more than one factor. These models offer the ability to consider mean differences across multiple factors simultaneously (the main effects) and the interaction between factors.
 
-Let's work through an example where we might be interested in self-reported anxiety scores on adolescent males based on sexual orientation and race. Let's say that we have one factor
+::: {.callout-note title="What is a Factor?"}
+A **factor** refers to a categorical variable and is often considered the independent variable (IV) in an ANOVA. In ANOVA, we examine whether the means of the dependent variable differ across the **levels** of one or more factors. Models with one factor are called **one-way ANOVAs**, models with two factors are called **two-way ANOVAs**, and more generally ANOVAs with two or more factors are referred to as **factorial ANOVAs**.
+
+Factorial ANOVAs are often described by the number of levels in each factor. For example, a two-way ANOVA with two binary factors would be called a **2 × 2 ANOVA**. An ANOVA with three factors having two, three, and two levels, respectively, would be called a **2 × 3 × 2 ANOVA**.
+
+In R, it is important to distinguish between categorical and numeric independent variables. For ANOVA, categorical predictors should generally be coded as **factors**. When a variable is coded as a factor, values such as 1, 2, and 3 or labels such as "White", "Black", and "Latino" are treated as distinct **levels** of a categorical variable. If the variable is instead treated as **numeric**, R assumes the values represent a quantitative scale and estimates a linear relationship rather than separate group means. This changes the model being estimated and can affect the associated degrees of freedom and statistical tests.
+:::
+
+Let's work through an example where we might be interested in self-reported anxiety scores on adolescent males based on sexual orientation and race. This example will have two **factors** and so is referred to as a **Two-Way Analysis of Variance**.
+
+The two factors are:
 
 - Race: where participants indicated whether they were African American/Black or European American/White
-- And sexual orientation: where participants indicated if they were gay or straight
+- Sexual orientation: where participants indicated if they were gay or straight
 
 This analysis would have two factors (race and sexual orientation) and one outcome. Each variable has two levels, resulting in four possible groups.
 
@@ -27,15 +37,17 @@ This design allows for a few different research questions:
 2.  *Is self-reported anxiety higher among White adolescent males compared to Black males*?
 3.  *Is the difference in anxiety among gay/straight males greater for Black males compared to white males*?
 
-The first two of these research questions test for main effects, while the third question tests an interaction effect.
+The first two of these research questions test for *main effects*, while the third question tests an *interaction* effect.
 
-::: callout-note
+::: {.callout-note title = "Interaction Effects"}
+
 Interaction effects are sometimes referred to as moderator effects. Moderators in general refer to variables that modify the association of a predictor on an outcome. In ANOVAs, the interaction can be thought of as group means varying across one factor in a different way based on the other factor. A significant interaction would suggest that the main factor difference depends upon levels of the other factor.
+
 :::
 
-### A 2X2 ANOVA Comparing Anxiety Scores by Race and Sexual Orientation
+### A 2 X 2 ANOVA Comparing Anxiety Scores by Race and Sexual Orientation
 
-We will start with an example study, work through some research questions, prepare some data to analyze, then use R to run the 2X2 ANOVA and interpret our results.
+We will start with an example study, work through some research questions, prepare some data to analyze, then use R to run the 2 X 2 ANOVA and interpret our results.
 
 **Outcome Variable**
 
@@ -58,33 +70,195 @@ We will start with an example study, work through some research questions, prepa
 3.  White and Gay
 4.  White and Straight
 
-For this demonstration, assume that we have **30 participants per group**.
+For this demonstration, assume that we have **15 participants per group**.
 
-$$N = 30 + 30 + 30 + 30 = 120$$
+$$N = 15  + 15 + 15 + 15 = 60$$
 
 ## Hypothesized Group Means
 
 | Race  | Orientation | Mean Anxiety |
 |:------|:------------|-------------:|
 | White | Straight    |           15 |
-| White | Gay         |           17 |
+| White | Gay         |           16 |
 | Black | Straight    |           15 |
-| Black | LGB         |           25 |
+| Black | Gay         |         18.5 |
 
 Notice that:
 
 - Black adolescents report no more anxiety than White adolescents within straight group
-- Gay adolescents report more anxiety than non-LGB adolescents, regardless of race
+- Gay adolescents report more anxiety than straight adolescents, regardless of race
 - Black and gay adolescents have the highest anxiety scores.
 
-The overall mean is:
+The overall mean for these hypothesized data is:
 
-$$\bar{Y}_{Grand} = 17$$
+$$\bar{Y}_{Grand} = 16.12$$
 
-## The Factorial ANOVA Model
+## Simulating Data in R
 
-The two-way ANOVA can be represented as: $$Y = \mu + \text{Race} + \text{Orientation} +
-\text{Race} \times \text{Orientation} + e$$ \## Partitioning Variability into Sources for Race, Orientation and the Interaction
+```{r}
+
+## This syntax will simulate a dataset for the Two-Way or Factorial ANOVA
+# There are two main effects and an interaction
+
+set.seed(612) # A seed just ensures that if we do this again, get same data characteristics
+
+n <- 15      # Create an object = 15
+
+anxiety_df <- data.frame( Race = rep(c("White", "White", "Black", "Black"), each = n),
+  Orientation = rep(c("Straight", "Gay","Straight", "Gay"), each = n),
+  anxiety = c(
+    rnorm(n, mean = 15, sd = 3),
+    rnorm(n, mean = 16, sd = 2.5),
+    rnorm(n, mean = 15, sd = 3),
+    rnorm(n, mean = 18.5, sd = 2.3)))
+
+# Create object 'anxiety_df' it will be a data.frame, has Race = repeat, concatenate,
+# gives variable labels, each n of 15
+# Repeat for Orientation
+# Then simulates data with rnorm, n = 15, then gives means and SDs to characterize the data
+# scores will be stored in a variable called 'anxiety'
+
+anxiety_df$anxiety[anxiety_df$anxiety < 10] <- 10  
+anxiety_df$anxiety[anxiety_df$anxiety > 28] <- 28
+
+# Can get negative numbers, scores that aren't realistic with simulated data. The above
+# commands set scores to be a minimum of 10 and maximum of 28 to fit our example
+
+
+# Creates an object where means are computed "conditioned on" Race and Orientation
+
+cell_means <- aggregate(anxiety ~ Race + Orientation,
+                        data = anxiety_df,
+                        FUN = mean)
+
+# X Tabs will create means I can use in a 2 X 2 table
+
+mean_table <- xtabs(anxiety ~ Race + Orientation,
+                    data = cell_means)
+
+# Row marginal means (Race)
+# Marginal means refers to means on the "margins" of the table, there are those
+# for the rows - going across the table - and for the columns, going down the table
+
+race_means <- aggregate(anxiety ~ Race,
+                        data = anxiety_df,
+                        FUN = mean)
+
+# Column marginal means (Orientation)
+
+orientation_means <- aggregate(anxiety ~ Orientation,
+                               data = anxiety_df,
+                               FUN = mean)
+
+# Grand mean - this is just the overall mean in the sample 
+
+grand_mean <- mean(anxiety_df$anxiety, na.rm = TRUE)
+
+# Create display table, this will be a 3X3 Matrix, the NA is just a placeholder
+# until I tell R what to put in the table
+
+display_table <- matrix(NA,
+                        nrow = 3,
+                        ncol = 3)
+
+# Gives the names for the rows and columns in the table we are creating
+
+rownames(display_table) <- c("Black","White","Marginal Mean")
+
+colnames(display_table) <- c("Straight","Gay","Marginal Mean")
+
+# Cell means
+display_table["Black", "Straight"] <- mean_table["Black", "Straight"]
+display_table["Black", "Gay"] <-mean_table["Black", "Gay"]
+display_table["White", "Straight"] <- mean_table["White", "Straight"]
+display_table["White", "Gay"] <-  mean_table["White", "Gay"]
+
+# Race marginal means
+
+display_table["Black", "Marginal Mean"] <- race_means$anxiety[race_means$Race == "Black"]
+
+display_table["White", "Marginal Mean"] <- race_means$anxiety[race_means$Race == "White"]
+
+# Orientation marginal means
+
+display_table["Marginal Mean", "Straight"] <- orientation_means$anxiety[orientation_means$Orientation == "Straight"]
+display_table["Marginal Mean", "Gay"] <- orientation_means$anxiety[orientation_means$Orientation == "Gay" ]
+
+# Grand mean
+
+display_table["Marginal Mean", "Marginal Mean"] <- grand_mean
+
+display_table
+
+black_mean  <- round(display_table["Black", "Marginal Mean"], 2)
+white_mean  <- round(display_table["White", "Marginal Mean"], 2)
+
+gay_mean      <- round(display_table["Marginal Mean", "Gay"], 2)
+straight_mean <- round(display_table["Marginal Mean", "Straight"], 2)
+
+```
+
+The row marginal means show the average anxiety score for each Race group. Black adolescents have a higher mean anxiety score (*M* = `r black_mean`) than White adolescents (*M* = `r white_mean`), suggesting a possible main effect of Race.
+
+Similarly, the column marginal means show that gay adolescents (*M* = `r gay_mean`) report higher anxiety than straight adolescents (*M* = `r straight_mean`), suggesting a possible main effect of Sexual Orientation.
+
+In this particular instance, there appears to be an *interaction* that qualifies these differences. For example, by "holding sexual orientation *constant*" in the column "straight", we see a very small anxiety difference by race. Another way to think about this is that if we look within race groups, we might see a somewhat modest difference in anxiety when comparing gay ($M$ = 16.48) to straight White adolescents ($M$ = 14.42) but a large difference when comparing gay ($M$ = 18.25) to straight adolescents ($M$ = 15.066) who are Black. That would suggest the higher anxiety "effect" of being gay would be stronger among Black adolescents when compared to that same "effect" for White adolescents.
+
+We would test that with the **2 X 2 ANOVA**
+
+## Running the 2 X 2 ANOVA
+
+```{r}
+
+anova_gayr <- aov(anxiety ~ Race * Orientation,
+           data = anxiety_df) # ANOVA syntax, the * indicates that we want to test an interaction
+
+summary(anova_gayr)
+
+```
+
+::: {.callout-note title = "Interpreting the ANOVA Table"}
+
+The ANOVA results indicate statistically significant main effects for both Race, F(1, 56) = 6.07, p = .017, and Sexual Orientation, F(1, 56) = 11.38, p = .001. These findings suggest that average anxiety levels differ across race groups and across sexual orientation groups. In addition, the significant Race × Sexual Orientation interaction, F(1, 56) = 4.91, p = .031, indicates that the relationship between sexual orientation and anxiety depends on race. Because the interaction is significant, the main effects should be interpreted with caution, as the magnitude of the group differences is not consistent across all combinations of Race and Sexual Orientation.
+
+:::
+
+As a visual:
+
+```{r}
+anxiety_df$Orientation <- factor( anxiety_df$Orientation,
+  levels = c("Straight", "Gay"))
+
+interaction.plot(
+  x.factor = anxiety_df$Orientation,
+  trace.factor = anxiety_df$Race,
+  response = anxiety_df$anxiety,
+  ylab = "Mean Anxiety",
+  xlab = "Sexual Orientation",
+  trace.label = "Race")
+
+# Plots out the means, X is sexual orientation, moderator factor is race
+# response variable = the outcome
+# ylab and xlab give labels to the x and y axis for the plot
+
+```
+
+::: {.callout-note title = "Conditional Means by Two Factors"}
+
+What this figure shows are conditional means based on the two factors of sexual orientation and race .From left to right shows an increase in anxiety for gay adolescents compared to straight adolescents, but that increase is much greater for Black adolescents than for white adolescents.
+
+This is an example of a moderator effect in which a moderator (in this case Race) alters the difference in means for another factor - in this case sexual orientation.
+
+Plotting conditional means is a frequently used approach to visualizing interactions/moderator effects in both ANOVA and regression approaches.
+
+:::
+
+## The Factorial ANOVA Model Details
+
+The two-way ANOVA can be represented as:
+
+$$Y = \mu + \text{Race} + \text{Orientation} +
+\text{Race} \times \text{Orientation} + e$$ Partitioning Variability into Sources for Race, Orientation and the Interaction
 
 As with a one-way ANOVA, total variability is divided into explained (between groups) and unexplained (within-groups) components.
 
@@ -119,13 +293,13 @@ $$df_{Error}=N-ab$$
 
 where:
 
-- $N=120$
-- $a=2$ race groups
-- $b=2$ orientation groups
+- $N=60$
+- $a=2$ Race groups
+- $b=2$ Orientation groups
 
 Therefore,
 
-$$df_{Error}=120-4=116$$
+$$df_{Error}=60-4=56$$
 
 ## Mean Squares
 
@@ -151,7 +325,7 @@ $$MS_{Error}
 
 ## F Statistics
 
-For each effect, the amount of explained variance is compared against unexplained variance.
+For each effect, the variability explained by that effect is compared with the unexplained within-group variability. Put another way, each effect is focused on how much difference there is across groups relative to how much "error" which is the within-group differences.
 
 ### Main Effect of Race
 
@@ -174,96 +348,43 @@ $$F_{Interaction}
 \frac{MS_{Interaction}}
 {MS_{Error}}$$
 
-Large F values indicate that between-group variability is large relative to within-group variability.
-
-## Simulating Data in R
-
-```{r,echo=F}
-set.seed(627) # A seed just ensures that if we do this again, get same data characteristics
-
-n <- 30       # Create an object = 30 
-
-anxiety_df <- data.frame( race = rep(c("White", "White", "Black", "Black"), each = n),
-  orientation = rep(c("Straight", "Gay","Straight", "Gay"), each = n),
-  anxiety = c(
-    rnorm(n, mean = 15, sd = 3),
-    rnorm(n, mean = 17, sd = 3),
-    rnorm(n, mean = 15, sd = 3),
-    rnorm(n, mean = 25, sd = 3)))
-
-# Create object 'anxiety_df' it will be a data.frame, has race = repeat, concatenate,
-# gives variable labels, each n of 30
-# Repeat for orientation
-# Then simulates data with rnorm, n = 30, then gives means and SDs to characterize the data
-# scores will be stored in a variable called 'anxiety'
-
-anxiety_df$anxiety[anxiety_df$anxiety < 10] <- 10  
-anxiety_df$anxiety[anxiety_df$anxiety > 28] <- 28
-
-# Can get negative numbers, scores that aren't realistic with simulated data. THe above
-# commands set scores to be a minimum of 10 and maximum of 28 to fit our example
-
-anova_gayr <- aov(anxiety ~ race * orientation,
-           data = anxiety_df) # ANOVA syntax, the * indicates that we want to test an interaction
-
-summary(anova_gayr)
-
-```
 ```{r}
 # As an example of the F computations, take the Race SS_B, divide by the df = 1
-# so the MW_B = 437.6. The F is MS_B/MS_W, the latter of which is 8.5 from the table
+# so the MW_B = 43.2. The F is MS_B/MS_W, the latter of which is 7.12 from the table
 
-ms_b = 437.6
-ms_w = 8.5
+#               Df Sum Sq Mean Sq F value  Pr(>F)   
+#Race              1   43.2   43.16   6.065 0.01689 * 
+#Orientation       1   81.0   81.00  11.382 0.00135 **
+#Race:Orientation  1   35.0   34.97   4.914 0.03072 * 
+#Residuals        56  398.5    7.12                   
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+ms_b = 43.2
+ms_w = 7.12
 F_value = ms_b/ms_w
 F_value
 
-# R code to estimate the critical value of F at 1,116 degrees of freedom
+# R code to estimate the critical value of F at 1,56 degrees of freedom
 
-qf(.95, 1, 116)
+qf(.95, 1, 56)
 
 # R code for an exact p value given an F and the df1 and df2
 
 options(scipen = 999) # This turns of scientific notation for p values
 
-pf(F_value, 1, 116, lower.tail = FALSE)
+pf(F_value, 1, 56, lower.tail = FALSE)
 
 
 
 
 ```
-Note our computations are slightly different due to rounding
-```{r}
 
-aggregate(anxiety ~ race + orientation,
-          data = anxiety_df,
-          mean) # gets the means as a function of race and orientation
+::: callout-note
+Note that our results are slightly different due to rounding
+:::
 
-```
-Group means crossed by race and sexual orientation. What is visible is that among straight males
-there seems to be no difference in anxeity by race. Among gay males, however, anxiety seems to be higher among Black males compared to White males. Another way of thinking about it is "What is the increase" in anxiety of going from straight-to-gay? And is that increase stronger/greater for Black males (an interaction effect)?
-
-```{r}
-anxiety_df$orientation <- factor( anxiety_df$orientation,
-  levels = c("Straight", "Gay"))
-
-interaction.plot(
-  x.factor = anxiety_df$orientation,
-  trace.factor = anxiety_df$race,
-  response = anxiety_df$anxiety,
-  ylab = "Mean Anxiety",
-  xlab = "Sexual Orientation",
-  trace.label = "Race"
-)
-# Plots out the means, X is sexual orientation, moderator factor is race
-# response variable = the outcome
-# ylab and xlab give labels to the x and y axis for the plot
-
-```
-This plots out conditional means: Means at the two levels of one factor (Race) and two levels of the other factor (sexual orientation). 
-------------------------------------------------------------------------
-
-### Note that what we just ran works well for ***balanced designs***
+## What we just ran works well for ***balanced designs***
 
 ***Balanced design*** have equal numbers of participants in each "cell" crossing race and sexual orientation.
 
@@ -272,189 +393,214 @@ This plots out conditional means: Means at the two levels of one factor (Race) a
 
 Let's see what happens if we run the same general analysis, but with unbalanced groups
 
-But **first** let's show how a multiple regression come to the same conclusions as the 2X2 ANOVA we have been running
+### Here we will now run an unbalanced design to demonstrate additional complications
 
-```{r}
+The issue is that a basic ANOVA computed F values using what is called Type I Sum of Squares. With an interaction and unbalanced designs, the order of variables impacts F and p values. The details of different sums of squares is below. For now, let's look at doing an ANOVA the "regular" way with unbalanced data and the consequences of the ordering of factors.
 
-# These are our group means
-
-aggregate(anxiety ~ race + orientation,
-          data = anxiety_df,
-          mean) 
-
-```
-```{r}
-
-# For right now, let's just show the main effects and omit the interaction
-
-anova_res<-aov(anxiety~race+orientation,data=anxiety_df)
-summary(anova_res)
-
-TukeyHSD(anova_res)
-
-```
-```{r}
-
-# Now we do as a multipe regression
-
-reg_res<-lm(anxiety~race+orientation,data=anxiety_df)
-summary(reg_res)
-
-```
-Note that the regression coefficient is the same as the TukeyHSD result. When holding race "constant" there is a 6.1694 difference in anxiety across gay/straight. In regression language, a one unit increase in gay is associated with a 6.1694 increase in anxiety, controlling for race.
-
-The point here is just to see how R uses the outcome ~ factor + factor for both ANOVA and Regression and the difference is the aov and lm functions.
-
-### Here we will now run an unbalanced design to demonstrate additional complications 
+First we simulate data with different sample sizes.
 
 ```{r,echo=F}
-set.seed(222)
+set.seed(404)
 
 # Unequal cell sizes
 
-n_ws <- 25   # White Straight
-n_wg <- 10   # White Gay
-n_bs <- 8   # Black Straight
-n_bg <- 17   # Black Gay
+n_ws <- 18 # White Straight THIS IS THE KEY SYNTAX!!
+n_wg <- 8   # White Gay
+n_bs <- 24 # Black Straight
+n_bg <- 20   # Black Gay
 
 anxiety_df2 <- data.frame(
-  race = c(
+  Race = c(
     rep("White", n_ws + n_wg),
-    rep("Black", n_bs + n_bg)
-  ),
+    rep("Black", n_bs + n_bg)),
 
-  orientation = c(
+  Orientation = c(
     rep("Straight", n_ws),
     rep("Gay", n_wg),
     rep("Straight", n_bs),
-    rep("Gay", n_bg)
-  ),
+    rep("Gay", n_bg)),
 
   anxiety = c(
     rnorm(n_ws, mean = 15, sd = 3),
-    rnorm(n_wg, mean = 17, sd = 3),
-    rnorm(n_bs, mean = 15, sd = 3),
-    rnorm(n_bg, mean = 25, sd = 3)
-  )
-)
+    rnorm(n_wg, mean = 16, sd = 2.5),
+    rnorm(n_bs, mean = 14, sd = 3),
+    rnorm(n_bg, mean = 17.5, sd = 2)))
 
 # Trim unrealistic values
 
-anxiety_df2$anxiety[anxiety_df2$anxiety < 7] <- 7
-anxiety_df2$anxiety[anxiety_df2$anxiety > 31] <- 31
+anxiety_df2$anxiety[anxiety_df2$anxiety < 10] <- 10
+anxiety_df2$anxiety[anxiety_df2$anxiety > 28] <- 28
 
 # Means by cell
 
-aggregate(anxiety ~ race + orientation,
-          data = anxiety_df2,
-          mean)
-```
 
+cell_means <- aggregate(
+  anxiety ~ Race + Orientation,
+  data = anxiety_df2,
+  FUN = mean
+)
+
+cell_ns <- aggregate(
+  anxiety ~ Race + Orientation,
+  data = anxiety_df2,
+  FUN = length
+)
+
+names(cell_ns)[3] <- "n"
+
+merge(cell_means, cell_ns,
+      by = c("Race", "Orientation"))
+```
 
 ```{r}
 # Fit model
+# Classic way to do an ANOVA
+# This is the ANOVA SYNTAX you can use
+# in this instance, I added effects coding by using options, etc
+# What that does is "contrast sum" which makes a contrast between the group that sum to 0
+# So Race is coded as -1 and +1, same for sexual orientation
+# That is helpful for interpreting main effects in the context of interactions, but not necessary
 
-mod <- lm(anxiety ~ race * orientation,
-          data = anxiety_df2)
+options(contrasts = c("contr.sum", "contr.poly"))
+mod1 <-aov(anxiety ~ Race*Orientation,data=anxiety_df2)
 
-# Type I SS
-
-anova(mod)
-
-## Now if we REVERSE the order of the variables
-
-mod1 <- lm(anxiety ~ orientation*race,
-          data = anxiety_df2)
-
-anova(mod1)
-
-# Under these two conditions, the F values change
-# Type I SS actually tests for variance explained in the order variables are entered
-# So the order can affect statistical significance
-# In this case it doesn't, however notice the Mean SS for rae (756) and for orientation (339). 
-# We might think that race explains much more variance in anxeity than does orientation.
-# However when we change the order of entry for the factors - that conclusion is reversed
-# This uses Type I sum of squares and with unbalanced data, results - including decisions about
-# statistical significanct - will vary based on the order of entry for the factors
-
+summary(mod1)
 
 ```
+
+```{r}
+
+# Same ANOVA, reversed the order of the factors
+
+mod2<-aov(anxiety ~ Orientation*Race,data=anxiety_df2)
+
+summary(mod2)
+
+```
+
+::: callout-warning
+In unbalanced factorial designs, Type I (sequential) sums of squares can produce different conclusions depending on the order in which factors enter the model. In this example, Race is statistically significant when entered first (p = .044) but not when entered after Orientation (p = .087). This occurs because the factors share explanatory variance, and the first factor entered receives credit for that shared variance.
+:::
+
+**Type II** Sum of Squares fixes tests this differently and doesn't depend on the order of entry for the factors. Type II SS tests each main effect controlling for the other, but those main effects are not adjusted for the interaction. In cases where the interaction is absent or not of interest, this test is appropriate.
 
 ```{r}
 # Type II SS 
 
 library(car)
 
-Anova(mod, type = 2)
+mod1 <-aov(anxiety ~ Race*Orientation,data=anxiety_df2)
+mod2<-aov(anxiety ~ Orientation*Race,data=anxiety_df2)
+
+Anova(mod1, type = 2)
+Anova(mod2, type = 2)
 
 ```
-The Type II sum of squares takes into account both factors at once and note the sum of squares being roughly more equal. The downside here is that we don't get the interactio included, so we need Type III SS
+
+**Type III** sums of squares test each effect after accounting for all other terms in the model, including the interaction. When interactions are included, the interpretation of Type III main effects depends on the contrast coding and should generally be supplemented with estimated marginal means or simple-effects analyses.
+
+::: {.callout-note title = "Dummy versus Effects Coding"}
+
+*Dummy coding* is the default in R with factor variables. Typically in a factor variable there is a level of 0. That level becomes a default, against which other means are compared. In the context of ANOVAs, dummy coding makes main effects difficult to interpret in the context of interaction effects. With dummy coding, a main effect of one factor is interpreted as a group difference in that factor when the other factor is 0 or for the reference group.
+
+For our example, the significant main effect indicating a race difference in anxiety would be comparing only among the straight adolescents. The main effect of sexual orientation, likewise, would represent mean differences by sexual orientation among the white participants. In the context of a statistically significant interaction, we would generally avoid interpreting these main effects and instead, compute marginal means or plot means to understand the nature of the interaction.
+
+*Effects coding* assigns numerical values to factor levels that sum to zero. For a two-group race variable, for example, Black participants might be coded as -1 and White participants as +1. Unlike dummy coding, which compares groups at a specific reference category, effects coding centers the factors on the grand mean. In a 2 × 2 ANOVA, the main effect of Race therefore represents the average racial difference across sexual orientation groups, and the main effect of Sexual Orientation represents the average orientation difference across racial groups. When an interaction is present, these main effects can still be interpreted as average effects, although the interaction indicates that the size of the group differences varies across levels of the other factor.
+
+:::
 
 ```{r}
 
-mod3 <- lm(anxiety ~ race * orientation,
-           data = anxiety_df2)
+# By default, R uses treatment (dummy) coding for factors.
+# With dummy coding, coefficients are interpreted relative
+# to a reference group.
 
-Anova(mod3, type = 3)
+# One option, to change contrasts for all analyses in this session:
+
+options(contrasts = c("contr.treatment", "contr.poly"))   # Treatment is dummy coding
+
+mod1 <- aov(anxiety ~ Race * Orientation, data = anxiety_df2)
+summary(mod1)
+car::Anova(mod1,type=3)   # Uses the car package to use Type III SS
+
+# Now repeat the same analysis using effects-coded factors 
+
+options(contrasts = c("contr.sum", "contr.poly"))
+
+mod2 <- aov(anxiety ~ Race * Orientation, data = anxiety_df2)
+
+car::Anova(mod2, type = 3)
+
+# To avoid changing how factors are coded for the entire session, could use this instead:
+
+# anxiety_df2$Race <- factor(anxiety_df2$Race,contrasts = contr.sum)
 
 
 ```
-Here we have better proportioning of the variable by the two factors and we also get the interaction F value. 
 
 ::: callout-note
-## Type I, II, and III Sum of Squares
+## Type I, II, and III Sum of Squares summary
 
 - Factorial ANOVAs can be *balanced* or *unbalanced*
   - Balanced is when the groups have the same sample size in all of the cells
   - Unbalanced is when groups have different sample sizes in the cells
     - There are different ways to do sum of squares tests in ANOVAs
     - Some statistical packages by default use Type III Sum of Squares
-    - In cases where you have unbalanced groups, Type III is more accurate
-    - Less sensitive to the order of variables
+    - In cases where you have unbalanced groups, Type III can help with interpretation of main effects
 
 Type I (Sequential) sums of squares evaluate effects in the order they are entered into the model. Results may change if the order of variables changes. Type II sums of squares test each main effect after adjusting for the other main effects but ignore interactions when testing main effects. Type III sums of squares test each effect after adjusting for all other effects in the model, including interactions.
 
 Because Type I tests depend on variable order, they are most appropriate for hierarchical models or balanced designs. In contrast, Type III sums of squares are commonly used in unbalanced factorial ANOVAs when interactions are included in the model.
 
 *Type III* asks, "What does this variable explain after accounting for everything else?
+:::
 
 ## More Complex Factorial ANOVAs
 
-Example: Examining the effect of *high intensity interval training* (HIIT) on $VO_2$ max scores across four different training regimens. 
+Example: Examining **body image** in girls aged 8-11 versus 12-15 across four different types of sports played.
 
-- Hypothesis: HIIT will demonstrated 
+- Body image assessed by items related to "I feel good about my body", "I am comfortable in my body", "I take a positive attitude toward my body"
+  - 5-point Likert scale from Never to Always
+  - 10 items added together for scores ranging from 10 to 50
+- Sample of girls who frequently participated in either (competitively, one sport only) ice skating, gymnastics, soccer, or basketball
+  - Gymnastics and ice skating are *judged sports* which may have stronger effects on body image in girls, compared to team sports like soccer or basketball
+  - Age groupings of 8-11 year old girls versus 12-15 year old girls to roughly capture the period of pubertal transition when developmental changes in body image may occur more frequently
 
-Researchers assigned 20 partic
+***Hypotheses***
+
+- Younger girls will report higher average body image compared to older girls
+- Girls who play basketball and soccer will report higher average body image than will girls who participate in skating and gymnastics
+- \*\*There will be an interaction, however, so that body image differences by age will be more pronounced in the two *judged* sports of ice skating and gymnastics.
+
+**Analysis**
+
+A 2 X 4 ANOVA
 
 ```{r,echo=F}
-set.seed(2328)
+set.seed(1114)
 
-n <- 10
+n <- 20
 
-body_df <- data.frame(
-  age_group = rep(c("8-11", "12-15"), each = 4 * n),
+body_df <- data.frame(age_group = rep(c("8-11","12-15"), each = 4 * n),
 
-  sport = rep(
-    c("Ice Skating",
+  sport = rep(c("Ice Skating",
       "Gymnastics",
       "Soccer",
       "Basketball"),
     each = n,
-    times = 2
-  ),
+    times = 2),
 
   body_image = c(
-    rnorm(n, 78, 12),  # 8-11 Ice Skating
-    rnorm(n, 76, 12),  # 8-11 Gymnastics
-    rnorm(n, 82, 12),  # 8-11 Soccer
-    rnorm(n, 81, 12),  # 8-11 Basketball
+    rnorm(n, 32, 8),  # 8-11 Ice Skating
+    rnorm(n, 33, 8),  # 8-11 Gymnastics
+    rnorm(n, 36.5, 8),  # 8-11 Soccer
+    rnorm(n, 37, 1),  # 8-11 Basketball
 
-    rnorm(n, 68, 12),  # 12-15 Ice Skating
-    rnorm(n, 63, 12),  # 12-15 Gymnastics
-    rnorm(n, 78, 12),  # 12-15 Soccer
-    rnorm(n, 80, 12)   # 12-15 Basketball
-  )
-)
+    rnorm(n, 28, 8),  # 12-15 Ice Skating
+    rnorm(n, 27, 8),  # 12-15 Gymnastics
+    rnorm(n, 35, 8),  # 12-15 Soccer
+    rnorm(n, 36, 1)   # 12-15 Basketball
+    ))
 ```
 
 ```{r,echo=F}
@@ -463,7 +609,8 @@ aggregate(
   data = body_df,
   mean)
 ```
-The means by age group and by sport. Notice that in general, body image is higher in 8-11 year old girls compared to 12-15 year old girls. Also notice that body impage appears to be lower in "judged sports", particularly among 12-15 year old girls. This suggests that there could be an age-by-sport interaction. To test that, we run an ANOVA
+
+The means by age group and by sport. Notice that in general, body image is higher in 8-11 year old girls compared to 12-15 year old girls. Also notice that body image appears to be lower in "judged sports", particularly among 12-15 year old girls. This suggests that there could be an age-by-sport interaction. To test that, we run an ANOVA.
 
 ```{r}
 
@@ -473,7 +620,11 @@ summary(anova_body)
 
 
 ```
-The results suggest that there are *age* differences in body image, no *sport played* main effect, but a statistically significant interaction, suggesting that the age difference in body image *may vary* as a function of *sport played*.
+
+Results suggest a statistically significant interaction. When there is a statistically significant interaction effect, often we do not attempt to interpret main effects. The reason why is that any age differences in changes in body image depend on type of sport played. As such, that main effect is difficult to interpret without taking the interaction into account. In this balanced design, we ran this using R defaults
+
+- Dummy coding for the factors meaning one group is the reference category
+- Type I SS
 
 ```{r}
 # Interaction plot
@@ -484,545 +635,378 @@ interaction.plot(
 
 ```
 
-```{r}
-# Cell means
-emmeans(mod, ~ age_group * sport)
-```
+In the context of an interaction effect, it is helpful to look at marginal means to get a sense of the differences.
+
+Then we can also examine simple effects which are differences by one factor, but within the other factor. So for example, we can look at age differences within each sport to test for statistically significant differences. Alternatively, can consider if there are *type of sport* differences in body image at the two different levels of age.
+
+The original hypothesis was that age differences in body image would vary by type of sport, so I set up the emmeans to do that comparison.
+
 ```{r}
 
+library(emmeans)
+
 # Simple effects
-emmeans(mod,
-        pairwise ~ sport | age_group,
+emmeans(anova_body,
+        pairwise ~ age_group | sport,
         adjust = "tukey")
 ```
 
+These results suggest that, for girl basketball and soccer players, the small differences in body image across age are not statistically significant. For girls who participate in gymnastics and ice skating, the decrease in body image from ages 8-11 to 12-15 is statistically significant suggesting that age decreases in body image depend on what type of sport girls play (at least in this sample and with these sports).
 
-------------------------------------------------------------------------
+::: {.callout-note title="Estimated Marginal Means with the emmeans Package"}
+**emmeans** is an R package that has functions for calculating **marginal means** by using model results. These can be used in ANOVAs to show what averages are for certain groups when adjusting for other variables in the model.
 
-# Repeated-Measures ANOVA
+In factorial ANOVA, `emmeans` is particularly useful because the ANOVA table indicates whether effects are statistically significant, but it does not identify which groups differ or provide estimates of group means. The `emmeans` package allows researchers to:
 
-Now suppose participants are measured:
-
-- Beginning of semester
-- Midterm
-- End of semester
-
-Same participants repeatedly measured.
-
-Question:
-
-> Does the outcome change across time?
-
-------------------------------------------------------------------------
-
-# Connection to Paired $t_test$s
-
-Paired $t_test$:
-
-$$2$$
-
-time points
-
-Repeated-Measures ANOVA:
-
-$$3+$$
-
-time points
-
-A paired $t_test$ is simply a special case of repeated measures ANOVA.
-
-------------------------------------------------------------------------
-
-# Mixed ANOVA
-
-Suppose we have:
-
-Groups:
-
-- Treatment
-- Control
-
-Measured at:
-
-- Pretest
-- Posttest
-- Follow-up
-
-Now we have:
-
-Between-Subjects Factor:
-
-- Group
-
-Within-Subjects Factor:
-
-- Time
-
-------------------------------------------------------------------------
-
-# Mixed ANOVA Questions
-
-Main Effect of Time:
-
-> Do scores change over time?
-
-Main Effect of Group:
-
-> Do groups differ overall?
-
-Interaction:
-
-> Do groups change differently over time?
-
-The interaction is usually the primary research question.
-
-------------------------------------------------------------------------
-
-# ANCOVA
-
-Analysis of Covariance
-
-Research Question:
-
-> Do interventions differ after controlling for baseline differences?
-
-Example:
-
-Outcome:
-
-- Posttest depression
-
-Group:
-
-- Treatment vs Control
-
-Covariate:
-
-- Baseline depression
-
-------------------------------------------------------------------------
-
-# ANCOVA Model
-
-ANCOVA combines:
-
-ANOVA +
-
-Regression
-
-Conceptually:
-
-$$Outcome =
-Group + Covariate + Error$$
-
-ANCOVA adjusts group means for preexisting differences.
-
-------------------------------------------------------------------------
-
-# MANOVA
-
-MANOVA stands for:
-
-**Multivariate Analysis of Variance**
-
-ANOVA:
-
-- One outcome
-
-MANOVA:
-
-- Multiple outcomes
-
-------------------------------------------------------------------------
-
-# Example MANOVA
-
-Independent Variable:
-
-- Treatment Group
-
-Dependent Variables:
-
-- Depression
-- Anxiety
-- Stress
-- Self-Esteem
-
-Question:
-
-> Do groups differ on the overall profile of outcomes?
-
-------------------------------------------------------------------------
-
-# Why Use MANOVA?
-
-Instead of conducting:
-
-- ANOVA for Depression
-- ANOVA for Anxiety
-- ANOVA for Stress
-- ANOVA for Self-Esteem
-
-MANOVA evaluates them simultaneously.
-
-Advantages:
-
-- Controls Type I error
-- Examines combined outcome patterns
-
-------------------------------------------------------------------------
-
-# Linear Mixed Models
-
-Repeated-measures ANOVA has limitations:
-
-- Missing data
-- Unequal measurement occasions
-- Unequal spacing of observations
-- Nested data structures
-
-Mixed models address these issues.
-
-------------------------------------------------------------------------
-
-# Examples of Mixed Models
-
-Students nested within classrooms
-
-Repeated assessments nested within individuals
-
-Patients nested within clinics
-
-Family members nested within families
-
-Longitudinal developmental studies
-
-------------------------------------------------------------------------
-
-# Mixed Model Example
-
-$$Y_{ij}
-=
-\beta_0
-+
-\beta_1(Time)
-+
-u_i
-+
-e_{ij}$$
-
-Where:
-
-- Fixed effects describe average change
-- Random effects describe individual differences
-
-------------------------------------------------------------------------
-
-# What Is a Paired Samples t-Test?
-
-The paired samples t-test evaluates whether the mean difference between two measurements equals zero.
-
-Rather than comparing two independent groups, the same participant contributes two observations.
-
-Common examples:
-
-- Pretest vs. posttest
-- Before treatment vs. after treatment
-- Beginning of semester vs. end of semester
-- Parent report vs. child report
-- Two conditions measured on the same person
-
-------------------------------------------------------------------------
-
-# Key Idea
-
-For an independent samples t-test:
-
-$$\text{Person A is unrelated to Person B}$$
-
-For a paired samples t-test:
-
-$$\text{Observation 1 and Observation 2 belong to the same person}$$
-
-The observations are linked (paired).
-
-Ignoring the pairing throws away information and generally reduces statistical power.
-
-------------------------------------------------------------------------
-
-# Difference Scores
-
-The paired samples t-test focuses on:
-
-$$D = X_1 - X_2$$
-
-where:
-
-- $X_1$ = first measurement
-- $X_2$ = second measurement
-- $D$ = difference score
-
-------------------------------------------------------------------------
-
-# Null and Alternative Hypotheses
-
-Null hypothesis:
-
-$$H_0:\mu_D = 0$$
-
-Alternative hypothesis:
-
-$$H_A:\mu_D \neq 0$$
-
-where:
-
-$$\mu_D$$
-
-is the population mean difference.
-
-------------------------------------------------------------------------
-
-# The Test Statistic
-
-The paired samples t statistic is:
-
-$$t=
-\frac{\bar D}
-{s_D/\sqrt{n}}$$
-
-where
-
-- $\bar D$ = mean difference score
-- $s_D$ = standard deviation of difference scores
-- $n$ = number of pairs
-
-------------------------------------------------------------------------
-
-# Understanding the Formula
-
-$$t=
-\frac{\bar D}
-{s_D/\sqrt{n}}$$
-
-Numerator:
-
-$$\bar D$$
-
-Average amount of change.
-
-Denominator:
-
-$$s_D/\sqrt{n}$$
-
-Expected sampling variability in the mean difference.
-
-Interpretation:
-
-> How large is the observed average change relative to the amount of change we would expect due to random sampling error?
-
-------------------------------------------------------------------------
-
-# Annotated Formula
-
-$$t=
-\frac{
-\underbrace{\bar D}_{\text{Average change}}
-}
-{
-\underbrace{
-s_D/\sqrt{n}
-}_{\text{Standard error of the change}}
-}$$
-
-A useful way to think about the formula:
-
-$$t=
-\frac{\text{Signal}}
-{\text{Noise}}$$
-
-Signal = average change
-
-Noise = uncertainty in that change
-
-------------------------------------------------------------------------
-
-# Degrees of Freedom
-
-For a paired samples t-test:
-
-$$df = n - 1$$
-
-Example:
-
-If there are 30 participants:
-
-$$df = 29$$
-
-Notice that degrees of freedom depend on the number of pairs, not the number of observations.
-
-------------------------------------------------------------------------
-
-# Assumptions
-
-## 1. Paired Observations
-
-Scores must be meaningfully linked.
-
-Examples:
-
-- Same person measured twice
-- Married couples
-- Parent-child dyads
-
-## 2. Independence Between Pairs
-
-One participant's scores should not influence another participant's scores.
-
-## 3. Approximate Normality of Difference Scores
-
-The assumption applies to:
-
-$$D = X_1 - X_2$$
-
-not necessarily to the original variables.
-
-------------------------------------------------------------------------
-
-# Why Is Pairing Helpful?
-
-Suppose people differ greatly in baseline characteristics.
-
-Comparing participants to themselves removes much of this person-to-person variability.
-
-As a result:
-
-- Standard errors decrease
-- Statistical power increases
-- Smaller effects become easier to detect
-
-This is one reason repeated-measures designs are often efficient.
-
-------------------------------------------------------------------------
-
-# Confidence Interval
-
-The paired samples t-test produces a confidence interval for:
-
-$$\mu_D$$
-
-Interpretation:
-
-A 95% confidence interval gives a range of plausible values for the population mean change.
-
-If the interval contains 0:
-
-- Not statistically significant
-
-If the interval excludes 0:
-
-- Statistically significant
-
-------------------------------------------------------------------------
-
-# Effect Size
-
-Cohen's d for paired data is:
-
-$$d=
-\frac{\bar D}{s_D}$$
-
-General guidelines:
-
-| d   | Interpretation |
-|-----|----------------|
-| .20 | Small          |
-| .50 | Medium         |
-| .80 | Large          |
-
-Always interpret effect size separately from statistical significance.
-
-------------------------------------------------------------------------
-
-# APA Style Example
-
-A paired samples t-test indicated that statistics anxiety was significantly lower at the end of the semester than at the beginning of the semester, t(29) = 3.12, p = .004, d = 0.57.
-
-------------------------------------------------------------------------
-
-# R Code
-
-``` r
-t.test(
-  data$posttest,
-  data$pretest,
-  paired = TRUE
-)
-```
-
-or
-
-``` r
-t.test(
-  posttest,
-  pretest,
-  paired = TRUE
-)
-```
-
-The critical argument is:
-
-``` r
-paired = TRUE
-```
-
-which tells R that the observations are linked.
-
-------------------------------------------------------------------------
-
-# Independent vs. Paired t-Tests
-
-| Question                          | Test                       |
-|-----------------------------------|----------------------------|
-| Two separate groups?              | Independent samples t-test |
-| Same participants measured twice? | Paired samples t-test      |
-| Matched or linked observations?   | Paired samples t-test      |
-| Treatment vs control groups?      | Independent samples t-test |
-| Pretest-posttest design?          | Paired samples t-test      |
-
-------------------------------------------------------------------------
-
-# Key Takeaways
-
-- The paired samples t-test evaluates whether the mean change differs from zero.
-- The analysis is conducted on difference scores.
-- The key parameter is:
-
-$$\mu_D$$
-
-- Pairing typically reduces error variance and increases power.
-
-- The normality assumption applies to the difference scores.
-
-- The test is commonly used for pretest-posttest and repeated-measures designs.
-
-  # Research Question
-
-Researchers examined whether a six-week psychological skills training and mindfulness intervention reduced stress among NCAA Division I baseball players.
-
-Participants:
-
-- 25 collegiate baseball players
-
-Outcome:
-
-- Perceived Stress Scale (PSS)
-
-Measurements:
-
-- Pre-intervention stress
-- Post-intervention stress
-
-Research question:
-
-> Did athletes report lower stress following the intervention?
+- Obtain estimated marginal means for factors in the model.
+- Conduct pairwise comparisons among group means.
+- Examine simple effects following a significant interaction.
+- Test theory-driven planned contrasts.
+- Compute confidence intervals and effect estimates.
 :::
+
+::: {.callout-note title="Planned Contrasts"}
+**Planned contrasts** involve a way of coding factors so that there are specific comparisons being made across groups in an ANOVA. These generally were used to make a specific comparison within multiple grouping, e.g., is any therapy (CBT, DBT, talk, recreational) better than none?
+
+The benefits of a planned contrast is that researchers do not need to examine a global F test, can test targeted differences, and these have greater statistical power. Planned contrasts are **a priori** tests as contrasted to **post hoc** tests like Tukey HSD and others.
+:::
+
+------------------------------------------------------------------------
+
+## Multivariate Analysis of Variance (MANOVA)
+
+### What is MANOVA?
+
+Multivariate Analysis of Variance (MANOVA) is an extension of ANOVA that allows researchers to examine group differences on **multiple dependent variables simultaneously**.
+
+Recall that ANOVA asks:
+
+> Do groups differ on a single outcome?
+
+MANOVA asks:
+
+> Do groups differ on a combination of outcomes?
+
+For example, rather than examining whether language brokering groups differ only in self-esteem, a MANOVA can simultaneously evaluate group differences in:
+
+- Self-esteem
+- Family cohesion
+- Depressive symptoms
+
+Because these outcomes are related, analyzing them together can provide a more complete understanding of group differences.
+
+## When is MANOVA Used?
+
+MANOVA is appropriate when:
+
+1.  There are one or more categorical independent variables.
+2.  There are multiple continuous dependent variables.
+3.  The dependent variables are conceptually related.
+4.  Researchers want to control the overall Type I error rate.
+
+Examples include:
+
+- Comparing ethnic groups on multiple parenting dimensions.
+- Comparing intervention groups on several psychosocial outcomes.
+- Comparing family structures on several indicators of child well-being.
+
+## Why Not Run Multiple ANOVAs?
+
+Researchers could conduct separate ANOVAs for each dependent variable.
+
+However, doing so creates two concerns.
+
+- Inflation of Type I Error
+
+  - Each hypothesis test introduces a chance of a false positive.
+  - Running several ANOVAs increases the likelihood of finding at least one significant result due to chance alone.
+
+- Ignoring Relationships Among Variables
+
+Many HHS outcomes may be related, for example if comparing groups on depression, anxiety, and stress, these are related constructs and MANOVA can incorporate those relationships into the analysis.
+
+### What Does MANOVA Test?
+
+MANOVA first evaluates whether groups differ on the **combined set of dependent variables**.
+
+The null hypothesis is:
+
+$$H_0:\text{ The vector of population means is equal across groups}$$ - The **vector** refers to the totality of means across the various outcome variables under consideration. So the main null hypotheses is that those means are equal across the groups. Rejecting that null would indicate at least some differences in some outcomes across some groups.
+
+If the overall MANOVA is significant, researchers typically examine:
+
+- Follow-up ANOVAs
+- Estimated marginal means
+- Pairwise comparisons
+
+to determine which dependent variables contribute to the overall multivariate effect.
+
+- Note that **multivariate** refers to **multiple** outcomes
+
+### Cultural Conflicts and Adolescent Adjustment
+
+Let's take an example of whether Hmong adolescents who report greater cultural conflicts with parents have different psychosocial outcomes compared to adolescents who report fewer cultural conflicts with parents.
+
+We are going to consider **multiple** aspects of psychosocial outcomes across low, moderate, and high levels of cultural conflicts and so MANOVA is a good analytical choice, because these outcomes are likely correlated.
+
+Participants are classified into:
+
+- Low conflict
+- Moderate conflict
+- High conflict
+  - Used tertile splits to create three different, *roughly* equally sized groups
+
+I used the following outcomes
+
+- Self-esteem
+- Ethnic pride
+- Depressive symptoms
+
+```{r,echo=F}
+library(tidyverse)
+library(haven)
+
+Hmong_data<-read_sav("Hmong Data File.sav")
+
+Hmong_data$CESD <- rowMeans(Hmong_data[, c("cesd1", "cesd3", "cesd6", "cesd10")],
+  na.rm = TRUE)
+
+accult_gap_df <- Hmong_data[,c(2,3,4,124:134)]
+
+names(accult_gap_df)
+
+accult_gap_df$ParenInvolv<-accult_gap_df$parinvolv
+accult_gap_df$FES<-accult_gap_df$FESmod
+accult_gap_df$acculgap<-accult_gap_df$traditionalparmod
+accult_gap_df$esteem<-accult_gap_df$posesteemmod
+accult_gap_df$eth_pride<-accult_gap_df$affmod
+accult_gap_df$depress<-accult_gap_df$CESD
+
+accult_gap_df<-accult_gap_df[,c(1,2,3,15:20)]
+
+
+```
+
+## Descriptive Statistics
+
+```{r}
+
+## I read in a data set using read_sav from the haven package
+## That data is called accult_gap_df
+# Here are the variable names
+
+names(accult_gap_df)
+
+
+```
+
+Note: This next section creates a tertile split using R. All of these commands and functions are Base R, note that no packages are loaded in the R script
+
+```{r}
+
+# Age, Gender, BornUS (born in the US = 1, not = 0)
+# ParenInvolv = monitoring and warmth/love
+# FES = Family Ethnic Socialization
+# acculgap = acculturation gaps, or culture-based conflicts
+# esteem = Rosenberg self-esteem scale, positively worded items only
+# eth_pride = pride in being Hmong
+# depress = four items from CESD measure of depression
+
+# Step 1: Create Tertile Split for the culture-based conflicts variable to create the main factor
+
+# Calculate the 33rd and 67th percentile cut points
+tertiles <- quantile( accult_gap_df$acculgap,           # Quantile creates percentiles for acculgap
+  probs = c(1/3, 2/3),                                  # Probs is splitting at the .33 and .67 percentiles
+  na.rm = TRUE)                                         # Ignores missing when creating percentiles
+                                                        # This is all BaseR commands
+
+# Create Low, Moderate, and High categories
+
+# The cut function tells R to take a continuous variable and create groupings based on "breaks" in the continuous variable
+
+accult_gap_df$accg_tertile <- cut(accult_gap_df$acculgap,breaks = c(-Inf, tertiles, Inf),
+  labels = c("Low", "Moderate", "High"),              # -Inf means that any score from negative infinity to 
+  include.lowest = TRUE,                              # the lowest tertile value is the first group - Low
+  ordered_result = TRUE)        # Include lowest is just a safeguard to include the lowest score
+                                # Ordered makes this variable a factor, but with an ordering
+# Display the cut points
+
+tertiles
+
+# Count participants in each category
+
+table(accult_gap_df$accg_tertile, useNA = "ifany")
+
+# View original and categorized values
+
+head(accult_gap_df[, c("acculgap", "accg_tertile")])
+
+
+
+```
+
+## Correlations Among Outcomes
+
+Because MANOVA is most useful when dependent variables are related, it is often helpful to examine correlations.
+
+```{r}
+
+# Base R: select the variables and calculate their correlations
+# Note that because we have some missing data, I need to tell R how to handle those
+# I could use complete.obs or "complete observations" which would be listwise deletion
+# Here I am using pairwise which is "pairwise present" which keeps participants if they have scores
+# for each individual correlation
+
+accult_gap_df[, c("esteem", "eth_pride", "depress")] |>
+  cor(use = "pairwise.complete.obs")
+
+```
+
+::: callout-note
+Note that the above Base R only gives correlations. It is a bit tedious to get base R to give p values and asterisk, so usually adding and loading a package works better.
+
+We can use the *psych* package instead. Later in the semester we will go over creating correlation tables and packages that table these automatically.
+:::
+
+```{r}
+
+library(psych)
+
+
+corr.test(
+  accult_gap_df[, c("esteem", "eth_pride", "depress")],
+  use = "pairwise.complete.obs")
+
+
+```
+
+## Running the MANOVA
+
+```{r}
+## MANOVA is the function
+# Cbind is a combine command, so the three outcomes conditions on 
+manova_fit <- manova(cbind(esteem,eth_pride,depress) ~ accg_tertile,
+  data = accult_gap_df)
+
+summary(manova_fit,test = "Pillai") # Can change the different ways the test statistic is computed
+
+summary(manova_fit,test = "Wilks")
+
+
+```
+
+### Multivariate Test Statistics
+
+When conducting a MANOVA, the overall test examines whether the groups differ on the **combined** dependent variables. Four common test statistics are available:
+
+1.  **Pillai's Trace**
+    - Range: 0 to number of DVs
+    - Interpretation: Larger values indicate stronger multivariate effects
+    - **Robustness**: Most robust to violations of assumptions (especially homogeneity of covariance matrices)
+    - Best used when sample sizes are unequal or assumptions are violated
+2.  **Wilks' Lambda**
+    - Range: 0 to 1 (inverse interpretation—smaller values indicate stronger effects)
+    - Interpretation: Smaller values indicate stronger multivariate effects
+    - Power: Generally most powerful test
+    - Assumption sensitive: More sensitive to violations of homogeneity assumption
+    - Best used when assumptions are met and sample sizes are equal
+3.  **Hotelling's Trace**
+    - Similar interpretation to Pillai's Trace (larger values = stronger effects)
+    - Power: Similar power to Wilks' Lambda
+    - Best for: Two-group comparisons or when homogeneity assumptions are met
+4.  **Roy's Criterion** (Greatest Root)
+    - Range: 0 to infinity
+    - Interpretation: Larger values indicate stronger effects
+    - Power: Most powerful when the first discriminant function accounts for most of the variance
+    - Assumption sensitive: Most sensitive to violations of assumptions
+    - Best for: Confirmatory studies with clear expectations
+
+In our example, we used **Pillai's Trace** test, which is a conservative and robust choice for introductory MANOVA. The interpretation is straightforward: Pillai's Trace indicates a multivariate effect of levels of culture-based conflicts with parents on the combined psychosocial outcomes.
+
+### Sample write up
+
+A one-way MANOVA was conducted to determine whether adolescents with low, moderate, and high levels of culture-based conflict with parents would report different levels of self-esteem, ethnic pride, and depressive symptoms.
+
+The multivariate effect was statistically significant, Pillai's Trace = .181, F(2, 88) = 2.90, p \< .05.
+
+- This result indicates that the three groups differed on the combined set of psychosocial outcomes.
+- Because the overall MANOVA was significant, follow-up univariate ANOVAs were conducted for each outcome.
+
+### Follow-Up ANOVAs
+
+```{r}
+
+summary.aov(manova_fit)
+
+
+```
+
+### Results from follow-up ANOVAs
+
+The follow-up ANOVAs indicated that the univariate effect was statistically significant for ethnic pride, whereas the effects for self-esteem and depressive symptoms were not statistically significant.
+
+To further understand this difference, we can compute marginal means using the *emmeans* package
+
+```{r}
+library(emmeans)
+
+e_pride <- aov(
+  eth_pride ~ accg_tertile,
+  data = accult_gap_df)
+
+emmeans(e_pride, pairwise ~ accg_tertile)
+
+```
+
+## MANOVA Assumptions
+
+Like ANOVA, MANOVA is based on several key assumptions, including the *independence of observations*. The other MANOVA assumptions are a bit more complicated due to the fact that MANOVA has multiple outcome variables and is, as such, **multivariate**.
+
+So for example, instead of *normality* of the outcomes, MANOVA is also concerned with:
+
+1.  **multivariate normality**
+
+    - The dependent variables should jointly follow a multivariate normal distribution within each group. This means that all linear combinations of the dependent variables should be normally distributed within each group. While MANOVA is somewhat robust to violations of this assumption with large samples, severe violations should be addressed (e.g., through transformation or non-parametric alternatives).
+
+2.  **Homogeneity of Variance-Covariance Matrices**
+
+    - The variance-covariance matrices of the dependent variables should be approximately equal across all groups. This is tested using **Box's M test**. Unlike univariate ANOVA which tests homogeneity of variance (Levene's test), MANOVA tests the homogeneity of the entire covariance matrix structure.
+
+3.  **Linearity**
+
+    - The relationship between all pairs of dependent variables should be linear within each group. Scatterplots between pairs of DVs can be examined to assess this.
+
+4.  **Absence of Multicollinearity Among Dependent Variables**
+
+    - The dependent variables should not be so highly correlated that they are essentially measuring the same construct (multicollinearity), nor should there be a perfect linear relationship (singularity). Generally, correlations between DVs should be moderate (r \< .90).
+
+5.  **Adequate Sample Size**
+
+    - MANOVA requires sufficient sample size to reliably estimate the covariance matrices. A common rule of thumb is that each group should have more cases than the number of dependent variables. For example, with three dependent variables, each group should ideally have at least 20 participants.
+
+### Testing Homogeneity of Variance-Covariance Matrices: Box's M Test
+
+The most commonly tested MANOVA assumption is homogeneity of variance-covariance matrices. While univariate ANOVA uses Levene's test to evaluate equality of variances across groups, MANOVA uses **Box's M test**.
+
+A **non-significant Box's M test** (p \> .05) suggests that the covariance matrices are approximately equal across groups, which satisfies the assumption. However, Box's M is sensitive to violations of multivariate normality, so a significant result doesn't necessarily invalidate MANOVA results, especially with larger sample sizes. In practice, if sample sizes are equal across groups and reasonably large, moderate violations of this assumption are often tolerable.
+
+Here is how to run that test using the *biotools* package.
+
+```{r}
+library(biotools)
+
+# Box's M test for homogeneity of covariance matrices
+# The test requires the dependent variables and the grouping factor
+
+boxM_test <- boxM(accult_gap_df[, c("esteem", "eth_pride", "depress")],
+  accult_gap_df$accg_tertile)
+
+print(boxM_test)
+
+
+```
+
+**Interpretation**:
+
+- If p \> .05, we fail to reject the null hypothesis and conclude that the covariance matrices are approximately equal across the three brokering groups. The homogeneity assumption is satisfied.
+- If p \< .05, the covariance matrices differ significantly across groups. However, this does not necessarily invalidate MANOVA results, particularly if sample sizes are balanced and large. With violations of this assumption, some researchers prefer to use Pillai's Trace test statistic (over Wilks' Lambda) because Pillai's Trace is more robust to violations of homogeneity.

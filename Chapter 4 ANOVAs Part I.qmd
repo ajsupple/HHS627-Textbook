@@ -125,7 +125,7 @@ A comparison must have a $p$-value below (.0167) to be statistically significant
 Imagine the three pairwise tests produce these results:
 
 | Comparison | Original $p$-value | Significant using $p$ \<.05)? | Significant after Bonferroni? |
-|------------------|------------------:|------------------|------------------|
+|----|---:|----|----|
 | Group 1 vs. Group 2 | .011 | Yes | Yes |
 | Group 1 vs. Group 3 | .021 | Yes | No |
 | Group 2 vs. Group 3 | .004 | Yes | Yes |

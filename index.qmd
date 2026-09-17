@@ -18,6 +18,7 @@ This book provides core concepts and applied examples for **HHS 627**.
 - [Chapter 3: Data Cleaning and Getting into R](Chapter%203%20Data%20Management%20and%20R.html)
 - [Chapter 4: ANOVAs Part I](Chapter%204%20ANOVAs%20Part%20I.html)
 - [Chapter 4: ANOVAs Part II](Chapter%204%20ANOVAs%20Part%20II.html)
+- [Chapter 4: ANOVAs Part III](Chapter%204%20ANOVAs%20Part%20III.html)
 
 ## Suggested citation
 

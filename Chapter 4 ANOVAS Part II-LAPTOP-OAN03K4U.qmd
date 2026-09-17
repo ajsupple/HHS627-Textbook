@@ -1,0 +1,2223 @@
+---
+title: "Chapter 4 ANOVAs Part II"
+author: "Andy Supple"
+format: html
+editor: source
+references: references.bib
+---
+
+## ANOVAs Part II
+
+Thus far we considered an ANOVA with three groups and one outcome. That model was a One-Way ANOVA because it included one factor (language/cultural brokering) and one outcome. We are frequently going to want to consider more complex models that include multiple outcomes, comparing within-person scores that are repeated over time, more than one factor in a study, and including covariates of control variables.
+
+### Factorial ANOVA
+
+Factorial ANOVAs are models with more than one factor. These models offer the ability to consider mean differences across multiple factors simultaneously (the main effects) and the interaction between factors.
+
+::: {callout-note} What is a Factor?
+
+A **factor** refers to a categorical variable and is often considered the independent variable (IV) in an ANOVA. In ANOVA, we examine whether the means of the dependent variable differ across the **levels** of one or more factors. Models with one factor are called **one-way ANOVAs**, models with two factors are called **two-way ANOVAs**, and more generally ANOVAs with two or more factors are referred to as **factorial ANOVAs**.
+
+Factorial ANOVAs are often described by the number of levels in each factor. For example, a two-way ANOVA with two binary factors would be called a **2 × 2 ANOVA**. An ANOVA with three factors having two, three, and two levels, respectively, would be called a **2 × 3 × 2 ANOVA**.
+
+In R, it is important to distinguish between categorical and numeric independent variables. For ANOVA, categorical predictors should generally be coded as **factors**. When a variable is coded as a factor, values such as 1, 2, and 3 or labels such as "White", "Black", and "Latino" are treated as distinct **levels** of a categorical variable. If the variable is instead treated as **numeric**, R assumes the values represent a quantitative scale and estimates a linear relationship rather than separate group means. This changes the model being estimated and can affect the associated degrees of freedom and statistical tests.
+
+:::
+
+Let's work through an example where we might be interested in self-reported anxiety scores on adolescent males based on sexual orientation and race. This example will have two **factors** and so is referred to as a **Two-Way Analysis of Variance**.
+
+The two factors are:
+
+- Race: where participants indicated whether they were African American/Black or European American/White
+- Sexual orientation: where participants indicated if they were gay or straight
+
+This analysis would have two factors (race and sexual orientation) and one outcome. Each variable has two levels, resulting in four possible groups.
+
+This design allows for a few different research questions:
+
+1.  *Is self-reported anxiety higher among gay adolescent males compared to straight males*?
+2.  *Is self-reported anxiety higher among White adolescent males compared to Black males*?
+3.  *Is the difference in anxiety among gay/straight males greater for Black males compared to white males*?
+
+The first two of these research questions test for *main effects*, while the third question tests an *interaction* effect.
+
+::: {callout-note} Interaction Effects
+
+Interaction effects are sometimes referred to as moderator effects. Moderators in general refer to variables that modify the association of a predictor on an outcome. In ANOVAs, the interaction can be thought of as group means varying across one factor in a different way based on the other factor. A significant interaction would suggest that the main factor difference depends upon levels of the other factor.
+
+:::
+
+### A 2X2 ANOVA Comparing Anxiety Scores by Race and Sexual Orientation
+
+We will start with an example study, work through some research questions, prepare some data to analyze, then use R to run the 2X2 ANOVA and interpret our results.
+
+**Outcome Variable**
+
+- Anxiety symptoms (higher scores indicate greater anxiety)
+- Possible range: 10 to 28
+
+**Independent Variables**
+
+- Race
+  - Black
+  - White
+- Sexual Orientation
+  - Gay
+  - Straight
+
+**Study Groups**
+
+1.  Black and Gay
+2.  Black and Straight
+3.  White and Gay
+4.  White and Straight
+
+For this demonstration, assume that we have **15 participants per group**.
+
+$$N = 15  + 15 + 15 + 15 = 60$$
+
+## Hypothesized Group Means
+
+| Race  | Orientation | Mean Anxiety |
+|:------|:------------|-------------:|
+| White | Straight    |           15 |
+| White | Gay         |           17 |
+| Black | Straight    |           15 |
+| Black | LGB         |           25 |
+
+Notice that:
+
+- Black adolescents report no more anxiety than White adolescents within straight group
+- Gay adolescents report more anxiety than non-LGB adolescents, regardless of race
+- Black and gay adolescents have the highest anxiety scores.
+
+The overall mean for these hypothesized data is:
+
+$$\bar{Y}_{Grand} = 17$$
+
+## Simulating Data in R
+
+```{r}
+
+## This syntax will simulate a dataset for the Two-Way or Factorial ANOVA
+# There are two main effects and an interaction
+
+set.seed(612) # A seed just ensures that if we do this again, get same data characteristics
+
+n <- 15      # Create an object = 15
+
+anxiety_df <- data.frame( Race = rep(c("White", "White", "Black", "Black"), each = n),
+  Orientation = rep(c("Straight", "Gay","Straight", "Gay"), each = n),
+  anxiety = c(
+    rnorm(n, mean = 15, sd = 3),
+    rnorm(n, mean = 16, sd = 2.5),
+    rnorm(n, mean = 15, sd = 3),
+    rnorm(n, mean = 18.5, sd = 2.3)))
+
+# Create object 'anxiety_df' it will be a data.frame, has Race = repeat, concatenate,
+# gives variable labels, each n of 15
+# Repeat for Orientation
+# Then simulates data with rnorm, n = 15, then gives means and SDs to characterize the data
+# scores will be stored in a variable called 'anxiety'
+
+anxiety_df$anxiety[anxiety_df$anxiety < 10] <- 10  
+anxiety_df$anxiety[anxiety_df$anxiety > 28] <- 28
+
+# Can get negative numbers, scores that aren't realistic with simulated data. THe above
+# commands set scores to be a minimum of 10 and maximum of 28 to fit our example
+
+
+# Creates an object where means are computed "conditioned on" Race and Orientation
+
+cell_means <- aggregate(anxiety ~ Race + Orientation,
+                        data = anxiety_df,
+                        FUN = mean)
+
+# X Tabs will create means I can use in a 2X2 table
+
+mean_table <- xtabs(anxiety ~ Race + Orientation,
+                    data = cell_means)
+
+# Row marginal means (Race)
+# Marginal means refers to means on the "margins" of the table, there are those
+# for the rows - going across the table - and for the columns, going down the table
+
+race_means <- aggregate(anxiety ~ Race,
+                        data = anxiety_df,
+                        FUN = mean)
+
+# Column marginal means (Orientation)
+
+orientation_means <- aggregate(anxiety ~ Orientation,
+                               data = anxiety_df,
+                               FUN = mean)
+
+# Grand mean - this is just the overall mean in the sample 
+
+grand_mean <- mean(anxiety_df$anxiety, na.rm = TRUE)
+
+# Create display table, this will be a 3X3 Matrix, the NA is just a placeholder
+# until I tell R what to put in the table
+
+display_table <- matrix(NA,
+                        nrow = 3,
+                        ncol = 3)
+
+# Gives the names for the rows and columns in the table we are creatign
+
+rownames(display_table) <- c("Black","White","Marginal Mean")
+
+colnames(display_table) <- c("Straight","Gay","Marginal Mean")
+
+# Cell means
+display_table["Black", "Straight"] <- mean_table["Black", "Straight"]
+display_table["Black", "Gay"] <-mean_table["Black", "Gay"]
+display_table["White", "Straight"] <- mean_table["White", "Straight"]
+display_table["White", "Gay"] <-  mean_table["White", "Gay"]
+
+# Race marginal means
+
+display_table["Black", "Marginal Mean"] <- race_means$anxiety[race_means$Race == "Black"]
+
+display_table["White", "Marginal Mean"] <- race_means$anxiety[race_means$Race == "White"]
+
+# Orientation marginal means
+
+display_table["Marginal Mean", "Straight"] <- orientation_means$anxiety[orientation_means$Orientation == "Straight"]
+display_table["Marginal Mean", "Gay"] <- orientation_means$anxiety[orientation_means$Orientation == "Gay" ]
+
+# Grand mean
+
+display_table["Marginal Mean", "Marginal Mean"] <- grand_mean
+
+display_table
+
+black_mean  <- round(display_table["Black", "Marginal Mean"], 2)
+white_mean  <- round(display_table["White", "Marginal Mean"], 2)
+
+gay_mean      <- round(display_table["Marginal Mean", "Gay"], 2)
+straight_mean <- round(display_table["Marginal Mean", "Straight"], 2)
+
+```
+
+The row marginal means show the average anxiety score for each Race group. Black adolescents have a higher mean anxiety score (*M* = `r black_mean`) than White adolescents (*M* = `r white_mean`), suggesting a possible main effect of Race.
+
+Similarly, the column marginal means show that gay adolescents (*M* = `r gay_mean`) report higher anxiety than straight adolescents (*M* = `r straight_mean`), suggesting a possible main effect of Sexual Orientation.
+
+In this particular instance, there appears to be an *interaction* that qualifies these differences. For example, by "holding sexual orientation *constant*" in the column "straight", we see a very small anxiety difference by race. Another way to think about this is that if we look within race groups, we might see a somewhat modest difference in anxiety when comparing gay ($M$ = 16.48) to straight White adolescents ($M$ = 14.42) but a large difference when comparing gay ($M$ = 18.25) to straight adolescents ($M$ = 15.066) who are Black.That would suggest the higher anxiety "effect" of being gay would be stronger among Black adolescents when compared to that same "effect" for White adolescents.
+
+We would test that with the **2X2 ANOVA**
+
+## Running the 2X2 ANOVA
+
+```{r}
+
+anova_gayr <- aov(anxiety ~ Race * Orientation,
+           data = anxiety_df) # ANOVA syntax, the * indicates that we want to test an interaction
+
+summary(anova_gayr)
+
+```
+
+::: {.callout-note} Interpreting the ANOVA Table
+
+The ANOVA results indicate statistically significant main effects for both Race, F(1, 56) = 6.07, p = .017, and Sexual Orientation, F(1, 56) = 11.38, p = .001. These findings suggest that average anxiety levels differ across race groups and across sexual orientation groups. In addition, the significant Race × Sexual Orientation interaction, F(1, 56) = 4.91, p = .031, indicates that the relationship between sexual orientation and anxiety depends on race. Because the interaction is significant, the main effects should be interpreted with caution, as the magnitude of the group differences is not consistent across all combinations of Race and Sexual Orientation.
+
+:::
+
+As a visual:
+
+```{r}
+anxiety_df$Orientation <- factor( anxiety_df$Orientation,
+  levels = c("Straight", "Gay"))
+
+interaction.plot(
+  x.factor = anxiety_df$Orientation,
+  trace.factor = anxiety_df$Race,
+  response = anxiety_df$anxiety,
+  ylab = "Mean Anxiety",
+  xlab = "Sexual Orientation",
+  trace.label = "Race"
+)
+# Plots out the means, X is sexual orientation, moderator factor is race
+# response variable = the outcome
+# ylab and xlab give labels to the x and y axis for the plot
+
+```
+
+::: {callout-note} Conditional Means by Two Factors
+
+What this figure shows are conditional means based on the two factors of sexual orientation and race .From left to right shows an increase in anxiety for gay adolescents compared to straight adolescents, but that increase is much greater for Black adolescents than for white adolescents.
+
+This is an example of a moderator effect in which a moderator (in this case Race) alters the difference in means for another factor - in this case sexual orientation.
+
+Plotting conditional means is a frequenly used approach to visualizing interactions/moderator effects in both ANOVA and regression approaches.
+
+:::
+
+## The Factorial ANOVA Model Details
+
+The two-way ANOVA can be represented as: $$Y = \mu + \text{Race} + \text{Orientation} +
+\text{Race} \times \text{Orientation} + e$$ \## Partitioning Variability into Sources for Race, Orientation and the Interaction
+
+As with a one-way ANOVA, total variability is divided into explained (between groups) and unexplained (within-groups) components.
+
+$$SS_{Total}
+=
+SS_{Race}
++
+SS_{Orientation}
++
+SS_{Race\times Orientation}
++
+SS_{Error}$$
+
+The ANOVA table therefore evaluates:
+
+1.  Main effect of race
+2.  Main effect of sexual orientation
+3.  Race × Sexual Orientation interaction
+4.  Residual error (what isn't explained by the factors)
+
+## Degrees of Freedom
+
+For this example:
+
+$$df_{Race}=2-1=1$$
+
+$$df_{Orientation}=2-1=1$$
+
+$$df_{Interaction}=(2-1)(2-1)=1$$
+
+$$df_{Error}=N-ab$$
+
+where:
+
+- $N=120$
+- $a=2$ Race groups
+- $b=2$ Orientation groups
+
+Therefore,
+
+$$df_{Error}=120-4=116$$
+
+## Mean Squares
+
+$$MS_{Race}
+=
+\frac{SS_{Race}}
+{df_{Race}}$$
+
+$$MS_{Orientation}
+=
+\frac{SS_{Orientation}}
+{df_{Orientation}}$$
+
+$$MS_{Interaction}
+=
+\frac{SS_{Interaction}}
+{df_{Interaction}}$$
+
+$$MS_{Error}
+=
+\frac{SS_{Error}}
+{df_{Error}}$$
+
+## F Statistics
+
+For each effect, the amount of explained variance is compared against unexplained variance. Put another way, each effect is focused on how much difference there is across groups relative to how much "error" which is the within-group differences.
+
+### Main Effect of Race
+
+$$F_{Race}
+=
+\frac{MS_{Race}}
+{MS_{Error}}$$
+
+### Main Effect of Sexual Orientation
+
+$$F_{Orientation}
+=
+\frac{MS_{Orientation}}
+{MS_{Error}}$$
+
+### Interaction Effect
+
+$$F_{Interaction}
+=
+\frac{MS_{Interaction}}
+{MS_{Error}}$$
+
+Large F values indicate that between-group variability is large relative to within-group variability.
+
+```{r}
+# As an example of the F computations, take the Race SS_B, divide by the df = 1
+# so the MW_B = 43.2. The F is MS_B/MS_W, the latter of which is 7.12 from the table
+
+#               Df Sum Sq Mean Sq F value  Pr(>F)   
+#Race              1   43.2   43.16   6.065 0.01689 * 
+#Orientation       1   81.0   81.00  11.382 0.00135 **
+#Race:Orientation  1   35.0   34.97   4.914 0.03072 * 
+#Residuals        56  398.5    7.12                   
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+ms_b = 43.2
+ms_w = 7.12
+F_value = ms_b/ms_w
+F_value
+
+# R code to estimate the critical value of F at 1,116 degrees of freedom
+
+qf(.95, 1, 116)
+
+# R code for an exact p value given an F and the df1 and df2
+
+options(scipen = 999) # This turns of scientific notation for p values
+
+pf(F_value, 1, 116, lower.tail = FALSE)
+
+
+
+
+```
+
+::: callout-note
+Note that our results are slightly different due to rounding
+:::
+
+## What we just ran works well for ***balanced designs***
+
+***Balanced design*** have equal numbers of participants in each "cell" crossing race and sexual orientation.
+
+- That might be a reasonable expectation if I did quota sampling to get exact numbers
+- In available data, however, that is unlikely to be the case
+
+Let's see what happens if we run the same general analysis, but with unbalanced groups
+
+### Here we will now run an unbalanced design to demonstrate additional complications
+
+The issue is that a basic ANOVA computed F values using what is called Type I Sum of Squares. With an interaction and unbalanced designs, the order of variables impacts F and p values. The details of different sums of squares is below. For now, let's look at doing an ANOVA the "regular" way with unbalanced data and the consequences of the ordering of factors.
+
+First we simulate data with different sample sizes.
+
+```{r,echo=F}
+set.seed(404)
+
+# Unequal cell sizes
+
+n_ws <- 18 # White Straight THIS IS THE KEY SYNTAX!!
+n_wg <- 8   # White Gay
+n_bs <- 24 # Black Straight
+n_bg <- 20   # Black Gay
+
+anxiety_df2 <- data.frame(
+  Race = c(
+    rep("White", n_ws + n_wg),
+    rep("Black", n_bs + n_bg)),
+
+  Orientation = c(
+    rep("Straight", n_ws),
+    rep("Gay", n_wg),
+    rep("Straight", n_bs),
+    rep("Gay", n_bg)),
+
+  anxiety = c(
+    rnorm(n_ws, mean = 15, sd = 3),
+    rnorm(n_wg, mean = 16, sd = 2.5),
+    rnorm(n_bs, mean = 14, sd = 3),
+    rnorm(n_bg, mean = 17.5, sd = 2)))
+
+# Trim unrealistic values
+
+anxiety_df2$anxiety[anxiety_df2$anxiety < 10] <- 10
+anxiety_df2$anxiety[anxiety_df2$anxiety > 28] <- 28
+
+# Means by cell
+
+
+cell_means <- aggregate(
+  anxiety ~ Race + Orientation,
+  data = anxiety_df2,
+  FUN = mean
+)
+
+cell_ns <- aggregate(
+  anxiety ~ Race + Orientation,
+  data = anxiety_df2,
+  FUN = length
+)
+
+names(cell_ns)[3] <- "n"
+
+merge(cell_means, cell_ns,
+      by = c("Race", "Orientation"))
+```
+
+```{r}
+# Fit model
+# Classic way to do an ANOVA
+options(contrasts = c("contr.sum", "contr.poly"))
+mod1 <-aov(anxiety ~ Race*Orientation,data=anxiety_df2)
+
+summary(mod1)
+
+```
+
+```{r}
+
+# Same ANOVA, reversed the order of the factors
+
+mod2<-aov(anxiety ~ Orientation*Race,data=anxiety_df2)
+
+summary(mod2)
+
+```
+
+::: {.callout-warning} In unbalanced factorial designs, Type I (sequential) sums of squares can produce different conclusions depending on the order in which factors enter the model. In this example, Race is statistically significant when entered first (p = .044) but not when entered after Orientation (p = .087). This occurs because the factors share explanatory variance, and the first factor entered receives credit for that shared variance. :::
+
+**Type II** Sum of Squares fixes that, but doesn't assess the interaction
+
+```{r}
+# Type II SS 
+
+library(car)
+
+mod1 <-aov(anxiety ~ Race*Orientation,data=anxiety_df2)
+mod2<-aov(anxiety ~ Orientation*Race,data=anxiety_df2)
+
+Anova(mod1, type = 2)
+Anova(mod2, type = 2)
+
+```
+
+:::{callout-note} Now the ordering doesn't matter, but the main effects do not take the interaction factor into account. As a result, this is not recommended when there is an interaction in a factorial ANOVA:::
+
+**Type III** Sum of squares
+
+Note that for this to be done correctly, need to use effects coding rather than dummy coding.
+
+:::{comment-note} Dummy versus Effects Coding
+
+*Dummy coding* is the default in R with factor variables. Typically in a factor variable there is a level of 0. That level becomes a default, against which other means are comparied. In the context of ANOVAs, dummy coding makes main effects difficult to interpret in the context of interaction effects. With dummy coding, a main effect of one factor is interpreted as a group difference in that factor when the other factor is 0 or for the reference group.
+
+For our example, the significant main effect indicating a race difference in anxiety would be comparing only among the straight adolescents. The main effect of sexual orientation, likewise, would represent mean differences by sexual orientation among the white participants. In the context of a statistically significant interaction, we would generally avoid interpreting these main effects and instead, compute marginal means or plot means to understand the nature of the interaction.
+
+*Effects coding* assigns numerical values to factor levels that sum to zero. For a two-group race variable, for example, Black participants might be coded as -1 and White participants as +1. Unlike dummy coding, which compares groups at a specific reference category, effects coding centers the factors on the grand mean. In a 2 × 2 ANOVA, the main effect of Race therefore represents the average racial difference across sexual orientation groups, and the main effect of Sexual Orientation represents the average orientation difference across racial groups. When an interaction is present, these main effects can still be interpreted as average effects, although the interaction indicates that the size of the group differences varies across levels of the other factor.
+
+:::
+
+```{r}
+
+# By default, R uses treatment (dummy) coding for factors.
+# With dummy coding, coefficients are interpreted relative
+# to a reference group.
+
+options(contrasts = c("contr.treatment", "contr.poly"))
+
+mod1 <- aov(anxiety ~ Race * Orientation, data = anxiety_df2)
+summary(mod1)
+car::Anova(mod1,type=3)
+
+# For Type III sums of squares, effects coding is typically used.
+
+options(contrasts = c("contr.sum", "contr.poly"))
+
+mod2 <- aov(anxiety ~ Race * Orientation, data = anxiety_df2)
+
+car::Anova(mod2, type = 3)
+
+
+```
+
+Here we have better proportioning of the variable by the two factors and we also get the interaction F value.
+
+:::: callout-note
+## Type I, II, and III Sum of Squares
+
+- Factorial ANOVAs can be *balanced* or *unbalanced*
+  - Balanced is when the groups have the same sample size in all of the cells
+  - Unbalanced is when groups have different sample sizes in the cells
+    - There are different ways to do sum of squares tests in ANOVAs
+    - Some statistical packages by default use Type III Sum of Squares
+    - In cases where you have unbalanced groups, Type III is more accurate
+    - Less sensitive to the order of variables
+
+Type I (Sequential) sums of squares evaluate effects in the order they are entered into the model. Results may change if the order of variables changes. Type II sums of squares test each main effect after adjusting for the other main effects but ignore interactions when testing main effects. Type III sums of squares test each effect after adjusting for all other effects in the model, including interactions.
+
+Because Type I tests depend on variable order, they are most appropriate for hierarchical models or balanced designs. In contrast, Type III sums of squares are commonly used in unbalanced factorial ANOVAs when interactions are included in the model.
+
+*Type III* asks, "What does this variable explain after accounting for everything else?
+
+## More Complex Factorial ANOVAs
+
+Example: Examining **body image** in girls aged 8-11 versus 12-15 across four different types of sports played.
+
+- Body image assessed by items related to "I feel good about my body", "I am comfortable in my body", "I take a positive attitude toward my body"
+  - 5-point Likert scale from Never to
+  - 10 items added together for scores ranging from 10 to 50
+- Sample of girls who frequently participated in either (competitively, one sport only) ice skating, gymnastics, soccer, or basketball
+  - Gymnastics and ice skating are *judged sports* which may have stronger effects on body image in girls, compared to team sports like soccer or basketball
+  - Age groupings of 8-11 year old girls versus 12-15 year old girls to roughly capture period of pubertal transition when developmental changes in body image may occur more frequently
+
+***Hypotheses***
+
+- Younger girls will report higer average body image compared to older girls
+- Girls who play basketball and soccer with report higher average body image than will girls who participate in skating and gymnastics
+- \*\*There will be an interaction, however, so that body image differences by age will be more pronounced in the two *judged* sports of ice skating and gymnastics.
+
+**Analysis**
+
+A 2X4 ANOVA
+
+```{r,echo=F}
+set.seed(1114)
+
+n <- 20
+
+body_df <- data.frame(age_group = rep(c("8-11","12-15"), each = 4 * n),
+
+  sport = rep(c("Ice Skating",
+      "Gymnastics",
+      "Soccer",
+      "Basketball"),
+    each = n,
+    times = 2),
+
+  body_image = c(
+    rnorm(n, 32, 8),  # 8-11 Ice Skating
+    rnorm(n, 33, 8),  # 8-11 Gymnastics
+    rnorm(n, 36.5, 8),  # 8-11 Soccer
+    rnorm(n, 37, 1),  # 8-11 Basketball
+
+    rnorm(n, 28, 8),  # 12-15 Ice Skating
+    rnorm(n, 27, 8),  # 12-15 Gymnastics
+    rnorm(n, 35, 8),  # 12-15 Soccer
+    rnorm(n, 36, 1)   # 12-15 Basketball
+    ))
+```
+
+```{r,echo=F}
+aggregate(
+  body_image ~ age_group + sport,
+  data = body_df,
+  mean)
+```
+
+The means by age group and by sport. Notice that in general, body image is higher in 8-11 year old girls compared to 12-15 year old girls. Also notice that body image appears to be lower in "judged sports", particularly among 12-15 year old girls. This suggests that there could be an age-by-sport interaction. To test that, we run an ANOVA.
+
+```{r}
+
+anova_body <- aov(body_image ~ age_group * sport,  data = body_df)
+
+summary(anova_body)
+
+
+```
+
+Results suggest a statistically significant interaction. When there is a statistically significant interaction effect, often we do not attempt to interpret main effects. The reason why is that any age differences in changes in body image depend on type of sport played. As such, that main effect is difficult to interpret without taking the interaction into account. In this balanced design, we ran this using R defaults
+
+- Dummy coding for the factors meaning one group is the reference category
+- Type I SS
+
+```{r}
+# Interaction plot
+interaction.plot(
+  body_df$sport,
+  body_df$age_group,
+  body_df$body_image)
+
+```
+
+In the context of an interaction effect, it is helpful to look at marginal means to get a sense of the differences.
+
+Then we can also examine simple effects which are differences by one factor, but within the other factor. So for example, we can look at age differences within each sport to test for statistically significant differences. Alternatively, can consider if there are *type of sport* differences in body image at the two different levels of age.
+
+The original hypothesis was that age differences in body image would vary by type of sport, so I set up the emmeans to do that comparison.
+
+```{r}
+
+library(emmeans)
+
+# Simple effects
+emmeans(anova_body,
+        pairwise ~ age_group | sport,
+        adjust = "tukey")
+```
+
+These results suggest that, for girl basketball and soccer players, the small differences in body image across age are not statistically significant. For girls who participate in gymnastics and ice skating, the decrease in body image from ages 8-11 to 12-15 is statistically significant suggesting that age decreases in body image depend on what type of sport girls play (at least in this sample and with these sports).
+
+::: {.callout-note title="Estimated Marginal Means with the emmeans Package"}
+**emmeans** is an R package that has functions for calculating **marginal means** by using model results. These can be used in ANOVAs to show what averages are for certain groups when adjusting for other variables in the model.
+
+In factorial ANOVA, `emmeans` is particularly useful because the ANOVA table indicates whether effects are statistically significant, but it does not identify which groups differ or provide estimates of group means. The `emmeans` package allows researchers to:
+
+- Obtain estimated marginal means for factors in the model.
+- Conduct pairwise comparisons among group means.
+- Examine simple effects following a significant interaction.
+- Test theory-driven planned contrasts.
+- Compute confidence intervals and effect estimates.
+
+:::{callout-note titles="Planned Contrasts"}
+
+**Planned contrasts** involve a way of coding factors so that there are specific comparisons being made across groups in an ANOVA. These generally were used to make a specific comparison within multiple grouping, e.g., is any therapy (CBT, DBT, talk, recreational) better than none?
+
+The benefits of a planned contrast is that researchers do not need to examine a global F test, can test targeted differences, and these have greater statistical power. Planned contrasts are **a priori** tests as contrasted to **post hoc** tests like Tukey HSD and others.
+:::
+
+
+## Three-Way ANOVA 
+
+### Research Question
+
+Suppose we are interested in whether body appreciation differs by:
+
+- Age Group (8-11 vs. 12-15)
+- Sport (Gymnastics, Ice Skating, Soccer)
+- Competition Level (Recreational vs. Competitive)
+
+Body appreciation is measured using the BAS-2 scale, with higher scores indicating more positive body image.
+
+This design represents a 2 × 3 × 2 factorial ANOVA with one continuous outcome variable and three categorical predictors.
+
+### Load Packages
+
+```{r,echo=F}
+library(tidyverse)
+library(afex)           # A package that has specific features for ANOVA, works with tidyverse
+library(emmeans)
+library(gt)             # gt is for making nice tables!
+
+set_sum_contrasts()     # effects coding the factors
+```
+
+### Simulate Data
+
+```{r}
+set.seed(917)
+
+n <- 20
+
+# Create an object, a dataframe called body3_df
+# Create a grid with the variables: (1) age_group, (2) sport, (3) level
+# rep = 1:n is the repeat 20 people per group
+# the 1:n part makes it so one person can only be in one level of each factor, that is someone can't # be in both age groups, or all three sports...
+
+body3_df <- expand.grid(age_group = c("8-11", "12-15"),
+  sport = c("Gymnastics", "Ice Skating", "Soccer"),
+  level = c("Recreational", "Competitive"),
+  rep = 1:n)
+
+body3_df$person <- 1:nrow(body3_df)  # Creates a person variable for later
+
+# Next we create body-appreciation scores
+# there is a baseline of 4.00 and then this syntax uses ifelse commands to add or substract
+# from 4 depending on each person's level of the factors
+# so for example, being 12-15 simulates data that are on average -.20 below the 4.00 value
+# while for 8-11, there is 0 change in 4...
+
+body3_df$body_appreciation <- with(body3_df,
+
+  4.00 +
+
+  ifelse(age_group == "12-15", -0.20, 0) +
+
+  ifelse(
+    sport == "Gymnastics", -0.20,
+    ifelse(
+      sport == "Ice Skating", -0.20,
+      0.00
+    )
+  ) +
+
+  ifelse(level == "Competitive", -0.15, 0) +
+
+  ifelse(
+    age_group == "12-15" &
+      sport %in% c("Gymnastics", "Ice Skating"),
+    -0.30,
+    0
+  ) +
+
+  ifelse(
+    age_group == "12-15" &
+      sport == "Gymnastics" &
+      level == "Competitive",
+    -0.40,
+    0
+  ) +
+
+  rnorm(nrow(body3_df), 0, .35)
+)
+
+head(body3_df)
+```
+
+### Examine Cell Means
+
+```{r}
+body3_df |>
+  group_by(age_group, sport, level) |>
+  summarise(
+    Mean = mean(body_appreciation),
+    SD = sd(body_appreciation),
+    n = n(),
+    .groups = "drop"
+  )
+```
+
+### Visualize the Raw Means
+
+```{r}
+body3_df |>
+  group_by(age_group, sport, level) |>
+  summarise(
+    mean_body = mean(body_appreciation),
+    .groups = "drop"
+  ) |>
+  ggplot(
+    aes(
+      x = sport,
+      y = mean_body,
+      color = level,
+      group = level
+    )
+  ) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~age_group) +
+  labs(
+    title = "Body Appreciation by Age, Sport, and Competition Level",
+    x = "Sport",
+    y = "Mean Body Appreciation",
+    color = "Competition Level"
+  ) +
+  theme_minimal()
+```
+
+## Running the Three-Way ANOVA
+
+### Using afex
+
+The afex package fits ANOVA models using Type III sums of squares and integrates seamlessly with emmeans.
+
+```{r}
+model <- aov_ez(
+  id = "person",
+  dv = "body_appreciation",
+  between = c(
+    "age_group",
+    "sport",
+    "level"
+  ),
+  data = body3_df
+)
+
+anova(model)
+```
+
+### Interpretation of the ANOVA Table
+
+The ANOVA table provides tests of:
+
+- The Age Group main effect 
+  - there are age differences in body positivity
+- The Sport main effect     
+  - there are differences in body positivity across sports
+- The Competition Level main effect 
+  - there are level of competition differences
+- All two-way interactions  
+  - the age effect is different depending on sport
+  - the age effect is different depending on competition level
+  - the sport differences does *not* depend on level of competition
+- The three-way interaction 
+  - The age difference that varies by sport is the same, regarless of level of competition
+
+If the three-way interaction is significant, interpretation should focus primarily on that interaction because the lower-order effects depend on the levels of the other variables.
+
+In this case, the 3-way was non-significant and so we would focus on the interpretation of the lower order or two-way interactions 
+
+- Age-group by sport
+- Age-group by level
+
+### Pairwise Comparisons Among Sports
+
+```{r}
+age_by_sport <- emmeans(model, ~ age_group| sport) # This will condition body positivity on age_group, across sports
+# Creates an output object call emm
+
+summary(age_by_sport)
+
+pairs(age_by_sport, adjust = "tukey")
+```
+Note: These results show that age effects were statistically signifcantly different for girls in gymnastics and ice skating, but not for girls who play soccer. Note these effects are averaged across "level" which is OK in this situation since there was no three-way interaction
+
+```{r}
+age_by_level <- emmeans(model, ~ age_group| level) # This will condition body positivity on age_group, across level of competition
+
+summary(age_by_level)
+
+pairs(age_by_level, adjust = "tukey")
+```
+
+### Obtain Marginal Means
+
+These give us a sense of where differences lie
+
+```{r}
+emm <- emmeans(
+  model,
+  ~ sport | age_group * level
+)
+
+emm
+```
+
+
+
+## Planned Contrast Example
+
+Suppose we want to compare Soccer against the average of the two aesthetic sports (Gymnastics and Ice Skating).
+
+```{r}
+contrast(
+  emm,
+  method = list(
+    "Soccer vs Aesthetic Sports" =
+      c(-0.5, -0.5, 1)
+  )
+)
+```
+
+The coefficients correspond to:
+
+1. Gymnastics
+2. Ice Skating
+3. Soccer
+
+
+#
+
+## Example Write-Up
+
+Assume the analysis revealed significant main effects of age group, sport, and competition level, as well as a significant Age Group × Sport × Competition Level interaction.
+
+A three-way factorial ANOVA was conducted to examine differences in body appreciation as a function of age group, sport, and competition level. Results indicated significant main effects of age group, sport, and competition level. These effects were qualified by a significant three-way interaction among age group
+
+------------------------------------------------------------------------
+
+## Repeated-Measures ANOVA
+
+Up to this point, the ANOVAs we have examined have focused on **between-group differences** in an outcome. These analyses compare *mean scores across different groups of participants* and are appropriate for the between-subjects designs discussed thus far.
+
+Another important member of the ANOVA family is the **repeated-measures ANOVA (RMANOVA)**.
+
+A repeated-measures design involves collecting **multiple assessments from the same participant**. Rather than comparing mean scores between different groups of people, RMANOVA evaluates whether mean scores differ **within the same participants across multiple conditions or time points**.
+
+Examples from health and human sciences research include:
+
+- Do participants report different levels of exertion when running on a treadmill while (1) talking with a friend, (2) listening to music, (3) listening to an audiobook, or (4) not listening to anything?
+- Do participants beginning a new weight-training regimen report higher levels of self-confidence at 3 months and 6 months compared to baseline?
+- Do parents who attend a divorce education program show reductions in interparental conflict from the beginning of the program to the end of the 10-week intervention?
+- Do participants report increased fruit and vegetable consumption after attending a nutrition education program compared to their consumption before the program?
+
+In each of these examples, the primary research question concerns whether scores **change within individuals** across conditions or across time. Repeated measures are commonly used to evaluate change following an intervention, but they can also be used whenever researchers wish to compare participants' ratings, preferences, or performance across multiple conditions.
+
+### Mixed Designs
+
+Many studies combine repeated measures with a traditional between-subjects grouping variable. These designs are known as **mixed designs** because they include both:
+
+- A **within-subjects factor**, representing repeated observations from the same participants.
+- A **between-subjects factor**, representing differences between groups of participants.
+
+Researchers frequently use mixed designs to evaluate intervention effectiveness. In these studies:
+
+- One group receives a treatment or intervention that is expected to produce change.
+- A comparison or control group does not receive the intervention.
+- Participants in both groups are measured repeatedly over time.
+
+Mixed designs allow researchers to address three questions:
+
+1. **Within-subjects effect:** Do participants change over time?
+2. **Between-subjects effect:** Do the groups differ overall?
+3. **Interaction effect:** Does the pattern of change over time differ across groups?
+
+For example, consider a study examining a six-week strength-training program:
+
+- Does maximum leg-press strength increase from baseline to six weeks?
+- Do participants in the training program have greater strength overall than participants in a comparison group?
+- Most importantly, does the increase in strength over time differ between the training and comparison groups?
+
+Researchers might expect the two groups to be similar at baseline but differ after six weeks. Statistically, this prediction corresponds to an **interaction between time and group membership**, indicating that the amount of change over time depends on whether participants participated in the strength-training program.
+
+------------------------------------------------------------------------
+
+### Connection to Paired $t_test$s
+
+The paired samples t-test evaluates whether the mean difference between two measurements equals zero.
+
+Rather than comparing two independent groups, the same participant contributes two observations.
+
+Common examples:
+
+- Pretest vs. posttest
+- Before treatment vs. after treatment
+- Beginning of semester vs. end of semester
+- Parent report vs. child report
+- Two conditions measured on the same person
+
+------------------------------------------------------------------------
+
+# Key Idea
+
+For an independent samples t-test:
+
+$$\text{Person A is unrelated to Person B}$$
+
+For a paired samples t-test:
+
+$$\text{Observation 1 and Observation 2 belong to the same person}$$
+
+The observations are linked (paired).
+
+Ignoring the pairing throws away information and generally reduces statistical power.
+
+------------------------------------------------------------------------
+
+# Difference Scores
+
+The paired samples t-test focuses on:
+
+$$D = X_1 - X_2$$
+
+where:
+
+- $X_1$ = first measurement
+- $X_2$ = second measurement
+- $D$ = difference score
+
+------------------------------------------------------------------------
+
+# Null and Alternative Hypotheses
+
+Null hypothesis:
+
+$$H_0:\mu_D = 0$$
+
+Alternative hypothesis:
+
+$$H_A:\mu_D \neq 0$$
+
+where:
+
+$$\mu_D$$
+
+is the population mean difference.
+
+------------------------------------------------------------------------
+
+# The Test Statistic
+
+The paired samples t statistic is:
+
+$$t=
+\frac{\bar D}
+{s_D/\sqrt{n}}$$
+
+where
+
+- $\bar D$ = mean difference score
+- $s_D$ = standard deviation of difference scores
+- $n$ = number of pairs
+
+------------------------------------------------------------------------
+
+# Understanding the Formula
+
+$$t=
+\frac{\bar D}
+{s_D/\sqrt{n}}$$
+
+Numerator:
+
+$$\bar D$$
+
+Average amount of change.
+
+Denominator:
+
+$$s_D/\sqrt{n}$$
+
+Expected sampling variability in the mean difference.
+
+Interpretation:
+
+> How large is the observed average change relative to the amount of change we would expect due to random sampling error?
+
+------------------------------------------------------------------------
+
+# Annotated Formula
+
+$$t=
+\frac{
+\underbrace{\bar D}_{\text{Average change}}
+}
+{
+\underbrace{
+s_D/\sqrt{n}
+}_{\text{Standard error of the change}}
+}$$
+
+A useful way to think about the formula:
+
+$$t=
+\frac{\text{Signal}}
+{\text{Noise}}$$
+
+Signal = average change
+
+Noise = uncertainty in that change
+
+------------------------------------------------------------------------
+
+# Degrees of Freedom
+
+For a paired samples t-test:
+
+$$df = n - 1$$
+
+Example:
+
+If there are 30 participants:
+
+$$df = 29$$
+
+Notice that degrees of freedom depend on the number of pairs, not the number of observations.
+
+------------------------------------------------------------------------
+
+# Assumptions
+
+## 1. Paired Observations
+
+Scores must be meaningfully linked.
+
+Examples:
+
+- Same person measured twice
+- Married couples
+- Parent-child dyads
+
+## 2. Independence Between Pairs
+
+One participant's scores should not influence another participant's scores.
+
+## 3. Approximate Normality of Difference Scores
+
+The assumption applies to:
+
+$$D = X_1 - X_2$$
+
+not necessarily to the original variables.
+
+------------------------------------------------------------------------
+
+# Why Is Pairing Helpful?
+
+Suppose people differ greatly in baseline characteristics.
+
+Comparing participants to themselves removes much of this person-to-person variability.
+
+As a result:
+
+- Standard errors decrease
+- Statistical power increases
+- Smaller effects become easier to detect
+
+This is one reason repeated-measures designs are often efficient.
+
+------------------------------------------------------------------------
+
+# Confidence Interval
+
+The paired samples t-test produces a confidence interval for:
+
+$$\mu_D$$
+
+Interpretation:
+
+A 95% confidence interval gives a range of plausible values for the population mean change.
+
+If the interval contains 0:
+
+- Not statistically significant
+
+If the interval excludes 0:
+
+- Statistically significant
+
+------------------------------------------------------------------------
+
+# Effect Size
+
+Cohen's d for paired data is:
+
+$$d=
+\frac{\bar D}{s_D}$$
+
+General guidelines:
+
+| d   | Interpretation |
+|-----|----------------|
+| .20 | Small          |
+| .50 | Medium         |
+| .80 | Large          |
+
+Always interpret effect size separately from statistical significance.
+
+------------------------------------------------------------------------
+
+# APA Style Example
+
+A paired samples t-test indicated that statistics anxiety was significantly lower at the end of the semester than at the beginning of the semester, t(29) = 3.12, p = .004, d = 0.57.
+
+------------------------------------------------------------------------
+
+# R Code
+
+``` r
+t.test(
+  data$posttest,
+  data$pretest,
+  paired = TRUE
+)
+```
+
+or
+
+``` r
+t.test(
+  posttest,
+  pretest,
+  paired = TRUE
+)
+```
+
+The critical argument is:
+
+``` r
+paired = TRUE
+```
+
+which tells R that the observations are linked.
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+# ANCOVA
+
+Analysis of Covariance
+
+Research Question:
+
+> Do interventions differ after controlling for baseline differences?
+
+Example:
+
+Outcome:
+
+- Posttest depression
+
+Group:
+
+- Treatment vs Control
+
+Covariate:
+
+- Baseline depression
+
+------------------------------------------------------------------------
+
+# ANCOVA Model
+
+ANCOVA combines:
+
+ANOVA +
+
+Regression
+
+Conceptually:
+
+$$Outcome =
+Group + Covariate + Error$$
+
+ANCOVA adjusts group means for preexisting differences.
+
+------------------------------------------------------------------------
+
+# MANOVA
+
+MANOVA stands for:
+
+**Multivariate Analysis of Variance**
+
+ANOVA:
+
+- One outcome
+
+MANOVA:
+
+- Multiple outcomes
+
+------------------------------------------------------------------------
+
+# Example MANOVA
+
+Independent Variable:
+
+- Treatment Group
+
+Dependent Variables:
+
+- Depression
+- Anxiety
+- Stress
+- Self-Esteem
+
+Question:
+
+> Do groups differ on the overall profile of outcomes?
+
+------------------------------------------------------------------------
+
+# Why Use MANOVA?
+
+Instead of conducting:
+
+- ANOVA for Depression
+- ANOVA for Anxiety
+- ANOVA for Stress
+- ANOVA for Self-Esteem
+
+MANOVA evaluates them simultaneously.
+
+Advantages:
+
+- Controls Type I error
+- Examines combined outcome patterns
+
+------------------------------------------------------------------------
+
+# Linear Mixed Models
+
+Repeated-measures ANOVA has limitations:
+
+- Missing data
+- Unequal measurement occasions
+- Unequal spacing of observations
+- Nested data structures
+
+Mixed models address these issues.
+
+------------------------------------------------------------------------
+
+# Examples of Mixed Models
+
+Students nested within classrooms
+
+Repeated assessments nested within individuals
+
+Patients nested within clinics
+
+Family members nested within families
+
+Longitudinal developmental studies
+
+------------------------------------------------------------------------
+
+# Mixed Model Example
+
+$$Y_{ij}
+=
+\beta_0
++
+\beta_1(Time)
++
+u_i
++
+e_{ij}$$
+
+Where:
+
+- Fixed effects describe average change
+- Random effects describe individual differences
+
+------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------
+
+# Key Takeaways
+
+- The paired samples t-test evaluates whether the mean change differs from zero.
+- The analysis is conducted on difference scores.
+- The key parameter is:
+
+$$\mu_D$$
+
+- Pairing typically reduces error variance and increases power.
+
+- The normality assumption applies to the difference scores.
+
+- The test is commonly used for pretest-posttest and repeated-measures designs.
+
+  # Research Question
+
+Researchers examined whether a six-week psychological skills training and mindfulness intervention reduced stress among NCAA Division I baseball players.
+
+Participants:
+
+- 25 collegiate baseball players
+
+Outcome:
+
+- Perceived Stress Scale (PSS)
+
+Measurements:
+
+- Pre-intervention stress
+- Post-intervention stress
+
+Research question:
+
+> Did athletes report lower stress following the intervention?
+::::
+
+
+# Repeated-Measures ANOVA
+
+Up to this point, the ANOVAs we have examined have focused on **between-group differences** in an outcome. These analyses compare *mean scores across different groups of participants* and are appropriate for the between-subjects designs discussed thus far.
+
+Another important member of the ANOVA family is the **repeated-measures ANOVA (RMANOVA)**.
+
+A repeated-measures design involves collecting **multiple assessments from the same participant**. Rather than comparing mean scores between different groups of people, RMANOVA evaluates whether mean scores differ **within the same participants across multiple conditions or time points**.
+
+Examples from health and human sciences research include:
+
+- Do participants report different levels of exertion when running on a treadmill while (1) talking with a friend, (2) listening to music, (3) listening to an audiobook, or (4) not listening to anything?
+- Do participants beginning a new weight-training regimen report higher levels of self-confidence at 3 months and 6 months compared to baseline?
+- Do parents who attend a divorce education program show reductions in interparental conflict from the beginning of the program to the end of the 10-week intervention?
+- Do participants report increased fruit and vegetable consumption after attending a nutrition education program compared to their consumption before the program?
+
+In each of these examples, the primary research question concerns whether scores **change within individuals** across conditions or across time. Repeated measures are commonly used to evaluate change following an intervention, but they can also be used whenever researchers wish to compare participants' ratings, preferences, or performance across multiple conditions.
+
+### Mixed Designs
+
+Many studies combine repeated measures with a traditional between-subjects grouping variable. These designs are known as **mixed designs** because they include both:
+
+- A **within-subjects factor**, representing repeated observations from the same participants.
+- A **between-subjects factor**, representing differences between groups of participants.
+
+Researchers frequently use mixed designs to evaluate intervention effectiveness. In these studies:
+
+- One group receives a treatment or intervention that is expected to produce change.
+- A comparison or control group does not receive the intervention.
+- Participants in both groups are measured repeatedly over time.
+
+Mixed designs allow researchers to address three questions:
+
+1. **Within-subjects effect:** Do participants change over time?
+2. **Between-subjects effect:** Do the groups differ overall?
+3. **Interaction effect:** Does the pattern of change over time differ across groups?
+
+For example, consider a study examining a six-week strength-training program:
+
+- Does maximum leg-press strength increase from baseline to six weeks?
+- Do participants in the training program have greater strength overall than participants in a comparison group?
+- Most importantly, does the increase in strength over time differ between the training and comparison groups?
+
+Researchers might expect the two groups to be similar at baseline but differ after six weeks. Statistically, this prediction corresponds to an **interaction between time and group membership**, indicating that the amount of change over time depends on whether participants participated in the strength-training program.
+
+## Example 1: One-Factor Repeated-Measures ANOVA
+
+### Research Scenario
+
+Suppose exercise researchers are interested in whether different auditory distractions influence perceived exertion during exercise.
+
+Participants complete a 20-minute treadmill run under four conditions:
+
+- Talking with a friend
+- Listening to music
+- Listening to an audiobook
+- No audio stimulus
+
+After each run, participants rate their perceived exertion on a scale ranging from 1 to 20.
+
+### Why a Repeated-Measures ANOVA?
+
+A traditional one-way ANOVA would not be appropriate because the observations are not independent. Each participant contributes four observations, one for each listening condition.
+
+A repeated-measures ANOVA is ideal because:
+
+- The same participants experience all four conditions.
+- Each participant serves as their own control.
+- Individual differences are removed from the error term, increasing statistical power.
+- The analysis directly evaluates whether mean exertion differs across listening conditions.
+
+The within-subjects factor is:
+
+```text
+Condition
+```
+
+with four levels:
+
+```text
+Talking
+Music
+Audiobook
+Silence
+```
+
+The outcome variable is:
+
+```text
+Perceived Exertion
+```
+
+### Simulate Data
+
+```{r}
+library(tidyverse)
+
+set.seed(627)
+
+n <- 30
+
+dat <- data.frame(
+  id = factor(1:n),
+  talking   = rnorm(n, 14.5, 1.5),
+  music     = rnorm(n, 13.0, 1.5),
+  audiobook = rnorm(n, 14.0, 1.5),
+  silence   = rnorm(n, 15.5, 1.5)
+)
+
+head(dat)
+```
+
+### Reshape to Long Format
+
+```{r}
+library(tidyr)
+
+long_dat <- dat |>
+  pivot_longer(
+    cols = talking:silence,
+    names_to = "condition",
+    values_to = "exertion"
+  )
+
+head(long_dat)
+```
+
+### Examine Condition Means
+
+```{r}
+long_dat |>
+  group_by(condition) |>
+  summarise(
+    Mean = mean(exertion),
+    SD = sd(exertion)
+  )
+```
+
+### Conduct the Repeated-Measures ANOVA
+
+```{r}
+model <- aov(  exertion ~ condition + Error(id/condition),
+  data = long_dat)
+
+summary(model)
+```
+
+### Follow-Up Pairwise Comparisons
+
+If the omnibus F test is significant, pairwise comparisons can be used to determine which conditions differ.
+
+```{r}
+library(emmeans)
+
+emmeans(model, pairwise ~ condition, adjust = "bonferroni")
+```
+
+### Interpretation
+
+The omnibus F test evaluates the following null hypothesis:
+
+> The mean level of perceived exertion is equal across all four listening conditions.
+
+If the test is statistically significant, at least one condition mean differs from another condition mean.
+
+::: {.callout-note}
+Repeated-measures ANOVA extends the one-way ANOVA by accounting for the fact that multiple observations come from the same participant. Each participant contributes data to every condition.
+:::
+
+## Example 2: Mixed-Design ANOVA
+
+### Research Scenario
+
+Researchers develop a six-week strength-training intervention and wish to determine whether participation in the program increases leg-press strength relative to a comparison group.
+
+Participants are assessed at:
+
+- Baseline
+- Six Weeks
+
+Participants belong to one of two groups:
+
+- Training Program
+- Control Group
+
+### Why a Mixed-Design ANOVA?
+
+This study contains both a repeated-measures factor and a between-subjects factor.
+
+The repeated-measures factor is:
+
+```text
+Time
+```
+
+with two levels:
+
+```text
+Baseline
+Six Weeks
+```
+
+The between-subjects factor is:
+
+```text
+Group
+```
+
+with two levels:
+
+```text
+Training
+Control
+```
+
+A mixed-design ANOVA is appropriate because researchers wish to answer three questions:
+
+1. Do participants change over time?
+2. Do groups differ overall?
+3. Does the amount of change over time differ between groups?
+
+The third question is usually the most important because it evaluates whether the intervention produced greater improvement than would be expected without the intervention.
+
+### Hypothesized Means
+
+Researchers might anticipate results similar to those below.
+
+| Group | Baseline | Six Weeks |
+|---------|---------:|---------:|
+| Control | 100 | 104 |
+| Training | 100 | 125 |
+
+Both groups begin at approximately the same strength level, but the training group is expected to improve substantially more over time.
+
+### Simulate Data
+
+```{r}
+library(tidyverse)
+
+set.seed(627)
+
+n_group <- 25
+
+control <-
+  data.frame(
+    id = 1:n_group,
+    group = "Control",
+    pre = rnorm(n_group, 100, 10),
+    post = rnorm(n_group, 104, 10)
+  )
+
+training <-
+  data.frame(
+    id = (n_group + 1):(2 * n_group),
+    group = "Training",
+    pre = rnorm(n_group, 100, 10),
+    post = rnorm(n_group, 125, 10)
+  )
+
+dat <- bind_rows(control, training)
+
+head(dat)
+```
+
+### Reshape to Long Format
+
+```{r}
+long_dat <- dat |>
+  pivot_longer(
+    cols = pre:post,
+    names_to = "time",
+    values_to = "strength"
+  ) |>
+  mutate(
+    time = factor(time, levels = c("pre", "post"))
+  )
+
+head(long_dat)
+```
+
+### Examine Cell Means
+
+```{r}
+long_dat |>
+  group_by(group, time) |>
+  summarise(
+    Mean = mean(strength),
+    SD = sd(strength),
+    .groups = "drop"
+  )
+```
+
+### Conduct the Mixed-Design ANOVA
+
+::: {callout-note} The 'rstatix' package
+
+rstatix is a package that can run many of the models we will do in class. The advantage is that this package was designed to work with tidyverse functions and packages. Using dplyr, ggplot and other packages will make this more seamless. For ANOVAs, there are a number of built-in functions as well that can make output easier to examine.
+
+:::
+
+```{r}
+library(rstatix)
+
+long_dat |>
+  anova_test(
+    dv = strength,
+    wid = id,
+    within = time,
+    between = group
+  )
+```
+### Interpreting the Mixed-Design ANOVA
+
+The mixed-design ANOVA revealed statistically significant effects for **group**, **time**, and the **group × time interaction**.
+
+A significant **main effect of group**, *F*(1, 48) = 27.40, *p* < .001, indicated that participants in the training and control groups differed in leg-press strength when averaging across the two measurement occasions. The generalized eta-squared value (*η²*<sub>G</sub> = .211) suggests a relatively large effect of group membership.
+
+A significant **main effect of time**, *F*(1, 48) = 39.10, *p* < .001, indicated that leg-press strength changed from baseline to six weeks when averaging across both groups. The effect size (*η²*<sub>G</sub> = .302) suggests that a substantial proportion of the variance in strength was associated with changes over time.
+
+Most importantly, the **group × time interaction** was statistically significant, *F*(1, 48) = 11.56, *p* = .001, *η²*<sub>G</sub> = .114. This interaction indicates that the amount of change in leg-press strength over time differed between the training and control groups. In other words, the pattern of improvement from baseline to six weeks depended on whether participants participated in the strength-training program.
+
+Because the interaction was significant, it should be the primary focus of interpretation. The significant interaction suggests that the training program was associated with greater gains in strength over time relative to the control group. Follow-up analyses, such as estimated marginal means and pairwise comparisons, can be used to determine precisely how the groups differed at each time point.
+### Visualize the Interaction
+
+```{r}
+long_dat |>
+  group_by(group, time) |>
+  summarise(
+    mean_strength = mean(strength),
+    .groups = "drop"
+  ) |>
+  ggplot(
+    aes(
+      x = time,
+      y = mean_strength,
+      color = group,
+      group = group
+    )
+  ) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  labs(
+    x = "Time",
+    y = "Mean Leg-Press Strength",
+    color = "Group"
+  ) +
+  theme_minimal()
+```
+
+### Interpreting the Three Effects
+
+#### Main Effect of Time
+
+This effect tests:
+
+> Do participants change from baseline to six weeks, ignoring group membership?
+
+#### Main Effect of Group
+
+This effect tests:
+
+> Do the training and control groups differ overall, ignoring time?
+
+#### Time × Group Interaction
+
+This effect tests:
+
+> Does the amount of change over time depend on group membership?
+
+The interaction is usually the primary research question in intervention studies.
+
+### Follow-Up Tests for a Significant Interaction
+
+If the interaction is significant, researchers commonly examine group differences at each time point.
+
+```{r}
+library(emmeans)
+
+model <- aov(
+  strength ~ group * time +
+    Error(id/time),
+  data = long_dat
+)
+
+emmeans(model, pairwise ~ group | time)
+
+
+```
+Note that rstatix cannot calculate some statistics, a better package is *afex* which helps assist with complex error terms. This assists with more complex models like RM ANOVAs with within and between subjects factors. 
+
+
+```{r}
+
+library(afex)
+
+model <- aov_ez(
+  id = "id",
+  dv = "strength",
+  within = "time",
+  between = "group",
+  data = long_dat)
+
+anova(model)
+
+emmeans(model, pairwise ~ group | time)
+
+```
+
+Researchers can then determine:
+
+- Were groups equivalent at baseline?
+- Did groups differ after six weeks?
+
+### Summary
+
+The first example used a repeated-measures ANOVA to compare four conditions measured within the same individuals.
+
+The second example extended this logic by incorporating a between-subjects grouping variable. Mixed-design ANOVA allows researchers to evaluate whether within-person changes differ across groups, which is why it is commonly used in intervention research.
+
+::: {.callout-note}
+In intervention studies, researchers are often most interested in the interaction effect because it tests whether the treatment group changes differently over time than the control group.
+:::
+
+## Common Challenges in Repeated-Measures ANOVA
+
+Although repeated-measures ANOVA is a useful method for analyzing change over time and other within-person processes, it has several limitations. Two of the most important concerns are **missing data** and **violations of sphericity**.
+
+### Missing Data
+
+Repeated-measures ANOVA generally requires complete data for every participant across all measurement occasions. If a participant is missing even a single observation, most software will remove that participant entirely from the analysis.
+
+For example, suppose a participant completes assessments at baseline and 3 months but misses the 6-month assessment. In a traditional repeated-measures ANOVA, the participant would typically be excluded from the analysis.
+
+This approach, known as **listwise deletion**, can create several problems:
+
+- Reduced sample size and statistical power.
+- Potential bias if missingness is not completely random.
+- Loss of valuable information from participants who completed most of the study.
+
+As a result, repeated-measures ANOVA is often not the preferred method when substantial missing data are present.
+
+::: {.callout-note}
+One reason many researchers now prefer linear mixed models is that mixed models can often incorporate participants with incomplete data rather than excluding them entirely.
+:::
+
+### Sphericity
+
+Another important assumption of repeated-measures ANOVA is **sphericity**.
+
+Sphericity refers to the requirement that the variances of all possible difference scores between repeated measures are equal.
+
+For example, consider a study with three measurement occasions:
+
+- Baseline
+- 3 Months
+- 6 Months
+
+Three difference scores can be created:
+
+```text
+Baseline - 3 Months
+Baseline - 6 Months
+3 Months - 6 Months
+```
+
+The sphericity assumption requires the variances of these difference scores to be approximately equal.
+
+### Why Does Sphericity Matter?
+
+Violations of sphericity can inflate the Type I error rate. In practical terms, this means researchers may be more likely to incorrectly conclude that a statistically significant effect exists when it actually does not.
+
+Fortunately, sphericity is only a concern when the within-subjects factor has **three or more levels**.
+
+For example:
+
+| Design | Sphericity Required? |
+|----------|----------|
+| Pretest vs Posttest | No |
+| Baseline, 3 Months, 6 Months | Yes |
+| Four Listening Conditions | Yes |
+
+When a repeated-measures factor contains only two levels, sphericity is automatically satisfied.
+
+### Testing Sphericity
+
+The most common test of sphericity is **Mauchly's Test of Sphericity**.
+
+In R, this information is typically provided automatically when conducting a repeated-measures ANOVA.
+
+The hypotheses are:
+
+```text
+H0: Sphericity is satisfied
+HA: Sphericity is violated
+```
+
+Interpretation:
+
+- Non-significant result (*p* > .05): Assumption appears satisfied.
+- Significant result (*p* < .05): Assumption is violated.
+
+Because Mauchly's test can be sensitive to sample size, researchers should view it as one piece of evidence rather than a definitive answer.
+
+### Adjusting for Violations of Sphericity
+
+When sphericity is violated, researchers typically apply a correction to the degrees of freedom used in the F test.
+
+Two common corrections are:
+
+#### Greenhouse-Geisser Correction
+
+The Greenhouse-Geisser correction is the most commonly reported adjustment.
+
+- More conservative.
+- Reduces degrees of freedom.
+- Produces a larger p-value.
+- Often recommended when the violation is substantial.
+
+#### Huynh-Feldt Correction
+
+The Huynh-Feldt correction is less conservative.
+
+- Reduces degrees of freedom to a lesser extent.
+- Produces a smaller adjustment than Greenhouse-Geisser.
+- Sometimes reported when the violation is mild.
+
+### Reporting Corrected Results
+
+When Mauchly's test indicates that sphericity has been violated, researchers typically report the corrected F test.
+
+For example:
+
+> Mauchly's test indicated that the assumption of sphericity was violated. Therefore, Greenhouse-Geisser corrected results were interpreted. The effect of time remained statistically significant, *F*(1.84, 53.24) = 8.72, *p* = .001.
+
+### Summary
+
+Repeated-measures ANOVA has two important limitations:
+
+1. **Missing data** often lead to participant exclusion through listwise deletion.
+2. **Violations of sphericity** can inflate Type I error rates when a within-subjects factor has three or more levels.
+
+Researchers address these concerns by:
+
+- Evaluating data for missingness.
+- Conducting Mauchly's test of sphericity.
+- Applying Greenhouse-Geisser or Huynh-Feldt corrections when necessary.
+
+These limitations are among the primary reasons why many contemporary researchers have moved toward **linear mixed models**, which handle missing data more flexibly and do not require the assumption of sphericity.
+
+## Example 3: Mixed-Design ANOVA with Three Repeated Measures
+
+### Research Scenario
+
+Researchers are interested in whether **high-intensity interval training (HIIT)** produces greater improvements in cardiorespiratory fitness than a traditional **steady-state elliptical training program**.
+
+Participants are randomly assigned to one of two exercise programs:
+
+- HIIT Training
+- Steady-State Training
+
+VO₂ Max is assessed at three time points:
+
+- Baseline
+- 3 Months
+- 6 Months
+
+The primary research question is:
+
+> Does the pattern of change in VO₂ Max over six months differ between participants in the HIIT and steady-state training programs?
+
+Because participants are measured repeatedly over time and belong to one of two exercise programs, a **mixed-design ANOVA** is an appropriate statistical analysis.
+
+The design contains:
+
+### Within-Subjects Factor
+
+```text
+Time
+```
+
+- Baseline
+- Month 3
+- Month 6
+
+### Between-Subjects Factor
+
+```text
+Training Program
+```
+
+- HIIT
+- Steady-State
+
+### Dependent Variable
+
+```text
+VO₂ Max
+```
+
+measured in mL/kg/min.
+
+### Hypothesized Means
+
+| Group | Baseline | Month 3 | Month 6 |
+|---------|---------:|---------:|---------:|
+| Steady-State | 35 | 37 | 39 |
+| HIIT | 35 | 41 | 46 |
+
+Researchers expect both groups to improve over time, but the HIIT group is expected to improve more rapidly.
+
+### Simulate Data
+
+```{r}
+library(tidyverse)
+
+set.seed(627)
+
+n_group <- 30
+
+steady <- data.frame(
+  id = 1:n_group,
+  group = "Steady-State",
+  baseline = rnorm(n_group, 35, 4),
+  month3   = rnorm(n_group, 37, 4),
+  month6   = rnorm(n_group, 39, 4)
+)
+
+hiit <- data.frame(
+  id = (n_group + 1):(2 * n_group),
+  group = "HIIT",
+  baseline = rnorm(n_group, 35, 4),
+  month3   = rnorm(n_group, 41, 4),
+  month6   = rnorm(n_group, 46, 4)
+)
+
+dat <- bind_rows(steady, hiit)
+
+head(dat)
+```
+
+### Convert to Long Format
+
+```{r}
+long_dat <- dat |>
+  pivot_longer(
+    baseline:month6,
+    names_to = "time",
+    values_to = "vo2max"
+  ) |>
+  mutate(
+    time = factor(
+      time,
+      levels = c("baseline", "month3", "month6")
+    )
+  )
+
+head(long_dat)
+```
+
+### Examine Cell Means
+
+```{r}
+long_dat |>
+  group_by(group, time) |>
+  summarise(
+    Mean = mean(vo2max),
+    SD = sd(vo2max),
+    .groups = "drop"
+  )
+```
+
+### Conduct the Mixed-Design ANOVA
+
+```{r}
+library(afex)
+
+model <- aov_ez(
+  id = "id",
+  dv = "vo2max",
+  within = "time",
+  between = "group",
+  data = long_dat
+)
+
+anova(model)
+```
+
+### Visualize the Interaction
+
+```{r}
+long_dat |>
+  group_by(group, time) |>
+  summarise(
+    mean_vo2 = mean(vo2max),
+    .groups = "drop"
+  ) |>
+  ggplot(
+    aes(
+      x = time,
+      y = mean_vo2,
+      color = group,
+      group = group
+    )
+  ) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  labs(
+    x = "Time",
+    y = "Mean VO₂ Max",
+    color = "Training Program"
+  ) +
+  theme_minimal()
+```
+
+### Interpreting the ANOVA
+
+The mixed-design ANOVA evaluates three research questions:
+
+#### Main Effect of Time
+
+> Does VO₂ Max change from baseline to Month 3 to Month 6, averaging across both training programs?
+
+#### Main Effect of Group
+
+> Do participants in the HIIT and Steady-State programs differ in overall VO₂ Max, averaging across all three measurement occasions?
+
+#### Time × Group Interaction
+
+> Does the pattern of change in VO₂ Max over time differ between the two exercise programs?
+
+The interaction is typically the primary research question because it evaluates whether one training program produces larger improvements over time than the other.
+
+### Evaluating the Sphericity Assumption
+
+Unlike pretest-posttest designs, this study contains **three repeated measurements**, so the assumption of sphericity must be evaluated.
+
+The ANOVA output from `afex` will automatically provide:
+
+- Mauchly's Test of Sphericity
+- Greenhouse-Geisser correction
+- Huynh-Feldt correction
+
+```{r}
+
+summary(model)
+
+```
+
+### Mauchly's Test of Sphericity
+
+The hypotheses are:
+
+```text
+H0: Sphericity is satisfied
+
+HA: Sphericity is violated
+```
+
+Interpretation:
+
+- **p > .05**: The assumption appears satisfied.
+- **p < .05**: The assumption has been violated.
+
+When the test is statistically significant, researchers typically interpret one of the corrected tests instead of the uncorrected ANOVA results.
+
+### Greenhouse-Geisser Correction
+
+The Greenhouse-Geisser correction is the most commonly reported adjustment.
+
+When applied:
+
+- Degrees of freedom are reduced.
+- The resulting p-value becomes more conservative.
+- Protection against inflated Type I error is improved.
+
+Researchers often report the Greenhouse-Geisser corrected results when Mauchly's test is statistically significant.
+
+### Huynh-Feldt Correction
+
+The Huynh-Feldt correction is a less conservative alternative.
+
+Like the Greenhouse-Geisser correction, it adjusts the degrees of freedom and p-values when sphericity has been violated.
+
+```{r}
+
+# This summary assumes that the Greenhouse-Geisser correction has been applied, note the difference in the p values
+
+anova(model)
+
+```
+
+### Follow-Up Comparisons
+
+If the interaction is statistically significant, follow-up analyses can be used to determine where differences occur.
+
+#### Compare Groups at Each Time Point
+
+```{r}
+library(emmeans)
+
+emmeans(model, pairwise ~ group | time)
+```
+
+These comparisons answer:
+
+- Were the groups equivalent at baseline?
+- Did the groups differ at Month 3?
+- Did the groups differ at Month 6?
+
+#### Compare Time Points Within Each Group
+
+```{r}
+emmeans(model, pairwise ~ time | group)
+```
+
+These comparisons answer:
+
+- Did the Steady-State group improve over time?
+- Did the HIIT group improve over time?
+- Which time intervals showed significant improvement?
+
+::: {.callout-note}
+This example illustrates one of the most important differences between repeated-measures ANOVA and mixed-design ANOVA. A repeated-measures ANOVA examines whether scores change across time or conditions within participants, whereas a mixed-design ANOVA additionally evaluates whether those within-person changes differ across groups. Because this example contains three repeated measurements, it also provides an opportunity to evaluate the assumption of sphericity and apply Greenhouse-Geisser or Huynh-Feldt corrections when necessary.
+:::

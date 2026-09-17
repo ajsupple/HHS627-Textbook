@@ -1,0 +1,457 @@
+-
+## Repeated-Measures ANOVA
+
+Up to this point, the ANOVAs we have examined have focused on **between-group differences** in an outcome. These analyses compare *mean scores across different groups of participants* and are appropriate for the between-subjects designs discussed thus far.
+
+Another important member of the ANOVA family is the **repeated-measures ANOVA (RMANOVA)**.
+
+A repeated-measures design involves collecting **multiple assessments from the same participant**. Rather than comparing mean scores between different groups of people, RMANOVA evaluates whether mean scores differ **within the same participants across multiple conditions or time points**.
+
+Examples from health and human sciences research include:
+
+- Do participants report different levels of exertion when running on a treadmill while (1) talking with a friend, (2) listening to music, (3) listening to an audiobook, or (4) not listening to anything?
+- Do participants beginning a new weight-training regimen report higher levels of self-confidence at 3 months and 6 months compared to baseline?
+- Do parents who attend a divorce education program show reductions in interparental conflict from the beginning of the program to the end of the 10-week intervention?
+- Do participants report increased fruit and vegetable consumption after attending a nutrition education program compared to their consumption before the program?
+
+In each of these examples, the primary research question concerns whether scores **change within individuals** across conditions or across time. Repeated measures are commonly used to evaluate change following an intervention, but they can also be used whenever researchers wish to compare participants' ratings, preferences, or performance across multiple conditions.
+
+### Mixed Designs
+
+Many studies combine repeated measures with a traditional between-subjects grouping variable. These designs are known as **mixed designs** because they include both:
+
+- A **within-subjects factor**, representing repeated observations from the same participants.
+- A **between-subjects factor**, representing differences between groups of participants.
+
+Researchers frequently use mixed designs to evaluate intervention effectiveness. In these studies:
+
+- One group receives a treatment or intervention that is expected to produce change.
+- A comparison or control group does not receive the intervention.
+- Participants in both groups are measured repeatedly over time.
+
+Mixed designs allow researchers to address three questions:
+
+1.  **Within-subjects effect:** Do participants change over time?
+2.  **Between-subjects effect:** Do the groups differ overall?
+3.  **Interaction effect:** Does the pattern of change over time differ across groups?
+
+For example, consider a study examining a six-week strength-training program:
+
+- Does maximum leg-press strength increase from baseline to six weeks?
+- Do participants in the training program have greater strength overall than participants in a comparison group?
+- Most importantly, does the increase in strength over time differ between the training and comparison groups?
+
+Researchers might expect the two groups to be similar at baseline but differ after six weeks. Statistically, this prediction corresponds to an **interaction between time and group membership**, indicating that the amount of change over time depends on whether participants participated in the strength-training program.
+
+
+### Summary
+
+The first example used a repeated-measures ANOVA to compare four conditions measured within the same individuals.
+
+The second example extended this logic by incorporating a between-subjects grouping variable. Mixed-design ANOVA allows researchers to evaluate whether within-person changes differ across groups, which is why it is commonly used in intervention research.
+
+::: callout-note
+In intervention studies, researchers are often most interested in the interaction effect because it tests whether the treatment group changes differently over time than the control group.
+:::
+
+## Common Challenges in Repeated-Measures ANOVA
+
+Although repeated-measures ANOVA is a useful method for analyzing change over time and other within-person processes, it has several limitations. Two of the most important concerns are **missing data** and **violations of sphericity**.
+
+### Missing Data
+
+Repeated-measures ANOVA generally requires complete data for every participant across all measurement occasions. If a participant is missing even a single observation, most software will remove that participant entirely from the analysis.
+
+For example, suppose a participant completes assessments at baseline and 3 months but misses the 6-month assessment. In a traditional repeated-measures ANOVA, the participant would typically be excluded from the analysis.
+
+This approach, known as **listwise deletion**, can create several problems:
+
+- Reduced sample size and statistical power.
+- Potential bias if missingness is not completely random.
+- Loss of valuable information from participants who completed most of the study.
+
+As a result, repeated-measures ANOVA is often not the preferred method when substantial missing data are present.
+
+::: callout-note
+One reason many researchers now prefer linear mixed models is that mixed models can often incorporate participants with incomplete data rather than excluding them entirely.
+:::
+
+### Sphericity
+
+Another important assumption of repeated-measures ANOVA is **sphericity**.
+
+Sphericity refers to the requirement that the variances of all possible difference scores between repeated measures are equal.
+
+For example, consider a study with three measurement occasions:
+
+- Baseline
+- 3 Months
+- 6 Months
+
+Three difference scores can be created:
+
+``` text
+Baseline - 3 Months
+Baseline - 6 Months
+3 Months - 6 Months
+```
+
+The sphericity assumption requires the variances of these difference scores to be approximately equal.
+
+### Why Does Sphericity Matter?
+
+Violations of sphericity can inflate the Type I error rate. In practical terms, this means researchers may be more likely to incorrectly conclude that a statistically significant effect exists when it actually does not.
+
+Fortunately, sphericity is only a concern when the within-subjects factor has **three or more levels**.
+
+For example:
+
+| Design                       | Sphericity Required? |
+|------------------------------|----------------------|
+| Pretest vs Posttest          | No                   |
+| Baseline, 3 Months, 6 Months | Yes                  |
+| Four Listening Conditions    | Yes                  |
+
+When a repeated-measures factor contains only two levels, sphericity is automatically satisfied.
+
+### Testing Sphericity
+
+The most common test of sphericity is **Mauchly's Test of Sphericity**.
+
+In R, this information is typically provided automatically when conducting a repeated-measures ANOVA.
+
+The hypotheses are:
+
+``` text
+H0: Sphericity is satisfied
+HA: Sphericity is violated
+```
+
+Interpretation:
+
+- Non-significant result (*p* \> .05): Assumption appears satisfied.
+- Significant result (*p* \< .05): Assumption is violated.
+
+Because Mauchly's test can be sensitive to sample size, researchers should view it as one piece of evidence rather than a definitive answer.
+
+### Adjusting for Violations of Sphericity
+
+When sphericity is violated, researchers typically apply a correction to the degrees of freedom used in the F test.
+
+Two common corrections are:
+
+#### Greenhouse-Geisser Correction
+
+The Greenhouse-Geisser correction is the most commonly reported adjustment.
+
+- More conservative.
+- Reduces degrees of freedom.
+- Produces a larger p-value.
+- Often recommended when the violation is substantial.
+
+#### Huynh-Feldt Correction
+
+The Huynh-Feldt correction is less conservative.
+
+- Reduces degrees of freedom to a lesser extent.
+- Produces a smaller adjustment than Greenhouse-Geisser.
+- Sometimes reported when the violation is mild.
+
+### Reporting Corrected Results
+
+When Mauchly's test indicates that sphericity has been violated, researchers typically report the corrected F test.
+
+For example:
+
+> Mauchly's test indicated that the assumption of sphericity was violated. Therefore, Greenhouse-Geisser corrected results were interpreted. The effect of time remained statistically significant, *F*(1.84, 53.24) = 8.72, *p* = .001.
+
+### Summary
+
+Repeated-measures ANOVA has two important limitations:
+
+1.  **Missing data** often lead to participant exclusion through listwise deletion.
+2.  **Violations of sphericity** can inflate Type I error rates when a within-subjects factor has three or more levels.
+
+Researchers address these concerns by:
+
+- Evaluating data for missingness.
+- Conducting Mauchly's test of sphericity.
+- Applying Greenhouse-Geisser or Huynh-Feldt corrections when necessary.
+
+These limitations are among the primary reasons why many contemporary researchers have moved toward **linear mixed models**, which handle missing data more flexibly and do not require the assumption of sphericity.
+
+## Example 3: Mixed-Design ANOVA with Three Repeated Measures
+
+### Research Scenario
+
+Researchers are interested in whether **high-intensity interval training (HIIT)** produces greater improvements in cardiorespiratory fitness than a traditional **steady-state elliptical training program**.
+
+Participants are randomly assigned to one of two exercise programs:
+
+- HIIT Training
+- Steady-State Training
+
+VO₂ Max is assessed at three time points:
+
+- Baseline
+- 3 Months
+- 6 Months
+
+The primary research question is:
+
+> Does the pattern of change in VO₂ Max over six months differ between participants in the HIIT and steady-state training programs?
+
+Because participants are measured repeatedly over time and belong to one of two exercise programs, a **mixed-design ANOVA** is an appropriate statistical analysis.
+
+The design contains:
+
+### Within-Subjects Factor
+
+``` text
+Time
+```
+
+- Baseline
+- Month 3
+- Month 6
+
+### Between-Subjects Factor
+
+``` text
+Training Program
+```
+
+- HIIT
+- Steady-State
+
+### Dependent Variable
+
+``` text
+VO₂ Max
+```
+
+measured in mL/kg/min.
+
+### Hypothesized Means
+
+| Group        | Baseline | Month 3 | Month 6 |
+|--------------|---------:|--------:|--------:|
+| Steady-State |       35 |      37 |      39 |
+| HIIT         |       35 |      41 |      46 |
+
+Researchers expect both groups to improve over time, but the HIIT group is expected to improve more rapidly.
+
+### Simulate Data
+
+```{r}
+library(tidyverse)
+
+set.seed(627)
+
+n_group <- 30
+
+steady <- data.frame(
+  id = 1:n_group,
+  group = "Steady-State",
+  baseline = rnorm(n_group, 35, 4),
+  month3   = rnorm(n_group, 37, 4),
+  month6   = rnorm(n_group, 39, 4)
+)
+
+hiit <- data.frame(
+  id = (n_group + 1):(2 * n_group),
+  group = "HIIT",
+  baseline = rnorm(n_group, 35, 4),
+  month3   = rnorm(n_group, 41, 4),
+  month6   = rnorm(n_group, 46, 4)
+)
+
+dat <- bind_rows(steady, hiit)
+
+head(dat)
+```
+
+### Convert to Long Format
+
+```{r}
+long_dat <- dat |>
+  pivot_longer(
+    baseline:month6,
+    names_to = "time",
+    values_to = "vo2max"
+  ) |>
+  mutate(
+    time = factor(
+      time,
+      levels = c("baseline", "month3", "month6")
+    )
+  )
+
+head(long_dat)
+```
+
+### Examine Cell Means
+
+```{r}
+long_dat |>
+  group_by(group, time) |>
+  summarise(
+    Mean = mean(vo2max),
+    SD = sd(vo2max),
+    .groups = "drop"
+  )
+```
+
+### Conduct the Mixed-Design ANOVA
+
+```{r}
+library(afex)
+
+model <- aov_ez(
+  id = "id",
+  dv = "vo2max",
+  within = "time",
+  between = "group",
+  data = long_dat
+)
+
+anova(model)
+```
+
+### Visualize the Interaction
+
+```{r}
+long_dat |>
+  group_by(group, time) |>
+  summarise(
+    mean_vo2 = mean(vo2max),
+    .groups = "drop"
+  ) |>
+  ggplot(
+    aes(
+      x = time,
+      y = mean_vo2,
+      color = group,
+      group = group
+    )
+  ) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  labs(
+    x = "Time",
+    y = "Mean VO₂ Max",
+    color = "Training Program"
+  ) +
+  theme_minimal()
+```
+
+### Interpreting the ANOVA
+
+The mixed-design ANOVA evaluates three research questions:
+
+#### Main Effect of Time
+
+> Does VO₂ Max change from baseline to Month 3 to Month 6, averaging across both training programs?
+
+#### Main Effect of Group
+
+> Do participants in the HIIT and Steady-State programs differ in overall VO₂ Max, averaging across all three measurement occasions?
+
+#### Time × Group Interaction
+
+> Does the pattern of change in VO₂ Max over time differ between the two exercise programs?
+
+The interaction is typically the primary research question because it evaluates whether one training program produces larger improvements over time than the other.
+
+### Evaluating the Sphericity Assumption
+
+Unlike pretest-posttest designs, this study contains **three repeated measurements**, so the assumption of sphericity must be evaluated.
+
+The ANOVA output from `afex` will automatically provide:
+
+- Mauchly's Test of Sphericity
+- Greenhouse-Geisser correction
+- Huynh-Feldt correction
+
+```{r}
+
+summary(model)
+
+```
+
+### Mauchly's Test of Sphericity
+
+The hypotheses are:
+
+``` text
+H0: Sphericity is satisfied
+
+HA: Sphericity is violated
+```
+
+Interpretation:
+
+- **p \> .05**: The assumption appears satisfied.
+- **p \< .05**: The assumption has been violated.
+
+When the test is statistically significant, researchers typically interpret one of the corrected tests instead of the uncorrected ANOVA results.
+
+### Greenhouse-Geisser Correction
+
+The Greenhouse-Geisser correction is the most commonly reported adjustment.
+
+When applied:
+
+- Degrees of freedom are reduced.
+- The resulting p-value becomes more conservative.
+- Protection against inflated Type I error is improved.
+
+Researchers often report the Greenhouse-Geisser corrected results when Mauchly's test is statistically significant.
+
+### Huynh-Feldt Correction
+
+The Huynh-Feldt correction is a less conservative alternative.
+
+Like the Greenhouse-Geisser correction, it adjusts the degrees of freedom and p-values when sphericity has been violated.
+
+```{r}
+
+# This summary assumes that the Greenhouse-Geisser correction has been applied, note the difference in the p values
+
+anova(model)
+
+```
+
+### Follow-Up Comparisons
+
+If the interaction is statistically significant, follow-up analyses can be used to determine where differences occur.
+
+#### Compare Groups at Each Time Point
+
+```{r}
+library(emmeans)
+
+emmeans(model, pairwise ~ group | time)
+```
+
+These comparisons answer:
+
+- Were the groups equivalent at baseline?
+- Did the groups differ at Month 3?
+- Did the groups differ at Month 6?
+
+#### Compare Time Points Within Each Group
+
+```{r}
+emmeans(model, pairwise ~ time | group)
+```
+
+These comparisons answer:
+
+- Did the Steady-State group improve over time?
+- Did the HIIT group improve over time?
+- Which time intervals showed significant improvement?
+
+::: callout-note
+This example illustrates one of the most important differences between repeated-measures ANOVA and mixed-design ANOVA. A repeated-measures ANOVA examines whether scores change across time or conditions within participants, whereas a mixed-design ANOVA additionally evaluates whether those within-person changes differ across groups. Because this example contains three repeated measurements, it also provides an opportunity to evaluate the assumption of sphericity and apply Greenhouse-Geisser or Huynh-Feldt corrections when necessary.
+:::

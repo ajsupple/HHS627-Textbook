@@ -1,0 +1,205 @@
+---
+title: "Data Cleaning and Using R Slides"
+format: pptx
+---
+
+## Using R to Read Data, Recode Variables, and Prepare Data for Analysis
+
+Usually to get started with some sort of data analysis we will follow these steps:
+
+1.  Read data into R
+2.  View and inspect data
+3.  Clean any data issues or problems
+4.  Recode where necessary
+5.  Create summary variables if necessary
+6.  Standardizing variables
+7.  Decisions regarding missing data
+
+## Reading data into R
+
+Base R has a number of built-in functions for reading in text and ASCII data
+
+- Some key terms: Data are *delimited* or separated in text files by things like *tabs*, *commas*, or *spaces*
+- How the data are delimited influences which function should be used
+- For example, if I want to read in a comma separated file (.csv) that I have saved using Excel or notepad
+  - data_file \<- read.csv("stored_data.csv")
+
+## Example using R Code
+
+```{r}
+#| echo: true 
+#| eval: false
+Hmong_df <- read.csv("HmongData.csv") # read.csv
+head(Hmong_df)                        # Show the first few lines
+str(Hmong_df)       # structure
+# names(Hmong_df)     # variable names - too long for now
+
+
+```
+
+## Quick Cheatsheet
+
+- read.csv(): CSV files
+
+- read.delim(): Tab-delimited files
+
+- read.table(): General text files
+
+- read.fwf(): Fixed-width files load(): .RData files
+
+- readRDS(): .rds files file.choose(): Browse for file
+
+- note the file.choose() - this allows for opening a folder, and then clicking in the file
+
+## File.choose option
+
+```{r}
+#| echo: true 
+#| eval: false
+Hmong_df<-read.csv(file.choose())
+# Opens a file browser so you can point and click # to select a data file
+\
+```
+
+## Full workup for the Hmong .csv file
+
+Note that the HmongData.csv has missing data values coded as -99
+
+- Need to communicate that to R
+- There are also options regarding whether the first row contains variable names
+  - header = TRUE or header = FALSE
+  - Since header = T is the default, I omit it in my code
+
+```{r}
+#| echo: true 
+#| eval: false
+
+Hmong_df <- read.csv("HmongData.csv",na.strings=-99)
+
+head(Hmong_df)
+
+
+```
+
+## Using Packages to open data sets
+
+*readr*
+
+- readr is part of the tidyverse, so loading tidyverse also loads other packages like ggplot2
+
+- library(readr) has the the following functions
+
+- read_csv
+
+- read_tsv
+
+- read_delim
+
+- These produce tibbles, which are a "modern version" of data frames designed to work with tidyverse packages
+
+  - They also, when viewed, indicate the type of each variable in the data (integer, numeric, character, logical, date, and more)
+
+## readr workflow
+
+```{r}
+#| echo: true 
+#| eval: false
+library(readr)
+Hmong_df2 <- read_csv("HmongData.csv",na="-99")
+Hmong_df2
+
+table(Hmong_df2$BornUS)
+
+```
+
+## Reading Excel files
+
+```{r}
+#| echo: true 
+#| eval: false
+library(readxl)
+
+
+Hmong_df3 <- read_excel("HmongData.xlsx", na = "-99")
+
+head(Hmong_df3)
+
+```
+
+## Haven package to read in SPSS, SAS, Stata files
+
+library(haven)
+
+- df \<- read_sav("mydata.sav")
+
+- df \<- read_dta("mydata.dta")
+
+- df \<- read_sas("mydata.sas7bdat")
+
+- Haven automatically imports missing values and metadata stored in SPSS, SAS, and Stata files
+
+  - Things like variable labels, value labels
+
+## Haven for SPSS file
+
+```{r}
+#| echo: true 
+#| eval: false
+library(haven)
+Hmong_df4 <- read_sav("HmongData.sav")
+head(Hmong_df4)
+
+```
+
+## Checking data
+
+1.  Outliers
+2.  Miscoded or data entry errors
+3.  Missing data codes are correct
+
+- psych package
+  - describe(Hmong_df)
+  - gives overall means, skew, range, minimum/maximum, etc
+  - Use the output to identify out-of-range values (some odd values, -99 for example)
+  - Outliers, etc.
+
+## Recoding variables
+
+- Reverse scoring any items
+  - The valence of an item *positive or negative* to keep variables in a direction that is theoretically relevant
+  - Sometimes scoring is done in a way that a greater number actually is *less* of a variable
+- Coding any binary variables
+  - Recommended that these are 0/1, particularly in regressions
+  - R has no problem using factor variable, Regression models will automatically choose a reference category unless one is specified.
+- Nominal variables
+  - Dummy coding necessary in regressions
+
+## Summary scores
+
+Often in HHS research we use composites, sum scores to represent *psychological* constructs
+
+- Anxiety, depression, exercise motivation, racial identity, anything that we think captures some phenomenon of interest
+- Often these are **latent constructs** represented by *indicators* or items
+- The GAD-7 *Generalized Anxiety Disorder* scale includes 7 indicators
+  - Logic is that someone's underlying anxiety would *cause* them to indicate more frequent experiences of **feeling nervous, anxious, or on edge**, **having trouble relaxing**, etc
+- Typically researchers administer to participants and then do some summation of the items
+  - Most simple is to add items together for a sum score (naive or coarse measurement)
+  - Sometimes researchers average the items to stay on a "scale", in this case 0-3
+  - Can use other approaches using factor analysis and weighting items
+- Can use BaseR functions or packages like psych to create these
+
+## Standardizing
+
+There are some advantages to standardizing numeric, continuous variables
+
+- Can have two versions of the same variable, standardized (SD units) and unstandardized (raw units)
+
+- When we run regressions and want standardized output, some advantages of just using standardized outcomes
+
+- in R, can use the scale() function
+
+  - data_df$anxiey_z <- scale(data_df$anxiety, center = T, scale = T)
+    - To center can use scale = F
+    - Center is subtracting sample mean scores from individual scores
+      - Results in a mean of zero, but scale stays the same
+      - Standardization results in mean of zero, but SD/Var is 1
